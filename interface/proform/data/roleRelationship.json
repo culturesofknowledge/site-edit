@@ -1,0 +1,243 @@
+[                
+    
+	{"id":"Deceased", "text":"Deceased" , "children": [          
+        		{"id": "hasCauseOfDeath", "text": "hasCauseOfDeath"}, {"id":"", "text": ""}
+        ]
+   	},     
+   	{"id":"CauseOfDeath", "text":"CauseOfDeath" , "children": [          
+        		{"id": "causedDeathOf", "text": "causedDeathOf"}, 
+        		{"id":"", "text": ""}
+       	]
+   	},   
+    {"id":"Ancestor", "text":"Ancestor" , "children": [          
+        		{"id": "ancestorOf", "text": "ancestorOf"},          
+        		{"id": "hasDescendent", "text": "hasDescendent"}, 
+        		{"id":"", "text": ""}
+      	]
+ 	}, 
+    {"id":"Aunt", "text":"Aunt" , "children": [          
+        		{"id": "auntOf", "text": "auntOf"},          
+        		{"id": "hasNephew", "text": "hasNephew"},          
+        		{"id": "hasNiece", "text": "hasNiece"}, 
+        		{"id":"", "text": ""}
+       	]
+ 	},   
+ 	{"id":"BloodRelation", "text":"BloodRelation" , "children": [
+                {"id": "isBloodRelationOf", "text": "isBloodRelationOf"}, 
+                {"id":"", "text": ""}
+     	]
+  	},     
+  	{"id":"Brother", "text":"Brother" , "children": [
+				{"id": "hasBrother", "text": "hasBrother"},
+				{"id": "hasSibling", "text": "hasSibling"},
+				{"id": "hasSister", "text": "hasSister"},
+        		{"id": "brotherOf", "text": "brotherOf"}, 
+        		{"id":"", "text": ""}
+       ]
+  	},      
+	{"id":"BrotherInLaw","text":"Brother in Law" , "children": [
+				{"id": "hasInLaw", "text": "hasInLaw"},
+           		{"id": "brotherInLawOf", "text": "brotherInLawOf"}, 
+           		{"id":"", "text": ""}
+      ]
+  	},        
+    {"id":"Cousin", "text":"Cousin" , "children": [          
+        		{"id": "hasCousin", "text": "hasCousin"}, 
+        		{"id":"", "text": ""}
+        ]
+  	},          
+	{"id":"Daughter", "text":"Daughter" , "children": [          
+        		{"id": "hasDaughter", "text": "hasDaughter"}, 
+        		{"id":"", "text": ""}
+        ]
+  	},    
+  	{"id":"Descendent", "text":"Descendent" , "children": [          
+        		{"id": "descendentOf", "text": "descendentOf"},          
+        		{"id": "hasAncestor", "text": "hasAncestor"}, 
+        		{"id":"", "text": ""}
+        ]
+  	},       
+    {"id":"FamilyRelation", "text":"FamilyRelation" , "children": [          
+        		{"id": "isFamilyRelationOf", "text": "isFamilyRelationOf"}, 
+        		{"id":"", "text": ""}
+       	]
+  	},   
+  	{"id":"FatherInLaw","text":"Father in Law" , "children": [
+				{"id": "hasInLaw", "text": "hasInLaw"},
+        		{"id": "fatherInLawOf", "text": "fatherInLawOf"}, 
+        		{"id":"", "text": ""}
+        		]}, 
+  	{"id":"FirstCousin", "text":"FirstCousin" , "children": [          
+        		{"id": "hasFirstCousin", "text": "hasFirstCousin"}, 
+        		{"id":"", "text": ""}
+        ]
+  	},   
+  	
+  	{"id":"Husband", "text":"Husband" , "children": [
+				{"id": "hasSpouse", "text": "hasSpouse"},
+          
+        		{"id": "hasWife", "text": "hasWife"},          
+        		{"id": "husbandOf", "text": "husbandOf"}, 
+        		{"id":"", "text": ""}
+       	]
+   	},    
+  	{"id":"InLaw","text":"In Law" , "children": [          
+        		{"id": "hasInLaw", "text": "hasInLaw"}, 
+        		{"id":"", "text": ""}
+      	]
+  	},                   
+   {"id":"MotherInLaw","text":"Mother in Law" , "children": [
+				{"id": "hasInLaw", "text": "hasInLaw"},
+          		{"id": "motherInLawOf", "text": "motherInLawOf"}, 
+          		{"id":"", "text": ""}
+       	]
+   	},  
+  	{"id":"Nephew", "text":"Nephew" , "children": [          
+        		{"id": "hasAunt", "text": "hasAunt"},          
+        		{"id": "hasUncle", "text": "hasUncle"},          
+        		{"id": "nephewOf", "text": "nephewOf"}, 
+        		{"id":"", "text": ""}
+        ]
+  	},          
+	{"id":"Niece", "text":"Niece" , "children": [          
+        		{"id": "hasAunt", "text": "hasAunt"},          
+        		{"id": "hasUncle", "text": "hasUncle"},          
+        		{"id": "nieceOf", "text": "nieceOf"}, 
+        		{"id":"", "text": ""}
+        ]
+   	},        
+          
+	{"id":"SecondCousin","text":"Second Cousin" , "children": 
+		[
+				{"id": "hasCousin", "text": "hasCousin"},
+        		{"id": "hasSecondCousin", "text": "hasSecondCousin"}, 
+        		{"id":"", "text": ""}
+       ]
+  	},      
+  	
+  	{"id":"Sibling", "text":"Sibling" , "children": [          
+        		{"id": "hasBrother", "text": "hasBrother"},          
+        		{"id": "hasSibling", "text": "hasSibling"},          
+        		{"id": "hasSister", "text": "hasSister"}, 
+        		{"id":"", "text": ""}
+       ]
+   	},       
+
+	{"id":"Sister", "text":"Sister" , "children": [
+				{"id": "hasBrother", "text": "hasBrother"},
+				{"id": "hasSibling", "text": "hasSibling"},
+				{"id": "hasSister", "text": "hasSister"},       
+        		{"id": "sisterOf", "text": "sisterOf"}, 
+        		{"id":"", "text": ""}
+      	]
+  	},  
+
+	{"id":"SisterInLaw","text":"Sister in Law" , "children": [
+				{"id": "hasInLaw", "text": "hasInLaw"},
+        		{"id": "sisterInLawOf", "text": "sisterInLawOf"}, 
+        		{"id":"", "text": ""}
+      	]
+   	}, 	
+   	{"id":"Spouse", "text":"Spouse" , "children": [          
+        		{"id": "hasSpouse", "text": "hasSpouse"}, 
+        		{"id":"", "text": ""}
+      	]
+  	},  
+  	{"id":"ThirdCousin","text":"Third Cousin" , "children": [
+				{"id": "hasCousin", "text": "hasCousin"},
+        		{"id": "hasThirdCousin", "text": "hasThirdCousin"}, 
+        		{"id":"", "text": ""}
+       ]
+    },  
+  	{"id":"Uncle", "text":"Uncle" , "children": [          
+        		{"id": "hasNephew", "text": "hasNephew"},          
+        		{"id": "hasNiece", "text": "hasNiece"},          
+        		{"id": "uncleOf", "text": "uncleOf"}, 
+        		{"id":"", "text": ""}
+       ]
+  	},	
+  	{"id":"Wife", "text":"Wife" , "children": [
+				{"id": "hasSpouse", "text": "hasSpouse"},
+        		{"id": "hasHusband", "text": "hasHusband"},          
+        		{"id": "wifeOf", "text": "wifeOf"}, 
+        		{"id":"", "text": ""}
+      	]
+  	},  
+  	 {"id":"BaptismalCandidate","text":"BaptismalCandidate" , "children": [          
+        		{"id": "hasChurch", "text": "hasChurch"}, 
+        		{"id": "hasReligion", "text": "hasReligion"},
+        		{"id":"", "text": ""}
+      	]
+   	},  
+   	{"id":"Respondens", "text":"Respondens" , "children": [          
+        		{"id": "hasPraeses", "text": "hasPraeses"}, 
+        		{"id":"", "text": ""}
+      	]
+   	}, 
+   	{"id":"Praeses", "text":"Praeses" , "children": [          
+        		{"id": "hasRespondens", "text": "hasRespondens"}, 
+        		{"id":"", "text": ""}
+      	]
+  	},  
+   	{"id":"Student", "text":"Student" , "children": [          
+        		{"id": "hasTeacher", "text": "hasTeacher"},          
+        		{"id": "hasTutor", "text": "hasTutor"}, 
+        		{"id":"", "text": ""}
+      	]
+   	},  
+   	
+   	{"id":"Teacher", "text":"Teacher" , "children": [          
+        		{"id": "hasStudent", "text": "hasStudent"}, 
+        		{"id":"", "text": ""}
+      	]
+   	},          
+   	{"id":"Tutor", "text":"Tutor" , "children": [
+				{"id": "hasStudent", "text": "hasStudent"},
+         		{"id":"", "text": ""}
+       	]
+  	},         
+   	
+   	{"id":"Author", "text":"Author" , "children": [
+				{"id": "creatorOf", "text": "creatorOf"},
+        		{"id": "authorOf", "text": "authorOf"}, 
+        		{"id":"", "text": ""}
+     	]
+  	},
+   	{"id":"Emigrant", "text":"Emigrant" , "children": [
+   				{"id": "emigrantFrom", "text": "emigrantFrom"}, 
+   				{"id":"", "text": ""}
+   		]
+  	},     
+  	{"id":"Immigrant", "text":"Immigrant" , "children": [          
+        		{"id": "immigrantTo", "text": "immigrantTo"}, 
+        		{"id":"", "text": ""}
+       	]
+  	}, 
+  	{"id":"Refugee", "text":"Refugee" , "children": [ 
+				{"id":"displacedFrom", "text": "displacedFrom"},
+				{"id":"displacedTo", "text": "displacedTo"},
+				{"id":"", "text": ""}
+		]
+	},                
+	{"id":"Acquaintance","text":"Acquaintance" , "children": [          
+        		{"id": "acquaintanceOf", "text": "acquaintanceOf"}, 
+        		{"id":"", "text": ""}
+       	]
+   	},   
+	{"id":"CoResident","text":"CoResident" , "children": [          
+        		{"id": "residesWith", "text": "residesWith"}, 
+        		{"id":"", "text": ""}
+       	]
+  	},  
+	{"id":"Resident","text":"Resident" , "children": [          
+        		{"id": "residesWith", "text": "residesWith"}, 
+        		{"id":"", "text": ""}
+       	]
+  	},     
+	{"id":"Inhabitant","text":"Inhabitant" , "children": [          
+       	 		{"id": "residesWith", "text": "residesWith"}, 
+       	 		{"id":"", "text": ""}
+      	]
+  	},  
+      
+{}      ]

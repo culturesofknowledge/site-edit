@@ -1,0 +1,468 @@
+application_entity.php:10:define( 'AEOLUS_VERSION', '2.2' );
+application_entity.php:12:define( 'POPUP_WINDOW_HEIGHT', 800 );
+application_entity.php:13:define( 'POPUP_WINDOW_WIDTH', 700 );
+application_entity.php:14:define( 'CMS_POPUP_WINDOW_WIDTH', 800 ); # CMS layout currently (June 09) looks a bit of a mess unless window is wider
+application_entity.php:15:define( 'APP_POPUP_SELECTFORM_NAME', 'app_popup_selectform' );
+application_entity.php:17:define( 'CMS_DB_USERNAME', 'webuser' );  # A user with read-only role when doing publicly available search via CMS
+application_entity.php:18:define( 'CMS_DEPLOYMENT_START_TAG', '<!-- Start Aeolus Database Query System 2 -->' );
+application_entity.php:19:define( 'CMS_DEPLOYMENT_END_TAG',   '<!-- End Aeolus Database Query System 2 -->' );
+application_entity.php:21:define( 'HELP_DB_USERNAME', 'webuser' );  # A user with read-only permissions on help pages (without login)
+batch_manifestations_union.php:4:define( 'CFG_PREFIX', 'cofk' );
+batch_manifestations_union.php:5:define( 'CFG_SYSTEM_TITLE', 'Make Manifestation Batches: Union database' );
+batch_manifestations_union.php:6:define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' );
+batch_manifestations_union.php:8:define( 'CONSTANT_DATABASE_TYPE', 'live' );
+batch_manifestations_union.php:9:define( 'BATCH_SIZE', 500 );
+collect_components.php:9:require_once 'collection_defines.php';  # sets up collection-specific constants
+collect_components.php:10:require_once 'relationship_type_defines.php';
+collection_defines.php:20:  define( 'PROJ_COLLECTION_CODE', 'union' );  # Bodleian card index data (a.k.a. Selden End catalogue) is now in Union.
+collection_defines.php:22:  define( 'PROJ_SUB_COLLECTION', 'cardindex' );
+collection_defines.php:23:  define( 'PROJ_COLLECTION_WORK_CLASS', 'selden_work' );
+collection_defines.php:27:  define( 'PROJ_COLLECTION_CODE', 'union' );
+collection_defines.php:28:  define( 'PROJ_SUB_COLLECTION', '' );
+collection_defines.php:29:  define( 'PROJ_COLLECTION_WORK_CLASS', 'editable_work' );
+collection_defines.php:33:  define( 'PROJ_COLLECTION_CODE', 'collect' );
+collection_defines.php:34:  define( 'PROJ_SUB_COLLECTION', '' );
+collection_defines.php:35:  define( 'PROJ_COLLECTION_WORK_CLASS', '' ); # data collection tool uses different classes/methods
+collection_defines.php:39:  define( 'PROJ_COLLECTION_CODE', '' );
+collection_defines.php:40:  define( 'PROJ_SUB_COLLECTION', '' );
+collection_defines.php:41:  define( 'PROJ_COLLECTION_WORK_CLASS', 'impt_work' );
+comment.php:6:define( 'MAX_COMMENT_ROWS', 12 );
+common_components.php:11:require_once 'defines.php';
+contribution.php:8:  define( 'MAIN_EDITING_INTERFACE_FILE', 'impact.php' );
+contribution.php:10:  define( 'MAIN_EDITING_INTERFACE_FILE', 'union.php' );
+contribution.php:12:define( 'TOOL_DOWNLOAD_URL', 
+contribution.php:15:define( 'OPENOFFICE_DOWNLOAD_URL', 'http://www.openoffice.org/download/' );
+date_entity.php:7:define( 'DTE_UNKNOWN_YEAR', '9999' );
+date_entity.php:8:define( 'DTE_UNKNOWN_MONTH', '12' );
+date_entity.php:10:define( 'DATE_RANGE_NOTES_OFFSET', '15' );
+date_entity.php:11:define( 'DATE_RANGE_NOTES_LIST_OFFSET', '90' );
+date_entity.php:13:define( 'DATE_UNCERTAINTY_FLAGS_LEFT_MARGIN', '10' );
+date_entity.php:15:define( 'STD_DATE_INPUT_FIELD_SIZE', 10 );
+date_entity.php:20:define( 'CALENDAR_TYPE_UNKNOWN',      ''   );
+date_entity.php:21:define( 'CALENDAR_TYPE_UNKNOWN_DESC', 'Unknown' );
+date_entity.php:23:define( 'CALENDAR_TYPE_GREG',      'G'  );
+date_entity.php:24:define( 'CALENDAR_TYPE_GREG_DESC', 'Gregorian' );
+date_entity.php:26:define( 'CALENDAR_TYPE_JULIAN_MAR',      'JM' );
+date_entity.php:27:define( 'CALENDAR_TYPE_JULIAN_MAR_DESC', 'Julian (year starting 25th Mar)' );
+date_entity.php:29:define( 'CALENDAR_TYPE_JULIAN_JAN',      'JJ' );
+date_entity.php:30:define( 'CALENDAR_TYPE_JULIAN_JAN_DESC', 'Julian (year starting 1st Jan)' );
+date_entity.php:32:define( 'CALENDAR_TYPE_OTHER',      'O'  );
+date_entity.php:33:define( 'CALENDAR_TYPE_OTHER_DESC', 'Other' );
+date_entity.php:37:define( 'DATE_RANGE_HELP_1', 'The work is known to have been written over a period of two or more days');
+date_entity.php:38:define( 'DATE_RANGE_HELP_2', 'The work cannot be precisely dated even to a single year' );
+dbentity.php:11:define( 'DEFAULT_RECORD_LAYOUT', 'across_page' );  # for use when outputting one page of data
+dbentity.php:12:define( 'DEFAULT_ENTRIES_PER_BROWSE_PAGE', 20 );
+dbentity.php:13:define( 'MAX_ENTRIES_PER_BROWSE_PAGE', 100 );
+dbentity.php:14:define( 'DEFAULT_PAGE_SELECTION_BUTTONS', 10 );
+dbentity.php:15:define( 'DEFAULT_PAGE_SELECTION_BUTTONS_FOR_NARROW_PAGE', 6 );
+dbentity.php:16:define( 'MAX_PAGE_SELECTION_BUTTON_ROWS', 5 );  # how many rows of page selection buttons to allow
+dbentity.php:17:define( 'DEFAULT_DESCENDING', 0 );
+dbentity.php:18:define( 'DEFAULT_TEXT_SEARCH_OP', 'contains' );
+dbentity.php:19:define( 'DEFAULT_NUMERIC_SEARCH_OP', 'equals' );
+dbentity.php:20:define( 'DEFAULT_DATE_SEARCH_OP', 'equals' );
+dbentity.php:21:define( 'DEFAULT_NULL_REPLACEMENT_DATE_EARLY', "to_date('21-JUN-4712 BC', '01-MON-YYYY BC')" );
+dbentity.php:22:define( 'DEFAULT_NULL_REPLACEMENT_DATE_LATE',  "to_date('31-DEC-9999', '01-MON-YYYY')" );
+dbentity.php:23:define( 'DEFAULT_NULL_REPLACEMENT_INT', '-99999999' );
+dbentity.php:24:define( 'MAX_ROWS_IN_CSV_FILE', 2000 );
+dbentity.php:25:define( 'MAX_CSV_ROWS_FOR_PUBLIC_USER', 100 );
+dbentity.php:26:define( 'LARGE_SEARCHABLE_FIELD_LIST', 15 );
+dbentity.php:222:  # Within your "sample" class, define methods as follows:
+dbentity.php:1215:    # Not applicable for popup windows where sort order is predefined
+dbentity.php:1277:    # Also do not do this for popup windows where the sort order is predefined.
+dbquery.php:9:define( 'DB_LOGFILE_DIR', '/var/backups/redo-logs/' );
+dbquery.php:11:define( 'WRITE_DB_LOGFILE_FOR_BATCH_LOAD', FALSE );
+dbquery.php:12:define( 'DEBUG_DEV_SQL', FALSE );
+dbquery.php:22:  var $db_name = CONSTANT_DATABASE_NAME;    # Read from defines.php
+dbquery.php:55:    define('ROWCOUNT_NOT_SET', -1);    # Set to -1 to avoid confusion with real rowcounts of 0.
+dbquery.php:56:    define('CURR_ROWNO_NOT_SET', 0);   # When set starts from 1, i.e. first row retrieved is 1.
+dbquery.php:57:    define('CURR_COLNO_NOT_SET', -1);  # When set starts from 0, as row is an array so first column in row is 0.
+defines.php:10:  define( 'CONSTANT_DATABASE_NAME', 'ouls' );
+defines.php:13:  define( 'CONSTANT_DATABASE_NAME', 'test' );
+defines.php:16:  define( 'CONSTANT_DATABASE_NAME', 'test' );
+defines.php:19:  die( 'Invalid input detected in defines.php' );
+defines.php:22:define( 'CONSTANT_MINIMAL_USER',  'minimal' );
+defines.php:24:define( 'SUPERVISOR_ROLE_CODE', 'super' );
+defines.php:25:define( 'SUPERVISOR_ROLE_ID',   -1      );
+document_type.php:9:define( 'DEFAULT_DOCUMENT_TYPE', 'ALS' ); # autograph letter sent
+editable_work.php:6:define( 'FLD_SIZE_DATE_AS_MARKED', 40 );
+editable_work.php:7:define( 'FLD_SIZE_DATE_NOTES_ROWS', 3 );
+editable_work.php:8:define( 'FLD_SIZE_DATE_NOTES_COLS', 50 );
+editable_work.php:10:define( 'FLD_SIZE_AUTHORS_AS_MARKED', 70 );
+editable_work.php:11:define( 'FLD_SIZE_PLACES_AS_MARKED', 70 );
+editable_work.php:12:define( 'FLD_SIZE_ACCESSION_CODE', 70 );
+editable_work.php:13:define( 'MAX_SIZE_ACCESSION_CODE', 250 );
+editable_work.php:15:define( 'FLD_SIZE_INCIPIT_ROWS', 4 );
+editable_work.php:16:define( 'FLD_SIZE_INCIPIT_COLS', 70 );
+editable_work.php:18:define( 'FLD_SIZE_EXCIPIT_ROWS', 4 );
+editable_work.php:19:define( 'FLD_SIZE_EXCIPIT_COLS', 70 );
+editable_work.php:21:define( 'FLD_SIZE_ABSTRACT_ROWS', 6 );
+editable_work.php:22:define( 'FLD_SIZE_ABSTRACT_COLS', 90 );
+editable_work.php:24:define( 'FLD_SIZE_KEYWORD_ROWS', 4 );
+editable_work.php:25:define( 'FLD_SIZE_KEYWORD_COLS', 70 );
+editable_work.php:27:define( 'FLD_SIZE_NOTES_ON_WORK_ROWS', 6 );
+editable_work.php:28:define( 'FLD_SIZE_NOTES_ON_WORK_COLS', 90 );
+editable_work.php:30:define( 'REPLY_TD_WIDTH', 350 );
+editable_work.php:33:  define( 'DEFAULT_WORK_EDIT_TAB', 'work_tab' );
+editable_work.php:35:  define( 'DEFAULT_WORK_EDIT_TAB', 'correspondents_tab' );
+editable_work.php:37:define( 'WORK_ID_PAD_ZEROES', 9 );  # how much to pad the 'iwork id' in order to make 'work id'
+export_cofk_union.php:4:define( 'CFG_PREFIX', 'cofk' );
+export_cofk_union.php:5:define( 'CFG_SYSTEM_TITLE', 'Export Union database' );
+export_cofk_union.php:6:define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' );
+export_cofk_union.php:8:define( 'CONSTANT_DATABASE_TYPE', 'live' );
+help.php:10:define( 'HELP_EDIT_ROWS', 28 );
+help.php:11:define( 'HELP_EDIT_COLS', 100 );
+help.php:13:define( 'HELP_VIEW_ROWS_ESTIMATE', 42 );
+help.php:14:define( 'HELP_VIEW_COLS_ESTIMATE', 150 );
+help.php:16:define( 'PERCENT_SIGN', '%' );  # for use in writing all help to script - add SCCS header at top.
+help.php:18:define( 'PRODUCE_MANUAL_FROM_COMMANDLINE', 'produce_manual.php' );  # script used to produce manual from command line
+help.php:19:define( 'PRODUCE_ONE_HELP_FILE_FROM_COMMANDLINE', 'produce_one_help_file.php' );
+html.php:10:define( 'NEWLINE', "\n" );
+html.php:11:define( 'CARRIAGE_RETURN', "\r" );
+html.php:12:define( 'LINEBREAK', "<br />\n" );
+html.php:13:define( 'SPACE', ' &nbsp; ' );
+html.php:14:define( 'AMPERSAND', ' &amp; ' );
+html.php:16:define('PAGE_TOP', 'aeolus_page_top_anchor');
+html.php:17:define('PAGE_BOTTOM', 'aeolus_page_bottom_anchor');
+html.php:19:# The following colours are defined in the University branding toolkit, and are the colours used
+html.php:21:define( 'OXFORD_BLUE',  '#002147' );
+html.php:22:define( 'PASTEL_BLUE',  '#c5d2e0' );
+html.php:23:define( 'PASTEL_OLIVE', '#e1deae' );
+html.php:24:define( 'MID_GREEN'   , '#7ca295' );
+html.php:25:define( 'DARK_RED'    , '#822433' );
+html.php:28:define( 'HARTLIB_MAROON', '#800000' );
+html.php:29:define( 'HARTLIB_NAVY', '#002147' );
+html.php:30:define( 'HARTLIB_GREY', '#e8e8e8' );
+html.php:33:define( 'EMLO_DEEP_BLUE', '#315581' );  # rgb( 49, 85, 129 )
+html.php:34:define( 'EMLO_MID_BLUE', '#5c7ea7' );  # rgb( 92, 126, 167 )
+html.php:35:define( 'EMLO_PALE_BLUE', '#a7bfd6' );  # rgb( 167, 191, 214 )
+html.php:36:define( 'EMLO_BLUE_GREY', '#d3d3de' );  # rgb( 211, 211, 222 )
+html.php:39:define( 'PALE_BEIGE', '#e9e2cf' );
+html.php:40:define( 'IMPACT_HEADER_COLOUR', PALE_BEIGE );
+html.php:41:define( 'IMPACT_HIGHLIGHT1', HARTLIB_GREY );
+html.php:42:define( 'IMPACT_HIGHLIGHT2', HARTLIB_GREY );
+html.php:44:define( 'DEFAULT_COL1_FIELD_LABEL_WIDTH_PX', 130 );
+html.php:45:define( 'DEFAULT_COL1_FIELD_VALUE_POS_PX', 140 );
+html.php:47:define( 'DEFAULT_COL2_FIELD_LABEL_WIDTH_PX', 520 );
+html.php:48:define( 'DEFAULT_COL2_FIELD_VALUE_POS_PX', 540 );
+html.php:50:define( 'TEST_SERVER', 'aeolus.bodleian.ox.ac.uk' );
+html.php:51:define( 'TEST_INDICATOR_COLOUR', '#ffffdf' );
+image.php:7:  define( 'IMAGE_URL_START', 'http://impact.bodleian.ox.ac.uk/public/images/' );
+image.php:8:  define( 'IMAGE_DIR_FOR_UPLOADS', '/srv/data/public/images/uploaded/' );
+image.php:11:  define( 'IMAGE_URL_START', 'http://emlo-edit.bodleian.ox.ac.uk/culturesofknowledge/images/' );
+image.php:12:  define( 'IMAGE_DIR_FOR_UPLOADS', '/srv/data/culturesofknowledge/images/uploaded/' );
+image.php:15:define( 'UPLOADED_IMAGE_WIDTH_PX', 2000 );
+image.php:17:define( 'IMAGE_URL_FIELD_SIZE', 120 );
+image.php:18:define( 'THUMBNAIL_DISPLAY_AREA', 'thumbDisplayArea' );
+image.php:19:define( 'THUMBNAIL_DISPLAY_AREA_HEIGHT_PX', 400 );
+image.php:21:define( 'CREDITS_FIELD_SIZE',     IMAGE_URL_FIELD_SIZE );
+image.php:22:define( 'LICENCE_URL_FIELD_SIZE', IMAGE_URL_FIELD_SIZE );
+image.php:23:define( 'DISPLAY_ORDER_FIELD_SIZE', 2 );
+image.php:25:define( 'LICENCE_DETAILS_COLS', 117 );
+image.php:26:define( 'LICENCE_DETAILS_ROWS', 4 );
+image.php:28:define( 'IMAGE_UPLOAD_FIELD_SIZE', 60 );
+image.php:30:define( 'CULTURES_OF_KNOWLEDGE_DEFAULT_LICENCE_URL',
+language.php:6:define( 'MAX_LENGTH_OF_LANGUAGE_NOTES', 100 );
+language.php:191:    echo 'You can use this screen to search for, or browse through, all the languages defined by ISO '
+location.php:6:define( 'FLD_SIZE_LOCATION_NAME', 60 );
+location.php:7:define( 'LOCATION_SYNONYM_ROWS', 6 );
+location.php:8:define( 'PLACE_EDITORS_NOTES_ROWS', 3 );
+location.php:9:define( 'PLACE_EDITORS_NOTES_COLS', 60 );
+location.php:11:define( 'ROOM_ELEMENT_OF_PLACENAME',     1 );
+location.php:12:define( 'BUILDING_ELEMENT_OF_PLACENAME', 2 );
+location.php:13:define( 'PARISH_ELEMENT_OF_PLACENAME',   3 );
+location.php:14:define( 'CITY_ELEMENT_OF_PLACENAME',     4 );
+location.php:15:define( 'COUNTY_ELEMENT_OF_PLACENAME',   5 );
+location.php:16:define( 'COUNTRY_ELEMENT_OF_PLACENAME',  6 );
+location.php:17:define( 'EMPIRE_ELEMENT_OF_PLACENAME',   7 );
+location.php:19:define( 'SMALLEST_ELEMENT_OF_PLACENAME', ROOM_ELEMENT_OF_PLACENAME );
+location.php:20:define( 'LARGEST_ELEMENT_OF_PLACENAME',  EMPIRE_ELEMENT_OF_PLACENAME );
+location.php:22:define( 'PRIMARY_ELEMENT_OF_PLACENAME',  CITY_ELEMENT_OF_PLACENAME );
+lookup_table.php:9:define( 'MAX_LOOKUP_USES_DISPLAYED', 100 );
+manifestation.php:6:define( 'MANIF_FULL_IMAGE_WIDTH_PX', 640 );
+manifestation.php:8:define( 'FLD_SIZE_SHELFMARK', 60 );
+manifestation.php:10:define( 'FLD_SIZE_MANIF_TYPE', 60 );
+manifestation.php:12:define( 'FLD_SIZE_PRINTED_ED_ROWS', 3 );
+manifestation.php:13:define( 'FLD_SIZE_PRINTED_ED_COLS', 60 );
+manifestation.php:15:define( 'FLD_SIZE_NON_LETTER_ENCLOSURE_ROWS', 5 );
+manifestation.php:16:define( 'FLD_SIZE_NON_LETTER_ENCLOSURE_COLS', 60 );
+manifestation.php:18:define( 'FLD_SIZE_PAPER_SIZE', 60 );
+manifestation.php:20:define( 'FLD_SIZE_PAPER_TYPE_OR_WATERMARK', 60 );
+manifestation.php:22:define( 'FLD_SIZE_NUM_PAGES_DOC', 5 );
+manifestation.php:23:define( 'FLD_SIZE_NUM_PAGES_TEXT', 5 );
+manifestation.php:25:define( 'FLD_SIZE_SEAL_ROWS', 3 );
+manifestation.php:26:define( 'FLD_SIZE_SEAL_COLS', 60 );
+manifestation.php:28:define( 'FLD_SIZE_POSTAGE_MARKS', 60 );
+manifestation.php:30:define( 'FLD_SIZE_ADDRESS_ROWS', 5 );
+manifestation.php:31:define( 'FLD_SIZE_ADDRESS_COLS', 60 );
+manifestation.php:33:define( 'FLD_SIZE_ENDORSE_ROWS', 3 );
+manifestation.php:34:define( 'FLD_SIZE_ENDORSE_COLS', 60 );
+manifestation.php:36:define( 'FLD_SIZE_MANIF_LANG', 60 );
+manifestation.php:38:define( 'FLD_SIZE_MANIF_INCIPIT_ROWS', 5 );
+manifestation.php:39:define( 'FLD_SIZE_MANIF_INCIPIT_COLS', 60 );
+manifestation.php:41:define( 'FLD_SIZE_MANIF_EXCIPIT_ROWS', 5 );
+manifestation.php:42:define( 'FLD_SIZE_MANIF_EXCIPIT_COLS', 60 );
+manifestation.php:44:define( 'FLD_SIZE_MANIF_NOTES_ROWS', 5 );
+manifestation.php:45:define( 'FLD_SIZE_MANIF_NOTES_COLS', 60 );
+manifestation.php:47:define( 'ENCLOSURE_TD_WIDTH', 525 );
+person.php:7:  define( 'PERSON_PRIMARY_NAME_FLD_SIZE', 80 );
+person.php:9:  define( 'PERSON_PRIMARY_NAME_FLD_SIZE', 50 );
+person.php:10:define( 'PERSON_PRIMARY_NAME_MAX_FLD_SIZE', 200 );
+person.php:11:define( 'PERSON_ALTERNATIVE_NAME_ROWS', 6 );
+person.php:12:define( 'PERS_ALT_NAME_SEPARATOR_INTERNAL', '|' );
+person.php:13:define( 'PERS_ALT_NAME_SEPARATOR_DISPLAYED', ';' );
+person.php:15:define( 'PERSON_EDITORS_NOTES_ROWS', 3 );
+person.php:16:define( 'PERSON_EDITORS_NOTES_COLS', 50 );
+person.php:18:define( 'FURTHER_READING_ROWS', 5 );
+person.php:19:define( 'FURTHER_READING_COLS', 70 );
+popup_location.php:7:define( 'POPUP_LOCATION_MAX_DROPDOWN_OPTIONS', 100 );
+popup_location.php:8:define( 'POPUP_LOCATION_FIELD_POS', 110 );
+popup_location.php:9:define( 'POPUP_LOCATION_FIELD_LABEL_WIDTH', 100 );
+popup_person.php:8:define( 'POPUP_PERSON_MAX_DROPDOWN_OPTIONS', 100 );
+popup_person.php:9:define( 'POPUP_PERSON_FIELD_POS', 110 );
+popup_person.php:10:define( 'POPUP_PERSON_FIELD_LABEL_WIDTH', 100 );
+popup_publication.php:8:define( 'POPUP_PUBLICATION_MAX_DROPDOWN_OPTIONS', 100 );
+popup_publication.php:9:define( 'POPUP_PUBLICATION_FIELD_POS', 110 );
+popup_publication.php:10:define( 'POPUP_PUBLICATION_FIELD_LABEL_WIDTH', 100 );
+proj_components.php:9:require_once 'collection_defines.php';  # sets up collection-specific constants
+proj_components.php:10:require_once 'relationship_type_defines.php';
+project.php:9:define( 'PROJ_RELOAD_IN_PROGRESS', FALSE ); # change this to TRUE to display a big warning message
+project.php:10:define( 'PROJ_INITIAL_IMPORT', 'Initial import' );  # saved instead of username in 'change user' column
+project.php:15:define( 'CULTURES_OF_KNOWLEDGE_SYS_PREFIX', 'cofk' );
+project.php:16:define( 'IMPACT_SYS_PREFIX', 'impt' );
+project.php:17:define( 'DATA_COLLECTION_TOOL_SUBSYSTEM', 'collect' );
+project.php:23:  define( 'PROJ_LOGO_FILE', 'CofKLogo.png' );
+project.php:24:  define( 'PROJ_FAVICON', 'CofK_Favicon.ico' );
+project.php:25:  define( 'PROJ_TINY_LOGO_FILE', 'tinyCofKLogo.PNG' ); # used for showing 'Relevant to Cultures of Knowledge' flag
+project.php:26:  define( 'PROJ_MAIN_SITE', CULTURES_OF_KNOWLEDGE_MAIN_SITE ); # main site URL is set in union.php
+project.php:29:  define( 'PROJ_LOGO_FILE', 'IMPAcTLogo.jpg' );
+project.php:30:  define( 'PROJ_FAVICON', 'Impt_Favicon.ico' );
+project.php:31:  define( 'PROJ_MAIN_SITE', IMPACT_MAIN_SITE ); # main site URL will be set in impact.php
+project.php:37:define( 'PROJ_LOGO_HEIGHT_PX', '90' );
+project.php:38:define( 'PROJ_RELEVANCE_UNKNOWN_FILE', 'relevance_unknown.png' );
+project.php:39:define( 'PROJ_FLAGS_EXIST_FILE', 'pling.png' );
+project.php:40:define( 'PROJ_MARKED_FOR_DELETION_FILE', 'del.png' );
+project.php:45:define( 'WORK_FIELD_LABEL_WIDTH', 160 );
+project.php:46:define( 'WORK_FIELD_POS', 170 );
+project.php:48:define( 'POPUP_SELECTION_DECODE_FIELD_SIZE', 60 ); 
+project.php:50:define( 'ENTITYDESC_TD_WIDTH', 152 );
+project.php:51:define( 'IMAGE_THUMBNAIL_WIDTH_PX', 60 );
+project.php:53:define( 'LISTER_IMAGE_THUMBNAIL_WIDTH_PX', 50 );
+project.php:55:define( 'FLD_SIZE_RELATIONSHIP_DATES', 11 );
+project.php:60:define( 'IMAGE_ID_START_MARKER',    'xxxCofkImageIDStartxxx'    );
+project.php:61:define( 'IMAGE_ID_END_MARKER',      'xxxCofkImageIDEndxxx'      );
+project.php:63:define( 'LINK_TEXT_START_MARKER', 'xxxCofkLinkStartxxx' );
+project.php:64:define( 'LINK_TEXT_END_MARKER', 'xxxCofkLinkEndxxx' );
+project.php:65:define( 'HREF_START_MARKER',    'xxxCofkHrefStartxxx'    );
+project.php:66:define( 'HREF_END_MARKER',      'xxxCofkHrefEndxxx'      );
+project.php:68:define( 'ALTLABELS_SEPARATOR', ' / ' );
+project.php:69:define( 'NON_HTML_LIST_SEPARATOR', '~' );
+project.php:70:define( 'NON_HTML_LIST_SEPARATOR2', '--' );
+publication.php:6:define( 'PUBLICATION_DETAILS_ROWS', 4 );
+publication.php:7:define( 'PUBLICATION_DETAILS_COLS', 50 );
+publication.php:8:define( 'PUBLICATION_ABBREV_MAX_LENGTH', 50 );
+reinstate_accents_union.php:4:define( 'CFG_PREFIX', 'cofk' );
+reinstate_accents_union.php:5:define( 'CFG_SYSTEM_TITLE', 'Reformat Selden End material for front end website' );
+reinstate_accents_union.php:6:define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' );
+reinstate_accents_union.php:8:define( 'CONSTANT_DATABASE_TYPE', 'test' ); # database type is irrelevant as we are working from a file
+reinstate_accents_union.php:9:define( 'MAX_LINE_LENGTH', 1000000 );
+relationship_type_defines.php:8:define( 'RELTYPE_PERSON_CREATOR_OF_WORK', 'created' );               # creator on left, work on right
+relationship_type_defines.php:9:define( 'RELTYPE_PERSON_SENDER_OF_WORK', 'sent' );                   # sender on left, work on right
+relationship_type_defines.php:10:define( 'RELTYPE_PERSON_SIGNATORY_OF_WORK', 'signed' );              # signatory on left, work on right
+relationship_type_defines.php:13:define( 'RELTYPE_PERSON_AUTHOR_OF_WORK', 'was_author_of_work' );
+relationship_type_defines.php:14:define( 'RELTYPE_PERSON_COPYIST_OF_WORK', 'was_copyist_of_work' );
+relationship_type_defines.php:15:define( 'RELTYPE_PERSON_COMMENTATOR_ON_WORK', 'was_commentator_on_work' );
+relationship_type_defines.php:16:define( 'RELTYPE_PERSON_TRANSLATOR_OF_WORK', 'was_translator_of_work' );
+relationship_type_defines.php:17:define( 'RELTYPE_PERSON_GLOSSIST_OF_WORK', 'was_glossist_of_work' ); 
+relationship_type_defines.php:20:define( 'RELTYPE_PERSON_WAS_DEDICATEE_OF_WORK', 'was_dedicatee_of' );
+relationship_type_defines.php:21:define( 'RELTYPE_PERSON_WAS_PATRON_OF_WORK', 'was_patron_of' );
+relationship_type_defines.php:23:define( 'RELTYPE_PERSON_MEMBER_OF_ORG', 'member_of' );               # member on left, organisation on right
+relationship_type_defines.php:24:define( 'RELTYPE_PERSON_MEMBER_OF_NISBA', 'member_of' );               # member on left, nisba on right (IMPAcT only)
+relationship_type_defines.php:25:define( 'RELTYPE_PERSON_MEMBER_OF_NATIONALITY', 'member_of' );               # member on left, nationality on right
+relationship_type_defines.php:26:define( 'RELTYPE_PERSON_MEMBER_OF_ROLE_CATEGORY', 'member_of' ); # member on left, role category on right
+relationship_type_defines.php:28:define( 'RELTYPE_PERSON_HAD_AFFILIATION_OF_TYPE', 'had_affiliation_of_type' ); # person on left, 
+relationship_type_defines.php:31:define( 'RELTYPE_PERSON_WAS_IN_LOCATION', 'was_in_location' );       # person on left, place on right
+relationship_type_defines.php:32:define( 'RELTYPE_PERSON_WAS_BORN_IN_LOCATION', 'was_born_in_location' ); # person on left, place on right
+relationship_type_defines.php:33:define( 'RELTYPE_PERSON_DIED_AT_LOCATION', 'died_at_location' );         # person on left, place on right
+relationship_type_defines.php:35:define( 'RELTYPE_PERSON_SPOUSE_OF_PERSON', 'spouse_of' );  # people on both sides of symmetrical relationship
+relationship_type_defines.php:36:define( 'RELTYPE_PERSON_SIBLING_OF_PERSON', 'sibling_of' );
+relationship_type_defines.php:37:define( 'RELTYPE_PERSON_RELATIVE_OF_PERSON', 'relative_of' );
+relationship_type_defines.php:38:define( 'RELTYPE_PERSON_FRIEND_OF_PERSON', 'friend_of' );
+relationship_type_defines.php:39:define( 'RELTYPE_PERSON_ACQUAINTANCE_OF_PERSON', 'acquaintance_of' );
+relationship_type_defines.php:40:define( 'RELTYPE_PERSON_COLLEAGUE_OF_PERSON', 'colleague_of' );
+relationship_type_defines.php:41:define( 'RELTYPE_PERSON_COLLABORATED_WITH_PERSON', 'collaborated_with' );
+relationship_type_defines.php:42:define( 'RELTYPE_PERSON_WAS_A_BUSINESS_ASSOCIATE_OF_PERSON', 'was_a_business_associate_of' );
+relationship_type_defines.php:43:define( 'RELTYPE_PERSON_UNSPECIFIED_REL_TO_PERSON', 'unspecified_relationship_with' );
+relationship_type_defines.php:45:define( 'RELTYPE_PERSON_PARENT_OF_CHILD', 'parent_of' ); # people on both sides, 
+relationship_type_defines.php:46:define( 'RELTYPE_PERSON_TAUGHT_STUDENT', 'taught' );     # but relationship differs depending on direction
+relationship_type_defines.php:47:define( 'RELTYPE_PERSON_EMPLOYED_WORKER', 'employed' );
+relationship_type_defines.php:50:define( 'RELTYPE_PERSON_WAS_PATRON_OF_PERSON', 'was_patron_of' );
+relationship_type_defines.php:52:define( 'RELTYPE_WORK_ADDRESSED_TO_PERSON', 'was_addressed_to' );    # work on left, addressee on right
+relationship_type_defines.php:53:define( 'RELTYPE_WORK_INTENDED_FOR_PERSON', 'intended_for' );        # work on left, intended recipient on right
+relationship_type_defines.php:54:define( 'RELTYPE_WORK_MENTIONS_PERSON', 'mentions' );                # work on left, person mentioned on right
+relationship_type_defines.php:56:define( 'RELTYPE_LATER_WORK_REPLIES_TO_EARLIER_WORK', 'is_reply_to' );  # original letter on left, reply on right
+relationship_type_defines.php:57:define( 'RELTYPE_LATER_WORK_MENTIONS_EARLIER_WORK', 'mentions_work' );  # mentioning work on left, mentioned on right
+relationship_type_defines.php:58:define( 'RELTYPE_LATER_WORK_COMMENTS_ON_EARLIER_WORK', 'is_commentary_on' );
+relationship_type_defines.php:59:define( 'RELTYPE_LATER_WORK_CONTINUES_EARLIER_WORK', 'is_continuation_of' );
+relationship_type_defines.php:60:define( 'RELTYPE_LATER_WORK_SUMMARISES_EARLIER_WORK', 'is_summary_of' );
+relationship_type_defines.php:61:define( 'RELTYPE_LATER_WORK_TRANSLATES_EARLIER_WORK', 'is_translation_of' );
+relationship_type_defines.php:62:define( 'RELTYPE_LATER_WORK_IS_GLOSS_ON_EARLIER_WORK', 'is_gloss_on' );
+relationship_type_defines.php:63:define( 'RELTYPE_LATER_WORK_IS_IJAZA_FOR_EARLIER_WORK', 'is_ijaza_for' );
+relationship_type_defines.php:64:define( 'RELTYPE_LATER_WORK_IS_VERSIFICATION_OF_EARLIER_WORK', 'is_versification_of' );
+relationship_type_defines.php:66:define( 'RELTYPE_WORK_DEALS_WITH_SUBJECT', 'deals_with' ); # work (left) deals with subject (right)
+relationship_type_defines.php:68:define( 'RELTYPE_WORK_SENT_FROM_PLACE', 'was_sent_from' );  # letter on left, place on right
+relationship_type_defines.php:69:define( 'RELTYPE_WORK_SENT_TO_PLACE',   'was_sent_to' );    # letter on left, place on right
+relationship_type_defines.php:70:define( 'RELTYPE_WORK_MENTIONS_PLACE', 'mentions_place' );  # work on left, place mentioned on right
+relationship_type_defines.php:72:define( 'RELTYPE_COMMENT_REFERS_TO_ENTITY', 'refers_to' );
+relationship_type_defines.php:73:define( 'RELTYPE_COMMENT_REFERS_TO_AUTHOR', 'refers_to_author' );
+relationship_type_defines.php:74:define( 'RELTYPE_COMMENT_REFERS_TO_ADDRESSEE', 'refers_to_addressee' );
+relationship_type_defines.php:75:define( 'RELTYPE_COMMENT_REFERS_TO_DATE', 'refers_to_date' );
+relationship_type_defines.php:76:define( 'RELTYPE_COMMENT_REFERS_TO_PLACE_OF_COPYING', 'refers_to_place_of_copying' );
+relationship_type_defines.php:77:define( 'RELTYPE_COMMENT_REFERS_TO_TITLE', 'refers_to_title' );
+relationship_type_defines.php:78:define( 'RELTYPE_COMMENT_REFERS_TO_TYPE_OF_WORK', 'refers_to_type_of_work' );
+relationship_type_defines.php:79:define( 'RELTYPE_COMMENT_REFERS_TO_PLACE_OF_COMPOSITION', 'refers_to_place_of_composition' );
+relationship_type_defines.php:80:define( 'RELTYPE_COMMENT_REFERS_TO_PEOPLE_MENTIONED_IN_WORK', 'refers_to_people_mentioned_in_work' ); # comment on left, 
+relationship_type_defines.php:82:define( 'RELTYPE_COMMENT_REFERS_TO_PLACES_MENTIONED_IN_WORK', 'refers_to_places_mentioned_in_work' ); # comment on left, 
+relationship_type_defines.php:84:define( 'RELTYPE_COMMENT_REFERS_TO_WORKS_MENTIONED_IN_WORK', 'refers_to_works_mentioned_in_work' );
+relationship_type_defines.php:87:define( 'RELTYPE_COMMENT_REFERS_TO_TITLE_OF_WORK', 'refers_to_title' );
+relationship_type_defines.php:88:define( 'RELTYPE_COMMENT_REFERS_TO_PLACE_OF_COMPOSITION_OF_WORK', 'refers_to_place_of_composition' );
+relationship_type_defines.php:89:define( 'RELTYPE_COMMENT_REFERS_TO_INCIPIT_OF_WORK', 'refers_to_incipit' );
+relationship_type_defines.php:90:define( 'RELTYPE_COMMENT_REFERS_TO_EXCIPIT_OF_WORK', 'refers_to_excipit' );
+relationship_type_defines.php:91:define( 'RELTYPE_COMMENT_REFERS_TO_COLOPHON_OF_WORK', 'refers_to_colophon' );
+relationship_type_defines.php:92:define( 'RELTYPE_COMMENT_REFERS_TO_DEDICATEES_OF_WORK', 'refers_to_dedicatees' );
+relationship_type_defines.php:93:define( 'RELTYPE_COMMENT_REFERS_TO_PATRONS_OF_WORK', 'refers_to_patrons' );
+relationship_type_defines.php:94:define( 'RELTYPE_COMMENT_REFERS_TO_BIBLIOGRAPHY_OF_WORK', 'refers_to_bibliography' );
+relationship_type_defines.php:95:define( 'RELTYPE_COMMENT_REFERS_TO_BASIS_TEXTS_OF_WORK', 'refers_to_basis_texts_of' );
+relationship_type_defines.php:96:define( 'RELTYPE_COMMENT_REFERS_TO_COMMENTARIES_ON_WORK', 'refers_to_commentaries_on' );
+relationship_type_defines.php:98:define( 'RELTYPE_COMMENT_REFERS_TO_COPYIST_OF_MANIF', 'refers_to_copyist' );
+relationship_type_defines.php:99:define( 'RELTYPE_COMMENT_REFERS_TO_CODEX_OF_MANIF', 'refers_to_codex' );
+relationship_type_defines.php:100:define( 'RELTYPE_COMMENT_REFERS_TO_CONTENTS_OF_MANIF', 'refers_to_contents' );
+relationship_type_defines.php:101:define( 'RELTYPE_COMMENT_REFERS_TO_TEACHER_OF_MANIF', 'refers_to_teacher_of' );
+relationship_type_defines.php:102:define( 'RELTYPE_COMMENT_REFERS_TO_STUDENT_OF_MANIF', 'refers_to_student_of' );
+relationship_type_defines.php:103:define( 'RELTYPE_COMMENT_REFERS_TO_ANNOTATOR_OF_MANIF', 'refers_to_annotator' );
+relationship_type_defines.php:104:define( 'RELTYPE_COMMENT_REFERS_TO_PLACE_STUDIED_OF_MANIF', 'refers_to_place_studied' );
+relationship_type_defines.php:105:define( 'RELTYPE_COMMENT_REFERS_TO_INCIPIT_OF_MANIF', 'refers_to_incipit' );
+relationship_type_defines.php:106:define( 'RELTYPE_COMMENT_REFERS_TO_EXCIPIT_OF_MANIF', 'refers_to_excipit' );
+relationship_type_defines.php:107:define( 'RELTYPE_COMMENT_REFERS_TO_DEDICATEES_OF_MANIF', 'refers_to_dedicatees' );
+relationship_type_defines.php:108:define( 'RELTYPE_COMMENT_REFERS_TO_PATRONS_OF_MANIF', 'refers_to_patrons' );
+relationship_type_defines.php:109:define( 'RELTYPE_COMMENT_REFERS_TO_FORMER_OWNERS_OF_MANIF', 'refers_to_former_owners' );
+relationship_type_defines.php:110:define( 'RELTYPE_COMMENT_REFERS_TO_ENDOWERS_OF_MANIF', 'refers_to_endowers' );
+relationship_type_defines.php:111:define( 'RELTYPE_COMMENT_REFERS_TO_ENDOWEES_OF_MANIF', 'refers_to_endowees' );
+relationship_type_defines.php:113:define( 'RELTYPE_COMMENT_REFERS_TO_LOCATIONS_OF_PERSON', 'refers_to_locations_of' );
+relationship_type_defines.php:114:define( 'RELTYPE_COMMENT_REFERS_TO_RELATIONSHIPS_OF_PERSON', 'refers_to_relationships_of' );
+relationship_type_defines.php:115:define( 'RELTYPE_COMMENT_REFERS_TO_AFFILIATIONS_OF_PERSON', 'refers_to_affiliations_of' );
+relationship_type_defines.php:116:define( 'RELTYPE_COMMENT_REFERS_TO_MEMBERS_OF_ORG', 'refers_to_members_of' );
+relationship_type_defines.php:118:define( 'RELTYPE_ENTITY_HAS_RESOURCE', 'is_related_to' );
+relationship_type_defines.php:119:define( 'RELTYPE_WORK_FINDING_AID_FOR_WORK', 'is_finding_aid_for' );
+relationship_type_defines.php:124:define( 'RELTYPE_MANIFESTATION_IS_OF_WORK', 'is_manifestation_of' ); # manifestation on left, work on right
+relationship_type_defines.php:126:define( 'RELTYPE_MANIF_STORED_IN_REPOS', 'stored_in' );                  # manifestation on left, repository on right
+relationship_type_defines.php:127:define( 'RELTYPE_INNER_MANIF_ENCLOSED_IN_OUTER_MANIF', 'enclosed_in' );  # manifestation on left  = enclosed
+relationship_type_defines.php:129:define( 'RELTYPE_PERSON_OWNED_MANIF', 'formerly_owned' );           # owner on left, manifestation on right
+relationship_type_defines.php:130:define( 'RELTYPE_PERSON_HANDWROTE_MANIF', 'handwrote' );                 # scribe on left, manifestation on right
+relationship_type_defines.php:131:define( 'RELTYPE_PERSON_PARTLY_HANDWROTE_MANIF', 'partly_handwrote' );   # scribe on left, manifestation on right
+relationship_type_defines.php:132:define( 'RELTYPE_IMAGE_IS_OF_MANIF', 'image_of' );                  # image on left, manifestation on right
+relationship_type_defines.php:134:define( 'RELTYPE_MANIF_WAS_COPIED_AT_PLACE', 'copied_at_place' ); # manifestation on left, location on right
+relationship_type_defines.php:137:define( 'RELTYPE_PERSON_WAS_DEDICATEE_OF_MANIF', 'was_dedicatee_of' );
+relationship_type_defines.php:138:define( 'RELTYPE_PERSON_WAS_PATRON_OF_MANIF', 'was_patron_of' );
+relationship_type_defines.php:139:define( 'RELTYPE_PERSON_WAS_ENDOWER_OF_MANIF', 'was_endower_of' );
+relationship_type_defines.php:140:define( 'RELTYPE_PERSON_WAS_ENDOWEE_OF_MANIF', 'was_endowee_of' );
+relationship_type_defines.php:141:define( 'RELTYPE_PERSON_ASKED_FOR_COPYING_OF_MANIF', 'asked_for_copying_of' );
+relationship_type_defines.php:142:define( 'RELTYPE_PERSON_TAUGHT_TEXT_OF_MANIF', 'taught_text' );
+relationship_type_defines.php:143:define( 'RELTYPE_PERSON_STUDIED_TEXT_OF_MANIF', 'studied_text' );
+relationship_type_defines.php:144:define( 'RELTYPE_PERSON_ANNOTATED_MANIF', 'annotated' );
+relationship_type_defines.php:145:define( 'RELTYPE_MANIF_WAS_STUDIED_IN_PLACE', 'was_studied_in_place' );
+relationship_type_defines.php:150:define( 'RELTYPE_IMAGE_IS_OF_ENTITY', 'image_of' ); # image on left, person, place, manifestation etc on right
+relationship_type_defines.php:158:define( 'FIELDSET_AUTHOR_SENDER', 'author_sender' );  # the Cultures of Knowledge version of author
+relationship_type_defines.php:159:define( 'FIELDSET_ADDRESSEE', 'addressee' );
+relationship_type_defines.php:160:define( 'FIELDSET_EARLIER_WORK_ANSWERED_BY_THIS', 'earlier_work_answered_by_this' );
+relationship_type_defines.php:161:define( 'FIELDSET_LATER_WORK_ANSWERING_THIS', 'later_work_answering_this' );
+relationship_type_defines.php:163:define( 'FIELDSET_AUTHOR', 'author' );                # the IMPAcT version of author
+relationship_type_defines.php:164:define( 'FIELDSET_PATRONS_OF_WORK', 'patrons_of_work' );
+relationship_type_defines.php:165:define( 'FIELDSET_DEDICATEES_OF_WORK', 'dedicatees_of_work' );
+relationship_type_defines.php:166:define( 'FIELDSET_WORK_DISCUSSED', 'work_discussed' );
+relationship_type_defines.php:167:define( 'FIELDSET_WORK_DISCUSSING', 'work_discussing' );
+relationship_type_defines.php:169:define( 'FIELDSET_ORIGIN', 'origin' );
+relationship_type_defines.php:170:define( 'FIELDSET_DESTINATION', 'destination' );
+relationship_type_defines.php:172:define( 'FIELDSET_PEOPLE_MENTIONED', 'people_mentioned' );
+relationship_type_defines.php:173:define( 'FIELDSET_PLACES_MENTIONED', 'places_mentioned' );
+relationship_type_defines.php:174:define( 'FIELDSET_WORKS_MENTIONED', 'works_mentioned' );
+repository.php:9:define( 'FLD_SIZE_INSTITUTION_NAME', 60 );
+repository.php:11:define( 'TEXTAREA_COLS_REPOS_ALTERNATIVE', 57 );
+repository.php:12:define( 'TEXTAREA_ROWS_REPOS_ALTERNATIVE', 2 );
+repository.php:14:define( 'REPOS_ALT_NAME_SEPARATOR_INTERNAL', '|' );
+repository.php:15:define( 'REPOS_ALT_NAME_SEPARATOR_DISPLAYED',  "\n" );
+resource.php:7:define( 'DEFAULT_RESOURCE_DESC_ROWS', 2 );
+resource.php:8:define( 'MAX_RESOURCE_DESC_ROWS', 12 );
+resource.php:9:define( 'FLD_SIZE_RESOURCE_NAME', 90 );
+resource.php:10:define( 'FLD_SIZE_RESOURCE_URL', 90 );
+review.php:9:define( 'CONTRIB_STATUS_NEW',           1 ); # Awaiting review
+review.php:10:define( 'CONTRIB_STATUS_PART_REVIEWED', 2 ); # Partly reviewed
+review.php:11:define( 'CONTRIB_STATUS_COMPLETE',      3 ); # Review complete
+review.php:12:define( 'CONTRIB_STATUS_ACCEPTED',      4 ); # Accepted and saved into main database
+review.php:13:define( 'CONTRIB_STATUS_REJECTED',      5 ); # Rejected
+selden_work.php:9:define( 'SELDEN_RIGHTHAND_SAVE_KEY_POS', 690 );
+selden_work.php:10:define( 'SELDEN_ENLARGED_IMAGE_WIDTH_PX', 500 );
+tool_menu.php:9:define( 'TOOL_INTERFACE_FILE', 'collect.php' );
+tool_user.php:9:define( 'TOOL_DB_USERNAME', 'cofkcontributor' );
+tool_user.php:10:define( 'TOOL_USERNAME_LOGIN_FIELD_SIZE', 60 );
+tool_user.php:11:define( 'TOOL_USER_TEXT_FIELDS_SIZE', 100 );
+upload.php:8:define( 'CSV_DIR_FOR_UPLOADS', '/srv/data/culturesofknowledge/csv/' );
+upload.php:10:define( 'IDS_CREATED_IN_TOOL_START', 1000000 );
+upload.php:12:define( 'NUM_CSV_FILES_TO_UPLOAD', 16 );
+upload.php:13:define( 'CSV_FILENAME_ROOT', 'emloexport' );
+upload.php:14:define( 'CSV_FILE_MAX_CHARS_PER_LINE', 1000000 );
+upload.php:16:define( 'CSV_UPLOAD_FIELD_SIZE', 80 );
+upload.php:18:define( 'CSV_FILE_ADDRESSEE',             1 );
+upload.php:19:define( 'CSV_FILE_AUTHOR',                2 );
+upload.php:20:define( 'CSV_FILE_INSTITUTION',           3 );
+upload.php:21:define( 'CSV_FILE_LOCATION',              4 );
+upload.php:22:define( 'CSV_FILE_MANIFESTATION',         5 );
+upload.php:23:define( 'CSV_FILE_OCCUPATION_OF_PERSON',  6 );
+upload.php:24:define( 'CSV_FILE_PERSON',                7 );
+upload.php:25:define( 'CSV_FILE_PERSON_MENTIONED',      8 );
+upload.php:26:define( 'CSV_FILE_PLACE_MENTIONED',       9 );
+upload.php:27:define( 'CSV_FILE_SUBJECT_OF_WORK',      10 );
+upload.php:28:define( 'CSV_FILE_WORK',                 11 );
+upload.php:29:define( 'CSV_FILE_LANGUAGE_OF_WORK',     12 );
+upload.php:30:define( 'CSV_FILE_WORK_RESOURCE',        13 );
+upload.php:31:define( 'CSV_FILE_PERSON_RESOURCE',      14 );
+upload.php:32:define( 'CSV_FILE_LOCATION_RESOURCE',    15 );
+upload.php:33:define( 'CSV_FILE_INSTITUTION_RESOURCE', 16 );
+upload.php:35:define( 'UPLOAD_REVIEWER_ROLE', 'reviewer' );  # Person who receives notifications where there is a new upload,
+user.php:9:define( 'LOGIN_REQUEST',  'RequestOULSLogin' );
+user.php:10:define( 'RAW_USERNAME_FIELD', 'raw_usr' );
+user.php:11:define( 'RAW_PASSWORD_FIELD', 'raw_passwd' );
+user.php:12:define( 'MD5_USERNAME_FIELD', 'md5_usr' );
+user.php:13:define( 'MD5_PASSWORD_FIELD', 'md5_passwd' );
+user.php:14:define( 'MD5_LENGTH', 32 );
+user.php:15:define( 'LOGIN_TOKEN_FIELD', 'logintoken' );
+user.php:16:define( 'SESSION_TOKEN_FIELD', 'sesstoken' );
+user.php:18:define( 'SESSION_OK', 1 );
+user.php:19:define( 'SESSION_TIMED_OUT', -1 );
+user.php:20:define( 'SESSION_NOT_FOUND', -2 );
+user.php:22:define( 'GENERIC_ERR_MSG', 'Cannot log you in due to technical problems. Please seek advice from support staff.' ); 
+user.php:24:define( 'LOGIN_SUCCESS', 1 );
+user.php:25:define( 'LOGIN_FAILED_BAD_USR_OR_PW', 0 );
+user.php:26:define( 'LOGIN_FAILED_ACCOUNT_SUSPENDED', -1 );
+user.php:30:define( 'RAW_AUTHORISING_NAME_FIELD', 'raanf' );
+user.php:31:define( 'RAW_AUTHORISING_PASSFIELD',  'raapf' );
+user.php:32:define( 'MD5_AUTHORISING_NAME_FIELD', 'mfanf' );
+user.php:33:define( 'MD5_AUTHORISING_PASSFIELD',  'mfapf' );
+user.php:34:define( 'AUTHORISING_TOKEN_FIELD',    'atfie' );
+user.php:35:define( 'RAW_EDITED_NAME_FIELD',      'raenf' );
+user.php:36:define( 'RAW_EDITED_PASSFIELD1',      'repfo' );
+user.php:37:define( 'RAW_EDITED_PASSFIELD2',      'repft' );
+user.php:38:define( 'MD5_EDITED_NAME_FIELD',      'mfenf' );
+user.php:39:define( 'MD5_EDITED_PASSFIELD1',      'mepfo' );
+user.php:40:define( 'MD5_EDITED_PASSFIELD2',      'mepft' );
+user.php:43:define( 'RAW_AUTHORISING_NAME_VAR', 'raanv' );
+user.php:44:define( 'RAW_AUTHORISING_PASS_VAR', 'raapv' );
+user.php:45:define( 'MD5_AUTHORISING_NAME_VAR', 'mfanv' );
+user.php:46:define( 'MD5_AUTHORISING_PASS_VAR', 'mfapv' );
+user.php:47:define( 'AUTHORISE_TOKEN_VAR',      'autva' );
+user.php:48:define( 'RAW_EDITED_NAME_VAR',      'raenv' );
+user.php:49:define( 'RAW_EDITED_PASSVAR1',      'repvo' );
+user.php:50:define( 'RAW_EDITED_PASSVAR2',      'repvt' );
+user.php:51:define( 'MD5_EDITED_NAME_VAR',      'mfenv' );
+user.php:52:define( 'MD5_EDITED_PASSVAR1',      'mepvo' );
+user.php:53:define( 'MD5_EDITED_PASSVAR2',      'mepvt' );
+user.php:57:define( 'GET_RECORD_AFTER_LOGIN_PREFIX', 'get_after_login_' );
