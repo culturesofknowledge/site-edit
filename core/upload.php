@@ -2545,7 +2545,7 @@ class Upload extends Project {
                                                                      # so that later emails don't get mangled
 
         $success = $contributed_work_obj->db_produce_csv_output( 
-                                  &$contribution,
+                                  $contribution,
                                   $msg_recipient = $email,
                                   $msg_body,
                                   $msg_subject,
@@ -2608,7 +2608,7 @@ class Upload extends Project {
 
     $contributed_work_obj = new Contributed_Work( $this->db_connection ); # so we get the correct column headings
 
-    $success = $contributed_work_obj->db_produce_csv_output( &$contribution,
+    $success = $contributed_work_obj->db_produce_csv_output( $contribution,
                                                              $msg_recipient = $email,
                                                              $msg_body,
                                                              $msg_subject,
