@@ -34,6 +34,7 @@ class Application_Entity {
   function Application_Entity() { 
 
     $this->magic_quotes_gpc_on = ini_get( 'magic_quotes_gpc' );
+    $this->continue_on_read_parm_err = TRUE;
   }
   #-----------------------------------------------------
 
@@ -534,14 +535,28 @@ class Application_Entity {
   }
   #-----------------------------------------------------
 
-  function read_parm( $parm_name, $arrayname ) {
+  function read_parm( $parm_name, $arrayname )
+  {
 
-    if( $arrayname == '$_POST' )
-      $this->parm_value = $_POST[ "$parm_name" ];
+    if ($arrayname == '$_POST') {
 
-    elseif( $arrayname == '$_GET' )
-      $this->parm_value = $_GET[ "$parm_name" ];
+      if (array_key_exists($parm_name, $_POST)) {
+        $this->parm_value = $_POST["$parm_name"];
+      }
+      else {
+        $this->parm_value = NULL;
+      }
+    }
+    elseif( $arrayname == '$_GET' ) {
 
+      if( array_key_exists($parm_name,$_GET) ) {
+        $this->parm_value = $_GET[ "$parm_name" ];
+      }
+      else {
+        $this->parm_value = NULL;
+      }
+
+    }
     elseif( $arrayname == '$_SESSION' ) {
       if( isset( $_SESSION )) 
         $this->parm_value = $_SESSION[ "$parm_name" ];
