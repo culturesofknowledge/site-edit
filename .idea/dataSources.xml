@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="4114569127">
+    <data-source source="LOCAL" name="PostgreSQL - LIVE" read-only="true" uuid="027e87a4-c2a5-40a4-8723-2eb43573d443">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5431/ouls</jdbc-url>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="PostgreSQL - LOCAL" uuid="06069192-8401-40a9-8b4b-9132f51d6dc9">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:32769/ouls</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>
