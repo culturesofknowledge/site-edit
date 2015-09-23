@@ -1,4 +1,4 @@
-FROM php:5.3-apache
+FROM php-with-pgsql
 
 # Copy php config file
 COPY config/php.ini /usr/local/etc/php/
@@ -6,13 +6,20 @@ COPY config/php.ini /usr/local/etc/php/
 # Copy main PHP files
 COPY interface/ core/ /var/www/html/
 
+RUN apt-get update
+
+# TRYING TO FIX MISSING EXTENSION ERROR.
+RUN apt-get install -y \
+	libpq-dev
+
 # Copy and run php packages to install
-#COPY packages/DB-1.7.14.tgz /tmp/
-RUN pear install DB-1.7.14
+RUN pear install DB-1.7.14 mdb2 MDB2_Driver_pgsql pear/mdb2#pgsql
 
-# DEBUG: Add some helper apps
-RUN apt-get update && apt-get install -y \
-        vim \
-        screen
+RUN mkdir /var/backups/redo-logs && \
+	chown www-data:www-data /var/backups/redo-logs
 
-EXPOSE 32778
+# DEBUG: Add some helper apps (not needed but help when debugging)
+#RUN apt-get install -y \
+#		vim \
+#		screen \
+#		postgresql

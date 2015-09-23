@@ -6,15 +6,22 @@
  *
  */
 
-if( CONSTANT_DATABASE_TYPE == 'live' )         # set by initial file called from Apache document root
+if( CONSTANT_DATABASE_TYPE == 'live' ) {     # set by initial file called from Apache document root
+  define('CONSTANT_DATABASE_NAME', 'ouls');
+  define( 'DATABASE_HOST','localhost:5432' );
+}
+elseif( CONSTANT_DATABASE_TYPE == 'test' ){
+  define( 'CONSTANT_DATABASE_NAME', 'test' );
+  define( 'DATABASE_HOST','localhost:5432' );
+}
+elseif( CONSTANT_DATABASE_TYPE == 'dev' ) {
+  define( 'CONSTANT_DATABASE_NAME', 'test' );
+  define( 'DATABASE_HOST','localhost:5432' );
+}
+elseif( CONSTANT_DATABASE_TYPE == 'docker' ) {
   define( 'CONSTANT_DATABASE_NAME', 'ouls' );
-
-elseif( CONSTANT_DATABASE_TYPE == 'test' )
-  define( 'CONSTANT_DATABASE_NAME', 'test' );
-
-elseif( CONSTANT_DATABASE_TYPE == 'dev' )
-  define( 'CONSTANT_DATABASE_NAME', 'test' );
-
+  define( 'DATABASE_HOST','emlo-edit-postgres:5432' );
+}
 else
   die( 'Invalid input detected in defines.php' );
 

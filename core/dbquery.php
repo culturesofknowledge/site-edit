@@ -18,7 +18,7 @@ class DBQuery extends Application_Entity {
   #-----------------------------------------
   # Properties which start off non-blank
   #-----------------------------------------
-  var $host = 'localhost:5432';
+  var $host = DATABASE_HOST;
   var $db_name = CONSTANT_DATABASE_NAME;    # Read from defines.php
 
 
@@ -48,7 +48,14 @@ class DBQuery extends Application_Entity {
 
     $this->user = $user;
 
-    $this->dsn = "pgsql://$this->user@$this->host/$this->db_name";
+    if( defined( 'SPECIAL_DATABASE_USERNAME' ) ) {
+      // can't get remote access to database to work without passwords so just using specific username
+      // - username must be in cofk_user table in postgres
+      $this->dsn = 'pgsql://' . SPECIAL_DATABASE_USERNAME . ':' . SPECIAL_DATABASE_PASSWORD. "@$this->host/$this->db_name";
+    }
+    else {
+      $this->dsn = "pgsql://$this->user@$this->host/$this->db_name";
+    }
 
     $this->db_connect();
 
