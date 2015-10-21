@@ -1263,7 +1263,7 @@ class HTML extends Application_Entity {
     $label = trim( $label );
     echo $label;
     $last_char = substr( $label, -1 );
-    if( $label != '' && $last_char != ':' && $last_char != '.' && $last_char != '*' && $last_char != '£' ) echo ':';
+    if( $label != '' && $last_char != ':' && $last_char != '.' && $last_char != '*' && $last_char != 'ï¿½' ) echo ':';
     echo ' </label>';
 
     if( $in_table ) {
@@ -1273,7 +1273,7 @@ class HTML extends Application_Entity {
       echo '>';
     }
 
-    echo '<input type="input" name="' . $fieldname . '" id="' . $field_id . '" value="';
+    echo '<input type="text" name="' . $fieldname . '" id="' . $field_id . '" value="';
     echo html::call_htmlentities( $value );
     echo '"';
     if( $size != NULL ) echo ' size="' . $size . '" ';
@@ -1480,7 +1480,7 @@ class HTML extends Application_Entity {
       $label = trim( $label );
       echo $label;
       $last_char = substr( $label, -1 );
-      if( $label != '' && $last_char != ':' && $last_char != '.' && $last_char != '*' && $last_char != '£' ) echo ':';
+      if( $label != '' && $last_char != ':' && $last_char != '.' && $last_char != '*' && $last_char != 'ï¿½' ) echo ':';
       echo ' </label>';
     }
 
@@ -1513,7 +1513,7 @@ class HTML extends Application_Entity {
       $label = trim( $label );
       echo $label;
       $last_char = substr( $label, -1 );
-      if( $label != '' && $last_char != ':' && $last_char != '.' && $last_char != '*' && $last_char != '£' ) echo ':';
+      if( $label != '' && $last_char != ':' && $last_char != '.' && $last_char != '*' && $last_char != 'ï¿½' ) echo ':';
       echo ' </label>';
     }
 
@@ -1607,7 +1607,7 @@ class HTML extends Application_Entity {
     $label = trim( $label );
     echo $label;
     $last_char = substr( $label, -1 );
-    if( $label != '' && $last_char != ':' && $last_char != '.' && $last_char != '*' && $last_char != '£' ) echo ':';
+    if( $label != '' && $last_char != ':' && $last_char != '.' && $last_char != '*' && $last_char != 'ï¿½' ) echo ':';
     echo ' </label>';
 
     echo '<input type="file" name="' . $fieldname . '" id="' . $field_id . '" value="';
