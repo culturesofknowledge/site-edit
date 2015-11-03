@@ -1,6 +1,6 @@
 # This readme assumes you already have a postgres docker container (and is named "emlo-edit-postgres")
 
-# First build "php with postgres extension" (if you haven't already)
+# First build the image "php with postgres extension" (if you haven't already):
 cd docker-php-pgsql/
 docker build -t php-with-pgsql .
 
