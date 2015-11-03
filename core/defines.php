@@ -20,7 +20,7 @@ elseif( CONSTANT_DATABASE_TYPE == 'dev' ) {
 }
 elseif( CONSTANT_DATABASE_TYPE == 'docker' ) {
   define( 'CONSTANT_DATABASE_NAME', 'ouls' );
-  define( 'DATABASE_HOST','emlo-edit-postgres:5432' );
+  define( 'DATABASE_HOST','emlo-edit-postgres-with-emlo:5432' );
 }
 else
   die( 'Invalid input detected in defines.php' );
