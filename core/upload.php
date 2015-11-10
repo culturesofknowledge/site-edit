@@ -2145,7 +2145,7 @@ class Upload extends Project {
 
     if( ! $link_to_table ) return;
 
-    $statement = 'select p.primary_name from ' . $this->proj_collect_person_tablename() . " p, $link_to_table x"
+    $statement = 'select p.primary_name, p.iperson_id from ' . $this->proj_collect_person_tablename() . " p, $link_to_table x"
                . ' where p.iperson_id = x.iperson_id'
                . ' and p.upload_id = x.upload_id'
                . " and x.iwork_id = $this->iwork_id"
