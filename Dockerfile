@@ -4,7 +4,8 @@ FROM php-with-pgsql
 COPY config/php.ini /usr/local/etc/php/
 
 # Copy main PHP files
-COPY interface/ core/ /var/www/html/
+#COPY interface/ core/ /var/www/html/
+VOLUME /var/www/html
 
 RUN apt-get update
 
