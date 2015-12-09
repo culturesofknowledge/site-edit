@@ -15,12 +15,15 @@ ini_set("display_errors", 1);
 define( 'CONSTANT_DATABASE_TYPE', 'docker' );
 $database_type_set = TRUE;
 
-define( 'CONSTANT_SOURCEDIR', '/var/www/html/' );
+define( 'CONSTANT_SOURCEDIR', '/var/www/html/core/' );
 $sourcedir_set = TRUE;
 
-include CONSTANT_SOURCEDIR . "database_access.php";
+include "database_access.php";
 if( !defined('SPECIAL_DATABASE_USERNAME') || !defined('SPECIAL_DATABASE_PASSWORD')) {
-    exit("Mat, you need to define the username for database access!");
+    #<?php
+    # define( 'SPECIAL_DATABASE_USERNAME','<SOMETHING_HERE>');
+    # define( 'SPECIAL_DATABASE_PASSWORD','<SOMETHING_HERE>');
+    exit("Mat, you need to define the username and password for database access!");
 }
 
 require_once "union.php";
