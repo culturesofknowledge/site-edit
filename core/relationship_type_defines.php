@@ -54,6 +54,7 @@ define( 'RELTYPE_WORK_INTENDED_FOR_PERSON', 'intended_for' );        # work on l
 define( 'RELTYPE_WORK_MENTIONS_PERSON', 'mentions' );                # work on left, person mentioned on right
 
 define( 'RELTYPE_LATER_WORK_REPLIES_TO_EARLIER_WORK', 'is_reply_to' );  # original letter on left, reply on right
+define( 'RELTYPE_MATCHING_WORK', 'matches' );  # Two way match
 define( 'RELTYPE_LATER_WORK_MENTIONS_EARLIER_WORK', 'mentions_work' );  # mentioning work on left, mentioned on right
 define( 'RELTYPE_LATER_WORK_COMMENTS_ON_EARLIER_WORK', 'is_commentary_on' );
 define( 'RELTYPE_LATER_WORK_CONTINUES_EARLIER_WORK', 'is_continuation_of' );
@@ -159,6 +160,7 @@ define( 'FIELDSET_AUTHOR_SENDER', 'author_sender' );  # the Cultures of Knowledg
 define( 'FIELDSET_ADDRESSEE', 'addressee' );
 define( 'FIELDSET_EARLIER_WORK_ANSWERED_BY_THIS', 'earlier_work_answered_by_this' );
 define( 'FIELDSET_LATER_WORK_ANSWERING_THIS', 'later_work_answering_this' );
+define( 'FIELDSET_MATCHING_WORK', 'matching_work' );
 
 define( 'FIELDSET_AUTHOR', 'author' );                # the IMPAcT version of author
 define( 'FIELDSET_PATRONS_OF_WORK', 'patrons_of_work' );

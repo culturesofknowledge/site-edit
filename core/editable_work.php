@@ -520,6 +520,22 @@ class Editable_Work extends Work {
   }
   #-----------------------------------------------------
 
+    function matching_work() {
+
+        html::horizontal_rule();
+
+        # Heading is now set in method 'proj_list_form_sections()'.
+        $this->proj_form_section_links( 'matching_letters', $heading_level = 4 );
+
+        $this->work_entry_field( FIELDSET_MATCHING_WORK,
+            $section_heading             = 'Matching letters:',
+            $decode_display              = 'match',
+            $separate_section            = FALSE );
+
+        $this->extra_save_button( 'matching_letters' );
+    }
+    #-----------------------------------------------------
+
   function place_of_origin_field() {
 
     $this->place_entry_field( FIELDSET_ORIGIN );
@@ -831,6 +847,13 @@ class Editable_Work extends Work {
                                               $known_id_value = $this->work_id );
   }
   #-----------------------------------------------------
+
+    function save_matching_work() {
+
+        $this->rel_obj->save_rels_for_field_type( FIELDSET_MATCHING_WORK,
+            $known_id_value = $this->work_id );
+    }
+    #-----------------------------------------------------
 
   function save_patrons_of_work() {
 
@@ -1272,7 +1295,8 @@ class Editable_Work extends Work {
         $form_sections = array( 'authors_senders' => 'Authors/senders',
                                 'addressees'      => 'Addressees',
                                 'earlier_letters' => 'Earlier letters',
-                                'later_letters'   => 'Later letters' );
+                                'later_letters'   => 'Later letters' ,
+                                'matching_letters'   => 'Matching letters');
         break;
 
       case 'other_tab':
@@ -1314,6 +1338,8 @@ class Editable_Work extends Work {
     $this->earlier_work_answered_by_this_field();
 
     $this->later_work_answering_this_field();
+
+      $this->matching_work();
   }
   #-----------------------------------------------------
 
@@ -1976,6 +2002,7 @@ class Editable_Work extends Work {
         $funcs[] = 'save_addressee';
         $funcs[] = 'save_earlier_work_answered_by_this';
         $funcs[] = 'save_later_work_answering_this';
+          $funcs[] = 'save_matching_work';
 
         break;
 

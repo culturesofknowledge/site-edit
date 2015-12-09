@@ -109,6 +109,13 @@ class Relationship extends Project {
       'side_to_get'     => 'left'
     );
 
+      $settings[ FIELDSET_MATCHING_WORK ] = array(
+          'left_table_name' => $this->proj_work_tablename(),
+          'reltypes'        => array( RELTYPE_MATCHING_WORK => 'Matches' ),
+          'right_table_name'=> $this->proj_work_tablename(),
+          'side_to_get'     => 'both'
+      );
+
     $settings[ FIELDSET_ORIGIN ] = array( 
       'left_table_name' => $this->proj_work_tablename(),
       'reltypes'        => array( RELTYPE_WORK_SENT_FROM_PLACE => 'Origin' ),
