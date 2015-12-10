@@ -34,7 +34,6 @@ class Application_Entity {
   function Application_Entity() { 
 
     $this->magic_quotes_gpc_on = ini_get( 'magic_quotes_gpc' );
-    $this->continue_on_read_parm_err = TRUE;
   }
   #-----------------------------------------------------
 
