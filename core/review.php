@@ -204,7 +204,7 @@ class Review extends Project {
 
       # Tidy up some of the values
       if( $colname == 'original_calendar' && $value == 'J' )
-        $value = 'JM';  # Julian, year starting March
+        $value = 'JJ';  # Julian, year starting January
 
       elseif( $colname == 'accession_code' ) {
         $value = '';
