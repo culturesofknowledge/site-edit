@@ -12,12 +12,13 @@ import exporter.objects
 
 class Exporter:
 
-	def __init__(self, postgres_connection, output=False ):
+	def __init__(self, postgres_connection, output_commands=False, output_results=False ):
 
 		self.connection = psycopg2.connect( postgres_connection )  # e.g. "dbname='?' user='?' host='?' password='?'"
 		self.cursor = self.connection.cursor( cursor_factory=psycopg2.extras.DictCursor )
 
-		self.output_commands = output
+		self.output_commands = output_commands
+		self.output_results = output_results
 
 		self.relationship_ids = None
 
@@ -65,18 +66,24 @@ class Exporter:
 			works = self._get_works( list(work_ids) )
 
 			# Get People from works
-			person_ids = self._get_relationships( self.names['work'], work_ids, self.names['person'] )
+			person_relations = self._get_relationships( self.names['work'], work_ids, self.names['person'] )
+			self._pretty_print_relations("person",person_relations)
+
+			person_ids = self._id_link_set_from_relationships(person_relations)
 			people = self._get_people( person_ids )
 
 			print( self._get_person_field( people[0], "foaf_name" ) )
 
+
 			# Get Locations from works
-			#location_ids = self._get_relationships( self.names['work'], work_ids, self.names['location'] )
-			#locations = self._get_locations( location_ids )
+			location_relations = self._get_relationships( self.names['work'], work_ids, self.names['location'] )
+			location_ids = self._id_link_set_from_relationships(location_relations)
+			locations = self._get_locations( location_ids )
 
 			# Get comments associated with works
-			#comment_ids = self._get_relationships( self.names['work'], work_ids, self.names['comment'] )
-			#work_comments = self._get_comments( comment_ids )
+			comment_relations = self._get_relationships( self.names['work'], work_ids, self.names['comment'] )
+			comment_ids = self._id_link_set_from_relationships(comment_relations)
+			work_comments = self._get_comments( comment_ids )
 
 	def _create_work_csv(self, people, locations, comments):
 		#get_work_csv_converter
@@ -92,7 +99,7 @@ class Exporter:
 		:return: A set of the object ids we wanted
 		"""
 
-		wanted_ids = set()
+		wanted = {} # Looking like this:   { obj_id : [ { id : wanted_id, relation: relationshiop_type }, ] }
 
 		object_table = "cofk_union_" + object_name
 		object_ids_in_query = self._create_in(object_ids)
@@ -109,34 +116,41 @@ class Exporter:
 			for relation in relations :
 
 				if relation['left_table_name'] == wanted_table:
+					obj_id = relation['right_id_value']
 					want_id = relation['left_id_value']
 				else:
+					obj_id = relation['left_id_value']
 					want_id = relation['right_id_value']
 
-				wanted_ids.add( want_id )
+				if obj_id not in wanted :
+					wanted[obj_id] = []
+
+				wanted[obj_id].append( {"i" : want_id, "r" : relation['relationship_type'] } )
+
 				self.relationship_ids.append( str(relation['relationship_id']) )
 
 			#print( relations )
 
-			#wanted_ids
-
-		return wanted_ids
+		return wanted
 
 	def _get_works(self, ids ):
 		fields = exporter.objects.get_work_fields()
 
 		works = self._get_objects( self.names['work'], ids, fields )
 
-		print( "works: ", works )
+		self._pretty_print_objects( "works", works )
 
 		return works
+
+	def _get_work_field(self, person, field ):
+		return self._get_object_field( person, field, exporter.objects.get_work_fields() )
 
 	def _get_people(self, ids ):
 		fields = exporter.objects.get_person_fields()
 
 		people = self._get_objects( self.names['person'], ids, fields )
 
-		print( "people: ", people )
+		self._pretty_print_objects( "people", people )
 
 		return people
 
@@ -148,7 +162,7 @@ class Exporter:
 
 		locations = self._get_objects( self.names['location'], ids, fields )
 
-		print( "locations: ", locations )
+		self._pretty_print_objects( "locations", locations )
 
 		return locations
 
@@ -156,11 +170,11 @@ class Exporter:
 
 		fields = exporter.objects.get_comment_fields()
 
-		comment = self._get_objects( self.names['comment'], ids, fields )
+		comments = self._get_objects( self.names['comment'], ids, fields )
 
-		print( "comments: ", comment )
+		self._pretty_print_objects( "comments", comments )
 
-		return comment
+		return comments
 
 	def _get_object_field(self,obj,field,all_fields):
 		return obj[all_fields.index(field)]
@@ -189,9 +203,7 @@ class Exporter:
 		"""
 
 		command = self.cursor.mogrify( raw_command, args )
-
-		if self.output_commands :
-			self._output( command )
+		self._output_commands( command )
 
 		self.cursor.execute( command )
 
@@ -201,13 +213,36 @@ class Exporter:
 			return self.cursor.fetchall()
 
 	@staticmethod
+	def _id_link_set_from_relationships(relationships ):
+		ids = set()
+		for obj in relationships :
+			for link in relationships[obj] :
+				ids.add( link["i"] )
+
+		return ids
+
+
+	@staticmethod
 	def _empty(lst ):
 		return lst is None or len(lst) == 0
 
 	@staticmethod
-	def _output( *args ):
-		print( " ".join( [ str(item) for item in args]) )
-
-	@staticmethod
 	def _create_in(group):
 		return "('" + "','".join(group) + "')"
+
+
+	def _pretty_print_objects( self, name, objs ):
+		if self.output_results:
+			print( name, "(", len(objs), "):" )
+			for i, obj in enumerate(objs) :
+				print( " ", name[0] + str(i), ": ", obj)
+
+	def _pretty_print_relations( self, name, rels ):
+		if self.output_results:
+			print( name, "relations(", len(rels), "):" )
+			for i, obj in enumerate(rels) :
+				print( " ", name[0] + "r" + str(i)," : ", obj + "(" + str(len( rels[obj] )) + ")", rels[obj])
+
+	def _output_commands( self, *args ):
+		if self.output_commands:
+			print( " ".join( [ str(item) for item in args]) )
