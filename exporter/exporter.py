@@ -113,7 +113,7 @@ class Exporter:
 					if conv["o"] == "location" :
 						obj_rels = locations_relations.get(work_id, None)
 						objs = locations
-					elif conv["o"] == "people" :
+					elif conv["o"] == "person" :
 						obj_rels = people_relations.get(work_id, None)
 						objs = people
 					elif conv["o"] == "comment" :
@@ -151,13 +151,6 @@ class Exporter:
 
 		#return work_csv
 
-	def _save_csv(self, rows, fields, filepos ):
-
-		with open(filepos, 'w') as csvfile:
-			writer = csv.DictWriter(csvfile, fieldnames=fields)
-			writer.writeheader()
-			for row in rows :
-				writer.writerow( row )
 
 	def _get_relationships(self, object_name, object_ids, wanted_name ):
 		"""
@@ -284,6 +277,15 @@ class Exporter:
 			return self.cursor.fetchone()
 		else:
 			return self.cursor.fetchall()
+
+	@staticmethod
+	def _save_csv(rows, fields, filepos ):
+
+		with open(filepos, 'w') as csvfile:
+			writer = csv.DictWriter(csvfile, fieldnames=fields)
+			writer.writeheader()
+			for row in rows :
+				writer.writerow( row )
 
 	@staticmethod
 	def _id_link_set_from_relationships(relationships ):
