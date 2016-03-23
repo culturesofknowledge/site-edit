@@ -57,5 +57,13 @@ class TestExport(unittest.TestCase) :
 		self.assertEqual( value[1]['iwork_id'], 13690 )
 
 
+	def test_create_csvs(self):
+
+		e = Exporter( self.postgres_connection )
+
+		folder = "Single Export"
+		e.export( ['cofk_import_hartlib-row_id:000003994'], folder )
+
+
 if __name__ == "__main__":
 	unittest.main()
