@@ -53,51 +53,51 @@ def get_work_fields() :
 # o=object, f=field, r=relationship
 def get_work_csv_converter() :
 
-	translation = [
+	return [
 		{ "f" : "EMLO ID Number", "d" : { "o" : "work", "f" : "iwork_id" } },
-		  { "f" : "Year date", "d" : { "o" : "work", "f" : "date_of_work_std_year"} },
-		  { "f" : "Month date", "d" : { "o" : "work", "f" : "date_of_work_std_month"} },
-		  { "f" : "Day date", "d" : { "o" : "work", "f" : "date_of_work_std_day"} },
-		  { "f" : "Date is range", "d" : { "o" : "work", "f" : "date_of_work_std_is_range"} },
-		  { "f" : "Year 2nd date (range)", "d" : { "o" : "work", "f" : "date_of_work2_std_year"} },
-		  { "f" : "Month 2nd date (range)", "d" : { "o" : "work", "f" : "date_of_work2_std_month"} },
-		  { "f" : "Day 2nd date (range)", "d" : { "o" : "work", "f" : "date_of_work2_std_day"} },
-		  { "f" : "Calendar of date provided to EMLO", "d" : { "o" : "work", "f" : "original_calendar"} },
-		  { "f" : "Date as marked on letter", "d" : { "o" : "work", "f" : "date_of_work_as_marked"} },
-		  { "f" : "Date uncertain", "d" : { "o" : "work", "f" : "date_of_work_uncertain"} },
-		  { "f" : "Date approximate", "d" : { "o" : "work", "f" : "date_of_work_approx"} },
-		  { "f" : "Date inferred", "d" : { "o" : "work", "f" : "date_of_work_inferred"} },
-		  { "f" : "Notes on date", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_date"} },
+		{ "f" : "Year date", "d" : { "o" : "work", "f" : "date_of_work_std_year"} },
+		{ "f" : "Month date", "d" : { "o" : "work", "f" : "date_of_work_std_month"} },
+		{ "f" : "Day date", "d" : { "o" : "work", "f" : "date_of_work_std_day"} },
+		{ "f" : "Date is range", "d" : { "o" : "work", "f" : "date_of_work_std_is_range"} },
+		{ "f" : "Year 2nd date (range)", "d" : { "o" : "work", "f" : "date_of_work2_std_year"} },
+		{ "f" : "Month 2nd date (range)", "d" : { "o" : "work", "f" : "date_of_work2_std_month"} },
+		{ "f" : "Day 2nd date (range)", "d" : { "o" : "work", "f" : "date_of_work2_std_day"} },
+		{ "f" : "Calendar of date provided to EMLO", "d" : { "o" : "work", "f" : "original_calendar"} },
+		{ "f" : "Date as marked on letter", "d" : { "o" : "work", "f" : "date_of_work_as_marked"} },
+		{ "f" : "Date uncertain", "d" : { "o" : "work", "f" : "date_of_work_uncertain"} },
+		{ "f" : "Date approximate", "d" : { "o" : "work", "f" : "date_of_work_approx"} },
+		{ "f" : "Date inferred", "d" : { "o" : "work", "f" : "date_of_work_inferred"} },
+		{ "f" : "Notes on date", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_date"} },
 
-		  { "f" : "Author", "d" :  { "o" : "person", "f" : "foaf_name", "r" : "created" } },
-		  { "f" : "Author ID", "d" : { "o" : "person", "f" : "iperson_id", "r" : "created" } },
-		  { "f" : "Author as marked", "d" : { "o" : "work", "f" : "authors_as_marked"} },
-		  { "f" : "Author inferred", "d" : { "o" : "work", "f" : "authors_inferred"} },
-		  { "f" : "Author uncertain", "d" : { "o" : "work", "f" : "authors_uncertain"} },
-		  { "f" : "Notes on Author re. Letter", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_author"} },
-		  { "f" : "Recipient", "d" : { "o" : "person", "f" : "foaf_name", "r" : "was_addressed_to" } },
-		  { "f" : "Recipient ID", "d" : { "o" : "person", "f" : "iperson_id", "r" : "was_addressed_to" } },
-		  { "f" : "Recipient as marked", "d" : { "o" : "work", "f" : "addressees_as_marked"} },
-		  { "f" : "Recipient inferred", "d" : { "o" : "work", "f" : "addressees_inferred"} },
-		  { "f" : "Recipient uncertain", "d" : { "o" : "work", "f" : "addressees_uncertain"} },
-		  { "f" : "Notes on Recipient re. Letter", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_addressee"} },
+		{ "f" : "Author", "d" :  { "o" : "person", "f" : "foaf_name", "r" : "created" } },
+		{ "f" : "Author ID", "d" : { "o" : "person", "f" : "iperson_id", "r" : "created" } },
+		{ "f" : "Author as marked", "d" : { "o" : "work", "f" : "authors_as_marked"} },
+		{ "f" : "Author inferred", "d" : { "o" : "work", "f" : "authors_inferred"} },
+		{ "f" : "Author uncertain", "d" : { "o" : "work", "f" : "authors_uncertain"} },
+		{ "f" : "Notes on Author re. Letter", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_author"} },
+		{ "f" : "Recipient", "d" : { "o" : "person", "f" : "foaf_name", "r" : "was_addressed_to" } },
+		{ "f" : "Recipient ID", "d" : { "o" : "person", "f" : "iperson_id", "r" : "was_addressed_to" } },
+		{ "f" : "Recipient as marked", "d" : { "o" : "work", "f" : "addressees_as_marked"} },
+		{ "f" : "Recipient inferred", "d" : { "o" : "work", "f" : "addressees_inferred"} },
+		{ "f" : "Recipient uncertain", "d" : { "o" : "work", "f" : "addressees_uncertain"} },
+		{ "f" : "Notes on Recipient re. Letter", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_addressee"} },
 
-		  { "f" : "Origin name", "d" : { "o" : "location", "f" : "location_name","r" : "was_sent_from" } },
-		  { "f" : "Origin ID", "d" : { "o" : "location", "f" : "location_id","r" : "was_sent_from" } },
-		  { "f" : "Origin as marked", "d" : { "o" : "work", "f" : "origin_as_marked"} },
-		  { "f" : "Origin inferred", "d" : { "o" : "work", "f" : "origin_inferred"} },
-		  { "f" : "Origin uncertain", "d" : { "o" : "work", "f" : "origin_uncertain"} },
-		  { "f" : "Destination name", "d" : { "o" : "location", "f" : "location_name","r" : "was_sent_to" } },
-		  { "f" : "Destination ID", "d" : { "o" : "location", "f" : "location_id","r" : "was_sent_to" } },
-		  { "f" : "Destination as marked", "d" : { "o" : "work", "f" : "destination_as_marked"} },
-		  { "f" : "Destination inferred", "d" : { "o" : "work", "f" : "destination_inferred"} },
-		  { "f" : "Destination uncertain", "d" : { "o" : "work", "f" : "destination_uncertain"} },
+		{ "f" : "Origin name", "d" : { "o" : "location", "f" : "location_name","r" : "was_sent_from" } },
+		{ "f" : "Origin ID", "d" : { "o" : "location", "f" : "location_id","r" : "was_sent_from" } },
+		{ "f" : "Origin as marked", "d" : { "o" : "work", "f" : "origin_as_marked"} },
+		{ "f" : "Origin inferred", "d" : { "o" : "work", "f" : "origin_inferred"} },
+		{ "f" : "Origin uncertain", "d" : { "o" : "work", "f" : "origin_uncertain"} },
+		{ "f" : "Destination name", "d" : { "o" : "location", "f" : "location_name","r" : "was_sent_to" } },
+		{ "f" : "Destination ID", "d" : { "o" : "location", "f" : "location_id","r" : "was_sent_to" } },
+		{ "f" : "Destination as marked", "d" : { "o" : "work", "f" : "destination_as_marked"} },
+		{ "f" : "Destination inferred", "d" : { "o" : "work", "f" : "destination_inferred"} },
+		{ "f" : "Destination uncertain", "d" : { "o" : "work", "f" : "destination_uncertain"} },
 
-		  { "f" : "Abstract", "d" : { "o" : "work", "f" : "abstract"} },
-		  { "f" : "Keywords", "d" : { "o" : "work", "f" : "keywords"} },
-		  { "f" : "Language(s)", "d" : { "o" : "work", "f" : "language_of_work"} },
-		  { "f" : "Incipit", "d" : { "o" : "work", "f" : "incipit"} },
-		  { "f" : "Explicit", "d" : { "o" : "work", "f" : "explicit"} },
+		{ "f" : "Abstract", "d" : { "o" : "work", "f" : "abstract"} },
+		{ "f" : "Keywords", "d" : { "o" : "work", "f" : "keywords"} },
+		{ "f" : "Language(s)", "d" : { "o" : "work", "f" : "language_of_work"} },
+		{ "f" : "Incipit", "d" : { "o" : "work", "f" : "incipit"} },
+		{ "f" : "Explicit", "d" : { "o" : "work", "f" : "explicit"} },
 
 		# Complicated...
 		#{ "f" : "People mentioned", "d" : { "o" : "work", "f" : ""} },
@@ -112,16 +112,13 @@ def get_work_csv_converter() :
 		# This will be a separate table... some how...
 		#{ "f" : "Related Resource descriptor", "d" : { "o" : "work", "f" : ""} },
 		#{ "f" : "Related Resource URL", "d" : { "o" : "work", "f" : ""} },
-		  { "f" : "General notes for public display", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to"} },
-		  { "f" : "Editors’ notes", "d" : { "o" : "work", "f" : "editors_notes"} },
-
+		{ "f" : "General notes for public display", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to"} },
+		{ "f" : "Editors’ notes", "d" : { "o" : "work", "f" : "editors_notes"} }
 	]
-
-	return translation
 
 def get_person_fields() :
 
-	fields = [
+	return [
 		"person_id",
 		"foaf_name",
 		"skos_altlabel",
@@ -172,11 +169,33 @@ def get_person_fields() :
 		"flourished2_day",
 	]
 
-	return fields
+
+# o=object, f=field, r=relationship
+def get_person_csv_converter() :
+
+	return [
+		#{ "f" : "EMLO ID Number", "d" : { "o" : "work", "f" : "iwork_id" } },
+		#{ "f" : "Year date", "d" : { "o" : "work", "f" : "date_of_work_std_year"} },
+		#{ "f" : "Month date", "d" : { "o" : "work", "f" : "date_of_work_std_month"} },
+
+		{ "f" : "Person ID", "d" : { "o" : "person", "f" : "iperson_id" } },
+		{ "f" : "Person primary name", "d" : { "o" : "person", "f" : "foaf_name" } },
+		{ "f" : "Gender", "d" : { "o" : "person", "f" : "gender" } },
+		{ "f" : "Is Organization", "d" : { "o" : "person", "f" : "is_organisation" } },
+		{ "f" : "Birth year", "d" : { "o" : "person", "f" : "date_of_birth_year" } },
+		{ "f" : "Death year", "d" : { "o" : "person", "f" : "date_of_death_year" } },
+		{ "f" : "Fl. year 1", "d" : { "o" : "person", "f" : "flourished_year" } },
+		{ "f" : "Fl. year 2", "d" : { "o" : "person", "f" : "flourished2_year" } },
+		{ "f" : "Fl. year is range", "d" : { "o" : "person", "f" : "flourished_is_range" } },
+		{ "f" : "General notes on person", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to"} },
+		{ "f" : "Editors’ Notes", "d" : { "o" : "person", "f" : "editors_notes" } },
+		#{ "f" : "Related Resource Name(s)", "d" : { "o" : "person", "f" : "" } },
+		#{ "f" : "Related Resource URL(s)", "d" : { "o" : "person", "f" : "" } },
+	]
 
 
 def get_location_fields() :
-	fields = [
+	return [
 		"location_id",
 		"location_name",
 		"latitude",
@@ -196,10 +215,88 @@ def get_location_fields() :
 		"element_7_eg_empire"
 	]
 
-	return fields
+
+# o=object, f=field, r=relationship
+def get_location_csv_converter() :
+
+	return [
+		{ "f" : "Place ID", "d" : { "o" : "location", "f" : "location_id" } },
+		{ "f" : "Place name", "d" : { "o" : "location", "f" : "location_name" } },
+		{ "f" : "Room", "d" : { "o" : "location", "f" : "element_1_eg_room" } },
+		{ "f" : "Building", "d" : { "o" : "location", "f" : "element_2_eg_building" } },
+		{ "f" : "Street or parish", "d" : { "o" : "location", "f" : "element_3_eg_parish" } },
+		{ "f" : "Primary place name (city, town, village)", "d" : { "o" : "location", "f" : "element_4_eg_city" } },
+		{ "f" : "County, State, or Province", "d" : { "o" : "location", "f" : "element_5_eg_county" } },
+		{ "f" : "Country", "d" : { "o" : "location", "f" : "element_6_eg_country" } },
+		{ "f" : "Place name synonyms", "d" : { "o" : "location", "f" : "location_synonyms" } },
+		{ "f" : "Coordinates: Latitude", "d" : { "o" : "location", "f" : "latitude" } },
+		{ "f" : "Coordinates: Longitude", "d" : { "o" : "location", "f" : "longitude" } },
+		#{ "f" : "Related resource name", "d" : { "o" : "location", "f" : "" } },
+		#{ "f" : "Related resource URL", "d" : { "o" : "location", "f" : "" } },
+		{ "f" : "General notes on place", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to" } },
+		{ "f" : "Editors’ notes", "d" : { "o" : "location", "f" : "editors_notes" } }
+	]
+
+
+def get_manifestation_fields() :
+	return [
+		"manifestation_id",
+		"manifestation_type",
+		"id_number_or_shelfmark",
+		"printed_edition_details",
+		"paper_size",
+		"paper_type_or_watermark",
+		"number_of_pages_of_document",
+		"number_of_pages_of_text",
+		"seal",
+		"postage_marks",
+		"endorsements",
+		"non_letter_enclosures",
+		"manifestation_creation_calendar",
+		"manifestation_creation_date",
+		"manifestation_creation_date_gregorian",
+		"manifestation_creation_date_year",
+		"manifestation_creation_date_month",
+		"manifestation_creation_date_day",
+		"manifestation_creation_date_inferred",
+		"manifestation_creation_date_uncertain",
+		"manifestation_creation_date_approx",
+		"manifestation_is_translation",
+		"language_of_manifestation",
+		"address",
+		"manifestation_incipit",
+		"manifestation_excipit",
+		"manifestation_ps",
+		#"creation_timestamp",
+		#"creation_user",
+		#"change_timestamp",
+		#"change_user",
+		"manifestation_creation_date2_year",
+		"manifestation_creation_date2_month",
+		"manifestation_creation_date2_day",
+		"manifestation_creation_date_is_range",
+		"manifestation_creation_date_as_marked"
+	]
+
+def get_institution_fields() :
+	return [
+		"institution_id",
+		"institution_name",
+		"institution_synonyms",
+		"institution_city",
+		"institution_city_synonyms",
+		"institution_country",
+		"institution_country_synonyms",
+		#"creation_timestamp",
+		#"creation_user",
+		#"change_timestamp",
+		#"change_user",
+		"editors_notes"
+	]	
 
 def get_comment_fields() :
-	fields = [
+
+	return [
 		"comment_id",
 		"comment",
 		#"creation_timestamp",
@@ -208,4 +305,5 @@ def get_comment_fields() :
 		#"change_user"
 	]
 
-	return fields
+
+
