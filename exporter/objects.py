@@ -174,10 +174,6 @@ def get_person_fields() :
 def get_person_csv_converter() :
 
 	return [
-		#{ "f" : "EMLO ID Number", "d" : { "o" : "work", "f" : "iwork_id" } },
-		#{ "f" : "Year date", "d" : { "o" : "work", "f" : "date_of_work_std_year"} },
-		#{ "f" : "Month date", "d" : { "o" : "work", "f" : "date_of_work_std_month"} },
-
 		{ "f" : "Person ID", "d" : { "o" : "person", "f" : "iperson_id" } },
 		{ "f" : "Person primary name", "d" : { "o" : "person", "f" : "foaf_name" } },
 		{ "f" : "Gender", "d" : { "o" : "person", "f" : "gender" } },
@@ -278,6 +274,18 @@ def get_manifestation_fields() :
 		"manifestation_creation_date_as_marked"
 	]
 
+def get_manifestation_csv_converter() :
+	return [
+		{ "f" : "Work (Letter) ID", "d" : { "o" : "work", "f" : "iwork_id", "r" : "is_manifestation_of" } },
+		{ "f" : "Manifestation [Letter] ID", "d" : { "o" : "manifestation", "f" : "manifestation_id" } },
+		{ "f" : "Manifestation type", "d" : { "o" : "manifestation", "f" : "manifestation_type" } },
+		{ "f" : "Repository name", "d" : { "o" : "institution", "f" : "institution_name", "r" : "stored_in" } },
+		{ "f" : "Repository ID", "d" : { "o" : "institution", "f" : "institution_id", "r" : "stored_in" } },
+		{ "f" : "Shelfmark and pagination", "d" : { "o" : "manifestation", "f" : "id_number_or_shelfmark" } },
+		{ "f" : "Printed copy details", "d" : { "o" : "manifestation", "f" : "printed_edition_details" } },
+		{ "f" : "Notes on manifestation", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to" } }
+	]
+
 def get_institution_fields() :
 	return [
 		"institution_id",
@@ -292,7 +300,17 @@ def get_institution_fields() :
 		#"change_timestamp",
 		#"change_user",
 		"editors_notes"
-	]	
+	]
+
+def get_institution_csv_converter() :
+	return [
+		#{ "f" : "Manifestation ID", "d" : { "o" : "institution", "f" : "" } },
+		#{ "f" : "Work [Letter] ID", "d" : { "o" : "institution", "f" : "" } },
+		{ "f" : "Repository ID", "d" : { "o" : "institution", "f" : "institution_id" } },
+		{ "f" : "Repository Name", "d" : { "o" : "institution", "f" : "institution_name" } },
+		{ "f" : "Repository City", "d" : { "o" : "institution", "f" : "institution_city" } },
+		{ "f" : "Repository Country", "d" : { "o" : "institution", "f" : "institution_country" } }
+	]
 
 def get_comment_fields() :
 

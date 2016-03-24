@@ -63,17 +63,17 @@ class Exporter:
 			# Disabling this, it
 			# work_ids = work_ids.union( self._get_relationships( self.names['work'], work_ids, self.names['work'] ) )
 
-			works = self._get_works( list(work_ids) )
 
+			# Works
+
+			works = self._get_works( list(work_ids) )
+			"""
 			# Get People from works
 			people_relations = self._get_relationships( self.names['work'], work_ids, self.names['person'] )
 			self._pretty_print_relations("person",people_relations)
 
 			person_ids = self._id_link_set_from_relationships(people_relations)
 			people = self._get_people( person_ids )
-
-			print( self._get_person_field( people[0], "foaf_name" ) )
-
 
 			# Get Locations from works
 			locations_relations = self._get_relationships( self.names['work'], work_ids, self.names['location'] )
@@ -87,70 +87,190 @@ class Exporter:
 
 			self._create_work_csv( works, people, people_relations, locations, locations_relations, comments, comments_relations, output_folder )
 
+			# People
+
+			# Get comments associated with people
+			comments_relations = self._get_relationships( self.names['person'], work_ids, self.names['comment'] )
+			comment_ids = self._id_link_set_from_relationships(comments_relations)
+			comments = self._get_comments( comment_ids )
+
+			self._create_person_csv( people, comments, comments_relations, output_folder )
+
+			# Locations
+
+			# Get comments associated with locations
+			comments_relations = self._get_relationships( self.names['location'], work_ids, self.names['comment'] )
+			comment_ids = self._id_link_set_from_relationships(comments_relations)
+			comments = self._get_comments( comment_ids )
+
+			self._create_location_csv( locations, comments, comments_relations, output_folder )
+
+			"""
+
+
+
+			# Manifestations
+
+			# Get Manifestations from works
+			manfestation_relations = self._get_relationships( self.names['work'], work_ids, self.names['manifestation'] )
+			self._pretty_print_relations( "manifestation", manfestation_relations)
+
+			manifestation_ids = self._id_link_set_from_relationships(manfestation_relations)
+			manifestations = self._get_manifestations( manifestation_ids )
+
+
+			# Get Relations of manuscripts to works (reverse of above relations - I could do it in code but this is easier(lazier))
+			manfestation_work_relations = self._get_relationships( self.names['manifestation'], manifestation_ids, self.names['work'] )
+			self._pretty_print_relations( "manifestation-work", manfestation_work_relations)
+
+
+			# Get Institutions from manuscripts
+			manifestation_institution_relations = self._get_relationships( self.names['manifestation'], manifestation_ids, self.names['institution'] )
+			self._pretty_print_relations( "manifestation-institution", manifestation_institution_relations)
+
+			institution_ids = self._id_link_set_from_relationships(manifestation_institution_relations)
+			institutions = self._get_institutions( institution_ids )
+
+
+			# Get comments associated with manifestations
+			comments_relations = self._get_relationships( self.names['manifestation'], work_ids, self.names['comment'] )
+			comment_ids = self._id_link_set_from_relationships(comments_relations)
+			comments = self._get_comments( comment_ids )
+
+			self._create_manifestation_csv(manifestations, works, manfestation_work_relations, institutions, manifestation_institution_relations, comments, comments_relations, output_folder )
+
+			# Institutions
+			self._create_institution_csv(institutions, output_folder )
+
+
+	def _create_institution_csv(self, institutions, folder ):
+
+		self._create_csv( exporter.objects.get_institution_csv_converter(),
+							institutions,
+							self.names['institution'],
+							{},
+							{},
+							folder + "/institution.csv" )
+
+
+	def _create_manifestation_csv(self, manifestations, works, work_relations, institutions, institution_relations, comments, comment_relations, folder ):
+		related = { self.names['work'] : works, self.names['institution'] : institutions, self.names['comment'] : comments }
+		related_relations = { self.names['work'] : work_relations, self.names['institution'] : institution_relations, self.names['comment'] : comment_relations }
+
+		self._create_csv( exporter.objects.get_manifestation_csv_converter(),
+							manifestations,
+							self.names['manifestation'],
+							related,
+							related_relations,
+							folder + "/manifestation.csv" )
+
+	def _create_location_csv(self, locations, comments, comments_relations, folder ):
+
+		related = { self.names['comment'] : comments }
+		related_relations = { self.names['comment'] : comments_relations }
+
+		self._create_csv( exporter.objects.get_location_csv_converter(),
+							locations,
+							self.names['location'],
+							related,
+							related_relations,
+							folder + "/location.csv" )
+
+	def _create_person_csv(self, people, comments, comments_relations, folder ):
+
+		related = { self.names['comment'] : comments }
+		related_relations = { self.names['comment'] : comments_relations }
+
+		self._create_csv( exporter.objects.get_person_csv_converter(),
+							people,
+							self.names['person'],
+							related,
+							related_relations,
+							folder + "/person.csv" )
+
 
 	def _create_work_csv(self, works, people, people_relations, locations, locations_relations, comments, comments_relations, folder ):
 
-		work_csv = []
+		related = { self.names['person'] : people, self.names['location'] : locations, self.names['comment'] : comments }
+		related_relations = { self.names['person'] : people_relations, self.names['location'] : locations_relations, self.names['comment'] : comments_relations }
 
-		work_converters = exporter.objects.get_work_csv_converter()
+		self._create_csv( exporter.objects.get_work_csv_converter(),
+								works,
+								self.names['work'],
+								related,
+								related_relations,
+								folder + "/work.csv" )
 
-		work_csv_fields = []
-		for conv in  work_converters :
-			work_csv_fields.append( conv["f"] )
+	def _create_csv(self, converters, objs, objs_type, related_list, related_relations_list, filename ):
 
-		for work in works :
-			work_csv_row = {}
+		csv_fields = []
+		for converter in converters :
+			csv_fields.append( converter["f"] )
 
-			work_id = self._get_work_field(work, "work_id")
-			for work_converter in work_converters :
+		csv_rows = []
+		for obj in objs :
+			csv_row = {}
 
-				csv_field = work_converter["f"]
-				conv = work_converter["d"]
+			for converter in converters :
 
-				obj = None
-				if conv["o"] != "work" :
-					obj_rels = None
-					if conv["o"] == "location" :
-						obj_rels = locations_relations.get(work_id, None)
-						objs = locations
-					elif conv["o"] == "person" :
-						obj_rels = people_relations.get(work_id, None)
-						objs = people
-					elif conv["o"] == "comment" :
-						obj_rels = comments_relations.get(work_id, None)
-						objs = comments
+				csv_field = converter["f"]
+				conv = converter["d"]
 
-					if obj_rels :
+				conv_obj = None
+				if conv["o"] != objs_type :
+
+					# Find the matching objects
+					obj_id = self._get_id( obj, objs_type )
+					relateds = related_list[conv["o"]]
+					related_relations = related_relations_list[conv["o"]].get(obj_id, None)
+
+					if related_relations :
 						# Get the first matching relation
 						# TODO: For people mentioned we'll need to create a list of all possible :~(
 						obj_rel = None
-						for rel in obj_rels :
+						for rel in related_relations :
 							if rel["r"] == conv["r"] :
 								obj_rel = rel
 								break
 
 						if obj_rel :
-							for obj_find in objs :
+							for obj_find in relateds :
 								if obj_find[0] == obj_rel["i"] :
-									obj = obj_find
+									conv_obj = obj_find
 									break
 
 				else :
-					obj = work
+					conv_obj = obj
 
 				csv_value = ""
-				if obj :
-					csv_value = obj[conv["f"]]
+				if conv_obj :
+					csv_value = conv_obj[conv["f"]]
 
-				print (conv["f"], csv_value)
-				work_csv_row[csv_field] = csv_value
+				csv_row[csv_field] = csv_value
 
-			work_csv.append(work_csv_row)
+			csv_rows.append(csv_row)
 
-		self._save_csv( work_csv, work_csv_fields, folder + "/work.csv" )
+		self._save_csv( csv_rows, csv_fields, filename )
 
 		#return work_csv
 
+	def _get_id(self, obj, obj_type):
+
+		obj_id = None
+
+		if obj_type == self.names['work'] :
+			obj_id = self._get_work_field( obj, "work_id" )
+		elif obj_type == self.names['person'] :
+			obj_id = self._get_person_field( obj, "person_id" )
+		elif obj_type == self.names['location'] :
+			obj_id = self._get_location_field( obj, "location_id" )
+		elif obj_type == self.names['manifestation'] :
+			obj_id = self._get_manifestation_field( obj, "manifestation_id" )
+		else :
+			raise Exception("Unhandled id for object type:" + obj_type )
+
+
+		return obj_id
 
 	def _get_relationships(self, object_name, object_ids, wanted_name ):
 		"""
@@ -229,6 +349,36 @@ class Exporter:
 
 		return locations
 
+	def _get_location_field(self, location, field ):
+		return self._get_object_field( location, field, exporter.objects.get_location_fields() )
+
+
+	def _get_manifestations(self, ids ):
+		fields = exporter.objects.get_manifestation_fields()
+
+		manifestations = self._get_objects( self.names['manifestation'], ids, fields )
+
+		self._pretty_print_objects( "manifestations", manifestations )
+
+		return manifestations
+
+	def _get_manifestation_field(self, manifestation, field ):
+		return self._get_object_field( manifestation, field, exporter.objects.get_manifestation_fields() )
+
+
+	def _get_institutions(self, ids ):
+		fields = exporter.objects.get_institution_fields()
+
+		institutions = self._get_objects( self.names['institution'], ids, fields )
+
+		self._pretty_print_objects( "institutions", institutions )
+
+		return institutions
+
+	def _get_institution_field(self, institution, field ):
+		return self._get_object_field( institution, field, exporter.objects.get_institution_fields() )
+
+
 	def _get_comments(self, ids ):
 
 		fields = exporter.objects.get_comment_fields()
@@ -238,6 +388,7 @@ class Exporter:
 		self._pretty_print_objects( "comments", comments )
 
 		return comments
+
 
 	def _get_object_field(self,obj,field,all_fields):
 		return obj[all_fields.index(field)]
@@ -281,7 +432,7 @@ class Exporter:
 	@staticmethod
 	def _save_csv(rows, fields, filepos ):
 
-		with open(filepos, 'w') as csvfile:
+		with open(filepos, 'w', encoding='utf-8-sig') as csvfile:
 			writer = csv.DictWriter(csvfile, fieldnames=fields)
 			writer.writeheader()
 			for row in rows :
@@ -321,3 +472,4 @@ class Exporter:
 	def _output_commands( self, *args ):
 		if self.output_commands:
 			print( " ".join( [ str(item) for item in args]) )
+
