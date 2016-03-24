@@ -67,7 +67,7 @@ class Exporter:
 			# Works
 
 			works = self._get_works( list(work_ids) )
-			"""
+
 			# Get People from works
 			people_relations = self._get_relationships( self.names['work'], work_ids, self.names['person'] )
 			self._pretty_print_relations("person",people_relations)
@@ -105,7 +105,7 @@ class Exporter:
 
 			self._create_location_csv( locations, comments, comments_relations, output_folder )
 
-			"""
+
 
 
 
@@ -133,7 +133,7 @@ class Exporter:
 
 
 			# Get comments associated with manifestations
-			comments_relations = self._get_relationships( self.names['manifestation'], work_ids, self.names['comment'] )
+			comments_relations = self._get_relationships( self.names['manifestation'], manifestation_ids, self.names['comment'] )
 			comment_ids = self._id_link_set_from_relationships(comments_relations)
 			comments = self._get_comments( comment_ids )
 
@@ -235,7 +235,7 @@ class Exporter:
 
 						if obj_rel :
 							for obj_find in relateds :
-								if obj_find[0] == obj_rel["i"] :
+								if str(obj_find[0]) == str(obj_rel["i"]) :
 									conv_obj = obj_find
 									break
 
