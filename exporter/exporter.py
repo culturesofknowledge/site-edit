@@ -216,7 +216,7 @@ class Exporter:
 				csv_field = converter["f"]
 				conv = converter["d"]
 
-				conv_obj = None
+				csv_value = ""
 				if conv["o"] != objs_type :
 
 					# Find the matching objects
@@ -225,26 +225,26 @@ class Exporter:
 					related_relations = related_relations_list[conv["o"]].get(obj_id, None)
 
 					if related_relations :
-						# Get the first matching relation
-						# TODO: For people mentioned we'll need to create a list of all possible :~(
-						obj_rel = None
+
+						# Get the matching relations
+						obj_rel_list = []
 						for rel in related_relations :
 							if rel["r"] == conv["r"] :
-								obj_rel = rel
-								break
+								obj_rel_list.append( rel )
 
-						if obj_rel :
-							for obj_find in relateds :
-								if str(obj_find[0]) == str(obj_rel["i"]) :
-									conv_obj = obj_find
-									break
+						# Build a string of values
+						if obj_rel_list :
+							for obj_rel in obj_rel_list :
+								for obj_find in relateds :
+									if str(obj_find[0]) == str(obj_rel["i"]) :
+
+										if csv_value != "" and obj_find[conv["f"]] != "" :
+											csv_value += "; "
+
+										csv_value += str(obj_find[conv["f"]])
 
 				else :
-					conv_obj = obj
-
-				csv_value = ""
-				if conv_obj :
-					csv_value = conv_obj[conv["f"]]
+					csv_value = obj[conv["f"]]
 
 				csv_row[csv_field] = csv_value
 

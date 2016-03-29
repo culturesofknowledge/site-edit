@@ -100,9 +100,9 @@ def get_work_csv_converter() :
 		{ "f" : "Explicit", "d" : { "o" : "work", "f" : "explicit"} },
 
 		# Complicated...
-		#{ "f" : "People mentioned", "d" : { "o" : "work", "f" : ""} },
-		#{ "f" : "EMLO ID people mentioned", "d" : { "o" : "work", "f" : ""} },
-		#{ "f" : "Notes on people mentioned", "d" : { "o" : "work", "f" : ""} },
+		{ "f" : "People mentioned", "d" : { "o" : "person", "f" : "foaf_name", "r" : "mentions" } },
+		{ "f" : "EMLO ID people mentioned", "d" : { "o" : "person", "f" : "iperson_id", "r" : "mentions" } },
+		{ "f" : "Notes on people mentioned", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_addressee"} },
 
 		# Ignoring as would include other works (complicated work connections...)
 		#{ "f" : "Letter in reply to", "d" : { "o" : "work", "f" : ""} },
