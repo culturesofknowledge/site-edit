@@ -8,7 +8,7 @@ postgres_connection = "dbname='" + config["dbname"] + "'" \
 
 e = Exporter( postgres_connection, debug_on )
 
-command = "select work_id from cofk_union_work limit 10"
+command = "select work_id from cofk_union_work limit 20"
 
 work_ids = e.select_all( command )
 work_ids = [id['work_id'] for id in work_ids]
