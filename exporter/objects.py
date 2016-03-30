@@ -99,7 +99,6 @@ def get_work_csv_converter() :
 		{ "f" : "Incipit", "d" : { "o" : "work", "f" : "incipit"} },
 		{ "f" : "Explicit", "d" : { "o" : "work", "f" : "explicit"} },
 
-		# Complicated...
 		{ "f" : "People mentioned", "d" : { "o" : "person", "f" : "foaf_name", "r" : "mentions" } },
 		{ "f" : "EMLO ID people mentioned", "d" : { "o" : "person", "f" : "iperson_id", "r" : "mentions" } },
 		{ "f" : "Notes on people mentioned", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_addressee"} },
@@ -112,6 +111,7 @@ def get_work_csv_converter() :
 		# This will be a separate table... some how...
 		#{ "f" : "Related Resource descriptor", "d" : { "o" : "work", "f" : ""} },
 		#{ "f" : "Related Resource URL", "d" : { "o" : "work", "f" : ""} },
+		{ "f" : "Related Resource IDs", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
 		{ "f" : "General notes for public display", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to"} },
 		{ "f" : "Editors’ notes", "d" : { "o" : "work", "f" : "editors_notes"} }
 	]
@@ -187,6 +187,7 @@ def get_person_csv_converter() :
 		{ "f" : "Editors’ Notes", "d" : { "o" : "person", "f" : "editors_notes" } },
 		#{ "f" : "Related Resource Name(s)", "d" : { "o" : "person", "f" : "" } },
 		#{ "f" : "Related Resource URL(s)", "d" : { "o" : "person", "f" : "" } },
+		{ "f" : "Related Resource IDs", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
 	]
 
 
@@ -229,8 +230,10 @@ def get_location_csv_converter() :
 		{ "f" : "Coordinates: Longitude", "d" : { "o" : "location", "f" : "longitude" } },
 		#{ "f" : "Related resource name", "d" : { "o" : "location", "f" : "" } },
 		#{ "f" : "Related resource URL", "d" : { "o" : "location", "f" : "" } },
+		{ "f" : "Related Resource IDs", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
 		{ "f" : "General notes on place", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to" } },
 		{ "f" : "Editors’ notes", "d" : { "o" : "location", "f" : "editors_notes" } }
+
 	]
 
 
@@ -309,7 +312,8 @@ def get_institution_csv_converter() :
 		{ "f" : "Repository ID", "d" : { "o" : "institution", "f" : "institution_id" } },
 		{ "f" : "Repository Name", "d" : { "o" : "institution", "f" : "institution_name" } },
 		{ "f" : "Repository City", "d" : { "o" : "institution", "f" : "institution_city" } },
-		{ "f" : "Repository Country", "d" : { "o" : "institution", "f" : "institution_country" } }
+		{ "f" : "Repository Country", "d" : { "o" : "institution", "f" : "institution_country" } },
+		{ "f" : "Related Resource IDs", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} }
 	]
 
 def get_comment_fields() :
@@ -325,3 +329,23 @@ def get_comment_fields() :
 
 
 
+def get_resource_fields() :
+
+	return [
+		"resource_id",
+		"resource_name",
+		"resource_details",
+		"resource_url",
+		#"creation_timestamp",
+		#"creation_user",
+		#"change_timestamp",
+		#"change_user"
+	]
+
+def get_resource_csv_converter() :
+	return [
+		{ "f" : "Resource ID", "d" : { "o" : "resource", "f" : "resource_id" } },
+		{ "f" : "Resource Name", "d" : { "o" : "resource", "f" : "resource_name" } },
+		{ "f" : "Resource Details", "d" : { "o" : "resource", "f" : "resource_details" } },
+		{ "f" : "Resource URL", "d" : { "o" : "resource", "f" : "resource_url" } }
+	]
