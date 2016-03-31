@@ -103,6 +103,8 @@ def get_work_csv_converter() :
 		{ "f" : "EMLO ID people mentioned", "d" : { "o" : "person", "f" : "iperson_id", "r" : "mentions" } },
 		{ "f" : "Notes on people mentioned", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_addressee"} },
 
+		{ "f" : "Original Catalogue", "d" : { "o" : "work", "f" : "original_catalogue" } },
+
 		# Ignoring as would include other works (complicated work connections...)
 		#{ "f" : "Letter in reply to", "d" : { "o" : "work", "f" : ""} },
 		#{ "f" : "Letter answered by", "d" : { "o" : "work", "f" : ""} },
