@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
-
-__author__ = 'matthew'
 import os.path
 import csv
 
@@ -9,6 +6,7 @@ import psycopg2
 import psycopg2.extras
 
 import exporter.objects
+
 
 class Exporter:
 
@@ -120,7 +118,7 @@ class Exporter:
 
 				resource_relations_works[work_id].append( { "i" : new_resource["resource_id"], "r" : "is_related_to" } )
 
-			self._create_work_csv( works, people, people_relations, locations, locations_relations, comments, comments_relations,resources_works,resource_relations_works, output_folder )
+			self._create_work_csv( works, people, people_relations, locations, locations_relations, comments, comments_relations, resources_works, resource_relations_works, output_folder )
 
 
 			# People
@@ -135,7 +133,7 @@ class Exporter:
 			resource_ids = self._id_link_set_from_relationships(resource_relations_people)
 			resources_people = self._get_resources( resource_ids )
 
-			self._create_person_csv( people, comments, comments_relations, resources_people,resource_relations_people, output_folder )
+			self._create_person_csv( people, comments, comments_relations, resources_people, resource_relations_people, output_folder )
 
 
 			# Locations
@@ -384,8 +382,6 @@ class Exporter:
 
 	def _get_id(self, obj, obj_type):
 
-		obj_id = None
-
 		if obj_type == self.names['work'] :
 			obj_id = self._get_work_field( obj, "work_id" )
 		elif obj_type == self.names['person'] :
@@ -403,7 +399,6 @@ class Exporter:
 		else :
 			raise Exception("Unhandled id for object type:" + obj_type )
 
-
 		return obj_id
 
 	def _get_works(self, ids ):
@@ -418,8 +413,6 @@ class Exporter:
 	def _get_work_field(self, work, field ):
 		return self._get_object_field( work, field, exporter.objects.get_work_fields() )
 
-	def _set_work_field(self, work, field, value ):
-		self._get_object_field( work, field, exporter.objects.get_work_fields() )
 
 	def _get_people(self, ids ):
 		fields = exporter.objects.get_person_fields()
@@ -432,6 +425,7 @@ class Exporter:
 
 	def _get_person_field(self, person, field ):
 		return self._get_object_field( person, field, exporter.objects.get_person_fields() )
+
 
 	def _get_locations(self, ids ):
 		fields = exporter.objects.get_location_fields()
@@ -498,12 +492,11 @@ class Exporter:
 	def _get_resource_field(self, resource, field ):
 		return self._get_object_field( resource, field, exporter.objects.get_resource_fields() )
 
-	def _get_object_field(self,obj,field,all_fields):
+	@staticmethod
+	def _get_object_field( obj, field, all_fields ):
 		#return obj[all_fields.index(field)]  # When I thought they were type list, when in fact they are type DictRows...
 		return obj[field]
 
-	#def _set_object_field(self, obj, field, all_fields, value ):
-	#	obj[all_fields.index(field)] = value
 
 	def _get_objects(self, object_type, object_ids, object_fields ):
 
@@ -587,7 +580,7 @@ class Exporter:
 			length = len(rels)
 			print( name, "relations(", str(length), "):" )
 			for i, obj in enumerate(rels) :
-				print( " ", name[0] + "r" + str(i)," : ", obj + "(" + str(len( rels[obj] )) + ")", rels[obj])
+				print( " ", name[0] + "r" + str(i), " : ", obj + "(" + str(len( rels[obj] )) + ")", rels[obj])
 				if i == self.limit_ouput :
 					print( " ", str( length - self.limit_ouput ) + " more..." )
 					break
