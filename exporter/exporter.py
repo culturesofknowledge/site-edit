@@ -72,6 +72,10 @@ class Exporter:
 
 			works = self._get_works( list(work_ids) )
 
+			# work - work relations
+			# TODO: We'll need to handle these links (but only for those between works we already have...)
+			# work_relations = self._get_relationships( self.names['work'], work_ids, self.names['work'] )
+
 			# Get People from works
 			people_relations = self._get_relationships( self.names['work'], work_ids, self.names['person'] )
 			self._pretty_print_relations("person", people_relations)
