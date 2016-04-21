@@ -390,7 +390,22 @@ class Exporter:
 
 
 	def _get_works(self, ids ):
-		return self._get_objects( self.names['work'], ids, exporter.objects.get_work_fields() )
+		works = self._get_objects( self.names['work'], ids, exporter.objects.get_work_fields() )
+
+		command = "SELECT catalogue_code, catalogue_name from cofk_lookup_catalogue"
+		catalogues = self.select_all( command )
+
+		print(catalogues)
+
+		for work in works:
+			work_cat = work['original_catalogue']
+
+			for catalogue in catalogues:
+				if work_cat == catalogue['catalogue_code'] :
+					work['original_catalogue'] = catalogue['catalogue_name']
+					break
+
+		return works
 
 	def _get_people(self, ids ):
 		return self._get_objects( self.names['person'], ids, exporter.objects.get_person_fields() )
