@@ -59,7 +59,7 @@ class Exporter:
 			if not os.path.exists( output_folder ):
 				os.makedirs( output_folder )
 
-			work_ids = set(work_ids)  # ensure unique
+			work_ids = list( set(work_ids) )  # ensure unique
 
 			# Get Works (sub works of works!)
 			# Disabling this, it
@@ -68,7 +68,7 @@ class Exporter:
 
 			# Works
 
-			works = self._get_works( list(work_ids) )
+			works = self._get_works( work_ids )
 
 			# work - work relations
 			# TODO: We'll need to handle these links (but only for those between works we already have...)
@@ -99,8 +99,9 @@ class Exporter:
 
 			# Add new resources so that exported data has links back to EMLO front end
 			for work in works :
-				work_id = self._get_id( work, "work" )
-				iwork_id = self._get_work_field( work, "iwork_id" )
+
+				work_id = work["work_id"]
+				iwork_id = work["iwork_id"]  # Note this isn't "work_id" !
 				#related_resource = self._get_work_field( work, "iwork_id" )
 
 				new_resource = {
@@ -286,6 +287,8 @@ class Exporter:
 		for converter in converters :
 			csv_fields.append( converter["f"] )
 
+		objs_type_id = objs_type + "_id"
+
 		csv_rows = []
 		for obj in objs :
 			csv_row = {}
@@ -298,30 +301,37 @@ class Exporter:
 				csv_value = ""
 				if conv["o"] != objs_type :
 
+					conv_obj = conv["o"]
+
 					# Find the matching objects
-					obj_id = self._get_id( obj, objs_type )
-					relateds = related_list[conv["o"]]
-					related_relations = related_relations_list[conv["o"]].get(str(obj_id), None)
+					obj_id = obj[objs_type_id]
+					related_relations = related_relations_list[conv_obj].get(str(obj_id), None)
 
 					if related_relations :
+
+						relateds = related_list[conv_obj]
+						conv_rel = conv["r"]
+						conv_fie = conv["f"]
 
 						# Get the matching relations
 						obj_rel_list = []
 						for rel in related_relations :
-							if rel["r"] == conv["r"] :
+							if rel["r"] == conv_rel :
 								obj_rel_list.append( rel )
 
 						# Build a string of values
 						if obj_rel_list :
 							for obj_rel in obj_rel_list :
-								for obj_search in relateds :
-									obj_search_id = self._get_id( obj_search, conv["o"] )
-									if str(obj_search_id) == str(obj_rel["i"]) :
+								obj_rel_id = str(obj_rel["i"])
 
-										if csv_value != "" and obj_search[conv["f"]] != "" :
+								for obj_search in relateds :
+									obj_search_id = obj_search[ conv_obj + "_id"]
+									if str(obj_search_id) == obj_rel_id :
+
+										if csv_value != "" and obj_search[conv_fie] != "" :
 											csv_value += "; "
 
-										csv_value += str(obj_search[conv["f"]])
+										csv_value += str(obj_search[conv_fie])
 
 				else :
 					csv_value = obj[conv["f"]]
@@ -379,133 +389,50 @@ class Exporter:
 		return wanted
 
 
-
-	def _get_id(self, obj, obj_type):
-
-		if obj_type == self.names['work'] :
-			obj_id = self._get_work_field( obj, "work_id" )
-		elif obj_type == self.names['person'] :
-			obj_id = self._get_person_field( obj, "person_id" )
-		elif obj_type == self.names['location'] :
-			obj_id = self._get_location_field( obj, "location_id" )
-		elif obj_type == self.names['manifestation'] :
-			obj_id = self._get_manifestation_field( obj, "manifestation_id" )
-		elif obj_type == self.names['institution'] :
-			obj_id = self._get_institution_field( obj, "institution_id" )
-		elif obj_type == self.names['resource'] :
-			obj_id = self._get_resource_field( obj, "resource_id" )
-		elif obj_type == self.names['comment'] :
-			obj_id = self._get_comment_field( obj, "comment_id" )
-		else :
-			raise Exception("Unhandled id for object type:" + obj_type )
-
-		return obj_id
-
 	def _get_works(self, ids ):
-		fields = exporter.objects.get_work_fields()
-
-		works = self._get_objects( self.names['work'], ids, fields )
-
-		self._pretty_print_objects( "works", works )
-
-		return works
-
-	def _get_work_field(self, work, field ):
-		return self._get_object_field( work, field, exporter.objects.get_work_fields() )
-
+		return self._get_objects( self.names['work'], ids, exporter.objects.get_work_fields() )
 
 	def _get_people(self, ids ):
-		fields = exporter.objects.get_person_fields()
-
-		people = self._get_objects( self.names['person'], ids, fields )
-
-		self._pretty_print_objects( "people", people )
-
-		return people
-
-	def _get_person_field(self, person, field ):
-		return self._get_object_field( person, field, exporter.objects.get_person_fields() )
-
+		return self._get_objects( self.names['person'], ids, exporter.objects.get_person_fields() )
 
 	def _get_locations(self, ids ):
-		fields = exporter.objects.get_location_fields()
-
-		locations = self._get_objects( self.names['location'], ids, fields )
-
-		self._pretty_print_objects( "locations", locations )
-
-		return locations
-
-	def _get_location_field(self, location, field ):
-		return self._get_object_field( location, field, exporter.objects.get_location_fields() )
-
+		return self._get_objects( self.names['location'], ids, exporter.objects.get_location_fields() )
 
 	def _get_manifestations(self, ids ):
-		fields = exporter.objects.get_manifestation_fields()
-
-		manifestations = self._get_objects( self.names['manifestation'], ids, fields )
-
-		self._pretty_print_objects( "manifestations", manifestations )
-
-		return manifestations
-
-	def _get_manifestation_field(self, manifestation, field ):
-		return self._get_object_field( manifestation, field, exporter.objects.get_manifestation_fields() )
-
+		return self._get_objects( self.names['manifestation'], ids, exporter.objects.get_manifestation_fields() )
 
 	def _get_institutions(self, ids ):
-		fields = exporter.objects.get_institution_fields()
-
-		institutions = self._get_objects( self.names['institution'], ids, fields )
-
-		self._pretty_print_objects( "institutions", institutions )
-
-		return institutions
-
-	def _get_institution_field(self, institution, field ):
-		return self._get_object_field( institution, field, exporter.objects.get_institution_fields() )
-
+		return self._get_objects( self.names['institution'], ids, exporter.objects.get_institution_fields() )
 
 	def _get_comments(self, ids ):
-
-		fields = exporter.objects.get_comment_fields()
-
-		comments = self._get_objects( self.names['comment'], ids, fields )
-
-		self._pretty_print_objects( "comments", comments )
-
-		return comments
-
-	def _get_comment_field(self, comment, field ):
-		return self._get_object_field( comment, field, exporter.objects.get_comment_fields() )
+		return self._get_objects( self.names['comment'], ids, exporter.objects.get_comment_fields() )
 
 	def _get_resources(self, ids ):
+		return self._get_objects( self.names['resource'], ids, exporter.objects.get_resource_fields() )
 
-		fields = exporter.objects.get_resource_fields()
-
-		resources = self._get_objects( self.names['resource'], ids, fields )
-
-		self._pretty_print_objects( "resources", resources )
-
-		return resources
-
-	def _get_resource_field(self, resource, field ):
-		return self._get_object_field( resource, field, exporter.objects.get_resource_fields() )
-
-	@staticmethod
-	def _get_object_field( obj, field, all_fields ):
-		#return obj[all_fields.index(field)]  # When I thought they were type list, when in fact they are type DictRows...
-		return obj[field]
 
 
 	def _get_objects(self, object_type, object_ids, object_fields ):
 
 		data = []
 
-		if len( object_ids ) > 0 :
+		count = len( object_ids )
 
-			command = "SELECT " + ",".join(object_fields) + " FROM cofk_union_" + object_type + " WHERE " + object_type + "_id in " + self._create_in( object_ids )
-			data = self.select_all( command )
+		if count > 0 :
+
+			offset = 0
+			batch = 1000
+
+			base_command = "SELECT " + ",".join(object_fields) + " FROM cofk_union_" + object_type + " WHERE " + object_type + "_id in "
+
+			while offset < count :
+
+				command = base_command + self._create_in( object_ids[offset:(offset + batch)] )
+				data.extend( self.select_all( command ) )
+
+				offset += batch
+
+			self._pretty_print_objects( object_type + "s", data )
 
 		self.reports.append( "Got " + str(len(data)) + " " + object_type )
 
@@ -536,15 +463,19 @@ class Exporter:
 		else:
 			return self.cursor.fetchall()
 
+
 	def _save_csv(self, rows, fields, filepos ):
 
-		with open(filepos, 'w', encoding='utf-8-sig') as csvfile:
-			writer = csv.DictWriter(csvfile, fieldnames=fields)
+		with open(filepos, 'w', encoding='utf-8-sig') as csvfile:  # utf8 with bom
+			writer = csv.DictWriter(csvfile, dialect='excel', fieldnames=fields)
+
 			writer.writeheader()
+
 			for row in rows :
 				writer.writerow( row )
 
 		self.reports.append( 'Saving "' + filepos + '" with ' + str(len(rows)) + " rows" )
+
 
 	@staticmethod
 	def _id_link_set_from_relationships(relationships ):
@@ -553,7 +484,7 @@ class Exporter:
 			for link in relationships[obj] :
 				ids.add( link["i"] )
 
-		return ids
+		return list(ids)
 
 
 	@staticmethod
