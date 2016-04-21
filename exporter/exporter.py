@@ -106,8 +106,8 @@ class Exporter:
 
 				new_resource = {
 					"resource_id" : "er" + str(iwork_id),
-					"resource_name": "EMLO Record",
-					"resource_details" : "Related resource to the EMLO catalogue",
+					"resource_name": "Early Modern Letters Online",
+					"resource_details" : "",
 					"resource_url" :    "http://emlo.bodleian.ox.ac.uk/profile?iwork_id=" + str(iwork_id)
 										#http://emlo.bodleian.ox.ac.uk/profile?iwork_id=30348
 				}
