@@ -56,6 +56,7 @@ class Exporter:
 
 			self.relationship_ids = []
 
+			output_folder = "exports/" + output_folder
 			if not os.path.exists( output_folder ):
 				os.makedirs( output_folder )
 
