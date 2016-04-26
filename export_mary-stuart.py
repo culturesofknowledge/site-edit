@@ -10,9 +10,9 @@ postgres_connection = "dbname='" + config["dbname"] + "'" \
 
 e = Exporter( postgres_connection, False, debug_on )
 
-command = "select work_id from cofk_union_work where original_catalogue='GRAFFIGNY'"
+command = "select work_id from cofk_union_work where original_catalogue='MARYSTUARTI'"
 
 work_ids = e.select_all( command )
 work_ids = [id['work_id'] for id in work_ids]
 
-e.export( work_ids, "voltaire-grif-test" )
+e.export( work_ids, "marystuart" )
