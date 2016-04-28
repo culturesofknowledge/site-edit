@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os.path
 import csv
+import datetime
 
 import psycopg2
 import psycopg2.extras
@@ -47,6 +48,8 @@ class Exporter:
 			:param parts_comments: Whether we should export comments with csvs (list of names)
 			:return: noght.
 		"""
+
+		start = datetime.datetime.now()
 
 		self.reports = []
 
@@ -254,7 +257,11 @@ class Exporter:
 		else:
 			self.reports.append( "No works given!" )
 
-		self._print_report()
+		end = datetime.datetime.now()
+
+		duration = end - start
+
+		self._print_report( duration )
 
 
 	def _create_resource_csv(self, resources, folder ):
@@ -441,7 +448,7 @@ class Exporter:
 		command = "SELECT catalogue_code, catalogue_name from cofk_lookup_catalogue"
 		catalogues = self.select_all( command )
 
-		print(catalogues)
+		# print(catalogues)
 
 		for work in works:
 			work_cat = work['original_catalogue']
@@ -577,9 +584,14 @@ class Exporter:
 					print( " ", str( length - self.limit_ouput ) + " more..." )
 					break
 
-	def _print_report(self):
+	def _print_report(self, duration):
+		print()
+		print()
+		print ( "Report:" )
 		for report in self.reports :
-			print( report )
+			print( " -", report )
+
+		print( " * Time taken:", duration )
 
 	def _output_commands( self, *args ):
 		if self.output_commands:
