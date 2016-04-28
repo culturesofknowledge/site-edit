@@ -6,7 +6,7 @@ postgres_connection = "dbname='" + config["dbname"] + "'" \
                       + " host='" + config["host"] + "' port='" + config["port"] + "'" \
                       + " user='" + config["user"] + "' password='" + config["password"] + "'"
 
-e = Exporter( postgres_connection, debug_on )
+e = Exporter( postgres_connection, debug_on, debug_on )
 
 command = "select work_id from cofk_union_work limit 20"
 
