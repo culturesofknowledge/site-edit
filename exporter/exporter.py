@@ -36,23 +36,30 @@ class Exporter:
 		self.limit_ouput = 10
 
 
-	def export(self, work_ids, output_folder ):
+	def export( self, work_ids, output_folder, parts_csvs=None, parts_resources=None, parts_comments=None ):
 		"""
 			Create csv files associated with the workids (This can use a lot of memory... given a lot of works)
 
 			:param work_ids: Work ids to collect information on and export
 			:param output_folder: The place to export the files too.
-			:return: nought.
+			:param parts_csvs: The CSVs to export (list of names)
+			:param parts_resources: Whether we should export resources with csvs (list of names)
+			:param parts_comments: Whether we should export comments with csvs (list of names)
+			:return: noght.
 		"""
 
 		self.reports = []
 
 		if not self._empty( work_ids ) :
 
-			#work = "work"
-			#location = "location"
-			#person = "person"
-			#comment = "comment"
+			# set everything if nothing defined.
+			if parts_csvs is None:
+				parts_csvs = self.names.keys( )
+			if parts_resources is None:
+				parts_resources = self.names.keys()
+			if parts_comments is None :
+				parts_comments = self.names.keys()
+
 
 			self.relationship_ids = []
 
@@ -66,144 +73,182 @@ class Exporter:
 			# Disabling this, it
 			# work_ids = work_ids.union( self._get_relationships( self.names['work'], work_ids, self.names['work'] ) )
 
-
 			# Works
 
-			works = self._get_works( work_ids )
+			if self.names["work"] in parts_csvs:
+				works = self._get_works( work_ids )
 
-			# work - work relations
-			# TODO: We'll need to handle these links (but only for those between works we already have...)
-			# work_relations = self._get_relationships( self.names['work'], work_ids, self.names['work'] )
+				# work - work relations
+				# TODO: We'll need to handle these links (but only for those between works we already have...)
+				# work_relations = self._get_relationships( self.names['work'], work_ids, self.names['work'] )
 
-			# Get People from works
-			people_relations = self._get_relationships( self.names['work'], work_ids, self.names['person'] )
-			self._pretty_print_relations("person", people_relations)
+				# Get People from works
+				people_relations = self._get_relationships( self.names['work'], work_ids, self.names['person'] )
+				self._pretty_print_relations("person", people_relations)
 
-			person_ids = self._id_link_set_from_relationships(people_relations)
-			people = self._get_people( person_ids )
+				person_ids = self._id_link_set_from_relationships(people_relations)
+				people = self._get_people( person_ids )
 
-			# Get Locations from works
-			locations_relations = self._get_relationships( self.names['work'], work_ids, self.names['location'] )
-			location_ids = self._id_link_set_from_relationships(locations_relations)
-			locations = self._get_locations( location_ids )
-
-			# Get comments associated with works
-			comments_relations = self._get_relationships( self.names['work'], work_ids, self.names['comment'] )
-			comment_ids = self._id_link_set_from_relationships(comments_relations)
-			comments = self._get_comments( comment_ids )
-
-			# Get resources associated with works
-			resource_relations_works = self._get_relationships( self.names['work'], work_ids, self.names['resource'] )
-			resource_ids = self._id_link_set_from_relationships(resource_relations_works)
-			resources_works = self._get_resources( resource_ids )
+				# Get Locations from works
+				locations_relations = self._get_relationships( self.names['work'], work_ids, self.names['location'] )
+				location_ids = self._id_link_set_from_relationships(locations_relations)
+				locations = self._get_locations( location_ids )
 
 
-			# Add new resources so that exported data has links back to EMLO front end
-			for work in works :
+				comments_relations = {}
+				comments = []
+				if self.names["work"] in parts_comments :
+					# Get comments associated with works
+					comments_relations = self._get_relationships( self.names['work'], work_ids, self.names['comment'] )
+					comment_ids = self._id_link_set_from_relationships(comments_relations)
+					comments = self._get_comments( comment_ids )
 
-				work_id = work["work_id"]
-				iwork_id = work["iwork_id"]  # Note this isn't "work_id" !
-				#related_resource = self._get_work_field( work, "iwork_id" )
 
-				new_resource = {
-					"resource_id" : "er" + str(iwork_id),
-					"resource_name": "Early Modern Letters Online",
-					"resource_details" : "",
-					"resource_url" :    "http://emlo.bodleian.ox.ac.uk/profile?iwork_id=" + str(iwork_id)
-										#http://emlo.bodleian.ox.ac.uk/profile?iwork_id=30348
-				}
-				resources_works.append(new_resource)
-				# { obj_id : [ { i(id) : wanted_id, r(relation): relationship_type }, ] }
+				resource_relations_works = {}
+				resources_works = []
+				if self.names["work"] in parts_resources :
 
-				if work_id not in resource_relations_works :
-					resource_relations_works[work_id] = []
+					# Get resources associated with works
+					resource_relations_works = self._get_relationships( self.names['work'], work_ids, self.names['resource'] )
+					resource_ids = self._id_link_set_from_relationships(resource_relations_works)
+					resources_works = self._get_resources( resource_ids )
 
-				resource_relations_works[work_id].append( { "i" : new_resource["resource_id"], "r" : "is_related_to" } )
 
-			self._create_work_csv( works, people, people_relations, locations, locations_relations, comments, comments_relations, resources_works, resource_relations_works, output_folder )
+					# Add new resources so that exported data has links back to EMLO front end
+					for work in works :
+
+						work_id = work["work_id"]
+						iwork_id = work["iwork_id"]  # Note this isn't "work_id" !
+						#related_resource = self._get_work_field( work, "iwork_id" )
+
+						new_resource = {
+							"resource_id" : "er" + str(iwork_id),
+							"resource_name": "Early Modern Letters Online",
+							"resource_details" : "",
+							"resource_url" :    "http://emlo.bodleian.ox.ac.uk/profile?iwork_id=" + str(iwork_id)
+												#http://emlo.bodleian.ox.ac.uk/profile?iwork_id=30348
+						}
+						resources_works.append(new_resource)
+						# { obj_id : [ { i(id) : wanted_id, r(relation): relationship_type }, ] }
+
+						if work_id not in resource_relations_works :
+							resource_relations_works[work_id] = []
+
+						resource_relations_works[work_id].append( { "i" : new_resource["resource_id"], "r" : "is_related_to" } )
+
+				self._create_work_csv( works, people, people_relations, locations, locations_relations, comments, comments_relations, resources_works, resource_relations_works, output_folder )
 
 
 			# People
 
-			# Get comments associated with people
-			comments_relations = self._get_relationships( self.names['person'], work_ids, self.names['comment'] )
-			comment_ids = self._id_link_set_from_relationships(comments_relations)
-			comments = self._get_comments( comment_ids )
+			if self.names["person"] in parts_csvs:
 
-			# Get resources associated with people
-			resource_relations_people = self._get_relationships( self.names['person'], person_ids, self.names['resource'] )
-			resource_ids = self._id_link_set_from_relationships(resource_relations_people)
-			resources_people = self._get_resources( resource_ids )
+				comments_relations = {}
+				comments = []
+				if self.names["person"] in parts_comments :
+					# Get comments associated with people
+					comments_relations = self._get_relationships( self.names['person'], work_ids, self.names['comment'] )
+					comment_ids = self._id_link_set_from_relationships(comments_relations)
+					comments = self._get_comments( comment_ids )
 
-			self._create_person_csv( people, comments, comments_relations, resources_people, resource_relations_people, output_folder )
+				resource_relations_people = {}
+				resources_people = []
+				if self.names["person"] in parts_resources :
+					# Get resources associated with people
+					resource_relations_people = self._get_relationships( self.names['person'], person_ids, self.names['resource'] )
+					resource_ids = self._id_link_set_from_relationships(resource_relations_people)
+					resources_people = self._get_resources( resource_ids )
+
+				self._create_person_csv( people, comments, comments_relations, resources_people, resource_relations_people, output_folder )
 
 
 			# Locations
 
-			# Get comments associated with locations
-			comments_relations = self._get_relationships( self.names['location'], work_ids, self.names['comment'] )
-			comment_ids = self._id_link_set_from_relationships(comments_relations)
-			comments = self._get_comments( comment_ids )
+			if self.names["location"] in parts_csvs:
 
-			# Get resources associated with locations
-			resource_relations_locations = self._get_relationships( self.names['location'], location_ids, self.names['resource'] )
-			resource_ids = self._id_link_set_from_relationships(resource_relations_locations)
-			resources_locations = self._get_resources( resource_ids )
+				comments_relations = {}
+				comments = []
+				if self.names["location"] in parts_comments :
+					# Get comments associated with locations
+					comments_relations = self._get_relationships( self.names['location'], work_ids, self.names['comment'] )
+					comment_ids = self._id_link_set_from_relationships(comments_relations)
+					comments = self._get_comments( comment_ids )
 
-			self._create_location_csv( locations, comments, comments_relations, resources_locations, resource_relations_locations, output_folder )
+				resource_relations_locations = {}
+				resources_locations = []
+				if self.names["location"] in parts_resources :
+					# Get resources associated with locations
+					resource_relations_locations = self._get_relationships( self.names['location'], location_ids, self.names['resource'] )
+					resource_ids = self._id_link_set_from_relationships(resource_relations_locations)
+					resources_locations = self._get_resources( resource_ids )
+
+				self._create_location_csv( locations, comments, comments_relations, resources_locations, resource_relations_locations, output_folder )
 
 
 			# Manifestations
 
-			# Get Manifestations from works
-			manfestation_relations = self._get_relationships( self.names['work'], work_ids, self.names['manifestation'] )
-			self._pretty_print_relations( "manifestation", manfestation_relations)
+			if self.names["manifestation"] in parts_csvs:
+				# Get Manifestations from works
+				manfestation_relations = self._get_relationships( self.names['work'], work_ids, self.names['manifestation'] )
+				self._pretty_print_relations( "manifestation", manfestation_relations)
 
-			manifestation_ids = self._id_link_set_from_relationships(manfestation_relations)
-			manifestations = self._get_manifestations( manifestation_ids )
-
-
-			# Get Relations of manuscripts to works (reverse of above relations - I could do it in code but this is easier(lazier))
-			manfestation_work_relations = self._get_relationships( self.names['manifestation'], manifestation_ids, self.names['work'] )
-			self._pretty_print_relations( "manifestation-work", manfestation_work_relations)
+				manifestation_ids = self._id_link_set_from_relationships(manfestation_relations)
+				manifestations = self._get_manifestations( manifestation_ids )
 
 
-			# Get Institutions from manuscripts
-			manifestation_institution_relations = self._get_relationships( self.names['manifestation'], manifestation_ids, self.names['institution'] )
-			self._pretty_print_relations( "manifestation-institution", manifestation_institution_relations)
-
-			institution_ids = self._id_link_set_from_relationships(manifestation_institution_relations)
-			institutions = self._get_institutions( institution_ids )
+				# Get Relations of manuscripts to works (reverse of above relations - I could do it in code but this is easier(lazier))
+				manfestation_work_relations = self._get_relationships( self.names['manifestation'], manifestation_ids, self.names['work'] )
+				self._pretty_print_relations( "manifestation-work", manfestation_work_relations)
 
 
-			# Get comments associated with manifestations
-			comments_relations = self._get_relationships( self.names['manifestation'], manifestation_ids, self.names['comment'] )
-			comment_ids = self._id_link_set_from_relationships(comments_relations)
-			comments = self._get_comments( comment_ids )
+				# Get Institutions from manuscripts
+				manifestation_institution_relations = self._get_relationships( self.names['manifestation'], manifestation_ids, self.names['institution'] )
+				self._pretty_print_relations( "manifestation-institution", manifestation_institution_relations)
 
-			self._create_manifestation_csv(manifestations, works, manfestation_work_relations, institutions, manifestation_institution_relations, comments, comments_relations, output_folder )
+				institution_ids = self._id_link_set_from_relationships(manifestation_institution_relations)
+				institutions = self._get_institutions( institution_ids )
 
+				comments_relations = {}
+				comments = []
+				if self.names["manifestation"] in parts_comments :
+					# Get comments associated with manifestations
+					comments_relations = self._get_relationships( self.names['manifestation'], manifestation_ids, self.names['comment'] )
+					comment_ids = self._id_link_set_from_relationships(comments_relations)
+					comments = self._get_comments( comment_ids )
+
+				self._create_manifestation_csv(manifestations, works, manfestation_work_relations, institutions, manifestation_institution_relations, comments, comments_relations, output_folder )
 
 
 			# Institutions
 
-			# Get resources associated with Institutions
-			resource_relations_institutions = self._get_relationships( self.names['institution'], institution_ids, self.names['resource'] )
-			resource_ids = self._id_link_set_from_relationships(resource_relations_institutions)
-			resources_institutions = self._get_resources( resource_ids )
+			if self.names["institution"] in parts_csvs:
 
-			self._create_institution_csv(institutions, resources_institutions, resource_relations_institutions, output_folder )
+				resource_relations_institutions = {}
+				resources_institutions = []
+				if self.names["location"] in parts_resources :
+					# Get resources associated with Institutions
+					resource_relations_institutions = self._get_relationships( self.names['institution'], institution_ids, self.names['resource'] )
+					resource_ids = self._id_link_set_from_relationships(resource_relations_institutions)
+					resources_institutions = self._get_resources( resource_ids )
+
+				self._create_institution_csv(institutions, resources_institutions, resource_relations_institutions, output_folder )
 
 
-			# Resources
 
-			resources = []
-			resources.extend(resources_works)
-			resources.extend(resources_people)
-			resources.extend(resources_locations)
-			resources.extend(resources_institutions)
+			if self.names["resource"] in parts_csvs:
+				# Resources
 
-			self._create_resource_csv(resources, output_folder )
+				resources = []
+				if self.names["work"] in parts_csvs:
+					resources.extend(resources_works)
+				if self.names["person"] in parts_csvs:
+					resources.extend(resources_people)
+				if self.names["location"] in parts_csvs:
+					resources.extend(resources_locations)
+				if self.names["institution"] in parts_csvs:
+					resources.extend(resources_institutions)
+
+				self._create_resource_csv(resources, output_folder )
 
 
 		else:
