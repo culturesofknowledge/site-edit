@@ -29,7 +29,6 @@ postgres_connection = "dbname='" + config["dbname"] + "'" \
 3. Create a list of work ids you want to extract. (for instance a csv, or run a query to to extract those for a particular catalogue)
 ```python
 e = Exporter( postgres_connection, False, debug_on )
-
 command = "select work_id from cofk_union_work where original_catalogue='HARTLIB'"
 work_ids = e.select_all( command )
 work_ids = [id['work_id'] for id in work_ids]
