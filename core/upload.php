@@ -2069,11 +2069,11 @@ class Upload extends Project {
       if( $this->original_calendar == 'G' )
         echo 'Gregorian';
       elseif( $this->original_calendar == 'J' )
-          echo 'Julian'; // This will switch to "JJ" after accepted, see review.php
+        echo 'Julian'; // This will switch to "JJ" after accepted, see review.php
       elseif( $this->original_calendar == 'JJ' )
-          echo 'Julian (January year start)' ;
+        echo 'Julian (January year start)' ;
       elseif( $this->original_calendar == 'JM' )
-          echo 'Julian (March year start)' ;
+        echo 'Julian (March year start)' ;
 
       echo LINEBREAK;
     }
