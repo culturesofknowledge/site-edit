@@ -2766,7 +2766,7 @@ class Upload extends Project {
             $form_method='POST',
             $parms = 'enctype="multipart/form-data"' );
 
-        html::multiple_file_upload_field( $fieldname = 'files_to_process[]',
+        html::file_upload_field( $fieldname = 'file_to_process',
             $label = "Upload file",
             $value = NULL,
             $size = CSV_UPLOAD_FIELD_SIZE );
@@ -2780,8 +2780,57 @@ class Upload extends Project {
 
     function file_upload_excel_form_response() {
 
+        $filecount = count( $_FILES );
+        if( ! $filecount ) {
+            echo 'No files were uploaded.';
+            return;
+        }
+        elseif( $filecount > 1 ) {
+            echo LINEBREAK;
+            echo 'You have tried to upload ' .  $filecount . ' files at once. Please just upload one file at a time.';
+            return;
+        }
+
+        $one_file = $_FILES[ 'file_to_process' ];
+        //extract( $one_file, EXTR_OVERWRITE );
+
+        $invalid = FALSE;
+        if( ! $this->is_ok_free_text( $one_file['name'] ))     $invalid = TRUE;
+        if( ! $this->is_ok_free_text( $one_file['tmp_name'] )) $invalid = TRUE;
+        if( ! $this->is_ok_free_text( $one_file['type'] ))     $invalid = TRUE;
+        if( ! $this->is_integer( $one_file['error'] ))         $invalid = TRUE;
+        if( ! $this->is_integer( $one_file['size'] ))          $invalid = TRUE;
+
+        if( ! is_uploaded_file( $one_file['tmp_name'] ))       $invalid = TRUE;
+
+        if( $invalid ) die( "That doesn't seem to be a valid file." );
+
+        $foldername = pathinfo( $one_file['name'], PATHINFO_FILENAME) . microtime();
+
+        $path = "/var/www/html/upload_folder/" . $foldername;
+        if( !mkdir( $path ) ) {
+            die( 'FAILED to create folder for upload - name ' . $foldername );
+        }
+
+        $moved = move_uploaded_file( $one_file['tmp_name'], $path . "/" . $foldername . ".xlsx" );
+        if( $moved )
+            $this->echo_safely( 'Thanks for uploading ' . $one_file['name'] . " to the server." );
+        else
+            die( 'FAILED TO MOVE file to image directory. Can you change the name and try again?' );
+
+        flush();
+        html::new_paragraph();
+        system( "sleep 5;ls", $result );
+
+        html::new_paragraph();
+        if( $result == 0 ) {
+            echo "Successfully uploaded";
+        }
+        else {
+            echo "There was a problem uploading :( .";
+        };
     }
 
 }
 
-?>
+
