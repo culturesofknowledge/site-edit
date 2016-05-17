@@ -27,6 +27,7 @@ function is_unknown_reltype( $relationship_type, $left_table_name, $right_table_
     case 'is_manifestation_of':
     case 'is_related_to':
     case 'is_reply_to':
+    case 'matches':
     case 'member_of':
     case 'mentions':
     case 'mentions_place':
