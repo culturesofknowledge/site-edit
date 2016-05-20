@@ -11,13 +11,14 @@ import csv_unicode
 
 class DatabaseTweaker:
 
-	def __init__( self, connection, debug=False ):
+	def __init__( self, connection=None, debug=False ):
 
 		self.debug = False
 		self.set_debug(debug)
 
 		self.connection = self.cursor = None
-		self.connect_to_postres(connection)  # e.g. "dbname='<HERE>' user='<HERE>' host='<HERE>' password='<HERE>'"
+		if connection:
+			self.connect_to_postres(connection)  # e.g. "dbname='<HERE>' user='<HERE>' host='<HERE>' password='<HERE>'"
 
 		self.audit = {
 			"deletions" : {},
@@ -213,6 +214,22 @@ class DatabaseTweaker:
 		return self.cursor.fetchone()[0]
 
 
+	def create_comment(self, comment ):
+
+		command = "INSERT INTO cofk_union_comment" \
+					" (comment,creation_user,change_user)" \
+					" VALUES " \
+					" ( %s,%s,%s)" \
+					" returning comment_id"
+
+		command = self.cursor.mogrify( command, ( comment, self.user, self.user ) )
+
+		self._print_command( "INSERT comment", command )
+		self._audit_insert( "comment" )
+
+		self.cursor.execute( command )
+		return self.cursor.fetchone()[0]
+
 	def create_relationship(self, left_name, left_id, relationship_type, right_name, right_id ):
 
 		command = "INSERT INTO cofk_union_relationship" \
@@ -228,6 +245,43 @@ class DatabaseTweaker:
 
 		self.cursor.execute( command )
 		return self.cursor.fetchone()[0]
+
+
+	def calendar_julian_to_calendar_gregorian(self, day, month, year ):
+		# day = 1 to max_length
+		# month = 1 to 12
+		# year = a number...
+
+		max_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+		if year % 4 == 0:
+			max_month[1] = 29
+
+		# Julian calendar change
+		diff_days = 10
+		if year > 1700 :
+			diff_days = 11
+		elif year == 1700 and month > 2 :
+			diff_days = 11
+		elif year == 1700 and month == 2 and day == 29 :
+			diff_days = 11
+
+		# get new date
+		new_day = day + diff_days
+		new_month = month
+		new_year = year
+		if new_day > max_month[month-1] :
+			new_day = new_day % max_month[month-1]
+			new_month += 1
+			if new_month > 12:
+				new_month = 1
+				new_year += 1
+
+		return {
+			"d" : new_day,
+			"m": new_month,
+			"y": new_year
+		}
 
 
 	def commit_changes( self, commit=False ):
