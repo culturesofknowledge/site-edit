@@ -67,8 +67,9 @@ class DatabaseTweaker:
 
 		return rows
 
-
 	def get_work_from_iwork_id( self, iwork_id ):
+
+		self.check_database_connection()
 
 		command = "SELECT * FROM cofk_union_work WHERE iwork_id=%s"
 		command = self.cursor.mogrify( command, (int(iwork_id),) )
@@ -81,6 +82,8 @@ class DatabaseTweaker:
 
 	def get_resource_from_resource_id( self, resource_id ):
 
+		self.check_database_connection()
+
 		command = "SELECT * FROM cofk_union_resource WHERE resource_id=%s"
 		command = self.cursor.mogrify( command, (resource_id,) )
 
@@ -92,6 +95,8 @@ class DatabaseTweaker:
 
 
 	def get_relationships(self, id_from, table_from=None, table_to=None ):
+
+		self.check_database_connection()
 
 		command = "SELECT * FROM cofk_union_relationship"
 
@@ -143,6 +148,8 @@ class DatabaseTweaker:
 
 	def update_work(self, iwork_id, field_updates={} ):
 
+		self.check_database_connection()
+
 		# Create a list with all the data in.
 		fields = field_updates.keys()
 		data = []
@@ -177,6 +184,8 @@ class DatabaseTweaker:
 
 	def delete_resource_via_resource_id( self, resource_id ):
 
+		self.check_database_connection()
+
 		command = "DELETE FROM cofk_union_resource WHERE resource_id=%s"
 		command = self.cursor.mogrify( command, (resource_id,) )
 
@@ -188,6 +197,8 @@ class DatabaseTweaker:
 
 	def delete_relationship_via_relationship_id( self, relationship_id ):
 
+		self.check_database_connection()
+
 		command = "DELETE FROM cofk_union_relationship WHERE relationship_id=%s"
 		command = self.cursor.mogrify( command, (relationship_id,) )
 
@@ -198,6 +209,8 @@ class DatabaseTweaker:
 
 
 	def create_resource(self, name, url, description="" ):
+
+		self.check_database_connection()
 
 		command = "INSERT INTO cofk_union_resource" \
 					" (resource_name,resource_url,resource_details,creation_user,change_user)" \
@@ -216,6 +229,8 @@ class DatabaseTweaker:
 
 	def create_comment(self, comment ):
 
+		self.check_database_connection()
+
 		command = "INSERT INTO cofk_union_comment" \
 					" (comment,creation_user,change_user)" \
 					" VALUES " \
@@ -231,6 +246,8 @@ class DatabaseTweaker:
 		return self.cursor.fetchone()[0]
 
 	def create_relationship(self, left_name, left_id, relationship_type, right_name, right_id ):
+
+		self.check_database_connection()
 
 		command = "INSERT INTO cofk_union_relationship" \
 					" (left_table_name,left_id_value, relationship_type, right_table_name, right_id_value,creation_user,change_user)" \
@@ -286,11 +303,20 @@ class DatabaseTweaker:
 
 	def commit_changes( self, commit=False ):
 
+		self.check_database_connection()
+
 		if commit :
 			print( "Committing...", end="")
 			self.connection.commit()
 			print( "Done." )
 
+
+	def check_database_connection(self):
+		if not self.database_ok() :
+			raise psycopg2.DatabaseError("Database not connected")
+
+	def database_ok(self):
+		return self.connection and self.cursor
 
 
 	def print_audit(self, going_to_commit=True):
