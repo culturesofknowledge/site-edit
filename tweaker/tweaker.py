@@ -245,6 +245,26 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()[0]
 
+
+	def create_image(self, filename, display_order, image_credits, can_be_displayed='Y', thumbnail=None ):
+
+		self.check_database_connection()
+
+		command = "INSERT INTO cofk_union_image" \
+					" (image_filename,display_order,credits,can_be_displayed,thumbnail,licence_url,creation_user,change_user)" \
+					" VALUES " \
+					" ( %s,%s,%s,%s,%s,%s,%s,%s)" \
+					" returning image_id"
+
+		command = self.cursor.mogrify( command, ( filename, display_order, image_credits, can_be_displayed, thumbnail, "http://cofk2.bodleian.ox.ac.uk/culturesofknowledge/licence/terms_of_use.html", self.user, self.user ) )
+
+		self._print_command( "INSERT image", command )
+		self._audit_insert( "image" )
+
+		self.cursor.execute( command )
+		return self.cursor.fetchone()[0]
+
+
 	def create_relationship(self, left_name, left_id, relationship_type, right_name, right_id ):
 
 		self.check_database_connection()
