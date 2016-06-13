@@ -1,6 +1,6 @@
 FROM postgres
 
-COPY database-dump/pg_dumpall.out /tmp/
+COPY database-dump/pg_dumpall.out.gz /tmp/
 
 RUN mkdir -p /docker-entrypoint-initdb.d
 COPY emlo_database.sh /docker-entrypoint-initdb.d/
