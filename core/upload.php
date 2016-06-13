@@ -2755,7 +2755,7 @@ class Upload extends Project {
         html::h3_end();
 
         html::new_paragraph();
-        echo "For uploading Excel documents containing manifestations, people, places, repositories, works";
+        echo "For uploading Excel documents containing manifestations, people, places, repositories, works into collect.";
 
         html::form_start( $class_name = 'upload',
             $method_name = 'file_upload_excel_form_response',
@@ -2771,6 +2771,8 @@ class Upload extends Project {
             $value = NULL,
             $size = CSV_UPLOAD_FIELD_SIZE );
         html::new_paragraph();
+
+	echo '<p>Please only upload one excel file at a time. The webpage may appear to freeze while the processing takes place.</p>';
 
         html::submit_button( 'upload_button', 'Upload' );
         html::form_end();
@@ -2805,14 +2807,15 @@ class Upload extends Project {
 
         if( $invalid ) die( "That doesn't seem to be a valid file." );
 
-        $foldername = pathinfo( $one_file['name'], PATHINFO_FILENAME) . microtime();
+	$filename = pathinfo( $one_file['name'], PATHINFO_FILENAME);
+        $foldername = $filename . "-" . gmdate("ymd-His");
 
-        $path = "/var/www/html/upload_folder/" . $foldername;
+        $path = "/home/cofkadmin/backend/emlo.dev/_data/xls/" . $foldername;
         if( !mkdir( $path ) ) {
             die( 'FAILED to create folder for upload - name ' . $foldername );
         }
 
-        $moved = move_uploaded_file( $one_file['tmp_name'], $path . "/" . $foldername . ".xlsx" );
+        $moved = move_uploaded_file( $one_file['tmp_name'], $path . "/" . $filename . ".xlsx" );
         if( $moved )
             $this->echo_safely( 'Thanks for uploading ' . $one_file['name'] . " to the server." );
         else
@@ -2820,14 +2823,27 @@ class Upload extends Project {
 
         flush();
         html::new_paragraph();
-        system( "sleep 5;ls", $result );
+	$command = "cd /home/cofkadmin/backend/emlo.dev/bin/;./runIngest.sh \"" . $foldername . "\"";
+	
+	echo "<pre>";
+        system( $command, $result );
+	echo "</pre>";
 
         html::new_paragraph();
+
+	echo "Error logs:";
+	echo "<pre>";
+	readfile("/home/cofkadmin/backend/emlo.dev/logs/impCSV.err");
+        readfile("/home/cofkadmin/backend/emlo.dev/logs/transIngest.err");
+        readfile("/home/cofkadmin/backend/emlo.dev/logs/import2Postgres.err");
+	echo "</pre>";
+
+	html::new_paragraph();
         if( $result == 0 ) {
-            echo "Successfully uploaded";
+            echo "<b>Successfully uploaded</b>";
         }
         else {
-            echo "There was a problem uploading :( .";
+            echo "<b>There was a problem uploading :( .</b>";
         };
     }
 

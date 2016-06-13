@@ -94,7 +94,7 @@ class Tool_Menu extends Project {
           if (!$menu_item_id) die('Menu not correctly set up.');
           $browse_href = $_SERVER['PHP_SELF'] . '?menu_item_id=' . $menu_item_id;
 
-          html::listitem_start( 'style="display:none;"');
+          html::listitem_start();
           html::link_start($browse_href, 'Upload an Excel file with works, people, places, repositories and manifestat');
           echo 'Upload an Excel File';
           html::link_end();
