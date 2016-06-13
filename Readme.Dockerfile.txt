@@ -1,12 +1,16 @@
-# This readme assumes you already have a postgres docker container (and is named "emlo-edit-postgres")
+# Build a postgres docker container (and is named "emlo-edit-postgres")
+
+# Get a database dump first then:
+cd docker-postgres
+docker build -t postgres-with-emlo:latest .
+
 
 # First build the image "php with postgres extension" (if you haven't already) with:
 cd docker-php-pgsql/
 docker build -t php-with-pgsql .
-# and create an instance with:
-docker run -p 32769:5432 -d --name emlo-edit-postgres-with-emlo postgres-with-emlo
 
 # Now build our specific version of php to run EMLO-EDIT in (it'll copy the php files into itself)
+cd ..
 docker build -t emlo-edit-php .
 
 # Run the new build
