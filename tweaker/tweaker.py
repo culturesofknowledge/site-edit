@@ -93,6 +93,18 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()
 
+	def get_location_from_location_id( self, location_id ):
+
+		self.check_database_connection()
+
+		command = "SELECT * FROM cofk_union_location WHERE location_id=%s"
+		command = self.cursor.mogrify( command, (location_id,) )
+
+		if self.debug :
+			print( "* SELECT location:", command )
+
+		self.cursor.execute( command )
+		return self.cursor.fetchone()
 
 	def get_relationships(self, id_from, table_from=None, table_to=None ):
 
