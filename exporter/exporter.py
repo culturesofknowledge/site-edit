@@ -534,7 +534,7 @@ class Exporter:
 
 	def _save_csv(self, rows, fields, filepos ):
 
-		with open(filepos, 'w', encoding='utf-8-sig') as csvfile:  # utf8 with bom
+		with open(filepos, 'w', encoding='utf-8') as csvfile:  # utf8 with bom
 			writer = csv.DictWriter(csvfile, dialect='excel', fieldnames=fields)
 
 			writer.writeheader()
