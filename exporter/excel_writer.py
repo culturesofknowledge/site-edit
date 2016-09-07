@@ -1,5 +1,8 @@
-from openpyxl import Workbook
 import csv
+
+from openpyxl import Workbook
+from openpyxl.styles import Font
+
 
 class ExcelWriter:
 
@@ -27,16 +30,25 @@ class ExcelWriter:
 
 			with open(sheet["filelocation"], encoding="utf-8") as f:
 				csv_reader = csv.reader(f)
-				row = 1
+				row_count = 1
+
+				col_font = Font(size=12,bold=True)
 				for csv_row in csv_reader:
-					col = 1
+					col_count = 1
 					for cell in csv_row :
-						c = ws.cell(row=row, column=col)
+						if row_count == 1:
+							column = ws.column_dimensions["A"]
+
+						c = ws.cell(row=row_count, column=col_count)
+
+						if row_count == 1 :
+							c.font = col_font
+
 						c.value = cell
 
-						col += 1
+						col_count += 1
 
-					row += 1
+					row_count += 1
 
 			wb.save(settings["outputname"])
 

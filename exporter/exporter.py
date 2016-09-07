@@ -7,6 +7,7 @@ import psycopg2
 import psycopg2.extras
 
 import exporter.objects
+import exporter.excel_writer
 
 
 class Exporter:
@@ -34,15 +35,16 @@ class Exporter:
 		}
 
 		self.reports = []
+		self.csvs = []
 		self.limit_ouput = 10
 
 
-	def export( self, work_ids, output_folder, parts_csvs=None, parts_resources=None, parts_comments=None ):
+	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None ):
 		"""
 			Create csv files associated with the workids (This can use a lot of memory... given a lot of works)
 
 			:param work_ids: Work ids to collect information on and export
-			:param output_folder: The place to export the files too.
+			:param output_folder_name: The name of the folder to export the files too.
 			:param parts_csvs: The CSVs to export (list of names)
 			:param parts_resources: Whether we should export resources with csvs (list of names)
 			:param parts_comments: Whether we should export comments with csvs (list of names)
@@ -66,7 +68,7 @@ class Exporter:
 
 			self.relationship_ids = []
 
-			output_folder = "exports/" + output_folder
+			output_folder = "exports/" + output_folder_name
 			if not os.path.exists( output_folder ):
 				os.makedirs( output_folder )
 
@@ -254,6 +256,16 @@ class Exporter:
 				self._create_resource_csv(resources, output_folder )
 
 
+			# Create Excel file of CSV files
+
+			ew = exporter.excel_writer.ExcelWriter()
+			ew.convert( {
+				"sheets" : self.csvs,
+				"outputname" : output_folder + "/" + output_folder_name + ".xlsx"
+			})
+
+			self.reports.append( "Excel file created at " + output_folder + "/" + output_folder_name + ".xlsx" )
+
 		else:
 			self.reports.append( "No works given!" )
 
@@ -273,6 +285,11 @@ class Exporter:
 							{},
 							folder + "/resource.csv" )
 
+		self.csvs.append({
+			"filelocation": folder + "/resource.csv",
+			"sheetname": self.names['resource']
+		})
+
 	def _create_institution_csv(self, institutions, resources, resource_relations, folder ):
 
 		related = {self.names['resource'] : resources }
@@ -284,6 +301,11 @@ class Exporter:
 							related,
 							related_relations,
 							folder + "/institution.csv" )
+
+		self.csvs.append({
+			"filelocation": folder + "/institution.csv",
+			"sheetname": self.names['institution']
+		})
 
 
 	def _create_manifestation_csv(self, manifestations, works, work_relations, institutions, institution_relations, comments, comment_relations, folder ):
@@ -297,6 +319,11 @@ class Exporter:
 							related_relations,
 							folder + "/manifestation.csv" )
 
+		self.csvs.append({
+			"filelocation": folder + "/manifestation.csv",
+			"sheetname": self.names['manifestation']
+		})
+
 	def _create_location_csv(self, locations, comments, comments_relations, resources, resource_relations, folder ):
 
 		related = { self.names['comment'] : comments, self.names['resource'] : resources }
@@ -308,6 +335,11 @@ class Exporter:
 							related,
 							related_relations,
 							folder + "/location.csv" )
+
+		self.csvs.append({
+			"filelocation": folder + "/location.csv",
+			"sheetname": self.names['location']
+		})
 
 	def _create_person_csv(self, people, comments, comments_relations, resources, resource_relations, folder ):
 
@@ -321,6 +353,11 @@ class Exporter:
 							related_relations,
 							folder + "/person.csv" )
 
+		self.csvs.append({
+			"filelocation": folder + "/person.csv",
+			"sheetname": self.names['person']
+		})
+
 
 	def _create_work_csv(self, works, people, people_relations, locations, locations_relations, comments, comments_relations, resources, resource_relations, folder ):
 
@@ -333,6 +370,12 @@ class Exporter:
 								related,
 								related_relations,
 								folder + "/work.csv" )
+
+		self.csvs.append({
+			"filelocation": folder + "/work.csv",
+			"sheetname": self.names['work']
+		})
+
 
 	def _create_csv(self, converters, objs, objs_type, related_list, related_relations_list, filename ):
 
