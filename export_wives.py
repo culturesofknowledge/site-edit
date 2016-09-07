@@ -54,6 +54,7 @@ for d in data:
 	outputfolderName = "Wive" + d["name"]
 	e.export( work_ids, outputfolderName )
 
+	"""
 	outputfolder = "exports/" + outputfolderName
 	ew = ExcelWriter()
 	ew.convert( {
@@ -85,3 +86,4 @@ for d in data:
 		],
 		"outputname" : outputfolder + "/" + outputfolderName + ".xlsx"
 	})
+	"""
