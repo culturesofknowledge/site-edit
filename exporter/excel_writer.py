@@ -50,6 +50,15 @@ class ExcelWriter:
 
 					row_count += 1
 
+			# Adjust widths of columns
+			dims = {}
+			for row in ws.rows:
+				for cell in row:
+					if cell.value:
+						dims[cell.column] = max((dims.get(cell.column, 0), len(cell.value)))
+			for col, value in dims.items():
+				ws.column_dimensions[col].width = value * 1.1  # Add a few more ;)
+
 			wb.save(settings["outputname"])
 
 
