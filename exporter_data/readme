@@ -1,2 +1,2 @@
-Folder for exports started from the emlo-edit php interface.
+Folder for exports started from the emlo-edit php interface. Group own should be the PHP user ("www-data" usually)
 See file dbentity.php, function db_produce_excel_output()
