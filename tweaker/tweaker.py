@@ -93,6 +93,19 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()
 
+	def get_comment_from_comment_id( self, comment_id ):
+
+		self.check_database_connection()
+
+		command = "SELECT * FROM cofk_union_comment WHERE comment_id=%s"
+		command = self.cursor.mogrify( command, (comment_id,) )
+
+		if self.debug :
+			print( "* SELECT comment:", command )
+
+		self.cursor.execute( command )
+		return self.cursor.fetchone()
+
 	def get_location_from_location_id( self, location_id ):
 
 		self.check_database_connection()
@@ -105,6 +118,20 @@ class DatabaseTweaker:
 
 		self.cursor.execute( command )
 		return self.cursor.fetchone()
+
+	def get_manifestation_from_manifestation_id( self, manifestation_id ):
+
+		self.check_database_connection()
+
+		command = "SELECT * FROM cofk_union_manifestation WHERE manifestation_id=%s"
+		command = self.cursor.mogrify( command, (manifestation_id,) )
+
+		if self.debug :
+			print( "* SELECT manifestation:", command )
+
+		self.cursor.execute( command )
+		return self.cursor.fetchone()
+
 
 	def get_relationships(self, id_from, table_from=None, table_to=None ):
 
@@ -194,6 +221,78 @@ class DatabaseTweaker:
 		self._audit_update("work")
 
 
+	def update_manifestation(self, manifestation_id, field_updates={} ):
+
+		self.check_database_connection()
+
+		# Create a list with all the data in.
+		fields = field_updates.keys()
+		data = []
+
+		for field in fields :
+			data.append( field_updates[field] )  # Ensuring order preserved.
+
+		data.append( manifestation_id )
+
+		# Create command
+		command = "UPDATE cofk_union_manifestation "
+		command += "SET "
+
+		count = 1
+		for field in fields :
+			command += field + "=%s"
+			if count != len(fields) :
+				command += ", "
+			count += 1
+
+		command += " WHERE manifestation_id=%s"
+
+		command = self.cursor.mogrify( command, data )
+
+		if self.debug :
+			print( "* UPDATE manifestation:", command )
+
+		self.cursor.execute( command )
+
+		self._audit_update("manifestation")
+
+
+	def update_comment(self, comment_id, field_updates={} ):
+
+		self.check_database_connection()
+
+		# Create a list with all the data in.
+		fields = field_updates.keys()
+		data = []
+
+		for field in fields :
+			data.append( field_updates[field] )  # Ensuring order preserved.
+
+		data.append( comment_id )
+
+		# Create command
+		command = "UPDATE cofk_union_comment "
+		command += "SET "
+
+		count = 1
+		for field in fields :
+			command += field + "=%s"
+			if count != len(fields) :
+				command += ", "
+			count += 1
+
+		command += " WHERE comment_id=%s"
+
+		command = self.cursor.mogrify( command, data )
+
+		if self.debug :
+			print( "* UPDATE comment:", command )
+
+		self.cursor.execute( command )
+
+		self._audit_update("comment")
+
+
 	def delete_resource_via_resource_id( self, resource_id ):
 
 		self.check_database_connection()
@@ -276,6 +375,28 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()[0]
 
+	def create_manifestation(self, manifestation_id, manifestation_type, printed_edition_details ):
+
+		self.check_database_connection()
+
+		command = "INSERT INTO cofk_union_manifestation" \
+					" (manifestation_id,manifestation_type,printed_edition_details,creation_user,change_user)" \
+					" VALUES " \
+					" ( %s,%s,%s,%s,%s)" \
+					" returning manifestation_id"
+
+		command = self.cursor.mogrify( command, (
+			manifestation_id,
+			manifestation_type,
+			printed_edition_details,
+			self.user,
+			self.user ) )
+
+		self._print_command( "INSERT manifestation", command )
+		self._audit_insert( "manifestation" )
+
+		self.cursor.execute( command )
+		return self.cursor.fetchone()[0]
 
 	def create_relationship(self, left_name, left_id, relationship_type, right_name, right_id ):
 
