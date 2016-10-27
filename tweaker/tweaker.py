@@ -185,7 +185,7 @@ class DatabaseTweaker:
 		return simple_results
 
 
-	def update_work(self, iwork_id, field_updates={} ):
+	def update_work(self, iwork_id, field_updates={}, print_sql=False ):
 
 		self.check_database_connection()
 
@@ -213,7 +213,7 @@ class DatabaseTweaker:
 
 		command = self.cursor.mogrify( command, data )
 
-		if self.debug :
+		if self.debug or print_sql:
 			print( "* UPDATE work:", command )
 
 		self.cursor.execute( command )
