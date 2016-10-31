@@ -21,7 +21,7 @@ tweaker = tweaker.DatabaseTweaker( postgres_connection )
 tweaker.set_debug(False)
 
 
-csv_file = "resources/boyle _credits/Credit_to_reupload_2016.10.31.csv"
+csv_file = "resources/boyle _credits/Manifestations to reupload_2016.10.31.csv"
 csv_rows = tweaker.get_csv_data( csv_file )
 
 
@@ -31,15 +31,15 @@ csv_rows = tweaker.get_csv_data( csv_file )
 
 countdown = len(csv_rows)
 for csv_row in csv_rows:
-	print( countdown, ":", csv_row["EMLO Letter ID Number"] )
+	print( countdown, ":", csv_row["Manifestation [Letter] ID"] )
 
-	work = tweaker.get_work_from_iwork_id( csv_row["EMLO Letter ID Number"] )
+	man = tweaker.get_manifestation_from_manifestation_id( csv_row["Manifestation [Letter] ID"] )
 
 	field_updates = {
-		"accession_code" : csv_row["Credit line to be inserted"]
+		"printed_edition_details" : csv_row["Printed copy details"]
 	}
 
-	tweaker.update_work( work["iwork_id"], field_updates=field_updates )
+	tweaker.update_manifestation( man["manifestation_id"], field_updates=field_updates )
 
 	countdown -= 1
 
