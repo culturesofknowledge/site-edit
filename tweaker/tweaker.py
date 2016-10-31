@@ -462,6 +462,8 @@ class DatabaseTweaker:
 			print( "Committing...", end="")
 			self.connection.commit()
 			print( "Done." )
+		else :
+			print( "Ordered NOT to commit anything")
 
 
 	def check_database_connection(self):
