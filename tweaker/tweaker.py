@@ -536,9 +536,9 @@ class DatabaseTweaker:
 
 		for deleting, number in self.audit["deletions"].iteritems() :
 			if going_to_commit :
-				print( "- Deleting " + str( number ) + " " + deleting )
+				print( "- Deleting " + str( number ) + " " + deleting + "(s)" )
 			else :
-				print( "- I would have deleted " + str( number ) + " " + deleting )
+				print( "- I would have deleted " + str( number ) + " " + deleting + "(s)" )
 
 		if len( self.audit["deletions"] ) == 0 :
 			print ( "- Nothing to delete")
@@ -546,9 +546,9 @@ class DatabaseTweaker:
 
 		for inserting, number in self.audit["insertions"].iteritems() :
 			if going_to_commit :
-				print( "- Inserting " + str( number ) + " " + inserting )
+				print( "- Inserting " + str( number ) + " " + inserting + "(s)" )
 			else :
-				print( "- I would have inserted " + str( number ) + " " + inserting )
+				print( "- I would have inserted " + str( number ) + " " + inserting + "(s)" )
 
 		if len( self.audit["insertions"] ) == 0 :
 			print ( "- Nothing to insert")
@@ -556,9 +556,9 @@ class DatabaseTweaker:
 
 		for updating, number in self.audit["updates"].iteritems() :
 			if going_to_commit :
-				print( "- Updating " + str( number ) + " " + updating )
+				print( "- Updating " + str( number ) + " " + updating + "(s)" )
 			else :
-				print( "- I would have updated " + str( number ) + " " + updating )
+				print( "- I would have updated " + str( number ) + " " + updating + "(s)" )
 
 		if len( self.audit["updates"] ) == 0 :
 			print ( "- Nothing to update")
