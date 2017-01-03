@@ -196,78 +196,122 @@ class DatabaseTweaker:
 
 	def update_work(self, iwork_id, field_updates={}, print_sql=False ):
 
-		self.check_database_connection()
+		self._update( iwork_id, field_updates, "cofk_union_work", "iwork_id", "work", print_sql )
 
-		# Create a list with all the data in.
-		fields = field_updates.keys()
-		data = []
-
-		for field in fields :
-			data.append( field_updates[field] )  # Ensuring order preserved.
-
-		data.append( int(iwork_id) )
-
-		# Create command
-		command = "UPDATE cofk_union_work "
-		command += "SET "
-
-		count = 1
-		for field in fields :
-			command += field + "=%s"
-			if count != len(fields) :
-				command += ", "
-			count += 1
-
-		command += " WHERE iwork_id=%s"
-
-		command = self.cursor.mogrify( command, data )
-
-		if self.debug or print_sql:
-			print( "* UPDATE work:", command )
-
-		self.cursor.execute( command )
-
-		self._audit_update("work")
+		# self.check_database_connection()
+		#
+		# # Create a list with all the data in.
+		# fields = field_updates.keys()
+		# data = []
+		#
+		# for field in fields :
+		# 	data.append( field_updates[field] )  # Ensuring order preserved.
+		#
+		# data.append( int(iwork_id) )
+		#
+		# # Create command
+		# command = "UPDATE cofk_union_work "
+		# command += "SET "
+		#
+		# count = 1
+		# for field in fields :
+		# 	command += field + "=%s"
+		# 	if count != len(fields) :
+		# 		command += ", "
+		# 	count += 1
+		#
+		# command += " WHERE iwork_id=%s"
+		#
+		# command = self.cursor.mogrify( command, data )
+		#
+		# if self.debug or print_sql:
+		# 	print( "* UPDATE work:", command )
+		#
+		# self.cursor.execute( command )
+		#
+		# self._audit_update("work")
 
 
 	def update_manifestation(self, manifestation_id, field_updates={} ):
 
-		self.check_database_connection()
+		self._update( manifestation_id, field_updates, "cofk_union_manifestation", "manifestation_id", "manifestation")
 
-		# Create a list with all the data in.
-		fields = field_updates.keys()
-		data = []
-
-		for field in fields :
-			data.append( field_updates[field] )  # Ensuring order preserved.
-
-		data.append( manifestation_id )
-
-		# Create command
-		command = "UPDATE cofk_union_manifestation "
-		command += "SET "
-
-		count = 1
-		for field in fields :
-			command += field + "=%s"
-			if count != len(fields) :
-				command += ", "
-			count += 1
-
-		command += " WHERE manifestation_id=%s"
-
-		command = self.cursor.mogrify( command, data )
-
-		if self.debug :
-			print( "* UPDATE manifestation:", command )
-
-		self.cursor.execute( command )
-
-		self._audit_update("manifestation")
+		# self.check_database_connection()
+		#
+		# # Create a list with all the data in.
+		# fields = field_updates.keys()
+		# data = []
+		#
+		# for field in fields :
+		# 	data.append( field_updates[field] )  # Ensuring order preserved.
+		#
+		# data.append( manifestation_id )
+		#
+		# # Create command
+		# command = "UPDATE cofk_union_manifestation "
+		# command += "SET "
+		#
+		# count = 1
+		# for field in fields :
+		# 	command += field + "=%s"
+		# 	if count != len(fields) :
+		# 		command += ", "
+		# 	count += 1
+		#
+		# command += " WHERE manifestation_id=%s"
+		#
+		# command = self.cursor.mogrify( command, data )
+		#
+		# if self.debug :
+		# 	print( "* UPDATE manifestation:", command )
+		#
+		# self.cursor.execute( command )
+		#
+		# self._audit_update("manifestation")
 
 
 	def update_comment(self, comment_id, field_updates={} ):
 
+		self._update( comment_id, field_updates, "cofk_union_comment", "comment_id", "comment" )
+
+		# self.check_database_connection()
+		#
+		# # Create a list with all the data in.
+		# fields = field_updates.keys()
+		# data = []
+		#
+		# for field in fields :
+		# 	data.append( field_updates[field] )  # Ensuring order preserved.
+		#
+		# data.append( comment_id )
+		#
+		# # Create command
+		# command = "UPDATE cofk_union_comment "
+		# command += "SET "
+		#
+		# count = 1
+		# for field in fields :
+		# 	command += field + "=%s"
+		# 	if count != len(fields) :
+		# 		command += ", "
+		# 	count += 1
+		#
+		# command += " WHERE comment_id=%s"
+		#
+		# command = self.cursor.mogrify( command, data )
+		#
+		# if self.debug :
+		# 	print( "* UPDATE comment:", command )
+		#
+		# self.cursor.execute( command )
+		#
+		# self._audit_update("comment")
+
+	def update_resource(self, resource_id, field_updates={} ):
+
+		self._update( resource_id, field_updates, "cofk_union_resource", "resource_id", "resource" )
+
+	def _update( self, type_id, field_updates, update_table, where_field, type_name, print_sql=False ):
 		self.check_database_connection()
 
 		# Create a list with all the data in.
@@ -277,10 +321,14 @@ class DatabaseTweaker:
 		for field in fields :
 			data.append( field_updates[field] )  # Ensuring order preserved.
 
-		data.append( comment_id )
+		if "change_user" not in fields :
+			fields.append( "change_user" )
+			data.append( "cokbot" )
+
+		data.append( type_id )  # For where field
 
 		# Create command
-		command = "UPDATE cofk_union_comment "
+		command = "UPDATE " + update_table + " "
 		command += "SET "
 
 		count = 1
@@ -290,16 +338,16 @@ class DatabaseTweaker:
 				command += ", "
 			count += 1
 
-		command += " WHERE comment_id=%s"
+		command += " WHERE " + where_field + "=%s"
 
 		command = self.cursor.mogrify( command, data )
 
-		if self.debug :
-			print( "* UPDATE comment:", command )
+		if self.debug or print_sql:
+			print( "* UPDATE " + type_name + ":", command )
 
 		self.cursor.execute( command )
 
-		self._audit_update("comment")
+		self._audit_update( type_name )
 
 
 	def delete_resource_via_resource_id( self, resource_id ):
