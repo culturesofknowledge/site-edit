@@ -11,6 +11,16 @@ import csv_unicode
 
 class DatabaseTweaker:
 
+	@classmethod
+	def tweaker_from_connection( cls, dbname, host, port, user, password, debug=None ):
+		postgres_connection = "dbname='" + dbname + "'" \
+						+ " host='" + host + "' port='" + port + "'" \
+						+ " user='" + user + "' password='" + password + "'"
+
+		dt = cls( postgres_connection, debug )
+
+		return dt
+
 	def __init__( self, connection=None, debug=False ):
 
 		self.debug = False
@@ -32,7 +42,6 @@ class DatabaseTweaker:
 		self.debug = debug
 		if debug:
 			print( "Debug ON - printing SQL" )
-
 
 	def connect_to_postres(self, connection):
 
