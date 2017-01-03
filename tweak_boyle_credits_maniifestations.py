@@ -25,10 +25,6 @@ csv_file = "resources/boyle _credits/Manifestations to reupload_2016.10.31.csv"
 csv_rows = tweaker.get_csv_data( csv_file )
 
 
-# ERROR: cannot alter type of a column used by a view or rule
-# Detail: rule _RETURN on view cofk_union_work_view depends on column "accession_code"
-
-
 countdown = len(csv_rows)
 for csv_row in csv_rows:
 	print( countdown, ":", csv_row["Manifestation [Letter] ID"] )
