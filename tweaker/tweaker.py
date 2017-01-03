@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-
-__author__ = 'sers0034'
+import sys
 
 import psycopg2
 import psycopg2.extras
@@ -49,11 +48,12 @@ class DatabaseTweaker:
 			self.connection = psycopg2.connect( connection )
 		except:
 			print( "ERROR: I am unable to connect to the database" )
+			sys.exit(1)
 		else:
 			if self.debug :
 				print( "Connected to database..." )
 
-		self.cursor = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+			self.cursor = self.connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 	def close(self):
 
