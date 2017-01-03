@@ -323,7 +323,7 @@ class DatabaseTweaker:
 
 		if "change_user" not in fields :
 			fields.append( "change_user" )
-			data.append( "cokbot" )
+			data.append( self.user )
 
 		data.append( type_id )  # For where field
 
