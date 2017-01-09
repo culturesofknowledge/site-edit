@@ -1,6 +1,6 @@
 # docker build -t emlo-edit-php:0.1.2 .
 #
-# docker run --name emlo-edit-php-3 -d -p 80:80 -v $(pwd)/core:/var/www/html/core -v $(pwd)/interface:/var/www/html --link=postgres-with-emlo:postgres emlo-edit-php:0.1.2
+# docker run --name emlo-edit-php -d -p 80:80 -v $(pwd)/core:/var/www/html/core -v $(pwd)/interface:/var/www/html --link=emlo-edit-postgres:postgres emlo-edit-php:0.1.2
 #
 FROM php-with-pgsql
 
