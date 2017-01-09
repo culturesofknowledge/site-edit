@@ -84,6 +84,11 @@ define( 'RELTYPE_COMMENT_REFERS_TO_PLACES_MENTIONED_IN_WORK', 'refers_to_places_
                                                                                                       # *WORK* on right
 define( 'RELTYPE_COMMENT_REFERS_TO_WORKS_MENTIONED_IN_WORK', 'refers_to_works_mentioned_in_work' );
 
+define( 'RELTYPE_COMMENT_REFERS_TO_ORIGIN', 'refers_to_origin' );
+define( 'RELTYPE_COMMENT_REFERS_TO_DESTINATION', 'refers_to_destination' );
+
+
+
 # New relationships for IMPAcT, 30 Nov 2011
 define( 'RELTYPE_COMMENT_REFERS_TO_TITLE_OF_WORK', 'refers_to_title' );
 define( 'RELTYPE_COMMENT_REFERS_TO_PLACE_OF_COMPOSITION_OF_WORK', 'refers_to_place_of_composition' );

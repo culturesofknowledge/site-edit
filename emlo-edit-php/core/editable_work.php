@@ -542,12 +542,23 @@ class Editable_Work extends Work {
   }
   #-----------------------------------------------------
 
+	function notes_on_origin_field() {
+
+		$this->proj_notes_field( RELTYPE_COMMENT_REFERS_TO_ORIGIN, 'Notes on origin:' );
+	}
+	#-----------------------------------------------------
+
   function destination_field() {
 
     $this->place_entry_field( FIELDSET_DESTINATION );
   }
   #-----------------------------------------------------
 
+	function notes_on_destination_field() {
+
+		$this->proj_notes_field( RELTYPE_COMMENT_REFERS_TO_DESTINATION, 'Notes on destination:' );
+	}
+	#-------
   function place_entry_field( $fieldset_name ) {
 
     $calling_field = $this->proj_new_id_fieldname_from_fieldset_name( $fieldset_name );
@@ -906,6 +917,9 @@ class Editable_Work extends Work {
         if( $this->get_system_prefix() == IMPACT_SYS_PREFIX ) {
           $reltypes[] = RELTYPE_COMMENT_REFERS_TO_PLACE_OF_COMPOSITION_OF_WORK;
         }
+
+		  $reltypes[] = RELTYPE_COMMENT_REFERS_TO_ORIGIN;
+		  $reltypes[] = RELTYPE_COMMENT_REFERS_TO_DESTINATION;
         break;
 
       case 'other_tab':           # general notes
@@ -1362,6 +1376,8 @@ class Editable_Work extends Work {
     html::bold_end();
 
     $this->origin_as_marked_field();
+	  html::linebreak();
+
     $this->place_of_origin_field();
 
     html::ulist_start( 'class="dateflags"' );
@@ -1377,10 +1393,14 @@ class Editable_Work extends Work {
     html::ulist_end();
     html::new_paragraph();
 
+	  html::linebreak();
+	  $this->notes_on_origin_field();
+
     if( $this->get_system_prefix() == IMPACT_SYS_PREFIX ) {
       $this->notes_on_place_of_composition_field();
     }
 
+	  html::linebreak();
     $this->extra_save_button( 'place_of_origin' );
 
     html::new_paragraph();
@@ -1398,6 +1418,8 @@ class Editable_Work extends Work {
     html::bold_end();
 
     $this->destination_as_marked_field();
+	  html::linebreak();
+	  
     $this->destination_field();
 
     html::ulist_start( 'class="dateflags"' );
@@ -1413,6 +1435,10 @@ class Editable_Work extends Work {
     html::ulist_end();
     html::new_paragraph();
 
+	  html::linebreak();
+	  $this->notes_on_destination_field();
+
+	  html::linebreak();
     $this->extra_save_button( 'destination' );
   }
   #-----------------------------------------------------
