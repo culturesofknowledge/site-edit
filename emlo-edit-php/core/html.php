@@ -27,7 +27,7 @@ define( 'DARK_RED'    , '#822433' );
 # Variations for Hartlib basic database
 define( 'HARTLIB_MAROON', '#800000' );
 define( 'HARTLIB_NAVY', '#002147' );
-define( 'HARTLIB_GREY', '#e8e8e8' );
+define( 'HARTLIB_GREY', '#f2f2f2' );
 
 # Variations for EMLO
 define( 'EMLO_DEEP_BLUE', '#315581' );  # rgb( 49, 85, 129 )
@@ -160,7 +160,7 @@ class HTML extends Application_Entity {
 
       echo ' body {'                                                     . NEWLINE;
       echo "   font-family: georgia, 'times new roman', times, serif; "  . NEWLINE;
-      echo '   font-size: 9pt;'                                          . NEWLINE;
+      echo '   font-size: 11pt;'                                          . NEWLINE;
       echo '   color: black;'                                            . NEWLINE;
       echo '   background:  white;'                                      . NEWLINE;
       echo '   width:  auto;'                                            . NEWLINE;
@@ -218,7 +218,9 @@ class HTML extends Application_Entity {
 
       echo ' input, textarea {'                                       . NEWLINE;
       echo '   font-family: Verdana, Helvetica, Arial, sans-serif; '  . NEWLINE;
-      echo '   font-size: 9pt;'                                       . NEWLINE;
+		echo '   font-size: 9pt;'                                      . NEWLINE;
+		echo '   padding:5px;'                                      . NEWLINE;
+		echo '   line-height:1.2;'                                      . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
       echo ' fieldset {'                                                      . NEWLINE;
@@ -235,7 +237,12 @@ class HTML extends Application_Entity {
       echo '   margin-left: 20px;'                                       . NEWLINE;
       echo ' }'                                                          . NEWLINE;
 
-      echo ' td {'                                                    . NEWLINE;
+		echo ' p, li, td {'                                                    . NEWLINE;
+		echo '   line-height:1.2;'                                      . NEWLINE;
+		echo ' }'                                                       . NEWLINE;
+
+
+		echo ' td {'                                                    . NEWLINE;
       echo '   vertical-align:top;'                                   . NEWLINE;
       echo '   text-align:left;'                                      . NEWLINE;
       echo ' }'                                                       . NEWLINE;

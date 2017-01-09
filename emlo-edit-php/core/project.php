@@ -874,8 +874,8 @@ class Project extends DBEntity {
 
     echo ' div.tabform { '                                                     . NEWLINE;
     echo '   background-color: ' . html::header_background_colour() . ';'      . NEWLINE;
-    echo '   margin-top: 30px;'                                                . NEWLINE; 
-    echo '   margin-bottom: 30px;'                                             . NEWLINE; 
+    echo '   -margin-top: 30px;'                                                . NEWLINE;
+    echo '   -margin-bottom: 30px;'                                             . NEWLINE;
     echo '   padding: 0px;'                                                    . NEWLINE; 
     echo ' }'                                                                  . NEWLINE;
 
@@ -885,10 +885,16 @@ class Project extends DBEntity {
     echo '   margin-bottom: 0px;'                                              . NEWLINE; 
     echo ' }'                                                                  . NEWLINE;
 
+	  echo ' div.tabArea {
+	    border: 1px solid black;
+		padding: 30px;
+		margin-top: -1px;
+	  }';
+
     echo ' input.fronttab {'                                                  . NEWLINE;
     echo '   font-weight: bold;'                                              . NEWLINE;
     echo '   font-size: 11pt;'                                                . NEWLINE;
-    echo '   background-color: ' .  html::header_background_colour() . ';'    . NEWLINE;
+    echo '   background-color: white;'    . NEWLINE;
 
     echo '   border-left-style: solid;'                                       . NEWLINE;
     echo '   border-left-width: 1px;'                                         . NEWLINE;
@@ -904,7 +910,7 @@ class Project extends DBEntity {
 
     echo '   border-bottom-style: solid;'                                     . NEWLINE;
     echo '   border-bottom-width: 1px;'                                       . NEWLINE;
-    echo '   border-bottom-color: ' . html::header_background_colour() . ';'  . NEWLINE;
+    echo '   border-bottom-color: white;'  . NEWLINE;
 
     echo '   border-top-left-radius:          8px;'                           . NEWLINE;
     echo '   -moz-border-top-left-radius:     8px;'                           . NEWLINE;

@@ -1051,6 +1051,7 @@ class Editable_Work extends Work {
 
     $tabs = $this->list_tabs();
 
+
     $selected_tab = $this->read_post_parm( 'selected_tab' );
     if( ! $selected_tab ) $selected_tab = DEFAULT_WORK_EDIT_TAB;
     html::hidden_field( 'selected_tab', $selected_tab );
@@ -1069,7 +1070,7 @@ class Editable_Work extends Work {
     html::div_start( 'class="tabform"' );
     html::new_paragraph();
     html::div_start( 'class="tabrow"' );
-    html::new_paragraph();
+    //html::new_paragraph();
 
     foreach( $tabs as $tab => $tab_desc) {
       $parms = '';
@@ -1087,9 +1088,11 @@ class Editable_Work extends Work {
 
     html::div_end( 'tabrow' );
 
-    html::new_paragraph( 'class="undertabs"' );
+    //html::new_paragraph( 'class="undertabs"' );
     html::div_end( 'tabform' );
-    html::new_paragraph();
+    //html::new_paragraph();
+
+
 
     $this->selected_tab = $selected_tab;
     $this->selected_tab_desc = $tabs[ "$selected_tab" ];
@@ -1281,6 +1284,7 @@ class Editable_Work extends Work {
 
   function tab_method() {
 
+	  html::div_start( 'class="tabArea"' );
     $method_name = $this->selected_tab;
     $method_desc = $this->selected_tab_desc;
 
@@ -1294,6 +1298,7 @@ class Editable_Work extends Work {
                                                       # and functions for creating relationships etc
 
     $this->$method_name();
+	  html::div_end( "tabArea" );
   }
   #-----------------------------------------------------
 
@@ -1419,7 +1424,7 @@ class Editable_Work extends Work {
 
     $this->destination_as_marked_field();
 	  html::linebreak();
-	  
+
     $this->destination_field();
 
     html::ulist_start( 'class="dateflags"' );
