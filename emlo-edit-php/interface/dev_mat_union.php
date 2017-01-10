@@ -9,9 +9,7 @@ get -r1.1 /home/burgess/scripts/sccs/cofk/php/s.dev_union.php
  *
  */
 
-//error_reporting( E_ERROR & E_WARNING & E_PARSE & E_CORE_ERROR & E_CORE_WARNING & E_COMPILE_ERROR & E_COMPILE_WARNING & E_USER_ERROR & E_USER_WARNING & E_USER_NOTICE & E_RECOVERABLE_ERROR );
-error_reporting(E_ALL & ~E_STRICT & ~E_WARNING & ~E_NOTICE);
-//error_reporting(E_ALL & ~E_STRICT);
+error_reporting(E_ALL & ~E_STRICT & ~E_WARNING);
 ini_set("display_errors", 1);
 
 define( 'CONSTANT_DATABASE_TYPE', 'docker' );
