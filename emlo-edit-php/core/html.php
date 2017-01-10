@@ -139,7 +139,9 @@ class HTML extends Application_Entity {
 
   function write_stylesheet( $for_cms_deployment = FALSE, $banner_only = FALSE, $printable = FALSE ) {
 
-	// Mattt: I've moced these to css files...
+	// Mattt: I've moved these to css files...
+
+	  echo '<!-- link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css" media="screen" / -->';
 
 	if( ! $for_cms_deployment ) {
 		echo '<link rel="stylesheet" type="text/css" href="base_style.css" media="screen" />';
