@@ -123,6 +123,7 @@ class Application_Entity {
     $keep_has_csv_option        = $this->has_csv_option;
     $keep_has_printable_option  = $this->has_printable_option;
     $keep_csv_output            = $this->csv_output;
+    $keep_excel_output          = $this->excel_output;
     $keep_printable_output      = $this->printable_output;
 
     if( is_array( $properties )) {
@@ -161,6 +162,7 @@ class Application_Entity {
     $this->has_csv_option        = $keep_has_csv_option;
     $this->has_printable_option  = $keep_has_printable_option;
     $this->csv_output            = $keep_csv_output;
+    $this->excel_output          = $keep_excel_output;
     $this->printable_output      = $keep_printable_output;
   }
   #-----------------------------------------------------
@@ -2141,7 +2143,7 @@ class Application_Entity {
 
   function app_popup_pass_value_back() {
 
-    if( $this->csv_output || $this->printable_output ) return;
+    if( $this->csv_output || $this->printable_output || $this->excel_output ) return;
 
     if( ! $this->calling_form || ! $this->calling_field ) {
       $this->calling_form = $this->read_post_parm( 'calling_form' );

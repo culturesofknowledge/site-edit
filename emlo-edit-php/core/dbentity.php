@@ -1378,8 +1378,9 @@ class DBEntity extends Application_Entity {
     # However, if in a CMS search screen, you won't have gone through menu
     if( $this->publicly_available_page ) $this->printable_output = $this->read_post_parm( 'printable_output' );
     if( $this->publicly_available_page ) $this->csv_output = $this->read_post_parm( 'csv_output' );
+    if( $this->publicly_available_page ) $this->excel_output = $this->read_post_parm( 'excel_output' );
 
-    if( ! $this->csv_output && ! $this->printable_output ) {
+    if( ! $this->csv_output && ! $this->printable_output && ! $this->excel_output) {
       $this->db_read_presentation_style();  # find out any pre-set values for entries per page, etc.
 
       $this->db_save_presentation_style(); # only applies to logged in users
@@ -1460,8 +1461,14 @@ class DBEntity extends Application_Entity {
       html::new_paragraph();
     }
     else {
-      if( $this->csv_output ) 
+      if( $this->csv_output ) {
         $this->db_produce_csv_output( $results );
+
+      }
+
+      elseif( $this->excel_output ) {
+        $this->db_produce_excel_output( $results );
+      }
 
       elseif( $this->record_layout == 'across_page' 
       && ( $this->force_printing_across_page || ! $this->printable_output )) 
@@ -1471,7 +1478,7 @@ class DBEntity extends Application_Entity {
         $this->db_browse_down_page( $results, $columns );
     }
 
-    if( ! $this->csv_output && ! $this->printable_output ) {
+    if( ! $this->csv_output && ! $this->printable_output && ! $this->excel_output ) {
       $this->db_write_page_selection_buttons();
     }
   }
@@ -1706,7 +1713,7 @@ class DBEntity extends Application_Entity {
       $this->selection_desc .= '.';
     }
 
-    if( ! $this->csv_output && ! $this->failed_validation ) {
+    if( ! $this->csv_output && ! $this->excel_output && ! $this->failed_validation ) {
       echo 'Selection: ';
       if( count( $criteria_desc ) < 1 )
         echo 'all.';
@@ -1759,7 +1766,7 @@ class DBEntity extends Application_Entity {
     $this->db_one_page_of_results = NULL;
     $rows = 0;
 
-    if( ! $this->csv_output && ! $this->printable_output ) { # no need to waste time dividing results up into pages
+    if( ! $this->csv_output && ! $this->printable_output && ! $this->excel_output ) { # no need to waste time dividing results up into pages
 
       $statement = "select $keycol from $from_tables where $where_clause order by $order_by";
       if( $sort_descending ) $statement = $statement . ' desc';
@@ -1771,7 +1778,7 @@ class DBEntity extends Application_Entity {
       $rows = count( $keyarr );
     }
 
-    if( $this->csv_output || $this->printable_output || $rows <= $entries_per_page ) {  # return the whole array
+    if( $this->csv_output || $this->excel_output || $this->printable_output || $rows <= $entries_per_page ) {  # return the whole array
 
       $statement = "select $selection_cols from $from_tables where $where_clause order by $order_by";
       if( $sort_descending ) $statement = $statement . ' desc';
@@ -1782,7 +1789,7 @@ class DBEntity extends Application_Entity {
 
       $this->db_one_page_of_results = $this->db_select_into_array( $statement );
 
-      if( ! $this->csv_output && ! $this->printable_output ) {
+      if( ! $this->csv_output && ! $this->printable_output && ! $this->excel_output ) {
 
         $this->db_page_total_pages = 1;
 
@@ -1951,6 +1958,8 @@ class DBEntity extends Application_Entity {
 
     if( ! $this->suppress_csv_version_button ) {
       $this->db_write_csv_version_button();
+    
+      $this->db_write_excel_version_button();
     }
 
     if( ! $this->suppress_save_query_button ) {
@@ -2049,6 +2058,20 @@ class DBEntity extends Application_Entity {
     $this->db_write_pagination_fields( $page_required = 1 );  # just use a dummy page required
 
     html::submit_button( 'csv_button', $button_name, $tabindex=1, ' class="pagelist" ' );
+
+    html::form_end();
+  }
+  #-----------------------------------------------------
+
+  function db_write_excel_version_button( $button_name = 'Excel output' ) {
+
+    html::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call, NULL, $form_target = '_blank' );
+
+    html::hidden_field( 'excel_output', 'Y' );
+
+    $this->db_write_pagination_fields( $page_required = 1 );  # just use a dummy page required
+
+    html::submit_button( 'excel_button', $button_name, $tabindex=1, ' class="pagelist" ' );
 
     html::form_end();
   }
@@ -2274,6 +2297,7 @@ class DBEntity extends Application_Entity {
   }
   #-----------------------------------------------------
 
+
   function db_produce_csv_output( &$rows,                # Note that rows is passed by reference to save memory
                                   $msg_recipient = NULL, # by default send file to self
                                   $msg_body = NULL,
@@ -2282,6 +2306,8 @@ class DBEntity extends Application_Entity {
                                   $suppress_confirmation = FALSE ) {
 
     flush();
+
+    echo "Outputting " . count($rows); 
 
     if( ! is_array( $rows )) {
       echo 'No matches found.';
@@ -2398,6 +2424,333 @@ class DBEntity extends Application_Entity {
     }
 
     $this->db_pre_filter_csv_output( $rows );  # Pass rows by reference to "filter" method to save memory.
+
+    $file_content = '';
+    $line_of_file = '';
+    $first_row = TRUE;
+    $total_columns = 0;
+    $msg_frequency = 100;
+
+    for( $thisrow = 0; $thisrow < $rowcount; $thisrow++ ) {
+
+      if( $first_row ) {  # write column header
+        $first_row = FALSE;
+        $total_columns = count( $rows[$thisrow] );
+        $i = 0;
+        foreach( $rows[ $thisrow ] as $column_name => $column_value ) {
+          $i++;
+          $column_label = $this->db_get_default_column_label( $column_name );
+
+          # Need to introduce some NEWLINES if the line is going to be very long
+          # otherwise Outlook (or Excel) mangles the file.
+          $words = explode( ' ', $column_label, 3 );
+          if( count( $words ) > 2 ) {
+            $column_label = $words[0] . ' ' . $words[1] . ' ' . NEWLINE . $words[2];
+          }
+
+          $line_of_file = $line_of_file . $this->csv_field( $column_label );
+          if( $i < $total_columns ) $line_of_file = $line_of_file . ',';
+        }
+        $line_of_file = $line_of_file . CARRIAGE_RETURN . NEWLINE;
+
+        if( ! $is_large_file ) # build up the output in memory
+          $file_content .= $line_of_file;
+        else {
+          # Build up the output in a database table to avoid running out of memory
+          $statement = 'insert into ' . $this->db_report_outputs_tablename()
+                     . ' ( output_id, line_number, line_text ) values ('
+                     . "'$output_id', 0, '" . $this->escape( $line_of_file ) . "')";
+          $this->db_run_query( $statement );
+        }
+      }
+
+      # Finished writing column headers on first row. Now write out the data.
+      $line_of_file = '';
+      $line_number = $thisrow + 1;
+      $i = 0;
+      foreach( $rows[ $thisrow ] as $column_name => &$column_value ) {
+        $i++;
+        $line_of_file = $line_of_file . $this->csv_field( $column_value );
+        if( $i < $total_columns ) $line_of_file = $line_of_file . ',';
+      }
+      $line_of_file = $line_of_file . CARRIAGE_RETURN . NEWLINE;
+
+      if( ! $is_large_file ) # build up the output in memory
+        $file_content .= $line_of_file;
+      else {
+        # Build up the output in a database table to avoid running out of memory
+        $statement = 'insert into ' . $this->db_report_outputs_tablename()
+                   . ' ( output_id, line_number, line_text ) values ('
+                   . "'$output_id', $line_number, '" . $this->escape( $line_of_file ) . "')";
+        $this->db_run_query( $statement );
+      }
+      unset( $rows[ $thisrow ] );  # try and free up some memory
+
+      if( ! $suppress_confirmation ) {
+        if( $rowcount > $msg_frequency ) {
+          if( $line_number % $msg_frequency == 0 ) { # time for another message
+            echo "Processed $line_number lines out of a total of $rowcount..." . LINEBREAK;
+            $anchor_name = 'processed_line_' . $line_number;
+            html::anchor( $anchor_name );
+            $script = 'window.location.hash = "#' . $anchor_name . '"';
+            html::write_javascript_function( $script );
+            flush();
+          }
+        }
+      }
+    }
+
+    unset( $rows );  # try and free up some memory
+    html::new_paragraph();
+
+    if( ! $msg_body ) {
+      $msg_body = ' - Results are attached from your query on the ' . CFG_SYSTEM_TITLE . '.    '
+                . CARRIAGE_RETURN . NEWLINE;
+      if( $this->menu_item_name )
+        $msg_body .= ' - Menu option was: ' . $this->menu_item_name . '.    ' . CARRIAGE_RETURN . NEWLINE;
+
+      if( $this->selection_desc ) {
+
+        # Selection desc has already been checked for malicious scripting, but let's double-check
+        if( ! $this->is_ok_free_text( $this->selection_desc )) die();
+
+        $msg_body .= ' - ' . $this->selection_desc . CARRIAGE_RETURN . NEWLINE;
+      }
+    }
+
+    html::new_paragraph();
+
+    if( $is_large_file ) {
+      for( $startrow = 1; $startrow <= $rowcount; $startrow += MAX_ROWS_IN_CSV_FILE ) {
+        flush();
+        $endrow = $startrow + MAX_ROWS_IN_CSV_FILE - 1;
+        $curr_batch = $endrow / MAX_ROWS_IN_CSV_FILE;
+        $file_content = '';
+
+        echo "Producing part $curr_batch of your output...";
+        html::new_paragraph();
+
+        $statement = 'select line_text from ' . $this->db_report_outputs_tablename()
+                   . " where output_id = '$output_id' and ( line_number = 0 "
+                   . " or line_number between $startrow and $endrow ) "
+                   . ' order by line_number';
+        $this->db_run_query( $statement );
+        while( $this->db_fetch_next_row()) {
+          $line_of_file = $this->db_fetch_next_col();
+          $file_content .= $line_of_file;
+        }
+        if( $curr_batch == $batch_count && ! $suppress_confirmation )
+          $print_confirmation_msg = TRUE;
+        else
+          $print_confirmation_msg = FALSE;
+
+        $success = $this->send_plain_text_attachment( $file_content,
+                                                      $msg_recipient, # by default send file to self
+                                                      $msg_body,
+                                                      $msg_subject,
+                                                      $filename_root . $curr_batch . 'of' . $batch_count . '.csv',
+                                                      $print_confirmation_msg );
+      }
+
+      # Delete the temporary output
+      $statement = 'delete from ' . $this->db_report_outputs_tablename()
+                 . " where output_id = '$output_id'";
+      $this->db_run_query( $statement );
+    }
+
+    else { # file is small enough to do all in one go.
+      $print_confirmation_msg = TRUE;
+      if( $suppress_confirmation ) $print_confirmation_msg = FALSE;
+      $success = $this->send_plain_text_attachment( $file_content,
+                                                    $msg_recipient, # by default send file to self
+                                                    $msg_body, 
+                                                    $msg_subject,
+                                                    $filename_root . '.csv',
+                                                    $print_confirmation_msg );
+    }
+
+    html::new_paragraph();
+    if( ! $suppress_confirmation ) {
+      $anchor_name = 'processed_' . $line_number . '_lines_of_results';
+      html::anchor( $anchor_name );
+      $script = 'window.location.hash = "#' . $anchor_name . '"';
+      html::write_javascript_function( $script );
+      flush();
+    }
+    html::new_paragraph();
+  }
+  #-----------------------------------------------------
+
+
+  function db_produce_excel_output( &$rows,                # Note that rows is passed by reference to save memory
+                                  $msg_recipient = NULL, # by default send file to self
+                                  $msg_body = NULL,
+                                  $msg_subject = NULL,
+                                  $filename_root = 'QueryResults',
+                                  $suppress_confirmation = FALSE ) {
+
+    flush();
+
+	echo "<h1>Exportering...</h1>";
+	echo "<p>Hi, your friendly cok bot is producing your export as we speak. It'll email you as soon as it's finished!\n\n\n</p>";
+	echo "<p>It should work up to around 10'000 works (which will take around 30 minutes). It might work on even more (but not 50'000...)\n\n:)</p>";
+
+    if( ! is_array( $rows )) {
+      echo 'No matches found.';
+      return;
+    }
+
+    $this->db_set_max_csv_rows_for_public_user();  # this can be overridden by child class
+
+    # However, set an absolute maximum which can't be overridden.
+    if( $this->max_csv_rows_for_public_user > MAX_ROWS_IN_CSV_FILE )  
+      $this->max_csv_rows_for_public_user = MAX_ROWS_IN_CSV_FILE;
+
+    # We cannot allow the public to try and produce too large a file, as we handle large files by splitting
+    # them into several sections and writing them into the report outputs table. But of course the general
+    # public can't write to any table in our database.
+    # Also data owners have concerns about outside users taking the whole database and in effect stealing it.
+
+    if( ! $this->username && count( $rows ) > $this->max_csv_rows_for_public_user ) {
+      echo 'You have requested too large a file. We can send you output files of up to ' 
+           . $this->max_csv_rows_for_public_user 
+           . ' lines per file. Please restrict your query so that it retrieves a smaller volume of data.';
+      html::new_paragraph();
+      html::button( 'cancel_csv_output', 'Close', $tabindex=1, 'onclick="self.close()"' );
+      return;
+    }
+
+    #-----------------------------------------------------------------------------------------------
+    # If not a logged-in user, or if no email address entered, get them to enter their email address
+    #-----------------------------------------------------------------------------------------------
+    elseif( ! $this->username || ! $this->read_session_parm( 'user_email' )) {
+
+      if( ! $msg_recipient ) # Some batch jobs may pass in message recipient as function parameter,
+                             # e.g. Collections management database for archives and manuscripts
+        $msg_recipient = $this->read_post_parm( 'msg_recipient' );
+
+      if( trim( $msg_recipient ) == '' ) {
+
+        html::form_start( $this->read_post_parm( 'class_name' ), $this->read_post_parm( 'method_name' ));
+
+        echo 'Your current query results can be sent to you as an email attachment if you wish. ';
+        echo 'In order to receive your results by email, please enter your email address and click Proceed. ';
+        echo LINEBREAK;
+        echo LINEBREAK;
+
+        html::input_field( 'msg_recipient', 'Your email address', NULL, FALSE, 50 );
+        html::new_paragraph();
+        html::submit_button( 'csv_button', 'Proceed' );
+        html::button( 'cancel_csv_output', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+        html::new_paragraph();
+
+        html::ulist_start();
+        html::listitem( "The type of email attachment will be 'CSV', which stands for 'Comma separated variables', "
+             . ' and is a type of file which can, for example, be opened in spreadsheet format by Excel.'); 
+
+        html::listitem( 'Email addresses entered via this form will not be stored on our database, '
+                        . ' and in fact will have to be re-entered each time '
+                        . ' that you ask for a set of query results to be sent to you.' );
+
+        if( $this->username && ! $this->read_session_parm( 'user_email' )) {
+          html::listitem( 'You are currently logged in as a full user of the system, '
+                        . ' which means you have the ability to save an email address for yourself on the database '
+                        . " via the 'Edit your own details' option on the main menu. "
+                        . ' Why not do so? It could save you a lot of typing, as you would not have to re-enter'
+                        . ' your email address each time you wanted to receive some query results by email.');
+        }
+        
+        html::listitem( 'Sorry, we cannot send messages to email addresses containing characters '
+                        . ' other than a standard set. The characters accepted are '
+                        . ' A to Z and a to z, 0 to 9, at-sign (@), full-stop (.), hyphen (-)'
+                        . ' and the underline character (_).');
+        html::ulist_end();
+
+        foreach( $_POST as $parm_name => $parm_value ) {
+          if( $parm_name == 'msg_recipient' ) continue;
+          if( $parm_name == 'csv_button' ) continue;
+          if( $parm_name == 'from_tables' ) continue; # Not sure why 'from tables' was ever written as hidden field.
+                                                      # (Value is set in db search result parms.)
+
+          if( ! $this->is_ok_free_text( $parm_value )) die(); 
+          html::hidden_field( $parm_name, $parm_value ); # validate properly when you next read the form values
+        }
+
+        html::form_end();
+        return;
+      }
+    }
+
+	/*
+		Produce a JSON file output to pass info too. 
+	*/
+
+	$rowcount = count( $rows );
+	$output_id = uniqid( rand(), TRUE );
+
+	$output_folder = '/home/cofkadmin/git/emlo-exporter/exporter_data/';
+	$output_file = $output_folder . $output_id . ".json";	
+
+	$fh = fopen($output_file, 'w') or die("ERROR: Can't open file to trigger export in " . $output_folder );; 
+
+	fwrite( $fh, '{');
+	fwrite( $fh, '"email" : "' . $this->read_session_parm( 'user_email' ) . '",' );
+        fwrite( $fh, '"iworkids":[' );
+
+	for( $thisrow = 0; $thisrow < $rowcount; $thisrow++ ) {
+
+      		$row = $rows[$thisrow];
+		fwrite( $fh, '"' . $row['iwork_id'] . '"' );
+		if( $thisrow != $rowcount - 1 ) {
+			fwrite( $fh, "," );
+		}
+	}
+	
+	fwrite( $fh, ']}');
+
+	fclose( $fh );
+
+	/*
+		Launch the export command 
+	*/
+
+	$command = 'cd /home/cofkadmin/git/emlo-exporter;/usr/bin/python /home/cofkadmin/git/emlo-exporter/export_web_auto.py ' . $output_file . " > /dev/null &";
+	$output = exec($command);
+	echo $output;
+
+	return;
+
+
+    $is_large_file = FALSE;
+    $rowcount = count( $rows );
+    if( $rowcount > MAX_ROWS_IN_CSV_FILE ) $is_large_file = TRUE;
+    $output_id = NULL;
+    if( $is_large_file ) {
+      $batch_count = ceil( $rowcount / MAX_ROWS_IN_CSV_FILE );
+      html::h3_start();
+      echo "You have requested a large report of $rowcount lines. ";
+      html::new_paragraph();
+      echo "Producing your output in $batch_count batches to try and avoid running out of memory...";
+      html::new_paragraph();
+      html::h3_end();
+      flush();
+
+      $output_id = uniqid( rand(), TRUE );
+      $output_id_checked = FALSE;
+      while( ! $output_id_checked ) {
+        $duplicate = NULL;
+        $statement = 'select output_id from ' . $this->db_report_outputs_tablename()
+                   . " where output_id = '$output_id'";
+        $duplicate = $this->db_select_one_value( $statement );
+        if( $duplicate )
+          $output_id = uniqid( rand(), TRUE );
+        else
+          $output_id_checked = TRUE;
+      }
+    }
+
+    $this->db_pre_filter_csv_output( $rows );  # Pass rows by reference to "filter" method to save memory.
+
 
     $file_content = '';
     $line_of_file = '';
@@ -2931,7 +3284,7 @@ class DBEntity extends Application_Entity {
     $this->record_layout = $this->read_post_parm( 'record_layout' );
     if( $this->record_layout == '' ) $this->record_layout = DEFAULT_RECORD_LAYOUT;
 
-    if( ! $this->csv_output && ! $this->printable_output ) {
+    if( ! $this->csv_output && ! $this->printable_output && ! $this->excel_output ) {
       html::form_start( $class_name, $this->browse_method );
       $this->db_choose_presentation_style( $possible_order_by_cols, $order_by ); # contains submit button
       html::form_end();
@@ -2963,6 +3316,10 @@ class DBEntity extends Application_Entity {
     if( $this->csv_output ) 
       $this->db_produce_csv_output( $details );
 
+    elseif( $this->excel_output )
+      $this->db_produce_excel_output( $details );
+
+
     elseif( $this->record_layout == 'across_page' 
     && ( $this->force_printing_across_page || ! $this->printable_output )) 
       $this->db_browse_across_page( $details, $columns );
@@ -2970,7 +3327,7 @@ class DBEntity extends Application_Entity {
     else
       $this->db_browse_down_page( $details, $columns );
 
-    if( ! $this->csv_output && ! $this->printable_output ) 
+    if( ! $this->csv_output && ! $this->printable_output && ! $this->excel_output ) 
       $this->db_write_page_selection_buttons();
   }
   #-----------------------------------------------------
@@ -3136,7 +3493,7 @@ class DBEntity extends Application_Entity {
 
     if( $this->app_popup_add_selectform ) { # Will normally be set by method "app_popup_search_results()"
                                             # derived from Application Entity.
-      if( ! $this->printable_output && ! $this->csv_output ) {
+      if( ! $this->printable_output && ! $this->csv_output && ! $this->excel_output ) {
 
         if( $column_name == $this->app_popup_get_field_for_select_button() ) {
           $this->app_popup_pass_value_back();   # write 'Select' button letting you pass data back from popup window
@@ -3169,6 +3526,7 @@ class DBEntity extends Application_Entity {
 
       case 'printable_output':
       case 'csv_output':
+      case 'excel_output':
       case 'save_query':
       case 'simplified_search':
       case 'manual_search':

@@ -161,6 +161,8 @@ class Menu extends Project {
 
     $printable_output = $this->read_post_parm( 'printable_output' );
     $csv_output = $this->read_post_parm( 'csv_output' );
+    $excel_output = $this->read_post_parm( 'excel_output' );
+
 
     if( $printable_output ) {
       $suppress_breadcrumbs = TRUE;
@@ -249,6 +251,7 @@ class Menu extends Project {
 
         $menu_item->printable_output      = $printable_output;
         $menu_item->csv_output            = $csv_output;
+        $menu_item->excel_output          = $excel_output;
 
         $menu_item->username              = $username;
         $menu_item->person_name           = $person_name;

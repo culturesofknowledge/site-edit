@@ -48,15 +48,7 @@ class DBQuery extends Application_Entity {
 
     $this->user = $user;
 
-    //if( defined( 'SPECIAL_DATABASE_USERNAME' ) ) {
-    //  // can't get remote access to database to work without passwords so just using specific username
-    //  // - username must be in cofk_user table in postgres
-    //  $this->dsn = 'pgsql://' . SPECIAL_DATABASE_USERNAME . ':' . SPECIAL_DATABASE_PASSWORD. "@$this->host/$this->db_name";
-    //}
-    //else {
-      $this->dsn = "pgsql://$this->user@$this->host/$this->db_name";
-    //}
-
+       $this->dsn = "pgsql://$this->user@$this->host/$this->db_name";
     $this->db_connect();
 
     define('ROWCOUNT_NOT_SET', -1);    # Set to -1 to avoid confusion with real rowcounts of 0.
@@ -241,13 +233,13 @@ class DBQuery extends Application_Entity {
 
       echo $newline . '<br><br>' . $newline;
 
-      //if( $this->debug ) {
+      if( $this->debug ) {
         echo 'Last recorded statement: ' . $this->statement;
         echo $newline . '<br><br>' . $newline;
         die ( $this->$database_object->getMessage() . '<br>' . $newline );
-      //}
-      //else # try not to give a potential hacker any useful info
-      //  die ( 'An error has occurred.' . '<br>' . $newline );
+      }
+      else # try not to give a potential hacker any useful info
+        die ( 'An error has occurred.' . '<br>' . $newline );
     }
   }
 
