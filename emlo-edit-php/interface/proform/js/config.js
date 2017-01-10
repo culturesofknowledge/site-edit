@@ -1,6 +1,6 @@
  
 
-var configLimit = 10;
+var configLimit = 20;
 
 var code = "emlo";
 var urlProformEMLO = "https://emlo-edit.bodleian.ox.ac.uk/interface/proform/";

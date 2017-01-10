@@ -69,14 +69,15 @@ function summaryFilter(){
 					
 		
 		</select>
+<input type="hidden" name="filterDateTypeText" value=""/>
 					<br/>
 					<label>Year From</label>
 					<input type="text" name="filterYearFrom" value=""/>
-						
+			<input type="hidden" name="filterYearFromText" value=""/>			
 					<span id="spanYearTo">
 					<label>Year To</label>
 					<input type="text" name="filterYearTo" value=""/></span>
-	
+					<input type="hidden" name="filterYearToText" value=""/>
 					<div id="slider-range"></div>
 	
 					</li>

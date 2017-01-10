@@ -52,8 +52,9 @@ include("lib/html.php");
 	<span class="filterActivity"></span>
 	<span class="filterLocation"></span>
 	<span class="filterEditor"></span>
-	
-	
+	<span class="filterDateType"></span>
+	<span class="filterYearFrom"></span>
+	<span class="filterYearTo"></span>	
 	
 	</span></fieldset>
 	<div class="row">

@@ -1,15 +1,14 @@
 $(document).ready(function() { 
 	    
 	addDateFilters();
-	addSlider();
+	//addSlider();
 	addFilter("Person", "Primary Participant", "person_id", urlPersonAll, "json");
 	addFilter("Activity", "Activity", "", "", "");
 	addFilter("Location", "Location", "person_id", urlPlaceAll, "json");
 	addFilter("Editor", "Editor", "", urlEditor, "json");
+	addFilterPerson();
 	addPagination();
 	addSummaryTable();
-	
-
 	
 });
 
@@ -141,30 +140,101 @@ function addDateFilters(){
 	var filterYearFrom = getParameterByName('filterYearFrom');
 	var filterYearTo = getParameterByName('filterYearTo');
 	
+if (filterYearFrom != ""){
+ 	$("input[name='filterYearFrom']").val(filterYearFrom); 
+	$("input[name='filterYearFromText']").val(filterYearFrom);
+	
+
+
+	addDateFilter('YearFrom', 'Year from', filterYearFrom );
+}
+	 if (filterYearTo != "") { 
+		 $("input[name='filterYearTo']").val(filterYearTo); 
+		 $("input[name='filterYearToText']").val(filterYearTo);
+		addDateFilter('YearTo', 'Year to', filterYearTo );
+}
+
+
+	 if (filterDateType != "") { 
+		 $("input[name='filterDateType']").val(filterDateType); 
+		 $("input[name='filterDateTypeText']").val(filterDateType);
+		addDateFilter('DateType', 'Date type', filterDateType );
+}
+
+
 	 if (filterDateType != "") { 
 		 $("select[name='filterDateType']").val(filterDateType);
 		 
 		 switch(filterDateType) {
-	    	case "After":
-	    	case "Before":
-	    		$("#spanYearTo").hide(); // hide year to input field
-	    		break;
-	    	case "Between":
-	    	case "Duration":
-	    		$("#spanYearTo").show(); // show filter year to input field
+	    		case "After":
+		
+	  		case "Before":
+				$("input[name='filterYearTo']").val('');
+				$("input[name='filterYearToText']").val('');
+	    			$("#spanYearTo").hide(); // hide year to input field
+	    			break;
+	    		case "Between":
+	    		case "Duration":
+	    			$("#spanYearTo").show(); // show filter year to input field
 	    
-	    		break;   
-	    	default:
-	    		$("#spanYearTo").hide();      
-		 	}
+	    			break;   
+	    		default:
+				$("input[name='filterYearTo']").val('');
+				$("input[name='filterYearToText']").val('');
+				$("#spanYearTo").hide();      
+		}
 	 };
-	 if (filterYearFrom != "") { $("input[name='filterYearFrom']").val(filterYearFrom); };
-	 if (filterYearTo != "") { $("input[name='filterYearTo']").val(filterYearTo); };
-	 
 	
 }
 
 
+function addDateFilter(objType, label, value){
+
+
+	var spanFilter = eval('$("span.filter' + objType + '")');
+  
+  	var html =   
+	'  <div class="small divFilter divFilter' + objType +'">'+ label +':' +
+	'   <div class="row  collapse"> ' +
+	'   <div class="small-10 columns">' +
+	'     <input type="text" name= "f' + objType +'" readonly placeholder="' + value + '">' +	
+	'   </div>' +
+	'   <div class="small-2 columns">' +
+	'     <div id="' + objType + '" class="button postfix deleteFilter">X</div>' +
+	'   </div>' +
+	'   </div>' ;
+  
+
+  		 $(spanFilter).html(html) 
+  	
+
+
+}
+
+
+function addFilterPerson(){
+
+var person_id = getParameterByName('person_id');
+
+if (person_id != ''){
+  	var html =   
+	'  <div class="small divFilter divFilterPerson">Person:' +
+	'   <div class="row  collapse"> ' +
+	'   <div class="small-10 columns">' +
+	'     <input type="text" id="fPerson" name= "fPerson" readonly placeholder="">' +	
+	'   </div>' +
+	'   <div class="small-2 columns">' +
+	'     <div id="Person" class="button postfix deleteFilter">X</div>' +
+	'   </div>' +
+	'   </div>' ;
+  
+  		$('span.filterPerson').html(html) ;
+		personName = getPersonName(person_id);
+		$('#fPerson').attr('placeholder', personName);
+		$('input[name="filterPersonText"]').val(personName);
+		$('input[name="filterPerson"]').val(person_id);
+}
+}
 
 
 function addFilter(objType, label, parameter , urlQuery, dataType){
@@ -298,13 +368,16 @@ function addPagination(){
 
 	var personId = getParameterByName('filterPerson');// PERSON
 	if (personId == "") {  personId = getParameterByName('person_id') }
+	
+
 	var activityType = getParameterByName('filterActivity');// ACTIVITY
 	var location = getParameterByName('filterLocation');// LOCATION
 	var dateType =  getParameterByName('filterDateType') ; // DATE
 	var yearFrom = getParameterByName('filterYearFrom');
 	var yearTo = getParameterByName('filterYearTo');	 
 	var editor = getParameterByName('filterEditor');	 // EDITOR
-	var personText = getParameterByName('filterPersonText');
+
+
 	var locationText = getParameterByName('filterLocationText');
 	var limit = configLimit; // how many records to return
 	var url = urlActivityCount + "?filterEditor=" + editor +"&filterDateType=" + dateType +"&filterYearFrom=" + yearFrom + "&filterYearTo=" + yearTo + "&filterPerson=" + personId + "&filterActivity=" + activityType + "&filterLocation=" + location;
@@ -323,42 +396,73 @@ function addPagination(){
 		var  offsetCurrentLabel = parseInt(offset / limit);
 		 offsetCurrentLabel = (offsetCurrentLabel < 1) ? 1 : offsetCurrentLabel += 1;
 		
+		var offsetMinus10 = ((offset - (limit * 10)) > 0) ? (offset - (limit * 10)) : 0;
+
+		var offsetPlus10 = ((offset + (limit * 10)) < offsetEnd) ? (offset + (limit * 10)) : offsetEnd;
 		var filterURL = getFilterURL(); // construct filter url
 		 
-		
+		var currentPage = offsetCurrentLabel;
+		var totalPages = ~~(recordCount / limit) + 1;		
+
 		var html = 
-					  '<p>Record Count: ' + recordCount + '</p>' 
-					+ '<ul class="pagination">' 
-					+  '<li class="arrow"><a href="?' + filterURL +'&offset=0">&laquo;&laquo;</a></li>';
+		'<p>' + recordCount + ' results (20 per page)<br/>'
+		+ 'Page ' + offsetCurrentLabel + ' of ' + totalPages	 
+		+ '</p><ul class="pagination">' 
+		+  '<li class=""><a href="?' + filterURL +'&offset=0">First</a></li>';
 		
+		html += 
+		'<li class="arrow"><a href="?' + filterURL +'&offset=' + offsetMinus10 +'">&lt;&lt;</a></li>'
 		
-			html +=  (offset > 0) ? 
-					'<li class="arrow"><a href="?' + filterURL +'&offset='+ offsetPrev +'">&laquo;</a></li>' 
-					: 
-					'<li class="arrow">&laquo;</li>';
-			html +=
-					'<li  class="current"><a href="?' + filterURL 
-					+'&offset='+ offset  +'">Page '
-					+ offsetCurrentLabel +'</a></li>' ;
+		html +=  (offset > 0) ? 
+		'<li class="arrow"><a href="?' + filterURL +'&offset='+ offsetPrev +'">' + (offsetCurrentLabel - 1) + '</a></li>' 
+			: '';
+		
+		html +=
+		'<li  class="current"><a href="?' + filterURL 
+		+'&offset='+ offset  +'">'
+		+ offsetCurrentLabel +'</a></li>' ;
 			
-			html += (offsetNext < recordCount) ? 
-					'<li class="arrow"><a href="?' + filterURL +'&offset='+ offsetNext +'">&raquo;</a></li>' 
-					: 
-					'<li class="arrow">&raquo;</li>';
+		html += (offsetNext < recordCount) ? 
+		'<li class="arrow"><a href="?' + filterURL +'&offset='+ offsetNext +'">' + (offsetCurrentLabel + 1) +'</a></li>' 
+			: '';
+
+
+		html += 
+		'<li class="arrow"><a href="?' + filterURL +'&offset=' + offsetPlus10 +'">&gt;&gt;</a></li>'
+
 					
 			html += ' <li class="arrow"><a href="?' + filterURL 
-				 	+ '&offset='+ offsetEnd +'">&raquo;&raquo;</a></li></ul>';
+				 	+ '&offset='+ offsetEnd +'">Last</a></li></ul>';
 		
 		$(html).appendTo(".pagination-centered");
 	});
 }
 
 
+
+function getPersonName(personId){
+	var result = $.ajax({
+	url: "https://emlo-edit.bodleian.ox.ac.uk/interface/proform/ws/person.php/?id=" + personId,
+	async: false
+}).responseText;
+
+	value = jQuery.parseJSON(result);
+	value = value[0].name;
+	return value;
+
+}
+
 function getFilterURL(){
 	
 	var personId = getParameterByName('filterPerson');// PERSON
 	if (personId == "") {  personId = getParameterByName('person_id') }
 	var personText = getParameterByName('filterPersonText');
+
+	if (personText == ""){
+		// get name using person id
+		personText = getPersonName(personId);
+}
+
 	var activityType = getParameterByName('filterActivity');// ACTIVITY
 	var location = getParameterByName('filterLocation');// LOCATION
 	var locationText = getParameterByName('filterLocationText');
@@ -383,7 +487,6 @@ function getFilterURL(){
 	 for (var f in arrFilters) {
 		   filterURL += arrFilters[f][0].name + "=" + arrFilters[f][0].id + "&"; 
 		   if (arrFilters[f][0].text != ''){
-			   
 			   filterURL += (arrFilters[f][0].text) ? arrFilters[f][0].name + "Text=" + arrFilters[f][0].text + "&" : arrFilters[f][0].name + "Text=" + arrFilters[f][0].id + "&";
 		   } 
 		}
@@ -835,9 +938,9 @@ function summaryTableHeading(){
 	
 	var html =
 		'<tr>' +
-		'<th>View</th>' +
+		'<th>View/ Edit Record</th>' +
 		'<th>Primary Participant</th>' +
-		'<th>Activity Type</th>' +
+		'<th>Activity / Relationship Type</th>' +
 		'<th>Date Type</th>' +
 		'<th>Year From</th>' +
 		'<th>Year To</th>' +

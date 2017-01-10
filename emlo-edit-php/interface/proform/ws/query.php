@@ -86,6 +86,7 @@ switch ($queryDateType){
 }
 
 
+$qualifyQuery .= " and a.date_type ='" . $queryDateType . "' ";
 
 
 if ($queryActivityId != "") { $qualifyQuery = " and a.id = $queryActivityId  ";}
