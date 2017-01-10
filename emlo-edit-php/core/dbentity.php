@@ -1821,6 +1821,7 @@ class DBEntity extends Application_Entity {
 
         if( ! $this->suppress_csv_version_button ) {
           $this->db_write_csv_version_button();
+			$this->db_write_excel_version_button();
         }
 
         if( ! $this->suppress_save_query_button ) {
