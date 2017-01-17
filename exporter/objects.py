@@ -182,7 +182,7 @@ def get_person_csv_converter() :
 		{ "f" : "EMLO Person ID", "d" : { "o" : "person", "f" : "iperson_id" } },
 		{ "f" : "Person primary name in EMLO", "d" : { "o" : "person", "f" : "foaf_name" } },
 		{ "f" : "Synonyms", "d" : { "o" : "person", "f" : "skos_altlabel" } },
-		{ "f" : "Synonyms Other", "d" : { "o" : "person", "f" : "skos_hiddenlabel" } },
+		# { "f" : "Synonyms Other", "d" : { "o" : "person", "f" : "skos_hiddenlabel" } },
 		{ "f" : "Aliases", "d" : { "o" : "person", "f" : "person_aliases" } },
 		{ "f" : "Gender", "d" : { "o" : "person", "f" : "gender" } },
 		{ "f" : "Is Organization (Y=yes;black=no)", "d" : { "o" : "person", "f" : "is_organisation" } },
