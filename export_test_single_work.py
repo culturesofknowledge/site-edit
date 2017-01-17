@@ -10,8 +10,14 @@ postgres_connection = "dbname='" + config["dbname"] + "'" \
 e = Exporter( postgres_connection, False, debug_on )
 
 folder = "Single Export"
-work_id = 'cofk_import_ead-ead_c01_id:000017739'  # 'cofk_import_hartlib-row_id:000003994'
-work_id = 'cofk_import_wallis_works-letter_id:000000784'  # with work-resource link
-work_id = 'cofk_import_aubrey-row_id:000000690'  # with person-resource link
-work_id = 'cofk_import_ead-ead_c01_id:000026011'  # With location-resource link
+#work_id = 'cofk_import_ead-ead_c01_id:000017739'  # 'cofk_import_hartlib-row_id:000003994'
+#work_id = 'cofk_import_wallis_works-letter_id:000000784'  # with work-resource link
+#work_id = 'cofk_import_aubrey-row_id:000000690'  # with person-resource link
+#work_id = 'cofk_import_ead-ead_c01_id:000026011'  # With location-resource link
+
+iworkid = '22070'
+command = "select work_id from cofk_union_work where iwork_id=" + iworkid
+work_ids = e.select_all( command )
+work_id = work_ids[0]['work_id']
+
 e.export( [work_id], folder )
