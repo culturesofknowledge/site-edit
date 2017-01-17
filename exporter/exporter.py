@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 import os.path
+import sys
 import csv
 import datetime
 
 import psycopg2
 import psycopg2.extras
 
-import exporter.objects
-import exporter.excel_writer
+if( sys.version_info > (3,0) ):
+	from exporter import objects
+	from exporter import excel_writer
+else :
+	import objects
+	import excel_writer
 
 
 class Exporter:
@@ -39,7 +44,7 @@ class Exporter:
 		self.limit_ouput = 10
 
 
-	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None ):
+	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None, excel_output=None ):
 		"""
 			Create csv files associated with the workids (This can use a lot of memory... given a lot of works)
 
@@ -260,11 +265,17 @@ class Exporter:
 
 			# Create Excel file of CSV files
 
-			ew = exporter.excel_writer.ExcelWriter()
-			ew.convert( {
+			ew = excel_writer.ExcelWriter()
+			settings = {
 				"sheets" : self.csvs,
 				"outputname" : output_folder + "/" + output_folder_name + ".xlsx"
-			})
+			}
+
+			if excel_output :
+				settings["outputname"] = excel_output
+
+			ew.convert( settings )
+
 
 			self.reports.append( "Excel file created at " + output_folder + "/" + output_folder_name + ".xlsx" )
 
@@ -280,7 +291,7 @@ class Exporter:
 
 	def _create_resource_csv(self, resources, folder ):
 
-		self._create_csv( exporter.objects.get_resource_csv_converter(),
+		self._create_csv( objects.get_resource_csv_converter(),
 							resources,
 							self.names['resource'],
 							{},
@@ -297,7 +308,7 @@ class Exporter:
 		related = {self.names['resource'] : resources }
 		related_relations = {  self.names['resource'] : resource_relations }
 
-		self._create_csv( exporter.objects.get_institution_csv_converter(),
+		self._create_csv( objects.get_institution_csv_converter(),
 							institutions,
 							self.names['institution'],
 							related,
@@ -314,7 +325,7 @@ class Exporter:
 		related = { self.names['work'] : works, self.names['institution'] : institutions, self.names['comment'] : comments }
 		related_relations = { self.names['work'] : work_relations, self.names['institution'] : institution_relations, self.names['comment'] : comment_relations }
 
-		self._create_csv( exporter.objects.get_manifestation_csv_converter(),
+		self._create_csv( objects.get_manifestation_csv_converter(),
 							manifestations,
 							self.names['manifestation'],
 							related,
@@ -331,7 +342,7 @@ class Exporter:
 		related = { self.names['comment'] : comments, self.names['resource'] : resources }
 		related_relations = { self.names['comment'] : comments_relations, self.names['resource'] : resource_relations }
 
-		self._create_csv( exporter.objects.get_location_csv_converter(),
+		self._create_csv( objects.get_location_csv_converter(),
 							locations,
 							self.names['location'],
 							related,
@@ -348,7 +359,7 @@ class Exporter:
 		related = { self.names['comment'] : comments, self.names['resource'] : resources }
 		related_relations = { self.names['comment'] : comments_relations, self.names['resource'] : resource_relations }
 
-		self._create_csv( exporter.objects.get_person_csv_converter(),
+		self._create_csv( objects.get_person_csv_converter(),
 							people,
 							self.names['person'],
 							related,
@@ -366,7 +377,7 @@ class Exporter:
 		related = { self.names['person'] : people, self.names['location'] : locations, self.names['comment'] : comments, self.names['resource'] : resources }
 		related_relations = { self.names['person'] : people_relations, self.names['location'] : locations_relations, self.names['comment'] : comments_relations, self.names['resource'] : resource_relations }
 
-		self._create_csv( exporter.objects.get_work_csv_converter(),
+		self._create_csv( objects.get_work_csv_converter(),
 								works,
 								self.names['work'],
 								related,
@@ -488,7 +499,7 @@ class Exporter:
 
 
 	def _get_works(self, ids ):
-		works = self._get_objects( self.names['work'], ids, exporter.objects.get_work_fields() )
+		works = self._get_objects( self.names['work'], ids, objects.get_work_fields() )
 
 		command = "SELECT catalogue_code, catalogue_name from cofk_lookup_catalogue"
 		catalogues = self.select_all( command )
@@ -506,22 +517,22 @@ class Exporter:
 		return works
 
 	def _get_people(self, ids ):
-		return self._get_objects( self.names['person'], ids, exporter.objects.get_person_fields() )
+		return self._get_objects( self.names['person'], ids, objects.get_person_fields() )
 
 	def _get_locations(self, ids ):
-		return self._get_objects( self.names['location'], ids, exporter.objects.get_location_fields() )
+		return self._get_objects( self.names['location'], ids, objects.get_location_fields() )
 
 	def _get_manifestations(self, ids ):
-		return self._get_objects( self.names['manifestation'], ids, exporter.objects.get_manifestation_fields() )
+		return self._get_objects( self.names['manifestation'], ids, objects.get_manifestation_fields() )
 
 	def _get_institutions(self, ids ):
-		return self._get_objects( self.names['institution'], ids, exporter.objects.get_institution_fields() )
+		return self._get_objects( self.names['institution'], ids, objects.get_institution_fields() )
 
 	def _get_comments(self, ids ):
-		return self._get_objects( self.names['comment'], ids, exporter.objects.get_comment_fields() )
+		return self._get_objects( self.names['comment'], ids, objects.get_comment_fields() )
 
 	def _get_resources(self, ids ):
-		return self._get_objects( self.names['resource'], ids, exporter.objects.get_resource_fields() )
+		return self._get_objects( self.names['resource'], ids, objects.get_resource_fields() )
 
 
 
