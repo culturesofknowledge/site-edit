@@ -590,13 +590,23 @@ class Exporter:
 
 	def _save_csv(self, rows, fields, filepos ):
 
-		with open(filepos, 'w', encoding='utf-8') as csvfile:  # utf8 with bom
+	
+		if( sys.version_info > (3,0) ):
+			csvfile = open(filepos, 'w', encoding='utf-8')
+		else :
+			csvfile = open(filepos, 'w')
+
+		try :
 			writer = csv.DictWriter(csvfile, dialect='excel', fieldnames=fields)
 
 			writer.writeheader()
 
 			for row in rows :
 				writer.writerow( row )
+
+		finally:
+
+			csvfile.close()
 
 		self.reports.append( 'Saving "' + filepos + '" with ' + str(len(rows)) + " rows" )
 
