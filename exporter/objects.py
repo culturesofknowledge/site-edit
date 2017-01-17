@@ -88,11 +88,13 @@ def get_work_csv_converter() :
 		{ "f" : u"Origin as marked in body/text of letter", "d" : { "o" : "work", "f" : "origin_as_marked"} },
 		{ "f" : u"Origin inferred (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "origin_inferred"} },
 		{ "f" : u"Origin uncertain (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "origin_uncertain"} },
+		{ "f" : u"Notes on Origin in relation to letter", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_origin"} },
 		{ "f" : u"Destination name", "d" : { "o" : "location", "f" : "location_name","r" : "was_sent_to" } },
 		{ "f" : u"Destination EMLO ID", "d" : { "o" : "location", "f" : "location_id","r" : "was_sent_to" } },
 		{ "f" : u"Destination as marked in body/text of letter", "d" : { "o" : "work", "f" : "destination_as_marked"} },
 		{ "f" : u"Destination inferred (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "destination_inferred"} },
 		{ "f" : u"Destination uncertain (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "destination_uncertain"} },
+		{ "f" : u"Notes on Destination in relation to letter", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_destination"} },
 
 		{ "f" : u"Abstract", "d" : { "o" : "work", "f" : "abstract"} },
 		{ "f" : u"Keywords", "d" : { "o" : "work", "f" : "keywords"} },
@@ -179,6 +181,7 @@ def get_person_csv_converter() :
 	return [
 		{ "f" : "EMLO Person ID", "d" : { "o" : "person", "f" : "iperson_id" } },
 		{ "f" : "Person primary name in EMLO", "d" : { "o" : "person", "f" : "foaf_name" } },
+		{ "f" : "Synonyms", "d" : { "o" : "person", "f" : "foaf_name" } },
 		{ "f" : "Gender", "d" : { "o" : "person", "f" : "gender" } },
 		{ "f" : "Is Organization (Y=yes;black=no)", "d" : { "o" : "person", "f" : "is_organisation" } },
 		{ "f" : "Birth year", "d" : { "o" : "person", "f" : "date_of_birth_year" } },
