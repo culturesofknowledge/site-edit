@@ -80,6 +80,8 @@ class Exporter:
 
 			# Works
 
+			print( "Beginning export..." )
+
 			if self.names["work"] in parts_csvs:
 				works = self._get_works( work_ids )
 
