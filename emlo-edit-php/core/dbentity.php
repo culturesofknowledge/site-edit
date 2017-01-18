@@ -1735,7 +1735,7 @@ class DBEntity extends Application_Entity {
         echo LINEBREAK;
         if( $this->publicly_available_page ) HTML::new_paragraph();
       }
-      HTML::horizontal_rule();
+      HTML::horizontal_rule( 'style="border: 6px solid #f2f2f2;"');
     }
 
     
@@ -2028,8 +2028,13 @@ class DBEntity extends Application_Entity {
         $button_name = '1 to ' . $page_to_get;
       elseif( $page_to_get == $last_page_to_show && $last_page_to_show < $total_pages )
         $button_name = $page_to_get . ' to ' . $total_pages;
-      else
-        $button_name = 'Page ' . $page_to_get;
+      else {
+		  $button_name = 'Page ';
+		  if ( $page_to_get < 10 ) {
+			  $button_name .= "  ";
+		  }
+		  $button_name .= $page_to_get;
+	  }
 
       if( $this->db_page_required == $page_to_get ) # highlight the current page
         $button_class = 'currpage';

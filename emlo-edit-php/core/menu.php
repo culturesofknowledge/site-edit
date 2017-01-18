@@ -637,9 +637,10 @@ class Menu extends Project {
       echo 'Logout';
       HTML::link_end();
     }
+	  echo LINEBREAK;
+    echo '<hr style="border: 7px solid white;">';
 
-    echo LINEBREAK;
-    HTML::h2_start();
+    HTML::h2_start( "margin:13px 10px 0px 19px");
     if( $override_title )
       echo $override_title;
     else

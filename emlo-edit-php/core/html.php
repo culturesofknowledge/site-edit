@@ -56,12 +56,12 @@ class HTML extends Application_Entity {
 
   function html_start() {
 
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ';
-    echo NEWLINE;
-    echo '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
-    echo NEWLINE;
+    //echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ';
+    //echo NEWLINE;
+    //echo '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+    //echo NEWLINE;
 
-    echo '<html>';
+    echo '<!DOCTYPE html><html>';
     echo NEWLINE;
   }
   #-----------------------------------------------------------------
@@ -965,11 +965,11 @@ class HTML extends Application_Entity {
     echo '</h1>';
   }
   #-----------------------------------------------------------------
-  function h2_start() {
-    echo '<h2>';
+  static function h2_start( $style ) {
+    echo '<h2 style="' . $style . '">';
   }
   #-----------------------------------------------------------------
-  function h2_end() {
+	static function h2_end() {
     echo '</h2>';
   }
   #-----------------------------------------------------------------
@@ -1697,7 +1697,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function horizontal_rule( $parms = NULL ) {
+  static function horizontal_rule( $parms = NULL ) {
 
     echo NEWLINE . '<hr ';
     if( $parms ) echo $parms;

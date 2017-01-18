@@ -14,3 +14,13 @@ body{font-family:georgia,'times new roman',times,serif;font-size:11pt;color:#000
 	border-color: #f0f0f0;
 	padding: 13px 9px;
 }
+
+input.pagelist,
+input.currpage {
+	padding: 6px 5px;
+	border-radius: 4px;
+}
+input.pagelist:hover {
+	color: maroon;
+}
+

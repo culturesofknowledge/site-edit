@@ -15,6 +15,6 @@ $database_type_set = TRUE;
 define( 'CONSTANT_SOURCEDIR', '/var/www/html/core/' );
 $sourcedir_set = TRUE;
 
-echo "Database connection is: <b>" . strtoupper(CONSTANT_DATABASE_TYPE) . "</b>";
+//echo "<!-- Database connection is: <b>" . strtoupper(CONSTANT_DATABASE_TYPE) . "</b> -->";
 
 require_once "union.php";
