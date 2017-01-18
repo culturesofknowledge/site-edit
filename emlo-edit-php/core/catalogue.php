@@ -92,18 +92,18 @@ class Catalogue extends Lookup_Table {
       $lookup_list[] = array( 'catalogue_code' => $catalogue_code, 'catalogue_name' => $catalogue_name );
     }
 
-    html::dropdown_start( $field_name, $field_label, $in_table = FALSE );
+    HTML::dropdown_start( $field_name, $field_label, $in_table = FALSE );
 
     foreach( $lookup_list as $lookup_row ) {
 
       $display_code = $lookup_row[ 'catalogue_code' ];
       $display_desc = $lookup_row[ 'catalogue_name' ];
 
-      html::dropdown_option( $display_code,
+      HTML::dropdown_option( $display_code,
                              $display_desc,
                              $selected_code );  # pre-selected one
     }
-    html::dropdown_end( $in_table = FALSE );
+    HTML::dropdown_end( $in_table = FALSE );
   }
   #----------------------------------------------------- 
 

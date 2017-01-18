@@ -64,7 +64,7 @@ class Contributor extends Project {
   function db_browse_reformat_data( $column_name, $column_value ) {
   
     if( $column_name == 'tool_user_email' && $column_value && ! $this->printable_output && ! $this->csv_output ) {
-      html::link( $href = "mailto:$column_value", 
+      HTML::link( $href = "mailto:$column_value", 
                   $displayed_text = $column_value, 
                   $title = 'Contact the contributor', 
                   $target = '_blank' );
@@ -130,10 +130,10 @@ class Contributor extends Project {
 
     echo 'You can use this screen to search for, or browse through, all the contributors who have registered'
          . ' to use the offline data collection tool but who do not have a full login to EMLOedit.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo 'Simply click Search without entering a selection to browse through the whole list, page by page.';
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 

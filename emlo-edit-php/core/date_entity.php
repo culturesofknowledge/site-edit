@@ -90,8 +90,8 @@ class Date_Entity extends Project {
     echo ' }'                                                        . NEWLINE;
 
     echo ' .date_entry_field hr { ' . NEWLINE;
-    echo '   color: ' . html::get_contrast1_colour() . ';'              . NEWLINE;  # IE
-    echo '   background-color: ' . html::get_contrast1_colour() . ';'   . NEWLINE;  # Firefox
+    echo '   color: ' . HTML::get_contrast1_colour() . ';'              . NEWLINE;  # IE
+    echo '   background-color: ' . HTML::get_contrast1_colour() . ';'   . NEWLINE;  # Firefox
     echo ' }'                                                           . NEWLINE;
 
     echo ' label.mainlabel {'                                           . NEWLINE;
@@ -103,7 +103,7 @@ class Date_Entity extends Project {
     echo ' }'                                                           . NEWLINE;
 
     echo ' input.readonly_date, input.refreshbutton { '                     . NEWLINE;
-    echo '   background-color: ' . html::header_background_colour() . ';'   . NEWLINE;
+    echo '   background-color: ' . HTML::header_background_colour() . ';'   . NEWLINE;
     echo ' }'                                                               . NEWLINE;
 
     echo ' input.refreshbutton { '                                          . NEWLINE;
@@ -332,12 +332,12 @@ class Date_Entity extends Project {
     $enable_date_range = FALSE;
     if( count( $fields ) == 2 ) $enable_date_range = TRUE;
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $fieldname = $fields[ 0 ];
     $this->set_ids_for_css( $fieldname, $initialise = TRUE );
-    html::fieldset_start( $legend, $this->fieldset_id, 'class="date_entry_field"' );
-    html::new_paragraph();
+    HTML::fieldset_start( $legend, $this->fieldset_id, 'class="date_entry_field"' );
+    HTML::new_paragraph();
 
     $range_checkbox_ticked = $this->get_property_value( $this->range_checkbox_id );
 
@@ -352,9 +352,9 @@ class Date_Entity extends Project {
 
     if( $display_calendars_in_main_fieldset ) {
 
-      html::italic_start();
+      HTML::italic_start();
       echo 'Calendar of ' . strtolower( $legend ) . ': ';
-      html::italic_end();
+      HTML::italic_end();
       $this->calendar_selection_within_main_fieldset();
     }
     #-----------
@@ -370,13 +370,13 @@ class Date_Entity extends Project {
         if( ! $first ) {
 
           $hide_script = $this->get_hide_script( $fieldname );
-          html::write_javascript_function( $hide_script );
+          HTML::write_javascript_function( $hide_script );
 
           $show_script = $this->get_show_script( $fieldname );
-          html::write_javascript_function( $show_script );
+          HTML::write_javascript_function( $show_script );
 
-          html::write_javascript_function(  $this->change_label_script );
-          html::write_javascript_function(  $this->checkbox_onclick_script());
+          HTML::write_javascript_function(  $this->change_label_script );
+          HTML::write_javascript_function(  $this->checkbox_onclick_script());
         }
         $first = FALSE;
       }
@@ -385,12 +385,12 @@ class Date_Entity extends Project {
                       . $this->get_call_to_extra_onclick_script() # follow function call with semi-colon
                       . $this->generate_sortable_dates_script . '()"';
 
-      html::checkbox_with_label_on_left( $this->range_checkbox_id, 'Date range?', $range_checkbox_ticked,
+      HTML::checkbox_with_label_on_left( $this->range_checkbox_id, 'Date range?', $range_checkbox_ticked,
                                          $value_when_checked = 1, $in_table = FALSE, $tabindex=1, 
                                          $input_instance = NULL, $parms = $checkbox_parms );
 
-      html::span_start( 'class="date_range_notes"' );
-      html::italic_start();
+      HTML::span_start( 'class="date_range_notes"' );
+      HTML::italic_start();
       echo ' ';
 
       $date_range_help_count = count( $date_range_help );
@@ -398,22 +398,22 @@ class Date_Entity extends Project {
         $number_word = 'either';
         if( $date_range_help_count > 2 ) $number_word = 'any';
         echo "Tick the 'Date range' box in $number_word of the following cases: ";
-        html::ulist_start( 'class="date_range_notes"' );
+        HTML::ulist_start( 'class="date_range_notes"' );
         foreach( $date_range_help as $help_sentence ) {
-          html::listitem( $help_sentence );
+          HTML::listitem( $help_sentence );
         }
-        html::ulist_end();
+        HTML::ulist_end();
       }
       elseif( $date_range_help_count == 1 ) {
         echo ' ' . $date_range_help[0];
       }
 
-      html::italic_end();
-      html::span_end( 'date_range_notes' );
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::span_end( 'date_range_notes' );
+      HTML::new_paragraph();
       if( $date_range_help_count > 1 ) {
-        html::horizontal_rule();
-        html::new_paragraph();
+        HTML::horizontal_rule();
+        HTML::new_paragraph();
       }
     }
 
@@ -435,10 +435,10 @@ class Date_Entity extends Project {
     }
 
     if( $extra_msg ) {
-      html::new_paragraph();
-      html::italic_start();
+      HTML::new_paragraph();
+      HTML::italic_start();
       echo $extra_msg;
-      html::italic_end();
+      HTML::italic_end();
     }
 
     if( $hide_sortable_dates ) {
@@ -446,20 +446,20 @@ class Date_Entity extends Project {
       $this->extra_date_fields(); # a method that can be overridden by child classes e.g. Islamic Date Entity
     }
     else {
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
 
       $this->sortable_date_entry();
     }
 
     if( $include_uncertainty_flags ) {
-      html::new_paragraph();
-      html::italic_start();
+      HTML::new_paragraph();
+      HTML::italic_start();
       echo 'Issues with ' . strtolower( $legend ) . ':';
-      html::italic_end();
+      HTML::italic_end();
 
-      html::span_start( 'class="date_uncertainty_flags"' );
+      HTML::span_start( 'class="date_uncertainty_flags"' );
       $flags = array( 'inferred', 'uncertain', 'approx' );
       foreach( $flags as $flag ) {
         $flagfield = $fields[0] . '_' . $flag;
@@ -468,10 +468,10 @@ class Date_Entity extends Project {
         $this->basic_checkbox( $flagfield, 'Date is ' . $flaglabel, $this->$flagfield );
         echo ' ';
       }
-      html::span_end();
+      HTML::span_end();
     }
 
-    html::fieldset_end( $this->fieldset_id );
+    HTML::fieldset_end( $this->fieldset_id );
   }
   #-----------------------------------------------------
 
@@ -481,13 +481,13 @@ class Date_Entity extends Project {
     $this->set_ids_for_css( $fieldname );
 
     echo NEWLINE;
-    html::span_start( 'class="date" id="' . $this->date_span_id . '"' );
+    HTML::span_start( 'class="date" id="' . $this->date_span_id . '"' );
 
     $label_parms = 'class="mainlabel';
     if( ! $is_first_date ) $label_parms .= ' seconddate';
     $label_parms .= '"';
 
-    html::label( $label, $this->label_id, $label_parms );
+    HTML::label( $label, $this->label_id, $label_parms );
 
     if( $this->date_format == 'dd/mm/yyyy' ) {
       $this->day_entry_field();
@@ -501,13 +501,13 @@ class Date_Entity extends Project {
     }
 
     $order_desc = $this->get_date_order_desc( $bracketed = TRUE );
-    html::italic_start();
-    html::span_start( 'id="' . $this->order_desc_id . '"' );
+    HTML::italic_start();
+    HTML::span_start( 'id="' . $this->order_desc_id . '"' );
     if( $show_order && ! $this->suppress_display ) echo $order_desc;
-    html::span_end( 'order desc' );
-    html::italic_end();
+    HTML::span_end( 'order desc' );
+    HTML::italic_end();
 
-    html::span_end( $this->date_span_id );
+    HTML::span_end( $this->date_span_id );
   }
   #-----------------------------------------------------
 
@@ -515,12 +515,12 @@ class Date_Entity extends Project {
 
     echo NEWLINE . NEWLINE;
 
-    html::span_start( 'class="year" id="' . $this->year_span_id . '"' );
+    HTML::span_start( 'class="year" id="' . $this->year_span_id . '"' );
     
     if( ! $this->suppress_display )
       echo $this->get_year_entry_field_html();
 
-    html::span_end( 'year: ' . $this->fieldname );
+    HTML::span_end( 'year: ' . $this->fieldname );
   }
   #-----------------------------------------------------
 
@@ -528,12 +528,12 @@ class Date_Entity extends Project {
 
     echo NEWLINE . NEWLINE;
 
-    html::span_start( 'class="month" id="' . $this->month_span_id . '"' );
+    HTML::span_start( 'class="month" id="' . $this->month_span_id . '"' );
 
     if( ! $this->suppress_display )
       echo $this->get_month_entry_field_html();
 
-    html::span_end( 'month: ' . $this->fieldname );
+    HTML::span_end( 'month: ' . $this->fieldname );
   }
   #-----------------------------------------------------
 
@@ -541,12 +541,12 @@ class Date_Entity extends Project {
 
     echo NEWLINE . NEWLINE;
 
-    html::span_start( 'class="day" id="' . $this->day_span_id . '"' );
+    HTML::span_start( 'class="day" id="' . $this->day_span_id . '"' );
 
     if( ! $this->suppress_display )
       echo $this->get_day_entry_field_html();
 
-    html::span_end( 'day: ' . $this->fieldname );
+    HTML::span_end( 'day: ' . $this->fieldname );
   }
   #-----------------------------------------------------
 
@@ -555,7 +555,7 @@ class Date_Entity extends Project {
     $year = $this->get_property_value( $this->year_id );
 
     $html  = '<input type="input" name="' . $this->year_id . '" id="' . $this->year_id . '" value="';
-    $html .= html::call_htmlentities( $year );
+    $html .= HTML::call_htmlentities( $year );
     $html .= '"';
 
     $html .= ' size="4" ';
@@ -706,10 +706,10 @@ class Date_Entity extends Project {
   function report_date_format_error( $errmsg = 'Invalid date' ) {
 
     $this->failed_validation = TRUE;
-    html::div_start( 'class="errmsg"' );
+    HTML::div_start( 'class="errmsg"' );
     echo $errmsg;
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
   }
   #----------------------------------------------------------------------------------
 
@@ -895,10 +895,10 @@ class Date_Entity extends Project {
 
   function sortable_date_entry() {
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Dates for ordering (these will normally be automatically generated as you enter day, month and year):';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     $this->sortable_date_field( $this->sortable_date_orig_calendar,
                                 'In original calendar',
@@ -922,13 +922,13 @@ class Date_Entity extends Project {
 
   function hidden_sortable_dates() {
 
-    html::hidden_field( $this->sortable_date_orig_calendar,
+    HTML::hidden_field( $this->sortable_date_orig_calendar,
                         $this->get_property_value( $this->sortable_date_orig_calendar ));
 
-    html::hidden_field( $this->sortable_date_gregorian,
+    HTML::hidden_field( $this->sortable_date_gregorian,
                         $this->get_property_value( $this->sortable_date_gregorian ));
 
-    html::hidden_field( $this->sortable_date_manual_entry, NULL );
+    HTML::hidden_field( $this->sortable_date_manual_entry, NULL );
   }
   #----------------------------------------------------------------------------------
 
@@ -936,13 +936,13 @@ class Date_Entity extends Project {
 
     $parms = 'READONLY class="readonly_date"';
 
-    if( ! $first ) html::span_start( 'class="nextfield"' );
+    if( ! $first ) HTML::span_start( 'class="nextfield"' );
 
-    html::input_field( $fieldname, $label, $field_value,
+    HTML::input_field( $fieldname, $label, $field_value,
                        FALSE, $size = STD_DATE_INPUT_FIELD_SIZE, $tabindex=0,
                        NULL, NULL, $input_parms = $parms );
 
-    if( ! $first ) html::span_end( 'nextfield' );
+    if( ! $first ) HTML::span_end( 'nextfield' );
   }
   #----------------------------------------------------------------------------------
 
@@ -964,7 +964,7 @@ class Date_Entity extends Project {
     $script .= '  }'                                                                       . NEWLINE;
     $script .= '}'                                                                         . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     $script  = 'function ' . $script_name . '( the_checkbox ) {'                                      . NEWLINE;
     $script .= '  var orig_cal_field;'                                                                . NEWLINE;
@@ -981,18 +981,18 @@ class Date_Entity extends Project {
     $script .= '  }'                                                                       . NEWLINE;
     $script .= '}'                                                                         . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     $parms = 'onclick="' . $script_name . '( this )"';
 
     #----
 
-    html::span_start( 'class="nextfield"' );
+    HTML::span_start( 'class="nextfield"' );
 
-    html::checkbox( $this->sortable_date_manual_entry, 'Enter manually', $is_checked = FALSE,
+    HTML::checkbox( $this->sortable_date_manual_entry, 'Enter manually', $is_checked = FALSE,
                     $value_when_checked = 1, FALSE, $tabindex=1, NULL, $parms );
 
-    html::span_end( 'nextfield' );
+    HTML::span_end( 'nextfield' );
   }
   #----------------------------------------------------------------------------------
 
@@ -1056,7 +1056,7 @@ class Date_Entity extends Project {
 
     $script .= '}'                                                               . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     return $script_name;
   }
@@ -1149,7 +1149,7 @@ class Date_Entity extends Project {
 
     $script .= '} '                                                                              . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #----------------------------------------------------------------------------------
 
@@ -1269,7 +1269,7 @@ class Date_Entity extends Project {
     $script .= '  } '                                                            . NEWLINE;
     $script .= '} '                                                              . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     return $script_name;
   }
@@ -1290,35 +1290,35 @@ class Date_Entity extends Project {
     $list_class = 'calendartypes';
     if( $compact ) $list_class = 'compact_calendar_list';
 
-    html::ulist_start( 'class="' . $list_class . '"' );
+    HTML::ulist_start( 'class="' . $list_class . '"' );
 
     $i = 0;
     foreach( $this->calendar_list as $value => $label ) {
       $i++;
-      html::listitem_start();
+      HTML::listitem_start();
 
-      html::radio_button( $fieldname, 
+      HTML::radio_button( $fieldname, 
                           $label, 
                           $value_when_checked = $value, 
                           $current_value = $selected_calendar, 
                           $tabindex=1, 
                           $button_instance=$i, 
                           $script=NULL ) ;
-      html::listitem_end();
+      HTML::listitem_end();
     }
 
-    html::ulist_end();
+    HTML::ulist_end();
 
     if( $compact ) {
       echo LINEBREAK;
-      html::horizontal_rule();
+      HTML::horizontal_rule();
     }
   }
   #----------------------------------------------------------------------------------
 
   function sortable_date_refresh_button() {
 
-    html::span_start( 'class="nextfield"' );
+    HTML::span_start( 'class="nextfield"' );
 
     $script_name = $this->sortable_date_refresh . '_onclick';
 
@@ -1336,11 +1336,11 @@ class Date_Entity extends Project {
     $script .= "  manual_entry_checkbox.checked = checked;"                             . NEWLINE;
     $script .= '} '                                                                      . NEWLINE;
 
-    html::write_javascript_function( $script );
-    html::button( $this->sortable_date_refresh, 'Refresh', $tabindex=1,
+    HTML::write_javascript_function( $script );
+    HTML::button( $this->sortable_date_refresh, 'Refresh', $tabindex=1,
                   'onclick="' . $script_name . '()"  class="refreshbutton" ' );
 
-    html::span_end();
+    HTML::span_end();
   }
   #----------------------------------------------------------------------------------
 

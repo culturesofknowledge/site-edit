@@ -297,7 +297,7 @@ class DBEntity extends Application_Entity {
     if( ! $class_name ) $class_name = $this->app_get_class( $this );
     if( ! $method_name ) $method_name = 'db_search_results';
     
-    $this->form_name = html::form_start( $class_name, $method_name );
+    $this->form_name = HTML::form_start( $class_name, $method_name );
 
     $this->db_remember_presentation_style(); # Only applicable to logged in users as only they can save to DB.
                                              # If a saved presentation style is found, it is written to POST.
@@ -307,12 +307,12 @@ class DBEntity extends Application_Entity {
     elseif( $this->parm_found_in_post( 'simplified_search' ))
       $this->simplified_search = $this->read_post_parm( 'simplified_search' );
 
-    html::hidden_field( 'simplified_search', $this->simplified_search );
-    html::hidden_field( 'manual_search', 'Y' );
+    HTML::hidden_field( 'simplified_search', $this->simplified_search );
+    HTML::hidden_field( 'manual_search', 'Y' );
 
     if( $this->calling_form && $this->calling_field ) {
-      html::hidden_field( 'calling_form', $this->calling_form );
-      html::hidden_field( 'calling_field', $this->calling_field );
+      HTML::hidden_field( 'calling_form', $this->calling_form );
+      HTML::hidden_field( 'calling_field', $this->calling_field );
     }
 
     # Identify the columns which can be used in "order by" clause
@@ -332,13 +332,13 @@ class DBEntity extends Application_Entity {
       }
     }
 
-    html::div_start( 'class="buttonrow"' );
-    html::submit_button( 'search_button', 'Search' );
-    html::submit_button( 'clear_search_button', 'Clear' );
+    HTML::div_start( 'class="buttonrow"' );
+    HTML::submit_button( 'search_button', 'Search' );
+    HTML::submit_button( 'clear_search_button', 'Clear' );
 
     if( $this->menu_called_as_popup ) {
       $button_label = 'Cancel';
-      html::button( 'cancel_search_button', $button_label, $tabindex=1, 'onclick="self.close()"' );
+      HTML::button( 'cancel_search_button', $button_label, $tabindex=1, 'onclick="self.close()"' );
     }
     else {
       echo SPACE;
@@ -358,22 +358,22 @@ class DBEntity extends Application_Entity {
       # and set $this->suppress_advanced_search to TRUE before calling parent db search.
       if( ! $this->suppress_advanced_search ) {
         $script = "onclick='document.$this->form_name.simplified_search.value=" . '"' . $simplify . '"' . "'";
-        html::submit_button( 'change_search_level_button', $button_name, $tabindex=1, $script );
+        HTML::submit_button( 'change_search_level_button', $button_name, $tabindex=1, $script );
         echo ' ';
-        html::bullet_point();
+        HTML::bullet_point();
         echo ' ';
       }
 
-      html::link( '#searchable_field_list', 'Enter selection' );
+      HTML::link( '#searchable_field_list', 'Enter selection' );
       echo ' ';
-      html::bullet_point();
+      HTML::bullet_point();
       echo ' ';
 
-      html::link( '#presentation_options', 'Change data presentation options' );
+      HTML::link( '#presentation_options', 'Change data presentation options' );
       echo LINEBREAK;
     }
-    html::div_end( 'buttonrow' );
-    html::new_paragraph();
+    HTML::div_end( 'buttonrow' );
+    HTML::new_paragraph();
 
     $this->db_write_query_field_highlight_script();
     $this->db_write_query_op_highlight_script();
@@ -388,11 +388,11 @@ class DBEntity extends Application_Entity {
     }
     else {
       $this->db_choose_presentation_style( $possible_order_by_cols, $order_by ); # contains submit button
-      html::new_paragraph();
+      HTML::new_paragraph();
 
-      html::div_start( 'class="buttonrow"' );
-      html::submit_button( 'search_button', 'Search' );
-      html::submit_button( 'clear_search_button', 'Clear' );
+      HTML::div_start( 'class="buttonrow"' );
+      HTML::submit_button( 'search_button', 'Search' );
+      HTML::submit_button( 'clear_search_button', 'Clear' );
       echo SPACE;
 
       $top_of_form_link = '#searchable_field_list';
@@ -404,11 +404,11 @@ class DBEntity extends Application_Entity {
         $top_of_form_link_desc = 'Go to top of search form';
       }
 
-      html::link( $top_of_form_link, $top_of_form_link_desc );
-      html::div_end( 'buttonrow' );
+      HTML::link( $top_of_form_link, $top_of_form_link_desc );
+      HTML::div_end( 'buttonrow' );
     }
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -502,41 +502,41 @@ class DBEntity extends Application_Entity {
     else 
       $comparison_heading = 'Comparison';
 
-    html::new_paragraph();
-    html::horizontal_rule();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
 
     $this->db_explain_how_to_query();
 
     $section_headings = $this->db_get_section_headings( $columns );
 
-    html::div_start( 'class="searchablefields"' );
-    html::anchor( 'searchable_field_list' );
+    HTML::div_start( 'class="searchablefields"' );
+    HTML::anchor( 'searchable_field_list' );
     $this->searchable_field_count = 0;
 
     $this->db_enter_selection_criteria_plugin_1();  # dummy method which exists to be overridden by child class
 
-    html::table_start( 'summary="Set of fields in which search criteria may be entered."' );
-    html::table_head_start();
+    HTML::table_start( 'summary="Set of fields in which search criteria may be entered."' );
+    HTML::table_head_start();
 
     if( $section_headings ) {
-      html::tablerow_start();
-      html::tabledata_start( 'colspan="4"');
-      html::new_paragraph();
+      HTML::tablerow_start();
+      HTML::tabledata_start( 'colspan="4"');
+      HTML::new_paragraph();
       echo 'Sections of this form: ' . $section_headings;
-      html::new_paragraph();
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::new_paragraph();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
 
-    html::tablerow_start();
-    html::column_header( $fieldname_heading,  'class="highlight1 searchablefieldname"' );
-    html::column_header( $comparison_heading, 'class="highlight1"' );
-    html::column_header( $value_heading,      'class="highlight1"' );
-    html::column_header( 'Help/hints',        'class="highlight2"' );
-    html::tablerow_end();
+    HTML::tablerow_start();
+    HTML::column_header( $fieldname_heading,  'class="highlight1 searchablefieldname"' );
+    HTML::column_header( $comparison_heading, 'class="highlight1"' );
+    HTML::column_header( $value_heading,      'class="highlight1"' );
+    HTML::column_header( 'Help/hints',        'class="highlight2"' );
+    HTML::tablerow_end();
 
-    html::table_head_end();
-    html::table_body_start();
+    HTML::table_head_end();
+    HTML::table_body_start();
 
     $this->in_table = TRUE;
     $this->tabindex = 1;
@@ -560,7 +560,7 @@ class DBEntity extends Application_Entity {
         if( $is_date ) $this->$column_name2 = $this->read_post_parm( $column_name2 );
       }
 
-      html::tablerow_start();
+      HTML::tablerow_start();
 
       #-------------------
       # 'Fieldname' column
@@ -579,12 +579,12 @@ class DBEntity extends Application_Entity {
           break;
       }
 
-      html::tabledata( $non_text_marker . $column_label . $colon, 'class="searchablefieldname"' );
+      HTML::tabledata( $non_text_marker . $column_label . $colon, 'class="searchablefieldname"' );
 
       #--------------------
       # 'Comparison' column
       #--------------------
-      html::tabledata_start();
+      HTML::tabledata_start();
 
       if( $is_date ) {
         $op_field = 'date_or_numeric_query_op_' . $column_name; 
@@ -607,12 +607,12 @@ class DBEntity extends Application_Entity {
 
       $this->db_select_query_op( $datatype, $op_field, '', $op?$op:$default_op );
 
-      html::tabledata_end();
+      HTML::tabledata_end();
 
       #---------------
       # 'Value' column
       #---------------
-      html::tabledata_start( 'class="searchablefieldvalue"' );
+      HTML::tabledata_start( 'class="searchablefieldvalue"' );
 
       if( $this->$column_name == '' && $this->$column_name2 == '' )
         $field_class = '';
@@ -632,7 +632,7 @@ class DBEntity extends Application_Entity {
       }
 
       # Method input_field does an "htmlentities" on the field value before writing it out.
-      html::input_field( $column_name, $secondary_label, $this->strip_all_slashes( $this->$column_name ),
+      HTML::input_field( $column_name, $secondary_label, $this->strip_all_slashes( $this->$column_name ),
                          $in_table = FALSE, $size = $field_size, 
                          $tabindex = 1, $label_parms = NULL, $data_parms = NULL, 
                          $input_parms = $input_parms );
@@ -641,19 +641,19 @@ class DBEntity extends Application_Entity {
         $this->searchable_field_count++;
         echo LINEBREAK;
         $secondary_label = 'To';
-        html::input_field( $column_name2, $secondary_label, $this->strip_all_slashes( $this->$column_name2 ),
+        HTML::input_field( $column_name2, $secondary_label, $this->strip_all_slashes( $this->$column_name2 ),
                            $in_table = FALSE, $size = $field_size, 
                            $tabindex = 1, $label_parms = NULL, $data_parms = NULL, 
                            $input_parms = str_replace( $column_name, $column_name2, $input_parms ));
       }
 
       $this->db_enter_selection_criteria_plugin_2(  $column_name, $$column_name );  # child class may override
-      html::tabledata_end();
+      HTML::tabledata_end();
 
       #--------------------
       # 'Help/hints' column
       #--------------------
-      html::tabledata_start();
+      HTML::tabledata_start();
       #if( $trailing_text ) echo $trailing_text . ' ';  # trailing text is more designed for data entry
       if( $search_help_text ) echo $search_help_text . ' ';
       if( $search_help_text && $search_help_class ) echo LINEBREAK;
@@ -666,21 +666,21 @@ class DBEntity extends Application_Entity {
           $help_obj->launch_search_popup( $calling_form=$this->form_name, $calling_field=$column_name );
       }
       $this->db_enter_selection_criteria_plugin_3(  $column_name, $$column_name );  # child class may override
-      html::tabledata_end();
+      HTML::tabledata_end();
 
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
 
-    html::table_body_end();
-    html::table_end();
+    HTML::table_body_end();
+    HTML::table_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     if( $section_headings ) {
       echo 'Sections of this form: ' . $section_headings;
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
-    html::div_end( 'searchablefields' ); # end of searchablefields div
+    HTML::div_end( 'searchablefields' ); # end of searchablefields div
 
     $this->entering_selection_criteria = FALSE; # finished entering selection criteria
   }
@@ -720,7 +720,7 @@ class DBEntity extends Application_Entity {
 
         $link_count++;
         $link_name = 'section' . $link_count;
-        $this_link = html::return_link( '#' . $link_name, $section_heading, $section_heading );
+        $this_link = HTML::return_link( '#' . $link_name, $section_heading, $section_heading );
 
         $section_links[ "$section_heading" ] = $this_link;
       }
@@ -737,12 +737,12 @@ class DBEntity extends Application_Entity {
 
     if( $section_heading ) {  # Display section heading if one exists
       $this->curr_section_heading_no++;
-      html::tablerow_start();
+      HTML::tablerow_start();
       if( $this->curr_section_heading_no > 1 && $include_horizontal_rules ) {
-        html::tabledata_start( 'colspan="' . $cols_in_table . '"' );
-        html::horizontal_rule();
-        html::tabledata_end();
-        html::new_tablerow();
+        HTML::tabledata_start( 'colspan="' . $cols_in_table . '"' );
+        HTML::horizontal_rule();
+        HTML::tabledata_end();
+        HTML::new_tablerow();
       }
 
       $colspan = $cols_in_table;
@@ -750,37 +750,37 @@ class DBEntity extends Application_Entity {
       $tabledata_parm = NULL;
       if( $heading_class ) $tabledata_parm = ' class="' . $heading_class . '" ';
 
-      html::tabledata_start( $tabledata_parm . ' colspan="' . $colspan . '"' );
-      html::anchor( 'section' . $this->curr_section_heading_no );
+      HTML::tabledata_start( $tabledata_parm . ' colspan="' . $colspan . '"' );
+      HTML::anchor( 'section' . $this->curr_section_heading_no );
       echo $section_heading;
       $last_char = substr( $section_heading, -1 );
       if( $last_char != ':' && $last_char != '.' && $last_char != '?' && $last_char != '*' )
         echo ':';
       if( $cols_in_table > 1 ) 
-        html::tabledata_end();
+        HTML::tabledata_end();
       else
         echo SPACE . SPACE . SPACE;
 
       $section_link_class .= ' rightaligned';
       $tabledata_parm = ' class="' . $section_link_class . '" ';
-      if( $cols_in_table > 1 ) html::tabledata_start( $tabledata_parm );
+      if( $cols_in_table > 1 ) HTML::tabledata_start( $tabledata_parm );
       $next_section = '';
       $prev_section = '';
       if( $this->curr_section_heading_no < $this->total_section_headings ) {
         $next_section_no = $this->curr_section_heading_no + 1;
         $next_section = 'section' . $next_section_no;
-        $link_to_next = html::return_link( '#' . $next_section, 'Next section', 'Next section' );
+        $link_to_next = HTML::return_link( '#' . $next_section, 'Next section', 'Next section' );
       }
       if( $this->curr_section_heading_no > 1 ) {
         $prev_section_no = $this->curr_section_heading_no - 1;
         $prev_section = 'section' . $prev_section_no;
-        $link_to_prev = html::return_link( '#' . $prev_section, 'Prev section', 'Prev section' );
+        $link_to_prev = HTML::return_link( '#' . $prev_section, 'Prev section', 'Prev section' );
       }
       if( $next_section ) echo $link_to_next;
       if( $next_section && $prev_section ) echo '| ';
       if( $prev_section ) echo $link_to_prev;
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
   }
   #-----------------------------------------------------
@@ -788,47 +788,47 @@ class DBEntity extends Application_Entity {
   function db_explain_how_to_query() {
 
     if( $this->menu_called_as_popup ) {
-      html::italic_start();
+      HTML::italic_start();
       echo 'Enter selection, and/or change the Comparison dropdown as required.';
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
       return;
     }
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Enter selection, and/or change the Comparison dropdown as required. Please note:';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::ulist_start();
+    HTML::ulist_start();
 
-    html::listitem( 'Any non-text fields (dates or numbers) are marked with an asterisk. You can search dates '
+    HTML::listitem( 'Any non-text fields (dates or numbers) are marked with an asterisk. You can search dates '
          . " and numbers using the 'less than' or 'greater than' options from the Comparison dropdown, "
          . ' e.g. to find records containing dates before 1800 or numbers greater than zero.' );
 
-    html::listitem('You can search text fields by entering a word or phrase which appears within the name '
+    HTML::listitem('You can search text fields by entering a word or phrase which appears within the name '
                    . ' or description being searched for.');
 
-    html::listitem("You do not have to match the case of text fields, i.e. 'oxford' is equivalent to 'Oxford'.");
+    HTML::listitem("You do not have to match the case of text fields, i.e. 'oxford' is equivalent to 'Oxford'.");
 
-    html::listitem(
+    HTML::listitem(
          "You can use the wildcard '%' (percent sign) to represent any number of characters of a text field."
          . " E.g. the entry 'bod%lib%' could stand for 'Bodleian Library', 'Bodleian Law Library'"
          . " and 'Bodley's Librarian'.");
 
-    html::listitem( 
+    HTML::listitem( 
     "To find records where a particular field is blank, choose 'is blank' from the Comparison dropdown list. " .
     "Choose 'is not blank' to find records where that field is not blank."); 
 
-    html::ulist_end();
-    html::italic_end();
-    html::new_paragraph();
+    HTML::ulist_end();
+    HTML::italic_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
   function db_select_query_op( $datatype, $fieldname, $label, $selected_value = NULL, $in_table = FALSE ) { 
 
     if( $this->simplified_search == 'Y' ) {
-      html::hidden_field( $fieldname, $selected_value );
+      HTML::hidden_field( $fieldname, $selected_value );
       return;
     }
 
@@ -844,13 +844,13 @@ class DBEntity extends Application_Entity {
     if( $selected_value == 'is_blank' || $selected_value == 'is_not_blank' )
       $parms = $parms . ' class="highlight2" ';
 
-    html::dropdown_start( $fieldname, $label, $in_table, $parms );
+    HTML::dropdown_start( $fieldname, $label, $in_table, $parms );
 
     foreach( $ops as $internal_value => $displayed_value ) {
-      html::dropdown_option( $internal_value, $displayed_value, $selected_value );
+      HTML::dropdown_option( $internal_value, $displayed_value, $selected_value );
     }
 
-    html::dropdown_end();
+    HTML::dropdown_end();
   }
   #-----------------------------------------------------
 
@@ -1013,7 +1013,7 @@ class DBEntity extends Application_Entity {
                      . '  }'                                              . NEWLINE
                      . '}'                                                . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
 
@@ -1029,7 +1029,7 @@ class DBEntity extends Application_Entity {
                      . '  }'                                                    . NEWLINE
                      . '}'                                                      . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
 
@@ -1043,34 +1043,34 @@ class DBEntity extends Application_Entity {
 
   function db_choose_presentation_style( $possible_order_by_cols = NULL, $default_order_by_col = '1' ) {
 
-    html::new_paragraph();
-    html::anchor( 'presentation_options' );
+    HTML::new_paragraph();
+    HTML::anchor( 'presentation_options' );
 
-    html::div_start( 'class="choosepresentation"');
+    HTML::div_start( 'class="choosepresentation"');
     
-    html::div_start( 'class="bold"');
+    HTML::div_start( 'class="bold"');
     echo 'Data presentation options: ';
-    html::submit_button( 'change_data_presentation', 'Change' );
-    html::div_end( 'bold' );
+    HTML::submit_button( 'change_data_presentation', 'Change' );
+    HTML::div_end( 'bold' );
     
     if( $this->publicly_available_page ) # CMS doesn't seem to like blank lines, and suppresses them!!!
-      html::horizontal_rule();
-    html::new_paragraph();
+      HTML::horizontal_rule();
+    HTML::new_paragraph();
 
     $this->db_choose_order_by_col( $possible_order_by_cols, $default_order_by_col );
 
-    if( $this->publicly_available_page ) html::new_paragraph();
+    if( $this->publicly_available_page ) HTML::new_paragraph();
 
     $this->db_choose_asc_desc();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->db_choose_entries_per_page();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->db_choose_results_output_style();
 
-    html::div_end( 'choosepresentation' );
-    html::new_paragraph();
+    HTML::div_end( 'choosepresentation' );
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
   # You can change defaults by writing POST values beforehand
@@ -1095,22 +1095,22 @@ class DBEntity extends Application_Entity {
     }
 
     if( ! $order_by ) $order_by = '1';
-    html::hidden_field( 'order_by', $order_by );
+    HTML::hidden_field( 'order_by', $order_by );
 
     $this->sort_descending = DEFAULT_DESCENDING;
     if( $this->parm_found_in_post( 'sort_descending' ))
       $this->sort_descending = $this->read_post_parm( 'sort_descending' );
-    html::hidden_field( 'sort_descending', $this->sort_descending );
+    HTML::hidden_field( 'sort_descending', $this->sort_descending );
 
     $this->record_layout = $this->read_post_parm( 'record_layout' );
     if( ! $this->record_layout ) $this->record_layout = DEFAULT_RECORD_LAYOUT;
-    html::hidden_field( 'record_layout', $this->record_layout );
+    HTML::hidden_field( 'record_layout', $this->record_layout );
 
     $this->entries_per_page = $this->read_post_parm( 'entries_per_page' );
     if( ! $this->entries_per_page ) $this->entries_per_page = DEFAULT_ENTRIES_PER_BROWSE_PAGE;
     if( $this->entries_per_page > MAX_ENTRIES_PER_BROWSE_PAGE ) 
       $this->entries_per_page = MAX_ENTRIES_PER_BROWSE_PAGE;
-    html::hidden_field( 'entries_per_page', $this->entries_per_page );
+    HTML::hidden_field( 'entries_per_page', $this->entries_per_page );
   }
   #-----------------------------------------------------
 
@@ -1121,15 +1121,15 @@ class DBEntity extends Application_Entity {
 
     if( is_array( $possible_order_by_cols )) {
 
-      html::dropdown_start( 'order_by', 'Sort data by' );
+      HTML::dropdown_start( 'order_by', 'Sort data by' );
 
       foreach( $possible_order_by_cols as $row ) {
         foreach( $row as $column_name => $column_label ) {
-          html::dropdown_option( $column_name, $column_label, $order_by );
+          HTML::dropdown_option( $column_name, $column_label, $order_by );
         }
       }
 
-      html::dropdown_end();
+      HTML::dropdown_end();
     }
   }
   #-----------------------------------------------------
@@ -1143,15 +1143,15 @@ class DBEntity extends Application_Entity {
 
     echo 'Order: ';
 
-    html::span_start( 'class="narrowspaceonleft"' );
-    html::radio_button( 'sort_descending', 'Ascending', 0, $this->sort_descending,
+    HTML::span_start( 'class="narrowspaceonleft"' );
+    HTML::radio_button( 'sort_descending', 'Ascending', 0, $this->sort_descending,
                         $tabindex = 1, $button_instance = 1 );
-    html::span_end( 'narrowspaceonleft' );
+    HTML::span_end( 'narrowspaceonleft' );
 
-    html::span_start( 'class="narrowspaceonleft"' );
-    html::radio_button( 'sort_descending', 'Descending', 1, $this->sort_descending,
+    HTML::span_start( 'class="narrowspaceonleft"' );
+    HTML::radio_button( 'sort_descending', 'Descending', 1, $this->sort_descending,
                         $tabindex = 1, $button_instance = 2);
-    html::span_end( 'narrowspaceonleft' );
+    HTML::span_end( 'narrowspaceonleft' );
   }
   #-----------------------------------------------------
 
@@ -1162,15 +1162,15 @@ class DBEntity extends Application_Entity {
 
     echo 'Record layout: ';
 
-    html::span_start( 'class="narrowspaceonleft"' );
-    html::radio_button( 'record_layout', 'Across the page', 'across_page', $this->record_layout,
+    HTML::span_start( 'class="narrowspaceonleft"' );
+    HTML::radio_button( 'record_layout', 'Across the page', 'across_page', $this->record_layout,
                         $tabindex = 1, $button_instance = 1 );
-    html::span_end( 'narrowspaceonleft' );
+    HTML::span_end( 'narrowspaceonleft' );
 
-    html::span_start( 'class="narrowspaceonleft"' );
-    html::radio_button( 'record_layout', 'Down the page', 'down_page', $this->record_layout,
+    HTML::span_start( 'class="narrowspaceonleft"' );
+    HTML::radio_button( 'record_layout', 'Down the page', 'down_page', $this->record_layout,
                         $tabindex = 1, $button_instance = 2);
-    html::span_end( 'narrowspaceonleft' );
+    HTML::span_end( 'narrowspaceonleft' );
   }
   #-----------------------------------------------------
 
@@ -1181,7 +1181,7 @@ class DBEntity extends Application_Entity {
     if( $this->entries_per_page > MAX_ENTRIES_PER_BROWSE_PAGE ) 
       $this->entries_per_page = MAX_ENTRIES_PER_BROWSE_PAGE;
 
-    html::input_field( 'entries_per_page', 'Records per page', $this->entries_per_page,
+    HTML::input_field( 'entries_per_page', 'Records per page', $this->entries_per_page,
                        $in_table = FALSE, $size = 2 );
 
     echo ' (max ' . MAX_ENTRIES_PER_BROWSE_PAGE . ')';
@@ -1385,7 +1385,7 @@ class DBEntity extends Application_Entity {
 
       $this->db_save_presentation_style(); # only applies to logged in users
 
-      html::div_start( 'class="buttonrow"' );
+      HTML::div_start( 'class="buttonrow"' );
 
       $this->db_search_results_plugin_1();
 
@@ -1398,32 +1398,32 @@ class DBEntity extends Application_Entity {
         $auto_searched = TRUE;
 
       if( ! $auto_searched ) {  
-        html::form_start( $class_name, $search_method );
+        HTML::form_start( $class_name, $search_method );
         $this->db_write_new_query_fields();
         $button_name = 'Refine Search';
-        html::submit_button( 'change_search_button', $button_name );
-        html::form_end();
+        HTML::submit_button( 'change_search_button', $button_name );
+        HTML::form_end();
       }
 
       echo ' ';
 
-      html::form_start( $class_name, $search_method );
+      HTML::form_start( $class_name, $search_method );
       $this->db_write_new_query_fields();
       $button_name = 'New Search';
       if( $auto_searched ) $button_name = 'Search';
-      html::submit_button( 'clear_search_button', $button_name );
+      HTML::submit_button( 'clear_search_button', $button_name );
 
       if( $this->menu_called_as_popup ) {
         echo ' ';
         $button_name = 'Cancel';
-        html::button( 'cancel_search_button', $button_name, $tabindex=1, 'onclick="self.close()"' );
+        HTML::button( 'cancel_search_button', $button_name, $tabindex=1, 'onclick="self.close()"' );
       }
-      html::form_end();
+      HTML::form_end();
       echo LINEBREAK;
-      html::div_end( 'buttonrow' );
+      HTML::div_end( 'buttonrow' );
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $columns = $this->db_list_columns( $this->from_table );
 
@@ -1456,9 +1456,9 @@ class DBEntity extends Application_Entity {
     # Display the data
     #-----------------
     if( ! is_array( $results )) {
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo 'No data found matching your selection criteria.';
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
     else {
       if( $this->csv_output ) {
@@ -1723,7 +1723,7 @@ class DBEntity extends Application_Entity {
         foreach( $criteria_desc as $criterion_desc ) {
           echo LINEBREAK;
           echo SPACE;
-          html::bullet_point();
+          HTML::bullet_point();
           echo $this->safe_output( $criterion_desc );
         }
       }
@@ -1733,9 +1733,9 @@ class DBEntity extends Application_Entity {
         echo 'Data is sorted by: ' . $order_descrip;
         if( $sort_descending ) echo ' (descending order)';
         echo LINEBREAK;
-        if( $this->publicly_available_page ) html::new_paragraph();
+        if( $this->publicly_available_page ) HTML::new_paragraph();
       }
-      html::horizontal_rule();
+      HTML::horizontal_rule();
     }
 
     
@@ -1813,7 +1813,7 @@ class DBEntity extends Application_Entity {
           echo $rows . ' records found. ';
         echo LINEBREAK;
 
-        html::div_start( 'class="pagination"');
+        HTML::div_start( 'class="pagination"');
 
         if( ! $this->suppress_printable_version_button ) {
           $this->db_write_printable_version_button();
@@ -1837,7 +1837,7 @@ class DBEntity extends Application_Entity {
         $this->db_write_custom_page_button();  # normally does nothing, but can be overridden by child class
 
         echo LINEBREAK;
-        html::div_end( 'pagination');
+        HTML::div_end( 'pagination');
       }
 
       $results = $this->db_one_page_of_results;
@@ -1848,7 +1848,7 @@ class DBEntity extends Application_Entity {
           echo $rows . ' record found.';
         else
           echo $rows . ' records found.';
-        html::new_paragraph();
+        HTML::new_paragraph();
       }
       return $results;
 
@@ -1864,10 +1864,10 @@ class DBEntity extends Application_Entity {
 
       $first_match_on_page = (($page_required - 1) * $entries_per_page) + 1;
 
-      if( ! $this->publicly_available_page ) html::italic_start();
+      if( ! $this->publicly_available_page ) HTML::italic_start();
       echo "Found $rows records ($total_pages pages)."
            . " Now displaying records $first_match_on_page to $last_match_on_page.";
-      if( ! $this->publicly_available_page ) html::italic_end();
+      if( ! $this->publicly_available_page ) HTML::italic_end();
 
       $keyvals = '';
       for( $i = $first_match_on_page - 1; $i < $last_match_on_page; $i++ ) {
@@ -1914,30 +1914,30 @@ class DBEntity extends Application_Entity {
     if( ! $this->db_page_where_clause )   $this->die_on_error( 'Missing value "where clause" in dbentity' );
     if( ! $this->db_page_order_by )       $this->die_on_error( 'Missing value "order by" in dbentity' );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="pagination"');
+    HTML::div_start( 'class="pagination"');
 
     #--- "Next page" and "Prev page" buttons----------
     if( $this->db_page_required < $this->db_page_total_pages ) {
-      html::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call );
+      HTML::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call );
       $this->db_write_pagination_fields( $this->db_page_required + 1 );
-      html::submit_button( 'go_to_' . strval( intval($this->db_page_required) + 1), 'Next page', 
+      HTML::submit_button( 'go_to_' . strval( intval($this->db_page_required) + 1), 'Next page', 
                            $tabindex=1, ' class="pagelist" ' );
-      html::form_end();
+      HTML::form_end();
     }
     else
-      html::button( 'no_next_page_button',  '[On last page]', 1, 'class="dummypage"' );
+      HTML::button( 'no_next_page_button',  '[On last page]', 1, 'class="dummypage"' );
 
     if( $this->db_page_required > 1 ) {
-      html::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call );
+      HTML::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call );
       $this->db_write_pagination_fields( $this->db_page_required - 1 );
-      html::submit_button( 'go_to_' . strval( intval($this->db_page_required) - 1), 'Prev page', 
+      HTML::submit_button( 'go_to_' . strval( intval($this->db_page_required) - 1), 'Prev page', 
                            $tabindex=1, ' class="pagelist" ' );
-      html::form_end();
+      HTML::form_end();
     }
     else
-      html::button( 'no_prev_page_button',  '[On first page]', 1, 'class="dummypage"' );
+      HTML::button( 'no_prev_page_button',  '[On first page]', 1, 'class="dummypage"' );
 
     # External users cannot save their queries (no write privileges on database).
     # And we will not offer options which open new tabs/windows when in search popups (confusing for user).
@@ -1979,7 +1979,7 @@ class DBEntity extends Application_Entity {
 
     #--- End of "Next page" and "Prev page" buttons----------
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     #--- List pages of data available ---
 
@@ -2018,7 +2018,7 @@ class DBEntity extends Application_Entity {
     for( $i = $first_page_to_show; $i <= $last_page_to_show; $i++ ) {
       if( $buttons > 0 && $buttons % $maxbuttons == 0 ) echo LINEBREAK;
 
-      html::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call );
+      HTML::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call );
 
       $page_to_get = $i;
 
@@ -2036,59 +2036,59 @@ class DBEntity extends Application_Entity {
       else
         $button_class = 'pagelist';
 
-      html::submit_button( 'go_to_' . $page_to_get, 
+      HTML::submit_button( 'go_to_' . $page_to_get, 
                            $button_name, 
                            $tabindex=1, 
                            ' class="' . $button_class . '" ' );
-      html::form_end();
+      HTML::form_end();
       $buttons++;
     }
 
     echo LINEBREAK;
-    html::div_end( 'pagination' );
-    html::new_paragraph();
+    HTML::div_end( 'pagination' );
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
   function db_write_csv_version_button( $button_name = 'Spreadsheet output' ) {
 
-    html::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call, NULL, $form_target = '_blank' );
+    HTML::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call, NULL, $form_target = '_blank' );
 
-    html::hidden_field( 'csv_output', 'Y' );
+    HTML::hidden_field( 'csv_output', 'Y' );
 
     $this->db_write_pagination_fields( $page_required = 1 );  # just use a dummy page required
 
-    html::submit_button( 'csv_button', $button_name, $tabindex=1, ' class="pagelist" ' );
+    HTML::submit_button( 'csv_button', $button_name, $tabindex=1, ' class="pagelist" ' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
   function db_write_excel_version_button( $button_name = 'Excel output' ) {
 
-    html::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call, NULL, $form_target = '_blank' );
+    HTML::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call, NULL, $form_target = '_blank' );
 
-    html::hidden_field( 'excel_output', 'Y' );
+    HTML::hidden_field( 'excel_output', 'Y' );
 
     $this->db_write_pagination_fields( $page_required = 1 );  # just use a dummy page required
 
-    html::submit_button( 'excel_button', $button_name, $tabindex=1, ' class="pagelist" ' );
+    HTML::submit_button( 'excel_button', $button_name, $tabindex=1, ' class="pagelist" ' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
   function db_write_printable_version_button() {
 
-    html::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call, NULL, $form_target = '_blank' );
+    HTML::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call, NULL, $form_target = '_blank' );
 
-    html::hidden_field( 'printable_output', 'Y' );
+    HTML::hidden_field( 'printable_output', 'Y' );
 
     $this->db_write_pagination_fields();
 
-    html::submit_button( 'printable_output_button', 'Printable output', $tabindex=1, ' class="pagelist" ' );
+    HTML::submit_button( 'printable_output_button', 'Printable output', $tabindex=1, ' class="pagelist" ' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -2100,15 +2100,15 @@ class DBEntity extends Application_Entity {
            . ' Click Refresh Page to be sure the latest data is being displayed.';
     }
 
-    html::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call, NULL, $form_target = '_self' );
+    HTML::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call, NULL, $form_target = '_self' );
 
     $page_required = $this->db_page_required;  # current page or page 1 if we only have one page
     if( ! $page_required ) $page_required = 1;
     $this->db_write_pagination_fields( $page_required );
 
-    html::submit_button( 'refresh_results_button', 'Refresh page', $tabindex=1, ' class="pagelist" ' );
+    HTML::submit_button( 'refresh_results_button', 'Refresh page', $tabindex=1, ' class="pagelist" ' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
   function db_write_custom_page_button() {  # normally does nothing, but can be overridden by child class
@@ -2117,15 +2117,15 @@ class DBEntity extends Application_Entity {
 
   function db_write_save_query_button() {
 
-    html::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call, NULL, $form_target = '_blank' );
+    HTML::form_start( $this->db_page_class_to_call, $this->db_page_method_to_call, NULL, $form_target = '_blank' );
 
-    html::hidden_field( 'save_query', 'Y' );
+    HTML::hidden_field( 'save_query', 'Y' );
 
     $this->db_write_pagination_fields();
 
-    html::submit_button( 'save_query_button', 'Save query', $tabindex=1, ' class="pagelist" ' );
+    HTML::submit_button( 'save_query_button', 'Save query', $tabindex=1, ' class="pagelist" ' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -2133,70 +2133,70 @@ class DBEntity extends Application_Entity {
 
     $this->db_write_hidden_selection_criteria();
 
-    html::hidden_field( 'simplified_search', $this->simplified_search );
+    HTML::hidden_field( 'simplified_search', $this->simplified_search );
 
     if( $this->record_layout )
-      html::hidden_field( 'record_layout', $this->record_layout );
+      HTML::hidden_field( 'record_layout', $this->record_layout );
     else
-      html::hidden_field( 'record_layout', DEFAULT_RECORD_LAYOUT );
+      HTML::hidden_field( 'record_layout', DEFAULT_RECORD_LAYOUT );
 
     if( $this->entries_per_page )
-      html::hidden_field( 'entries_per_page', $this->entries_per_page );
+      HTML::hidden_field( 'entries_per_page', $this->entries_per_page );
     else
-      html::hidden_field( 'entries_per_page', DEFAULT_ENTRIES_PER_BROWSE_PAGE );
+      HTML::hidden_field( 'entries_per_page', DEFAULT_ENTRIES_PER_BROWSE_PAGE );
 
     if( $this->order_by )
-      html::hidden_field( 'order_by', $this->order_by );
+      HTML::hidden_field( 'order_by', $this->order_by );
     else
-      html::hidden_field( 'order_by', '1' );
+      HTML::hidden_field( 'order_by', '1' );
 
     if( $this->sort_descending )
-      html::hidden_field( 'sort_descending', $this->sort_descending );
+      HTML::hidden_field( 'sort_descending', $this->sort_descending );
 
     if( $this->calling_form && $this->calling_field ) {
-      html::hidden_field( 'calling_form', $this->calling_form );
-      html::hidden_field( 'calling_field', $this->calling_field );
+      HTML::hidden_field( 'calling_form', $this->calling_form );
+      HTML::hidden_field( 'calling_field', $this->calling_field );
     }
   }
   #-----------------------------------------------------
 
   function db_write_pagination_fields( $page_required ) {
 
-    html::hidden_field( 'page_required', $page_required );
+    HTML::hidden_field( 'page_required', $page_required );
 
     # Record the main elements of the query, so that query can be re-run to bring up next page.
-    html::hidden_field( 'selection_cols', $this->db_page_selection_cols );
+    HTML::hidden_field( 'selection_cols', $this->db_page_selection_cols );
 
     #  Not sure why 'from tables' was ever written as hidden field!
     # (Value is set in db search result parms.)
-    # html::hidden_field( 'from_tables', $this->db_page_from_tables );
+    # HTML::hidden_field( 'from_tables', $this->db_page_from_tables );
 
-    html::hidden_field( 'order_by',       $this->db_page_order_by );
-    html::hidden_field( 'sort_descending',$this->db_page_sort_descending );
+    HTML::hidden_field( 'order_by',       $this->db_page_order_by );
+    HTML::hidden_field( 'sort_descending',$this->db_page_sort_descending );
 
     # Selection desc has already been checked for malicious scripting, but let's double-check.
     # (Method hidden_field() will also do an htmlentities() on the value before writing it out.)
     if( ! $this->is_ok_free_text( $this->selection_desc )) die();
-    html::hidden_field( 'selection_desc', $this->escape( $this->selection_desc ));
+    HTML::hidden_field( 'selection_desc', $this->escape( $this->selection_desc ));
 
     $this->db_write_hidden_selection_criteria();
 
-    html::hidden_field( 'simplified_search', $this->simplified_search );
-    if( $this->parm_found_in_post( 'manual_search' )) html::hidden_field( 'manual_search', 'Y' );
+    HTML::hidden_field( 'simplified_search', $this->simplified_search );
+    if( $this->parm_found_in_post( 'manual_search' )) HTML::hidden_field( 'manual_search', 'Y' );
 
     if( $this->record_layout )
-      html::hidden_field( 'record_layout', $this->record_layout );
+      HTML::hidden_field( 'record_layout', $this->record_layout );
     else
-      html::hidden_field( 'record_layout', DEFAULT_RECORD_LAYOUT );
+      HTML::hidden_field( 'record_layout', DEFAULT_RECORD_LAYOUT );
 
     if( $this->entries_per_page )
-      html::hidden_field( 'entries_per_page', $this->entries_per_page );
+      HTML::hidden_field( 'entries_per_page', $this->entries_per_page );
     else
-      html::hidden_field( 'entries_per_page', DEFAULT_ENTRIES_PER_BROWSE_PAGE );
+      HTML::hidden_field( 'entries_per_page', DEFAULT_ENTRIES_PER_BROWSE_PAGE );
 
     if( $this->calling_form && $this->calling_field ) {
-      html::hidden_field( 'calling_form', $this->calling_form );
-      html::hidden_field( 'calling_field', $this->calling_field );
+      HTML::hidden_field( 'calling_form', $this->calling_form );
+      HTML::hidden_field( 'calling_field', $this->calling_field );
     }
   }
   #-----------------------------------------------------
@@ -2237,9 +2237,9 @@ class DBEntity extends Application_Entity {
       if( strval( $this->$column_name ) > '' 
       ||  strval( $this->$column_name2 ) > '' 
       ||  $op == 'is_blank' || $op == 'is_not_blank' ) {
-        html::hidden_field( $column_name, $this->$column_name );
-        html::hidden_field( $column_name2, $this->$column_name2 );
-        html::hidden_field( $op_field, $op );
+        HTML::hidden_field( $column_name, $this->$column_name );
+        HTML::hidden_field( $column_name2, $this->$column_name2 );
+        HTML::hidden_field( $op_field, $op );
       }
     }
 
@@ -2330,8 +2330,8 @@ class DBEntity extends Application_Entity {
       echo 'You have requested too large a file. We can send you output files of up to ' 
            . $this->max_csv_rows_for_public_user 
            . ' lines per file. Please restrict your query so that it retrieves a smaller volume of data.';
-      html::new_paragraph();
-      html::button( 'cancel_csv_output', 'Close', $tabindex=1, 'onclick="self.close()"' );
+      HTML::new_paragraph();
+      HTML::button( 'cancel_csv_output', 'Close', $tabindex=1, 'onclick="self.close()"' );
       return;
     }
 
@@ -2346,40 +2346,40 @@ class DBEntity extends Application_Entity {
 
       if( trim( $msg_recipient ) == '' ) {
 
-        html::form_start( $this->read_post_parm( 'class_name' ), $this->read_post_parm( 'method_name' ));
+        HTML::form_start( $this->read_post_parm( 'class_name' ), $this->read_post_parm( 'method_name' ));
 
         echo 'Your current query results can be sent to you as an email attachment if you wish. ';
         echo 'In order to receive your results by email, please enter your email address and click Proceed. ';
         echo LINEBREAK;
         echo LINEBREAK;
 
-        html::input_field( 'msg_recipient', 'Your email address', NULL, FALSE, 50 );
-        html::new_paragraph();
-        html::submit_button( 'csv_button', 'Proceed' );
-        html::button( 'cancel_csv_output', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
-        html::new_paragraph();
+        HTML::input_field( 'msg_recipient', 'Your email address', NULL, FALSE, 50 );
+        HTML::new_paragraph();
+        HTML::submit_button( 'csv_button', 'Proceed' );
+        HTML::button( 'cancel_csv_output', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+        HTML::new_paragraph();
 
-        html::ulist_start();
-        html::listitem( "The type of email attachment will be 'CSV', which stands for 'Comma separated variables', "
+        HTML::ulist_start();
+        HTML::listitem( "The type of email attachment will be 'CSV', which stands for 'Comma separated variables', "
              . ' and is a type of file which can, for example, be opened in spreadsheet format by Excel.'); 
 
-        html::listitem( 'Email addresses entered via this form will not be stored on our database, '
+        HTML::listitem( 'Email addresses entered via this form will not be stored on our database, '
                         . ' and in fact will have to be re-entered each time '
                         . ' that you ask for a set of query results to be sent to you.' );
 
         if( $this->username && ! $this->read_session_parm( 'user_email' )) {
-          html::listitem( 'You are currently logged in as a full user of the system, '
+          HTML::listitem( 'You are currently logged in as a full user of the system, '
                         . ' which means you have the ability to save an email address for yourself on the database '
                         . " via the 'Edit your own details' option on the main menu. "
                         . ' Why not do so? It could save you a lot of typing, as you would not have to re-enter'
                         . ' your email address each time you wanted to receive some query results by email.');
         }
         
-        html::listitem( 'Sorry, we cannot send messages to email addresses containing characters '
+        HTML::listitem( 'Sorry, we cannot send messages to email addresses containing characters '
                         . ' other than a standard set. The characters accepted are '
                         . ' A to Z and a to z, 0 to 9, at-sign (@), full-stop (.), hyphen (-)'
                         . ' and the underline character (_).');
-        html::ulist_end();
+        HTML::ulist_end();
 
         foreach( $_POST as $parm_name => $parm_value ) {
           if( $parm_name == 'msg_recipient' ) continue;
@@ -2388,10 +2388,10 @@ class DBEntity extends Application_Entity {
                                                       # (Value is set in db search result parms.)
 
           if( ! $this->is_ok_free_text( $parm_value )) die(); 
-          html::hidden_field( $parm_name, $parm_value ); # validate properly when you next read the form values
+          HTML::hidden_field( $parm_name, $parm_value ); # validate properly when you next read the form values
         }
 
-        html::form_end();
+        HTML::form_end();
         return;
       }
     }
@@ -2402,12 +2402,12 @@ class DBEntity extends Application_Entity {
     $output_id = NULL;
     if( $is_large_file ) {
       $batch_count = ceil( $rowcount / MAX_ROWS_IN_CSV_FILE );
-      html::h3_start();
+      HTML::h3_start();
       echo "You have requested a large report of $rowcount lines. ";
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo "Producing your output in $batch_count batches to try and avoid running out of memory...";
-      html::new_paragraph();
-      html::h3_end();
+      HTML::new_paragraph();
+      HTML::h3_end();
       flush();
 
       $output_id = uniqid( rand(), TRUE );
@@ -2492,9 +2492,9 @@ class DBEntity extends Application_Entity {
           if( $line_number % $msg_frequency == 0 ) { # time for another message
             echo "Processed $line_number lines out of a total of $rowcount..." . LINEBREAK;
             $anchor_name = 'processed_line_' . $line_number;
-            html::anchor( $anchor_name );
+            HTML::anchor( $anchor_name );
             $script = 'window.location.hash = "#' . $anchor_name . '"';
-            html::write_javascript_function( $script );
+            HTML::write_javascript_function( $script );
             flush();
           }
         }
@@ -2502,7 +2502,7 @@ class DBEntity extends Application_Entity {
     }
 
     unset( $rows );  # try and free up some memory
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( ! $msg_body ) {
       $msg_body = ' - Results are attached from your query on the ' . CFG_SYSTEM_TITLE . '.    '
@@ -2519,7 +2519,7 @@ class DBEntity extends Application_Entity {
       }
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $is_large_file ) {
       for( $startrow = 1; $startrow <= $rowcount; $startrow += MAX_ROWS_IN_CSV_FILE ) {
@@ -2529,7 +2529,7 @@ class DBEntity extends Application_Entity {
         $file_content = '';
 
         echo "Producing part $curr_batch of your output...";
-        html::new_paragraph();
+        HTML::new_paragraph();
 
         $statement = 'select line_text from ' . $this->db_report_outputs_tablename()
                    . " where output_id = '$output_id' and ( line_number = 0 "
@@ -2570,15 +2570,15 @@ class DBEntity extends Application_Entity {
                                                     $print_confirmation_msg );
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     if( ! $suppress_confirmation ) {
       $anchor_name = 'processed_' . $line_number . '_lines_of_results';
-      html::anchor( $anchor_name );
+      HTML::anchor( $anchor_name );
       $script = 'window.location.hash = "#' . $anchor_name . '"';
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
       flush();
     }
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -2616,8 +2616,8 @@ class DBEntity extends Application_Entity {
       echo 'You have requested too large a file. We can send you output files of up to ' 
            . $this->max_csv_rows_for_public_user 
            . ' lines per file. Please restrict your query so that it retrieves a smaller volume of data.';
-      html::new_paragraph();
-      html::button( 'cancel_csv_output', 'Close', $tabindex=1, 'onclick="self.close()"' );
+      HTML::new_paragraph();
+      HTML::button( 'cancel_csv_output', 'Close', $tabindex=1, 'onclick="self.close()"' );
       return;
     }
 
@@ -2632,40 +2632,40 @@ class DBEntity extends Application_Entity {
 
       if( trim( $msg_recipient ) == '' ) {
 
-        html::form_start( $this->read_post_parm( 'class_name' ), $this->read_post_parm( 'method_name' ));
+        HTML::form_start( $this->read_post_parm( 'class_name' ), $this->read_post_parm( 'method_name' ));
 
         echo 'Your current query results can be sent to you as an email attachment if you wish. ';
         echo 'In order to receive your results by email, please enter your email address and click Proceed. ';
         echo LINEBREAK;
         echo LINEBREAK;
 
-        html::input_field( 'msg_recipient', 'Your email address', NULL, FALSE, 50 );
-        html::new_paragraph();
-        html::submit_button( 'csv_button', 'Proceed' );
-        html::button( 'cancel_csv_output', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
-        html::new_paragraph();
+        HTML::input_field( 'msg_recipient', 'Your email address', NULL, FALSE, 50 );
+        HTML::new_paragraph();
+        HTML::submit_button( 'csv_button', 'Proceed' );
+        HTML::button( 'cancel_csv_output', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+        HTML::new_paragraph();
 
-        html::ulist_start();
-        html::listitem( "The type of email attachment will be 'CSV', which stands for 'Comma separated variables', "
+        HTML::ulist_start();
+        HTML::listitem( "The type of email attachment will be 'CSV', which stands for 'Comma separated variables', "
              . ' and is a type of file which can, for example, be opened in spreadsheet format by Excel.'); 
 
-        html::listitem( 'Email addresses entered via this form will not be stored on our database, '
+        HTML::listitem( 'Email addresses entered via this form will not be stored on our database, '
                         . ' and in fact will have to be re-entered each time '
                         . ' that you ask for a set of query results to be sent to you.' );
 
         if( $this->username && ! $this->read_session_parm( 'user_email' )) {
-          html::listitem( 'You are currently logged in as a full user of the system, '
+          HTML::listitem( 'You are currently logged in as a full user of the system, '
                         . ' which means you have the ability to save an email address for yourself on the database '
                         . " via the 'Edit your own details' option on the main menu. "
                         . ' Why not do so? It could save you a lot of typing, as you would not have to re-enter'
                         . ' your email address each time you wanted to receive some query results by email.');
         }
         
-        html::listitem( 'Sorry, we cannot send messages to email addresses containing characters '
+        HTML::listitem( 'Sorry, we cannot send messages to email addresses containing characters '
                         . ' other than a standard set. The characters accepted are '
                         . ' A to Z and a to z, 0 to 9, at-sign (@), full-stop (.), hyphen (-)'
                         . ' and the underline character (_).');
-        html::ulist_end();
+        HTML::ulist_end();
 
         foreach( $_POST as $parm_name => $parm_value ) {
           if( $parm_name == 'msg_recipient' ) continue;
@@ -2674,10 +2674,10 @@ class DBEntity extends Application_Entity {
                                                       # (Value is set in db search result parms.)
 
           if( ! $this->is_ok_free_text( $parm_value )) die(); 
-          html::hidden_field( $parm_name, $parm_value ); # validate properly when you next read the form values
+          HTML::hidden_field( $parm_name, $parm_value ); # validate properly when you next read the form values
         }
 
-        html::form_end();
+        HTML::form_end();
         return;
       }
     }
@@ -2728,12 +2728,12 @@ class DBEntity extends Application_Entity {
     $output_id = NULL;
     if( $is_large_file ) {
       $batch_count = ceil( $rowcount / MAX_ROWS_IN_CSV_FILE );
-      html::h3_start();
+      HTML::h3_start();
       echo "You have requested a large report of $rowcount lines. ";
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo "Producing your output in $batch_count batches to try and avoid running out of memory...";
-      html::new_paragraph();
-      html::h3_end();
+      HTML::new_paragraph();
+      HTML::h3_end();
       flush();
 
       $output_id = uniqid( rand(), TRUE );
@@ -2819,9 +2819,9 @@ class DBEntity extends Application_Entity {
           if( $line_number % $msg_frequency == 0 ) { # time for another message
             echo "Processed $line_number lines out of a total of $rowcount..." . LINEBREAK;
             $anchor_name = 'processed_line_' . $line_number;
-            html::anchor( $anchor_name );
+            HTML::anchor( $anchor_name );
             $script = 'window.location.hash = "#' . $anchor_name . '"';
-            html::write_javascript_function( $script );
+            HTML::write_javascript_function( $script );
             flush();
           }
         }
@@ -2829,7 +2829,7 @@ class DBEntity extends Application_Entity {
     }
 
     unset( $rows );  # try and free up some memory
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( ! $msg_body ) {
       $msg_body = ' - Results are attached from your query on the ' . CFG_SYSTEM_TITLE . '.    '
@@ -2846,7 +2846,7 @@ class DBEntity extends Application_Entity {
       }
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $is_large_file ) {
       for( $startrow = 1; $startrow <= $rowcount; $startrow += MAX_ROWS_IN_CSV_FILE ) {
@@ -2856,7 +2856,7 @@ class DBEntity extends Application_Entity {
         $file_content = '';
 
         echo "Producing part $curr_batch of your output...";
-        html::new_paragraph();
+        HTML::new_paragraph();
 
         $statement = 'select line_text from ' . $this->db_report_outputs_tablename()
                    . " where output_id = '$output_id' and ( line_number = 0 "
@@ -2897,15 +2897,15 @@ class DBEntity extends Application_Entity {
                                                     $print_confirmation_msg );
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     if( ! $suppress_confirmation ) {
       $anchor_name = 'processed_' . $line_number . '_lines_of_results';
-      html::anchor( $anchor_name );
+      HTML::anchor( $anchor_name );
       $script = 'window.location.hash = "#' . $anchor_name . '"';
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
       flush();
     }
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -2915,10 +2915,10 @@ class DBEntity extends Application_Entity {
     $keep_orig = $this->reading_selection_criteria;
     $this->reading_selection_criteria = TRUE;  # use this property to force all queried columns to be read
 
-    html::h3_start();
+    HTML::h3_start();
     echo 'Saving your latest query...';
-    html::h3_end();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
 
     $query_class = $this->app_get_class( $this );
     $query_method = $this->search_method;
@@ -2962,25 +2962,25 @@ class DBEntity extends Application_Entity {
                            $query_record_layout    = $this->record_layout,
                            $query_entries_per_page = $this->entries_per_page );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::form_start( 'report', 'saved_query_list' );
+    HTML::form_start( 'report', 'saved_query_list' );
 
-    html::h3_start();
+    HTML::h3_start();
     echo 'Query saved.';
-    html::h3_end();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
 
     echo 'Show your list of saved queries: ';
-    html::submit_button();
+    HTML::submit_button();
 
-    html::new_paragraph();
-    html::italic_start();
+    HTML::new_paragraph();
+    HTML::italic_start();
     echo 'You can also view and re-run your saved queries via the Reports menu.';
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'Note: your results from the current query are still being shown in your original tab/window.';
-    html::italic_end();
-    html::form_end( 'report', 'saved_query_list' );
+    HTML::italic_end();
+    HTML::form_end( 'report', 'saved_query_list' );
 
     $this->reading_selection_criteria = $keep_orig;  # omit non-displayable columns from display, even if queried on
   }
@@ -3057,13 +3057,13 @@ class DBEntity extends Application_Entity {
     if( $this->printable_output ) {  # Even if browsing ACROSS page, normally arrange printable output DOWN the page
                                      # unless method db_set_search_result_parms() sets force_printing_across_page
       if( $this->publicly_available_page ) {
-        html::new_paragraph();
+        HTML::new_paragraph();
 
-        html::italic_start();
+        HTML::italic_start();
         echo '(Note: if you have any difficulty printing out more than one page of your results, '
              . ' and you are not already using Internet Explorer as your browser, it is possible that you may have '
              . ' more success if you switch to Internet Explorer.)';
-        html::italic_end();
+        HTML::italic_end();
       }
 
       if( $this->force_printing_across_page ) 
@@ -3074,38 +3074,38 @@ class DBEntity extends Application_Entity {
     else
       $div_class = 'queryresults';
 
-    html::div_start( ' class="' . $div_class . '" ' );
+    HTML::div_start( ' class="' . $div_class . '" ' );
 
-    html::table_start();
+    HTML::table_start();
 
-    html::table_head_start();
-    html::tablerow_start();
+    HTML::table_head_start();
+    HTML::tablerow_start();
     foreach( $columns as $crow ) {
       extract( $crow, EXTR_OVERWRITE );
-      html::column_header( $column_label );
+      HTML::column_header( $column_label );
     }
-    html::tablerow_end();
-    html::table_head_end();
+    HTML::tablerow_end();
+    HTML::table_head_end();
 
-    html::table_body_start();
+    HTML::table_body_start();
     foreach( $details as $row ) {
       $this->current_row_of_data = $row;  # give child classes access to all the data in the row at any time
 
       extract( $row, EXTR_OVERWRITE );
-      html::tablerow_start();
+      HTML::tablerow_start();
 
       foreach( $columns as $crow ) {
         extract( $crow, EXTR_OVERWRITE );
 
         if( $this->edit_method && $column_name == $this->keycol && ! $this->printable_output ) {
-          html::tabledata_start( ' class="highlight2 bold" ' );
+          HTML::tabledata_start( ' class="highlight2 bold" ' );
           $this->db_browse_plugin_1( $column_name, $$column_name );
           $class_name = $this->app_get_class( $this );
 
-          html::form_start( $class_name, $this->edit_method, NULL, $this->edit_tab );
-          html::hidden_field( $column_name, $$column_name );
-          html::hidden_field( 'opening_class', $this->menu_class_name );
-          html::hidden_field( 'opening_method', $this->menu_method_name );
+          HTML::form_start( $class_name, $this->edit_method, NULL, $this->edit_tab );
+          HTML::hidden_field( $column_name, $$column_name );
+          HTML::hidden_field( 'opening_class', $this->menu_class_name );
+          HTML::hidden_field( 'opening_method', $this->menu_method_name );
 
           # Manipulate the data before displaying it if you need to.
           # You've already got the original ID value in a hidden field now.
@@ -3114,13 +3114,13 @@ class DBEntity extends Application_Entity {
           echo $$column_name ;
           echo LINEBREAK;
 
-          html::submit_button( 'edit_button', 'Edit' );
-          html::form_end();
+          HTML::submit_button( 'edit_button', 'Edit' );
+          HTML::form_end();
           $this->db_browse_plugin_1a( $column_name, $$column_name );
-          html::tabledata_end();
+          HTML::tabledata_end();
         }
         else {
-          html::tabledata_start();
+          HTML::tabledata_start();
 
           # Manipulate the data before displaying it if you need to.
           $$column_name = $this->db_browse_reformat_data( $column_name, $$column_name );
@@ -3130,14 +3130,14 @@ class DBEntity extends Application_Entity {
           $this->db_pass_data_back_from_popup( $column_name );
 
           $this->db_browse_plugin_2( $column_name, $$column_name );
-          html::tabledata_end();
+          HTML::tabledata_end();
         }
       }
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
-    html::table_body_end();
-    html::table_end();
-    html::div_end( $div_class );
+    HTML::table_body_end();
+    HTML::table_end();
+    HTML::div_end( $div_class );
   }
   #-----------------------------------------------------
 
@@ -3158,88 +3158,88 @@ class DBEntity extends Application_Entity {
     else
       $div_class = 'printabledownpage';
 
-    html::div_start( ' class="' . $div_class . '" ' );
+    HTML::div_start( ' class="' . $div_class . '" ' );
 
     foreach( $details as $row ) {
       $this->current_row_of_data = $row;  # give child classes access to all the data in the row at any time
 
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
 
       $curr_record++;
       $next_record = $curr_record + 1;
       $prev_record = $curr_record - 1;
 
       if( ! $this->printable_output ) {
-        html::anchor( 'record_' . $curr_record );
+        HTML::anchor( 'record_' . $curr_record );
 
         echo "Record $curr_record of $record_count on this page. " . LINEBREAK;
 
-        if( $curr_record < $record_count ) html::link( '#record_' . $next_record, 'Next record' );
+        if( $curr_record < $record_count ) HTML::link( '#record_' . $next_record, 'Next record' );
         if( $curr_record > 1 && $curr_record < $record_count ) echo ' | ';
-        if( $curr_record > 1 ) html::link( '#record_' . $prev_record, 'Previous record' );
+        if( $curr_record > 1 ) HTML::link( '#record_' . $prev_record, 'Previous record' );
 
         if( $curr_record > 1 || $curr_record < $record_count )
           echo ' | ';
-        html::link_to_page_top();
+        HTML::link_to_page_top();
         echo ' | ';
-        html::link_to_page_bottom();
+        HTML::link_to_page_bottom();
 
-        html::new_paragraph();
-        html::table_start();
+        HTML::new_paragraph();
+        HTML::table_start();
       }
       else {  # printable output
-        html::italic_start();
+        HTML::italic_start();
         echo "Record $curr_record of $record_count. " . LINEBREAK;
-        html::italic_end();
-        html::table_start();
+        HTML::italic_end();
+        HTML::table_start();
       }
 
       extract( $row, EXTR_OVERWRITE );
 
       foreach( $columns as $crow ) {
         extract( $crow, EXTR_OVERWRITE );
-        html::tablerow_start();
+        HTML::tablerow_start();
 
         if( $this->edit_method && $column_name == $this->keycol && ! $this->printable_output ) {
-          html::tabledata_start( 'class="rightaligned highlight2"' );
+          HTML::tabledata_start( 'class="rightaligned highlight2"' );
           $class_name = $this->app_get_class( $this );
-          html::form_start( $class_name, $this->edit_method, NULL, $this->edit_tab );
-          html::hidden_field( 'opening_class', $this->menu_class_name );
-          html::hidden_field( 'opening_method', $this->menu_method_name );
-          html::submit_button( 'edit_button', 'Edit' );
-          html::hidden_field( $column_name, $$column_name );
-          html::form_end();
+          HTML::form_start( $class_name, $this->edit_method, NULL, $this->edit_tab );
+          HTML::hidden_field( 'opening_class', $this->menu_class_name );
+          HTML::hidden_field( 'opening_method', $this->menu_method_name );
+          HTML::submit_button( 'edit_button', 'Edit' );
+          HTML::hidden_field( $column_name, $$column_name );
+          HTML::form_end();
           $this->db_browse_plugin_1( $column_name, $$column_name );
-          html::tabledata_end();
+          HTML::tabledata_end();
 
-          html::tabledata_start( 'class="highlight2"' );
+          HTML::tabledata_start( 'class="highlight2"' );
           echo $column_label . ' ' . $$column_name;
-          html::tabledata_end();
+          HTML::tabledata_end();
         }
         else {
-          html::tabledata_start();
+          HTML::tabledata_start();
           $this->echo_safely( $column_label );
-          html::tabledata_end();
+          HTML::tabledata_end();
 
-          html::tabledata_start();
+          HTML::tabledata_start();
 
           # Manipulate the data before displaying it if you need to.
           $$column_name = $this->db_browse_reformat_data( $column_name, $$column_name );
 
           $this->echo_safely_with_linebreaks( $$column_name );
           $this->db_browse_plugin_2( $column_name, $$column_name );
-          html::tabledata_end();
+          HTML::tabledata_end();
         }
 
-        html::tablerow_end();
+        HTML::tablerow_end();
       }
-      html::table_end();
-      html::new_paragraph();
+      HTML::table_end();
+      HTML::new_paragraph();
     }
 
-    html::div_end( $div_class );
+    HTML::div_end( $div_class );
   }
   #-----------------------------------------------------
   function db_get_fixed_where_clause() {  # Allows a where-clause to be overridden by child class
@@ -3286,9 +3286,9 @@ class DBEntity extends Application_Entity {
     if( $this->record_layout == '' ) $this->record_layout = DEFAULT_RECORD_LAYOUT;
 
     if( ! $this->csv_output && ! $this->printable_output && ! $this->excel_output ) {
-      html::form_start( $class_name, $this->browse_method );
+      HTML::form_start( $class_name, $this->browse_method );
       $this->db_choose_presentation_style( $possible_order_by_cols, $order_by ); # contains submit button
-      html::form_end();
+      HTML::form_end();
     }
 
     #----------------------------------------------------------------------------
@@ -3305,9 +3305,9 @@ class DBEntity extends Application_Entity {
                                                      $sort_descending = $this->sort_descending  );
 
     if( ! is_array( $details )) {
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo 'No data found.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       return;
     }
 
@@ -3360,21 +3360,21 @@ class DBEntity extends Application_Entity {
     if( ! $order_by_col ) $order_by_col = $lookup_display_col;
 
     if( $in_table )
-      html::tabledata( $this->field_label, $this->label_parm );
+      HTML::tabledata( $this->field_label, $this->label_parm );
     else
       echo $this->field_label . LINEBREAK;
 
-    if( $in_table ) html::tabledata_start( 'class="highlight2" ' );
+    if( $in_table ) HTML::tabledata_start( 'class="highlight2" ' );
 
     echo 'Tick as many as apply:';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $statement = "select $lookup_id_col, $lookup_display_col from $lookup_table order by $order_by_col";
     $look = $this->db_select_into_array( $statement );
     if( ! is_array( $look )) {
       echo $this->field_label . LINEBREAK;
       echo 'No options found.';
-      if( $in_table ) html::tabledata_end();
+      if( $in_table ) HTML::tabledata_end();
       return;
     }
 
@@ -3411,12 +3411,12 @@ class DBEntity extends Application_Entity {
           }
         }
       }
-      html::checkbox( $this->field_name . '[]', $$lookup_display_col, $checked, $$lookup_id_col,
+      HTML::checkbox( $this->field_name . '[]', $$lookup_display_col, $checked, $$lookup_id_col,
                       $in_table = FALSE, $tabindex = 1, $checkbox_instance );
       echo LINEBREAK;
     }
 
-    if( $in_table ) html::tabledata_end();
+    if( $in_table ) HTML::tabledata_end();
   }
   #-----------------------------------------------------
 
@@ -3439,21 +3439,21 @@ class DBEntity extends Application_Entity {
     $statement = "select $id_col, $display_col from $table_name order by $order_col";
     $results = $this->db_select_into_array( $statement );
 
-    html::dropdown_start( $this->field_name, $this->field_label, $this->in_table, $script = NULL, $tabindex = 1,
+    HTML::dropdown_start( $this->field_name, $this->field_label, $this->in_table, $script = NULL, $tabindex = 1,
                           $this->label_parm ); 
 
     $field_name = $this->field_name;
 
     if( ! $suppress_blank_row || ! is_array( $results ))
-      html::dropdown_option( 'null', $blank_row_title, $this->$field_name );
+      HTML::dropdown_option( 'null', $blank_row_title, $this->$field_name );
 
     if( is_array( $results )) {
       foreach( $results as $row ) {
-        html::dropdown_option( $row[ "$id_col" ], $row[ "$display_col" ], $this->$field_name );
+        HTML::dropdown_option( $row[ "$id_col" ], $row[ "$display_col" ], $this->$field_name );
       }
     }
 
-    html::dropdown_end(); 
+    HTML::dropdown_end(); 
   }
   #-----------------------------------------------------
 

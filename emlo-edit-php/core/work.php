@@ -714,15 +714,15 @@ class Work extends Project {
   function db_choose_order_by_col( $possible_order_by_cols = NULL, $default_order_by_col = '1' ) {
 
     echo 'Your choice of presentation options will remain in force until you choose a new set of options.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     parent::db_choose_order_by_col( $possible_order_by_cols, $default_order_by_col );
   }
   #-----------------------------------------------------
   function db_choose_asc_desc() {
-    html::span_start( 'class="widespaceonleft"' );
+    HTML::span_start( 'class="widespaceonleft"' );
     parent::db_choose_asc_desc();
-    html::span_end( 'widespaceonleft' );
+    HTML::span_end( 'widespaceonleft' );
   }
   #-----------------------------------------------------
 
@@ -761,15 +761,15 @@ class Work extends Project {
     else
       $other_method_name = 'Expanded view';
 
-    html::form_start( $this->app_get_class( $this ), $other_method, NULL, $form_target = '_self' );
+    HTML::form_start( $this->app_get_class( $this ), $other_method, NULL, $form_target = '_self' );
 
     $page_required = $this->db_page_required;  # current page or page 1 if we only have one page
     if( ! $page_required ) $page_required = 1;
     $this->db_write_pagination_fields( $page_required );
 
-    html::submit_button( 'change_view_button', $other_method_name, $tabindex=1, ' class="pagelist" ' );
+    HTML::submit_button( 'change_view_button', $other_method_name, $tabindex=1, ' class="pagelist" ' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
   function can_do_same_query_in_compact_view() {
@@ -790,58 +790,58 @@ class Work extends Project {
 
     echo 'Enter selection in one or more fields and click the Search button or press the Return key.'
          . ' Please note:';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::ulist_start();
+    HTML::ulist_start();
 
-    html::listitem_start();
+    HTML::listitem_start();
     echo 'Most of the fields in this form are text fields: you make your selection by entering a word or phrase,';
     echo ' or part of a word, to be found anywhere within the relevant piece of text.';
     #echo ' For example, if you entered ';
-    #html::bold_start();
+    #HTML::bold_start();
     #echo 'Bister';
-    #html::bold_end();
+    #HTML::bold_end();
     #echo " in the 'Sender or Recipient' field, you would find all works to or from BISTERFELD, JOHANN HEINRICH "; 
     #echo ' and BISTERFELD, JOHN';
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::listitem_start();
+    HTML::listitem_start();
     echo 'You do not have to match the case of text fields, e.g. ';
-    html::bold_start();
+    HTML::bold_start();
     echo 'comenius';
-    html::bold_end();
+    HTML::bold_end();
     echo ' is equivalent to ';
-    html::bold_start();
+    HTML::bold_start();
     echo 'Comenius';
-    html::bold_end();
+    HTML::bold_end();
     echo '.';
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::listitem_start();
+    HTML::listitem_start();
     echo ' You can use the wildcard ';
-    html::bold_start();
+    HTML::bold_start();
     echo '%';
-    html::bold_end();
+    HTML::bold_end();
     echo ' (percent sign) to represent any number of characters.';
     echo ' For example, if you entered ';
-    html::bold_start();
+    HTML::bold_start();
     echo 'pelham%william';
-    html::bold_end();
+    HTML::bold_end();
     echo " in the 'Sender or Recipient' field, you would find works to or from PELHAM, SIR WILLIAM ";
     echo ' as well as PELHAM, WILLIAM.';
 
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::listitem( 'Fields marked with an asterisk are non-text fields (dates or numbers).'
+    HTML::listitem( 'Fields marked with an asterisk are non-text fields (dates or numbers).'
          #. To find records '
          #. " with dates within a certain range, enter the start and/or the end of the period of interest"
          #. ' in the From/To fields.'
          #. ' To find records containing a certain number (work ID), enter the exact number you are interested in.' 
          );
 
-    html::ulist_end();
+    HTML::ulist_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -1048,7 +1048,7 @@ class Work extends Project {
         $style = ' class="compactbutton" ';
         $title = ' title="Show aliases" ';
 
-        html::button( $button_name = $column_name . '_moreinfo_button_' . $this->current_row_of_data[ 'iwork_id' ],
+        HTML::button( $button_name = $column_name . '_moreinfo_button_' . $this->current_row_of_data[ 'iwork_id' ],
                       $value = '+', 
                       $tabindex = 1,
                       $other_parms = $title . $script . $style );
@@ -1250,7 +1250,7 @@ class Work extends Project {
           $style = ' class="compactbutton" ';
           $title = ' title="Show further details such as abstract or aliases by which correspondents were known" ';
 
-          html::button( $button_name = 'work_moreinfo_button_' . $this->current_row_of_data[ 'iwork_id' ],
+          HTML::button( $button_name = 'work_moreinfo_button_' . $this->current_row_of_data[ 'iwork_id' ],
                         $value = '+', 
                         $tabindex = 1,
                         $other_parms = $title . $script . $style );
@@ -1268,7 +1268,7 @@ class Work extends Project {
 
         $href = $_SERVER[ 'PHP_SELF' ] . '?iwork_id=' . $column_value;
         $title = 'Full details of record no. ' . $column_value;
-        html::link( $href, $displayed_text = $column_value, $title, $target = '_blank' ); 
+        HTML::link( $href, $displayed_text = $column_value, $title, $target = '_blank' ); 
 
         $column_value = ''; # don't repeat ID number twice
         echo LINEBREAK;
@@ -1680,19 +1680,19 @@ class Work extends Project {
       $view_type_parm = $related_object_type . '_works_view_type';
 
       $iwork_id_string = $this->read_post_parm( 'iwork_id_string' );
-      html::hidden_field( 'iwork_id_string', $iwork_id_string );
+      HTML::hidden_field( 'iwork_id_string', $iwork_id_string );
 
       $id_value = $this->read_post_parm( "$keycol_name" );
-      html::hidden_field( "$keycol_name", $id_value );
+      HTML::hidden_field( "$keycol_name", $id_value );
 
       $view_type = $this->read_post_parm( $view_type_parm );
-      html::hidden_field( $view_type_parm, $view_type );
+      HTML::hidden_field( $view_type_parm, $view_type );
 
       foreach( $secondary_search_terms as $search_term ) {
         if( $this->parm_found_in_post( $search_term )) {
           $$search_term = $this->read_post_parm( $search_term );
-          html::hidden_field( $search_term, $$search_term );
-          html::hidden_field( 'text_query_op_' . $search_term, 'contains' );
+          HTML::hidden_field( $search_term, $$search_term );
+          HTML::hidden_field( 'text_query_op_' . $search_term, 'contains' );
           break; # there will only be one of these secondary search terms
         }
       }
@@ -1709,9 +1709,9 @@ class Work extends Project {
     if( ! $iwork_id ) $iwork_id = $this->read_get_parm( 'iwork_id' );
 
     if( ! $iwork_id ) {
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo 'This is a new record. No details have yet been saved.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       return;
     } 
 
@@ -1726,26 +1726,26 @@ class Work extends Project {
     $class_name = $this->app_get_class( $this );
     if( $class_name != 'editable_work' ) {  # Editable work already displays work description then row of tabs
 
-      html::h3_start();
+      HTML::h3_start();
       $this->echo_safely( $this->description );
-      html::h3_end();
+      HTML::h3_end();
 
-      html::div_start( 'class="buttonrow"' );
+      HTML::div_start( 'class="buttonrow"' );
 
       if( $this->proj_edit_mode_enabled()) {
-        html::form_start( PROJ_COLLECTION_WORK_CLASS, 'edit_work' );
-        html::hidden_field( 'iwork_id', $this->iwork_id );
-        html::submit_button( 'edit_button', 'Edit' );
-        html::form_end();
+        HTML::form_start( PROJ_COLLECTION_WORK_CLASS, 'edit_work' );
+        HTML::hidden_field( 'iwork_id', $this->iwork_id );
+        HTML::submit_button( 'edit_button', 'Edit' );
+        HTML::form_end();
       }
 
-      html::form_start( PROJ_COLLECTION_WORK_CLASS, 'db_search' );
-      html::submit_button( 'search_button', 'Search' );
-      html::form_end();
+      HTML::form_start( PROJ_COLLECTION_WORK_CLASS, 'db_search' );
+      HTML::submit_button( 'search_button', 'Search' );
+      HTML::form_end();
 
       echo LINEBREAK;
-      html::div_end();
-      html::horizontal_rule();
+      HTML::div_end();
+      HTML::horizontal_rule();
     }
 
     $this->overview_by_email = array();
@@ -1757,7 +1757,7 @@ class Work extends Project {
         echo 'You can have the following summary sent to you by email as a ';
         $href = $_SERVER[ 'PHP_SELF' ] . '?iwork_id=' . $iwork_id . '&csv_output=Y';
         $title = 'Spreadsheet output of details for record no. ' . $iwork_id;
-        html::link( $href, $displayed_text = 'spreadsheet', $title, $target = '_blank' ); 
+        HTML::link( $href, $displayed_text = 'spreadsheet', $title, $target = '_blank' ); 
       }
       else
         echo "Note: You have not entered an email address for yourself via the 'Edit your own details'"
@@ -1766,7 +1766,7 @@ class Work extends Project {
              . ' Once you have entered an email address for yourself, this and other query results can be emailed'
              . ' to you at the click of a button.';
 
-      html::table_start( 'class="overview"' );
+      HTML::table_start( 'class="overview"' );
     }
 
     $columns = $this->get_columns_for_overview();
@@ -1883,12 +1883,12 @@ class Work extends Project {
           $this->display_one_detail_of_overview( $column_label, $column_value ) ;
 
           if( $this->proj_edit_mode_enabled()) { # non-editors don't need to poke around in the audit trail
-            html::tablerow_start();
-            html::tabledata( '' );
-            html::tabledata_start( 'class="fieldvalue"' );
+            HTML::tablerow_start();
+            HTML::tabledata( '' );
+            HTML::tabledata_start( 'class="fieldvalue"' );
             $this->audit_trail_link();
-            html::tabledata_end();
-            html::tablerow_end();
+            HTML::tabledata_end();
+            HTML::tablerow_end();
           }
           break;
 
@@ -1906,7 +1906,7 @@ class Work extends Project {
                                     $msg_subject );
     }
     else # not in CSV output mode
-      html::table_end();
+      HTML::table_end();
 
   }
   #-----------------------------------------------------
@@ -1923,7 +1923,7 @@ class Work extends Project {
                                      . '&key_value=' . $this->iwork_id;
 
       $title = 'Display audit trail for work ' . $this->iwork_id;
-      html::link( $href, $displayed_text = 'Display audit trail', $title, $target = '_blank' ); 
+      HTML::link( $href, $displayed_text = 'Display audit trail', $title, $target = '_blank' ); 
     }
   }
   #-----------------------------------------------------
@@ -2021,29 +2021,29 @@ class Work extends Project {
     if( $this->string_starts_with( $column_value, '***' ) && $this->string_ends_with( $column_value, '***' ))
       $bold = TRUE;
 
-    html::tablerow_start();
+    HTML::tablerow_start();
 
     $parms = NULL;
     if( ! $is_heading ) $parms = 'class="fieldtitle"';
 
-    html::tabledata_start( $parms );
+    HTML::tabledata_start( $parms );
     if( $column_label ) {
-      if( $is_heading ) html::h4_start();
+      if( $is_heading ) HTML::h4_start();
       $this->echo_safely( $column_label . ':' );
-      if( $is_heading ) html::h4_end();
+      if( $is_heading ) HTML::h4_end();
     }
-    html::tabledata_end();
+    HTML::tabledata_end();
 
     $parms = NULL;
     if( ! $is_heading ) $parms = 'class="fieldvalue"';
 
-    html::tabledata_start( $parms );
-    if( $bold || $is_heading ) html::bold_start();
+    HTML::tabledata_start( $parms );
+    if( $bold || $is_heading ) HTML::bold_start();
     $this->echo_safely( $column_value );
-    if( $bold || $is_heading ) html::bold_end();
-    html::tabledata_end();
+    if( $bold || $is_heading ) HTML::bold_end();
+    HTML::tabledata_end();
 
-    html::tablerow_end();
+    HTML::tablerow_end();
   }
   #-----------------------------------------------------
 

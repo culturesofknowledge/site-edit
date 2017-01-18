@@ -300,7 +300,7 @@ class Repository extends Project {
 
           $id = $this->current_row_of_data[ 'institution_id' ];
 
-          html::checkbox( $fieldname = 'merge[]',
+          HTML::checkbox( $fieldname = 'merge[]',
                           $label = NULL,
                           $is_checked = FALSE,
                           $value_when_checked = $id,
@@ -330,22 +330,22 @@ class Repository extends Project {
 
     if( $enable_merge ) {
 
-      $this->merge_form = html::form_start( $this->app_get_class( $this ), 'start_merge' );
+      $this->merge_form = HTML::form_start( $this->app_get_class( $this ), 'start_merge' );
 
       $select_all_script_name = $this->write_script_to_set_merge_checkboxes( $details, $tick = TRUE );
       $clear_all_script_name = $this->write_script_to_set_merge_checkboxes( $details, $tick = FALSE );
 
-      html::new_paragraph();
-      html::italic_start();
+      HTML::new_paragraph();
+      HTML::italic_start();
       echo 'To start the process of merging records, tick the checkbox beside the relevant names '
            . ' and click the Merge button:';
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
 
-      html::submit_button( 'merge_button', 'Merge' );
-      html::button( 'select_all_button', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
-      html::button( 'clear_all_button', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
-      html::new_paragraph();
+      HTML::submit_button( 'merge_button', 'Merge' );
+      HTML::button( 'select_all_button', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
+      HTML::button( 'clear_all_button', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
+      HTML::new_paragraph();
 
       $this->db_write_pagination_fields( $this->db_page_required );  # also writes calling form/field if present
     }
@@ -353,12 +353,12 @@ class Repository extends Project {
     parent::$browse_function( $details, $columns );
 
     if( $enable_merge ) {
-      html::new_paragraph();
-      html::submit_button( 'merge_button2', 'Merge' );
-      html::button( 'select_all_button2', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
-      html::button( 'clear_all_button2', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
-      html::new_paragraph();
-      html::form_end();
+      HTML::new_paragraph();
+      HTML::submit_button( 'merge_button2', 'Merge' );
+      HTML::button( 'select_all_button2', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
+      HTML::button( 'clear_all_button2', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
+      HTML::new_paragraph();
+      HTML::form_end();
     }
   }
   #-----------------------------------------------------
@@ -388,7 +388,7 @@ class Repository extends Project {
     }
 
     $script .= '}' . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     return $script_name;
   }
@@ -399,11 +399,11 @@ class Repository extends Project {
     $to_merge = $this->read_post_parm( 'merge' );
 
     if( count( $to_merge ) < 2 ) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'You need to check two or more checkboxes. Cancelling merge...';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->db_set_search_result_parms();
       $results_method = $this->results_method;
@@ -411,80 +411,80 @@ class Repository extends Project {
       return;
     }
 
-    html::form_start( $this->app_get_class( $this ), 'confirm_merge' );
+    HTML::form_start( $this->app_get_class( $this ), 'confirm_merge' );
 
     $this->retain_options_during_merge(); # retain 'Advanced Search', rows per page, etc.
 
     $i = 0;
     foreach( $to_merge as $id_to_merge ) {
       $i++;
-      html::hidden_field( 'merge[]', $id_to_merge, $i );
+      HTML::hidden_field( 'merge[]', $id_to_merge, $i );
     }
 
 
-    html::new_paragraph();
-    html::submit_button( 'ok_button', 'OK' );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::submit_button( 'ok_button', 'OK' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::h3_start();
+    HTML::h3_start();
     echo 'Select the master record';
-    html::h3_end();
+    HTML::h3_end();
 
-    html::italic_start();
+    HTML::italic_start();
     echo "Please select the record into which all the others should be merged, then click 'Save': ";
-    html::italic_end();
+    HTML::italic_end();
 
-    html::new_paragraph();
-    html::table_start( 'class="datatab spacepadded"' );
-    html::tablerow_start();
-    html::column_header( 'Name' );
-    html::column_header( 'No. of manifestations' );
-    html::tablerow_end();
+    HTML::new_paragraph();
+    HTML::table_start( 'class="datatab spacepadded"' );
+    HTML::tablerow_start();
+    HTML::column_header( 'Name' );
+    HTML::column_header( 'No. of manifestations' );
+    HTML::tablerow_end();
 
     $i = 0;
     foreach( $to_merge as $id_to_merge ) {
-      html::tablerow_start();
+      HTML::tablerow_start();
       $i++;
 
       #----
 
-      html::tabledata_start();
+      HTML::tabledata_start();
 
       $institution_name = $this->proj_get_description_from_id( $id_to_merge );
 
-      html::radio_button( $fieldname = 'selected_merge_id', 
+      HTML::radio_button( $fieldname = 'selected_merge_id', 
                           $institution_name, 
                           $value_when_checked = $id_to_merge, 
                           $current_value = '', 
                           $tabindex=1, 
                           $button_instance=$i );
 
-      html::tabledata_end();
+      HTML::tabledata_end();
 
       #----
 
-      html::tabledata_start();
+      HTML::tabledata_start();
 
       $stored_manifs = $this->get_manifs_in_repos( $id_to_merge );
       $manif_count = count($stored_manifs);
       echo $manif_count;
-      html::tabledata_end();
+      HTML::tabledata_end();
 
       #----
 
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
-    html::table_end();
+    HTML::table_end();
 
-    html::new_paragraph();
-    html::submit_button( 'ok_button', 'OK' );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::submit_button( 'ok_button', 'OK' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::new_paragraph();
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -496,11 +496,11 @@ class Repository extends Project {
     $selected_merge_id = $this->read_post_parm( 'selected_merge_id' );
 
     if( ! $selected_merge_id ) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'You did not select the master record. Cannot proceed with merge.';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->start_merge();
       return;
@@ -508,46 +508,46 @@ class Repository extends Project {
 
     # Display values to be merged, and wait for user to click OK
 
-    html::form_start( $this->app_get_class( $this ), 'save_merge' );
+    HTML::form_start( $this->app_get_class( $this ), 'save_merge' );
 
     $this->retain_options_during_merge(); # retain 'Advanced Search', rows per page, etc.
 
-    html::hidden_field( 'selected_merge_id', $selected_merge_id );
+    HTML::hidden_field( 'selected_merge_id', $selected_merge_id );
 
-    html::h3_start();
+    HTML::h3_start();
     echo $this->get_repository_desc_from_id( $selected_merge_id );
-    html::h3_end();
+    HTML::h3_end();
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Will replace the following: ';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     $i = 0;
     foreach( $to_merge as $id_to_merge ) {
       if( $id_to_merge == $selected_merge_id ) continue;
 
       $i++;
-      html::hidden_field( 'merge[]', $id_to_merge, $i );
+      HTML::hidden_field( 'merge[]', $id_to_merge, $i );
       echo " $i. " . $this->get_repository_desc_from_id( $id_to_merge );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
-    html::submit_button( 'save_button', 'Save' );
-    html::submit_button( 'cancel_button', 'Cancel' );
+    HTML::submit_button( 'save_button', 'Save' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
     
   function cancel_merge_at_user_request() {
 
     if( $this->parm_found_in_post( 'cancel_button' )) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'Merge cancelled at user request.';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->db_set_search_result_parms();
       $search_method = $this->search_method;
@@ -567,11 +567,11 @@ class Repository extends Project {
     $selected_merge_id = $this->read_post_parm( 'selected_merge_id' );
 
     if( ! $selected_merge_id ) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'You did not select the master record. Cannot proceed with merge.';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->start_merge();
       return;
@@ -593,22 +593,22 @@ class Repository extends Project {
       echo " $i. " . $desc . LINEBREAK;
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'Replaced by: ';
     echo $this->get_repository_desc_from_id( $selected_merge_id );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::horizontal_rule();
-    html::h3_start();
+    HTML::horizontal_rule();
+    HTML::h3_start();
     echo 'Search again:';
-    html::h3_end();
+    HTML::h3_end();
 
     $this->db_set_search_result_parms();
     $search_method = $this->search_method;
     $this->$search_method();
 
     $script = "document.$this->form_name.institution_name.focus()";
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
   function perform_merge( $selected_merge_id, $to_merge ) {
@@ -794,14 +794,14 @@ class Repository extends Project {
 
     if( $display_status_msg ) {
       echo 'Deleted ' . $repository_desc;
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
 
       $anchor_name = 'deleted_institution_id_' . $institution_id;
-      html::anchor( $anchor_name );
+      HTML::anchor( $anchor_name );
       $script = 'window.location.href = "' . $_SERVER['PHP_SELF'] . '" + "#' . $anchor_name . '"';
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
     }
   }
   #-----------------------------------------------------
@@ -810,7 +810,7 @@ class Repository extends Project {
 
     echo 'Enter some details of the required repository (e.g. country, city or part or all of institution name)'
          . ' and click Search or press Return.';
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -820,10 +820,10 @@ class Repository extends Project {
       $this->edit_repository();
 
     else {
-      html::italic_start();
+      HTML::italic_start();
       echo 'Sorry, you do not have edit privileges in this database. Read-only details are now being displayed.';
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
 
       $this->write_post_parm( 'institution_id', $this->read_get_parm( 'institution_id' ));
       $this->write_post_parm( 'date_or_numeric_query_op_institution_id', 'equals' );
@@ -855,9 +855,9 @@ class Repository extends Project {
  
     $href .= '&opening_method=' . $this->menu_method_name;
 
-    html::link_start( $href, $title, $target = '_blank' );
+    HTML::link_start( $href, $title, $target = '_blank' );
     echo 'Edit';
-    html::link_end();
+    HTML::link_end();
   }
   #-----------------------------------------------------
 
@@ -885,29 +885,29 @@ class Repository extends Project {
 
     $this->repository_entry_stylesheets();
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'save_repository' );
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'save_repository' );
 
-    html::hidden_field( 'opening_method', $opening_method );
+    HTML::hidden_field( 'opening_method', $opening_method );
     $focus_script = NULL;
 
     if( ! $new_record ) {
-      html::italic_start();
+      HTML::italic_start();
       echo 'Repository ID ' . $this->institution_id 
            . '. Last changed ' . $this->postgres_date_to_words( $this->change_timestamp )
            . ' by ' . $this->change_user . ' ';
-      html::italic_end();
+      HTML::italic_end();
 
       $focus_script = $this->proj_write_post_save_refresh_button( $just_saved, $opening_method );
-      html::new_paragraph();
+      HTML::new_paragraph();
 
-      html::submit_button( 'save_button', 'Save' );
-      html::submit_button( 'clear_search_button', 'Search' );
-      html::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
+      HTML::submit_button( 'save_button', 'Save' );
+      HTML::submit_button( 'clear_search_button', 'Search' );
+      HTML::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
 
-      html::new_paragraph();
-      html::horizontal_rule();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
 
-      html::hidden_field( 'institution_id', $institution_id );
+      HTML::hidden_field( 'institution_id', $institution_id );
     }
 
     if( $this->failed_validation ) {  # read values from POST and re-display
@@ -923,16 +923,16 @@ class Repository extends Project {
 
     $this->repository_entry_fields();
 
-    html::form_end();
+    HTML::form_end();
 
-    if( $focus_script ) html::write_javascript_function( $focus_script );
+    if( $focus_script ) HTML::write_javascript_function( $focus_script );
 
     # The above focus script will put you on the 'Refresh' button.
     # However, may want to go to a different section of the form if they pressed 'Save and Continue'.
 
     $anchor_script = $this->proj_get_anchor_script_after_save();
     if( $anchor_script )
-      html::write_javascript_function( $anchor_script );
+      HTML::write_javascript_function( $anchor_script );
   }
   #-----------------------------------------------------
 
@@ -944,10 +944,10 @@ class Repository extends Project {
 
   function related_resources_field() {
 
-    html::new_paragraph();
-    html::horizontal_rule();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
     $this->proj_form_section_links( 'resources' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( ! $this->resource_obj ) 
       $this->resource_obj = new Resource( $this->db_connection );
@@ -1009,7 +1009,7 @@ class Repository extends Project {
     $this->country_field();
 
     $this->country_synonyms_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     #----
 
@@ -1019,7 +1019,7 @@ class Repository extends Project {
 
     if( $this->institution_id ) {
       if( $this->get_system_prefix() != IMPACT_SYS_PREFIX ) {
-        html::horizontal_rule();
+        HTML::horizontal_rule();
         $this->proj_form_section_links( 'imgs' );
         $this->images_field();
       }
@@ -1029,23 +1029,23 @@ class Repository extends Project {
 
   function editors_notes_field() {
 
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
 
     $this->proj_textarea( 'editors_notes', TEXTAREA_ROWS_REPOS_ALTERNATIVE, TEXTAREA_COLS_REPOS_ALTERNATIVE,
                           $value = $this->editors_notes, $label = "Editors' notes" );
     echo LINEBREAK;
 
-    html::italic_start();
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::italic_start();
+    HTML::span_start( 'class="workfieldaligned"' );
     echo "Notes for internal use.";
-    html::span_end();
-    html::italic_end();
+    HTML::span_end();
+    HTML::italic_end();
 
-    html::div_end();
+    HTML::div_end();
 
     $this->proj_publication_popups( $calling_field = 'editors_notes' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
   }
   #-----------------------------------------------------
@@ -1065,10 +1065,10 @@ class Repository extends Project {
       $this->write_post_parm( 'clear_search_button', 'Search' );
 
     if( $this->parm_found_in_post( 'clear_search_button' )) {
-      html::h4_start();
+      HTML::h4_start();
       echo 'Edit cancelled.';
-      html::h4_end();
-      html::new_paragraph();
+      HTML::h4_end();
+      HTML::new_paragraph();
       $this->db_search();
       return;
     }
@@ -1176,9 +1176,9 @@ class Repository extends Project {
         }
       }
 
-      html::h4_start();
+      HTML::h4_start();
       echo 'Any changes have been saved.';
-      html::h4_end();
+      HTML::h4_end();
     }
   }
   #-----------------------------------------------------
@@ -1234,26 +1234,26 @@ class Repository extends Project {
     $statement = 'insert into ' . $this->proj_institution_tablename() . " ( $col_statement ) values ( $val_statement )";
     $this->db_run_query( $statement );
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'New repository has been saved.';
-    html::h4_end();
+    HTML::h4_end();
 
-    html::div_start( 'class="buttonrow"' );
+    HTML::div_start( 'class="buttonrow"' );
 
-    html::form_start( $this->app_get_class( $this ), 'add_repository' );
+    HTML::form_start( $this->app_get_class( $this ), 'add_repository' );
     echo 'Add another new repository? ';
-    html::submit_button( 'add_another_new_button', 'New' );
-    html::form_end();
+    HTML::submit_button( 'add_another_new_button', 'New' );
+    HTML::form_end();
 
     echo ' ';
 
-    html::form_start( $this->app_get_class( $this ), 'db_search' );
+    HTML::form_start( $this->app_get_class( $this ), 'db_search' );
     echo 'Return to search? ';
-    html::submit_button( 'return_to_search_button', 'Search' );
-    html::form_end();
+    HTML::submit_button( 'return_to_search_button', 'Search' );
+    HTML::form_end();
 
     echo LINEBREAK;
-    html::div_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -1300,18 +1300,18 @@ class Repository extends Project {
     $fieldname = 'institution_name';
 
     # Write out anchor for use with 'Save and continue' button
-    html::anchor( $fieldname . '_anchor' );
+    HTML::anchor( $fieldname . '_anchor' );
     $this->extra_anchors[] = $fieldname;
 
     $this->proj_form_section_links( 'institution' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield boldlabel"' );
-    html::input_field( $fieldname, 'Institution name', $this->institution_name, 
+    HTML::div_start( 'class="workfield boldlabel"' );
+    HTML::input_field( $fieldname, 'Institution name', $this->institution_name, 
                        FALSE, FLD_SIZE_INSTITUTION_NAME );
 
-    html::new_paragraph();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -1332,7 +1332,7 @@ class Repository extends Project {
     # Offer a choice between 'Save and continue' or 'Save and back to top'.
     $this->proj_extra_save_button( $prefix = 'institution_name', $new_paragraph = TRUE );
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
@@ -1341,19 +1341,19 @@ class Repository extends Project {
     $fieldname = 'institution_city';
 
     # Write out anchor for use with 'Save and continue' button
-    html::anchor( $fieldname . '_anchor' );
+    HTML::anchor( $fieldname . '_anchor' );
     $this->extra_anchors[] = $fieldname;
 
     $this->proj_form_section_links( 'city' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield boldlabel"' );
+    HTML::div_start( 'class="workfield boldlabel"' );
 
-    html::input_field( $fieldname, 'City name', $this->institution_city, 
+    HTML::input_field( $fieldname, 'City name', $this->institution_city, 
                        FALSE, FLD_SIZE_INSTITUTION_NAME );
 
-    html::new_paragraph();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -1373,7 +1373,7 @@ class Repository extends Project {
     # Offer a choice between 'Save and continue' or 'Save and back to top'.
     $this->proj_extra_save_button( $prefix = 'institution_city', $new_paragraph = TRUE );
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
@@ -1382,18 +1382,18 @@ class Repository extends Project {
     $fieldname = 'institution_country';
 
     # Write out anchor for use with 'Save and continue' button
-    html::anchor( $fieldname . '_anchor' );
+    HTML::anchor( $fieldname . '_anchor' );
     $this->extra_anchors[] = $fieldname;
 
     $this->proj_form_section_links( 'country' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield boldlabel"' );
-    html::input_field( $fieldname, 'Country name', $this->institution_country, 
+    HTML::div_start( 'class="workfield boldlabel"' );
+    HTML::input_field( $fieldname, 'Country name', $this->institution_country, 
                        FALSE, FLD_SIZE_INSTITUTION_NAME );
 
-    html::new_paragraph();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -1430,42 +1430,42 @@ class Repository extends Project {
       $this->$fieldname .= $line;
     }
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
-    html::textarea( $fieldname, 
+    HTML::textarea( $fieldname, 
                     $rows = TEXTAREA_ROWS_REPOS_ALTERNATIVE, 
                     $cols = TEXTAREA_COLS_REPOS_ALTERNATIVE, 
                     $value = $this->$fieldname, 
                     $label = $label_plural );
 
     echo LINEBREAK;
-    html::div_end();
+    HTML::div_end();
     
-    html::italic_start();
+    HTML::italic_start();
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
     echo $msg;
-    html::span_end();
+    HTML::span_end();
     echo LINEBREAK;
 
     if( $msg2 ) {
-      html::span_start( 'class="workfieldaligned"' );
+      HTML::span_start( 'class="workfieldaligned"' );
       echo $msg2;
-      html::span_end();
+      HTML::span_end();
       echo LINEBREAK;
     }
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
     echo "Please put each $label_singular on a separate line.";
-    html::new_paragraph();
-    html::span_end();
-    html::italic_end();
+    HTML::new_paragraph();
+    HTML::span_end();
+    HTML::italic_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $fieldname == 'institution_synonyms' ) {
       $this->editors_notes_field();
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
   }
   #-----------------------------------------------------
@@ -1478,11 +1478,11 @@ class Repository extends Project {
     $entries_per_page = $this->read_post_parm( 'entries_per_page' );
     $record_layout = $this->read_post_parm( 'record_layout' );
 
-    html::hidden_field( 'simplified_search', $simplified_search );
-    html::hidden_field( 'order_by', $order_by );
-    html::hidden_field( 'sort_descending', $sort_descending );
-    html::hidden_field( 'entries_per_page', $entries_per_page );
-    html::hidden_field( 'record_layout', $record_layout );
+    HTML::hidden_field( 'simplified_search', $simplified_search );
+    HTML::hidden_field( 'order_by', $order_by );
+    HTML::hidden_field( 'sort_descending', $sort_descending );
+    HTML::hidden_field( 'entries_per_page', $entries_per_page );
+    HTML::hidden_field( 'record_layout', $record_layout );
 
     $myclass = $this->app_get_class( $this );  # use different object to repeat query, so don't overwrite info needed for merge
     $parmwriter = new $myclass( $this->db_connection );

@@ -57,21 +57,21 @@ class Comment extends Project {
     if( ! $comment_type ) $comment_type = RELTYPE_COMMENT_REFERS_TO_ENTITY;                                 
 
     if( $general_heading ) {
-      html::new_paragraph();
-      html::div_start( 'class="workfield"' );
-      html::span_start( 'class="workfieldaligned"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="workfield"' );
+      HTML::span_start( 'class="workfieldaligned"' );
 
-      if( $heading_style == 'italic' ) html::italic_start();
-      elseif( $heading_style == 'bold' ) html::bold_start();
+      if( $heading_style == 'italic' ) HTML::italic_start();
+      elseif( $heading_style == 'bold' ) HTML::bold_start();
 
       echo $general_heading;
 
-      if( $heading_style == 'italic' ) html::italic_end();
-      elseif( $heading_style == 'bold' ) html::bold_end();
+      if( $heading_style == 'italic' ) HTML::italic_end();
+      elseif( $heading_style == 'bold' ) HTML::bold_end();
 
-      html::span_end( 'workfieldaligned' );
-      html::div_end( 'workfield' );
-      html::new_paragraph();
+      HTML::span_end( 'workfieldaligned' );
+      HTML::div_end( 'workfield' );
+      HTML::new_paragraph();
     }
 
     #------------------
@@ -103,7 +103,7 @@ class Comment extends Project {
     $this->label = 'New note';
 
     $this->comment_entry_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #----------------------------------------------------------------------------------
 
@@ -189,15 +189,15 @@ class Comment extends Project {
   function echo_comment_source_desc() {
 
     if( $this->comment_source_desc ) {
-      html::div_start( 'class="workfield"' );
-      html::span_start( 'class="workfieldaligned"' );
-      html::italic_start();
+      HTML::div_start( 'class="workfield"' );
+      HTML::span_start( 'class="workfieldaligned"' );
+      HTML::italic_start();
 
       $this->echo_safely( $this->comment_source_desc );
 
-      html::italic_end();
-      html::span_end();
-      html::div_end( 'workfield' );
+      HTML::italic_end();
+      HTML::span_end();
+      HTML::div_end( 'workfield' );
 
       echo LINEBREAK;
     }
@@ -217,7 +217,7 @@ class Comment extends Project {
     }
 
     $this->echo_comment_source_desc();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
   }
   #----------------------------------------------------------------------------------
@@ -226,12 +226,12 @@ class Comment extends Project {
 
     $fieldname = 'readonly_comment_' . $this->comment_id;
  
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
     if( strlen( $this->comment ) <= $this->get_comment_field_cols() 
     && ! $this->string_contains_substring( $this->comment, NEWLINE ) ) {
 
-      html::input_field( $fieldname, 
+      HTML::input_field( $fieldname, 
                          $label = $this->label, 
                          $value = $this->comment, 
                          $in_table = FALSE, 
@@ -248,7 +248,7 @@ class Comment extends Project {
                             $this->label,
                             'READONLY class="highlighted"' );
     }
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
   }
   #----------------------------------------------------------------------------------
 
@@ -286,9 +286,9 @@ class Comment extends Project {
 
   function comment_entry_field() {
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
-    if( $this->comment_id ) html::hidden_field( $this->existing_comment_id_field, $this->comment_id,
+    if( $this->comment_id ) HTML::hidden_field( $this->existing_comment_id_field, $this->comment_id,
                                                 $input_instance = $this->comment_id );
 
     if( $this->comment_id )
@@ -298,7 +298,7 @@ class Comment extends Project {
    
     if( strlen( $this->comment ) <= $this->get_comment_field_cols()
     && ! $this->string_contains_substring( $this->comment, NEWLINE ) ) {
-      html::input_field( $fieldname, 
+      HTML::input_field( $fieldname, 
                          $label = $this->label, 
                          $value = $this->comment, 
                          $in_table = FALSE, 
@@ -316,7 +316,7 @@ class Comment extends Project {
                             $input_instance = $this->comment_id );
     }
 
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
 
     # If this is a new note (so we don't have to worry about whether it's read-only or not),
     # and if we know the name of the current form, allow selection of bibliographical references from pick-list.
@@ -348,18 +348,18 @@ class Comment extends Project {
               . "    theSpan.className = '$normal_class';"            . NEWLINE
               . '  }'                                                       . NEWLINE 
               . '}'                                                         . NEWLINE;
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
 
-      html::span_start( 'class="' . $normal_class . '" id="' . $span_id . '"' );
+      HTML::span_start( 'class="' . $normal_class . '" id="' . $span_id . '"' );
       $parms = 'onclick="' . $change_display_scriptname . '( this )"';
              
-      html::checkbox( $fieldname, $label = 'Delete the above note', $is_checked = NULL, 
+      HTML::checkbox( $fieldname, $label = 'Delete the above note', $is_checked = NULL, 
                       $value_when_checked = $this->comment_id, $in_table = FALSE,
                       $tabindex=1, 
                       $input_instance = $this->comment_id, 
                       $parms );
 
-      html::span_end();
+      HTML::span_end();
       echo LINEBREAK;
     }
   }

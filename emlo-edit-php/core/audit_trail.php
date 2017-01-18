@@ -100,9 +100,9 @@ class Audit_Trail extends Project {
   }
   #-----------------------------------------------------
   function db_choose_asc_desc() {
-    html::span_start( 'class="widespaceonleft"' );
+    HTML::span_start( 'class="widespaceonleft"' );
     parent::db_choose_asc_desc();
-    html::span_end( 'widespaceonleft' );
+    HTML::span_end( 'widespaceonleft' );
   }
   #-----------------------------------------------------
 
@@ -125,16 +125,16 @@ class Audit_Trail extends Project {
   function db_explain_how_to_query() {
 
     echo 'Enter selection in one or more fields and click the Search button or press the Return key.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo "If you want to find changes made on a particular day, enter that day in the 'Change date/time: From' field, "
          . " and the following day in the 'Change date/time: To' field. For example, to find changes made on 21st June"
          . " 2010, enter 'From 21/06/2010 to 22/06/2010'. This is because the date '22/06/2010' would be equivalent"
          . " to '22/06/2010 00:00' i.e. midnight at the start of that date.";
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo "If you want to find today's changes, you can enter the word 'today' in the 'Change date/time: From' field.";
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -397,10 +397,10 @@ class Audit_Trail extends Project {
     $statement = "select $function_name( '$table_name' )"; # as given in view e.g. Work not cofk_union_work
     $table_label = $this->db_select_one_value( $statement );
 
-    html::h3_start();
+    HTML::h3_start();
     echo $table_label . ': ';
     echo $desc;
-    html::h3_end();
+    HTML::h3_end();
 
     echo "Please note that you may need to check the 'Related Items' section at the bottom of this page"
          . ' to get a full picture of all changes relevant to this item. For example, you may need to check'
@@ -409,9 +409,9 @@ class Audit_Trail extends Project {
     #----------------------------------
     # Get changes to this record itself
     #----------------------------------
-    html::h4_start();
+    HTML::h4_start();
     echo $table_label . ' general summary:';
-    html::h4_end();
+    HTML::h4_end();
     echo 'Retrieving data...' . LINEBREAK;
     flush();
 
@@ -427,16 +427,16 @@ class Audit_Trail extends Project {
 
     if( count( $results ) < 1 ) {
       echo 'No general history found for this ' . strtolower( $table_label ) . '.';
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
     else
       $this->db_browse_across_page( $results, $cols );
 
     #-----------
 
-    html::h4_start();
+    HTML::h4_start();
     echo $table_label . ' relationships detail:';
-    html::h4_end();
+    HTML::h4_end();
     echo 'Retrieving data...' . LINEBREAK;
     flush();
 
@@ -476,7 +476,7 @@ class Audit_Trail extends Project {
 
     if( count( $results ) < 1 ) {
       echo 'No relationship history found for this ' . strtolower( $table_label ) . '.';
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
     else
       $this->db_browse_across_page( $results, $cols );
@@ -484,9 +484,9 @@ class Audit_Trail extends Project {
     #---------------------------------------------
     # Provide menu of items related to this record
     #---------------------------------------------
-    html::h4_start();
+    HTML::h4_start();
     echo 'Related items:';
-    html::h4_end();
+    HTML::h4_end();
     $this->related_items_menu( $table_name, $key_within_relationships, $table_label );
 
   }
@@ -523,19 +523,19 @@ class Audit_Trail extends Project {
     $other_id = '';
     $ids_printed = 0;
 
-    html::table_start( 'class="datatab spacepadded"' );
-    html::tablerow_start();
-    html::column_header( 'Type' );
-    html::column_header( 'Description/summary' );
-    html::column_header( 'ID value' );
-    html::column_header( '' );
-    html::tablerow_end();
+    HTML::table_start( 'class="datatab spacepadded"' );
+    HTML::tablerow_start();
+    HTML::column_header( 'Type' );
+    HTML::column_header( 'Description/summary' );
+    HTML::column_header( 'ID value' );
+    HTML::column_header( '' );
+    HTML::tablerow_end();
 
     foreach( $rels as $rel ) {
       if( $rel == $last_rel ) continue; # we only want one link per table/key value
       $last_rel = $rel;
 
-      html::tablerow_start();
+      HTML::tablerow_start();
 
       $table_and_id = explode( $fieldsep, $rel );
 
@@ -553,22 +553,22 @@ class Audit_Trail extends Project {
 
       $displayable_id = $this->get_displayable_id( $other_table, $other_id, $add_deletion_msg = FALSE );
 
-      html::tabledata( $other_table_label );
-      html::tabledata( $desc );
-      html::tabledata( $displayable_id );
+      HTML::tabledata( $other_table_label );
+      HTML::tabledata( $desc );
+      HTML::tabledata( $displayable_id );
 
-      html::tabledata_start( 'class="highlight2"' );
-      html::form_start( 'audit_trail', 'display_audit_trail' );
-      html::hidden_field( 'table_name', $other_table );
-      html::hidden_field( 'key_value', $displayable_id );
-      html::submit_button( 'view_button', 'View' );
-      html::form_end();
-      html::tabledata_end();
+      HTML::tabledata_start( 'class="highlight2"' );
+      HTML::form_start( 'audit_trail', 'display_audit_trail' );
+      HTML::hidden_field( 'table_name', $other_table );
+      HTML::hidden_field( 'key_value', $displayable_id );
+      HTML::submit_button( 'view_button', 'View' );
+      HTML::form_end();
+      HTML::tabledata_end();
 
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
 
-    html::table_end();
+    HTML::table_end();
   }
   #-----------------------------------------------------
 

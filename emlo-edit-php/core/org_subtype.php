@@ -34,13 +34,13 @@ class Org_Subtype extends Lookup_Table {
 
   function write_extra_fields1_new() {
 
-    html::tabledata_start( 'colspan="2"' );
+    HTML::tabledata_start( 'colspan="2"' );
 
     $this->org_type_obj->lookup_table_dropdown( $field_name = 'org_type_id', 
                                                 $field_label = 'Type of group or organisation' );
-    html::tabledata_end();
+    HTML::tabledata_end();
 
-    html::new_tablerow();
+    HTML::new_tablerow();
   }
   #-----------------------------------------------------
 
@@ -48,7 +48,7 @@ class Org_Subtype extends Lookup_Table {
 
     if( ! $id_value ) return;
 
-    html::tabledata_start( 'colspan="2"' );
+    HTML::tabledata_start( 'colspan="2"' );
 
     $statement = 'select org_type_id from ' . $this->project->proj_org_subtype_tablename()
                . " where org_subtype_id = $id_value";
@@ -58,14 +58,14 @@ class Org_Subtype extends Lookup_Table {
                . " where org_type_id = $org_type_id";
     $org_type_desc = $this->db_select_one_value( $statement );
 
-    html::hidden_field( 'org_type_id', $org_type_id );
+    HTML::hidden_field( 'org_type_id', $org_type_id );
     echo 'Type of group or organisation: ';
-    html::bold_start();
+    HTML::bold_start();
     echo $org_type_desc;
-    html::bold_end();
+    HTML::bold_end();
 
-    html::tabledata_end();
-    html::new_tablerow();
+    HTML::tabledata_end();
+    HTML::new_tablerow();
   }
   #----------------------------------------------------- 
 
@@ -247,7 +247,7 @@ class Org_Subtype extends Lookup_Table {
     foreach( $org_types as $row ) {
       extract( $row, EXTR_OVERWRITE );
 
-      html::div_start( 'id="' . $this->get_org_type_div_id( $org_type_id ) . '"' );
+      HTML::div_start( 'id="' . $this->get_org_type_div_id( $org_type_id ) . '"' );
 
       $ids_and_descs = $this->get_subtypes_for_one_type( $required_type = $org_type_id );
 
@@ -258,7 +258,7 @@ class Org_Subtype extends Lookup_Table {
                         $checkbox_fieldname = $this->make_checkbox_name( $org_type_id ),
                         $list_label = $org_type_desc );
       }
-      html::div_end();
+      HTML::div_end();
     }
 
     # Prepare to suppress display of irrelevant checkboxes
@@ -310,11 +310,11 @@ class Org_Subtype extends Lookup_Table {
     }
 
     $script .= '  } '                                                                     . NEWLINE; 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     if( $required_org_type ) {
       $script = "$funcname( $required_org_type )" . NEWLINE;
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
     }
   }
   #-----------------------------------------------------

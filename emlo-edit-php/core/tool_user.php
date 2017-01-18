@@ -153,46 +153,46 @@ class Tool_User extends User {
                                                                                     
 
     #---- Start existing users ----#
-    html::form_start();
+    HTML::form_start();
     if( $errmsg ) {
-      html::h3_start();
+      HTML::h3_start();
       echo 'The system could not log you in.'; 
-      html::h3_end();
+      HTML::h3_end();
       echo $errmsg;
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
     else {
-      html::h3_start();
+      HTML::h3_start();
       echo 'Already registered to use the ' . CFG_SYSTEM_TITLE . '?'; 
-      html::h3_end();
+      HTML::h3_end();
       echo 'Please log in: ';
     }
-    html::submit_button( 'login_button', 'Log in', 1 /*tabindex*/, ' onclick="check_js_enabled()" ' );
+    HTML::submit_button( 'login_button', 'Log in', 1 /*tabindex*/, ' onclick="check_js_enabled()" ' );
 
-    html::hidden_field( LOGIN_REQUEST, $this->create_login_request() );
-    html::hidden_field( 'focus_form',  'user_login' );
-    html::hidden_field( 'focus_field', 'raw_usr' );
+    HTML::hidden_field( LOGIN_REQUEST, $this->create_login_request() );
+    HTML::hidden_field( 'focus_form',  'user_login' );
+    HTML::hidden_field( 'focus_field', 'raw_usr' );
 
     $this->remember_get_parms(); # In case a record ID has been passed in, then after login
                                  # you can go straight to that record.
 
     $this->forgot_password_link(); # offer reset if they have forgotten password 
 
-    html::form_end();
+    HTML::form_end();
     #---- End existing users ----#
 
     #---- Start new users ----#
-    html::new_paragraph();
-    html::form_start( $class_name = 'tool_user', $method_name = 'register' );
-    html::h3_start();
+    HTML::new_paragraph();
+    HTML::form_start( $class_name = 'tool_user', $method_name = 'register' );
+    HTML::h3_start();
     echo 'Not yet registered?'; 
-    html::h3_end();
+    HTML::h3_end();
     echo 'Please register now: ';
-    html::submit_button( 'register_button', 'Register', 1 /*tabindex*/ );
-    html::form_end();
+    HTML::submit_button( 'register_button', 'Register', 1 /*tabindex*/ );
+    HTML::form_end();
     #---- End new users ----#
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->login_page_end();
   }
   #-----------------------------------------------------
@@ -244,82 +244,82 @@ class Tool_User extends User {
     $this->registration_page_start();
 
     if( is_array( $err_msgs ) && count( $err_msgs ) > 0 ) {
-      html::div_start( 'class="warning"' );
+      HTML::div_start( 'class="warning"' );
       foreach( $err_msgs as $err_msg ) {
         echo $err_msg;
-        html::new_paragraph();
+        HTML::new_paragraph();
       }
-      html::div_end();
+      HTML::div_end();
     }
  
-    html::form_start( $class_name = 'tool_user', $method_name = 'create_registration' );
+    HTML::form_start( $class_name = 'tool_user', $method_name = 'create_registration' );
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'All fields must be completed.';
-    html::italic_end();
+    HTML::italic_end();
 
-    html::div_start( 'class="dataentrytextfields"' );
+    HTML::div_start( 'class="dataentrytextfields"' );
 
     $username = $this->read_post_parm( 'username' );
     $email_address = $this->read_post_parm( 'email_address' );
     $surname  = $this->read_post_parm( 'surname' );
     $forename = $this->read_post_parm( 'forename' );
 
-    html::new_paragraph();
-    html::h3_start();
+    HTML::new_paragraph();
+    HTML::h3_start();
     echo 'Email address:';
-    html::h3_end();
+    HTML::h3_end();
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Your email address will be your username on this system.';
-    html::italic_end();
-    html::new_paragraph();
-    html::input_field( 'username', 'Enter a valid email address', $username, FALSE, TOOL_USERNAME_LOGIN_FIELD_SIZE );
+    HTML::italic_end();
+    HTML::new_paragraph();
+    HTML::input_field( 'username', 'Enter a valid email address', $username, FALSE, TOOL_USERNAME_LOGIN_FIELD_SIZE );
 
-    html::new_paragraph();
-    html::input_field( 'email_address', 'Confirm email address', $email_address, FALSE, TOOL_USERNAME_LOGIN_FIELD_SIZE );
+    HTML::new_paragraph();
+    HTML::input_field( 'email_address', 'Confirm email address', $email_address, FALSE, TOOL_USERNAME_LOGIN_FIELD_SIZE );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::h3_start();
+    HTML::h3_start();
     echo 'Name:';
-    html::h3_end();
-    html::input_field( 'surname', 'Surname', $surname );
+    HTML::h3_end();
+    HTML::input_field( 'surname', 'Surname', $surname );
 
-    html::new_paragraph();
-    html::input_field( 'forename', 'Forename', $forename );
+    HTML::new_paragraph();
+    HTML::input_field( 'forename', 'Forename', $forename );
 
-    html::new_paragraph();
-    html::h3_start();
+    HTML::new_paragraph();
+    HTML::h3_start();
     echo 'Password:';
-    html::h3_end();
-    html::password_field( 'pass1', 'Choose a password', NULL );
+    HTML::h3_end();
+    HTML::password_field( 'pass1', 'Choose a password', NULL );
 
-    html::new_paragraph();
-    html::password_field( 'pass2', 'Confirm password', NULL );
+    HTML::new_paragraph();
+    HTML::password_field( 'pass2', 'Confirm password', NULL );
 
-    html::div_end();
+    HTML::div_end();
 
-    html::new_paragraph();
-    html::span_start( 'class="dataentrytextfields"' );
-    html::submit_button( 'save_button', 'Save' );
-    html::span_end();
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::span_start( 'class="dataentrytextfields"' );
+    HTML::submit_button( 'save_button', 'Save' );
+    HTML::span_end();
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::new_paragraph();
 
-    html::form_end();
+    HTML::form_end();
     $this->registration_page_end();
   }
   #-----------------------------------------------------
 
   function registration_page_start() {
 
-    html::html_start();
-    html::html_head_start();
-    html::write_stylesheet();
+    HTML::html_start();
+    HTML::html_head_start();
+    HTML::write_stylesheet();
     $this->menu_obj->page_body_start();
     $this->menu_obj->page_head( 'User Registration', TRUE ); # TRUE = suppress breadcrumb trail
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -327,7 +327,7 @@ class Tool_User extends User {
 
     $this->menu_obj->page_foot( $suppress_breadcrumbs = TRUE );
     $this->menu_obj->page_body_end();
-    html::html_end();
+    HTML::html_end();
   }
   #-----------------------------------------------------
 
@@ -429,7 +429,7 @@ class Tool_User extends User {
     echo '   margin-bottom: 10px; '                                 . NEWLINE;
     echo '   border-style: solid; '                                 . NEWLINE;
     echo '   border-width: 1px; '                                   . NEWLINE;
-    echo '   border-color: ' . html::get_contrast2_colour() . ';'   . NEWLINE;
+    echo '   border-color: ' . HTML::get_contrast2_colour() . ';'   . NEWLINE;
     echo '   padding: 10px;'                                        . NEWLINE;
     echo '   height: 16em;'                                         . NEWLINE;
     echo ' }'                                                       . NEWLINE;
@@ -443,7 +443,7 @@ class Tool_User extends User {
     echo ' }'                                                       . NEWLINE;
 
     echo ' .forms_side_by_side div.button_div {'                       . NEWLINE; 
-    echo '   background-color: ' . html::get_highlight2_colour() . ';' . NEWLINE;
+    echo '   background-color: ' . HTML::get_highlight2_colour() . ';' . NEWLINE;
     echo '   margin-top: 15px; '                                       . NEWLINE;
     echo '   font-size: 11pt; '                                        . NEWLINE;
     echo '   text-align: right; '                                      . NEWLINE;
@@ -468,7 +468,7 @@ class Tool_User extends User {
 
     $this->edit_self_stylesheet();
 
-    html::div_start( 'class="forms_side_by_side"' );  # we'll have name-change and password-change forms side by side
+    HTML::div_start( 'class="forms_side_by_side"' );  # we'll have name-change and password-change forms side by side
 
     $this->password_change_form();
 
@@ -477,107 +477,107 @@ class Tool_User extends User {
     $this->username_change_form();
 
     echo LINEBREAK;
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
   function name_change_form() {
 
-    html::form_start( 'tool_user', 'save_names' );
-    html::h3_start();
+    HTML::form_start( 'tool_user', 'save_names' );
+    HTML::h3_start();
     echo 'Change surname or forename:';
-    html::h3_end();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="dataentrytextfields fields_div"' );
+    HTML::div_start( 'class="dataentrytextfields fields_div"' );
 
-    html::input_field( 'surname', 'Surname', $this->tool_user_surname );
-    html::new_paragraph();
+    HTML::input_field( 'surname', 'Surname', $this->tool_user_surname );
+    HTML::new_paragraph();
 
-    html::input_field( 'forename', 'Forename', $this->tool_user_forename );
-    html::new_paragraph();
+    HTML::input_field( 'forename', 'Forename', $this->tool_user_forename );
+    HTML::new_paragraph();
 
-    html::hidden_field( 'tool_user_id', $this->tool_user_id );
-    html::hidden_field( 'tool_user_email', $this->tool_user_email );
+    HTML::hidden_field( 'tool_user_id', $this->tool_user_id );
+    HTML::hidden_field( 'tool_user_email', $this->tool_user_email );
 
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="button_div"' );
+    HTML::div_start( 'class="button_div"' );
     echo 'Save change of name: ';
-    html::submit_button( 'save_names_button', 'Save' );
-    html::div_end();
+    HTML::submit_button( 'save_names_button', 'Save' );
+    HTML::div_end();
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
   function password_change_form() {
 
-    html::form_start( 'tool_user', 'save_password' );
-    html::h3_start();
+    HTML::form_start( 'tool_user', 'save_password' );
+    HTML::h3_start();
     echo 'Change password:';
-    html::h3_end();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="dataentrytextfields fields_div"' );
+    HTML::div_start( 'class="dataentrytextfields fields_div"' );
 
-    html::password_field( 'oldpass', 'Current password', NULL );
-    html::new_paragraph();
+    HTML::password_field( 'oldpass', 'Current password', NULL );
+    HTML::new_paragraph();
 
-    html::password_field( 'pass1', 'New password', NULL );
-    html::new_paragraph();
+    HTML::password_field( 'pass1', 'New password', NULL );
+    HTML::new_paragraph();
 
-    html::password_field( 'pass2', 'Confirm new password', NULL );
+    HTML::password_field( 'pass2', 'Confirm new password', NULL );
 
-    html::hidden_field( 'tool_user_id', $this->tool_user_id );
-    html::hidden_field( 'tool_user_email', $this->tool_user_email );
+    HTML::hidden_field( 'tool_user_id', $this->tool_user_id );
+    HTML::hidden_field( 'tool_user_email', $this->tool_user_email );
 
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="button_div"' );
+    HTML::div_start( 'class="button_div"' );
     echo 'Save new password: ';
-    html::submit_button( 'save_names_button', 'Save' );
-    html::div_end();
+    HTML::submit_button( 'save_names_button', 'Save' );
+    HTML::div_end();
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
   function username_change_form() {
 
-    html::form_start( 'tool_user', 'save_username' );
-    html::h3_start();
+    HTML::form_start( 'tool_user', 'save_username' );
+    HTML::h3_start();
     echo 'Change email address:';
-    html::h3_end();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
 
 
-    html::div_start( 'class="dataentrytextfields fields_div"' );
-    html::italic_start();
+    HTML::div_start( 'class="dataentrytextfields fields_div"' );
+    HTML::italic_start();
     echo 'Your new email address will become your username on this system.';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
-    html::input_field( 'username', 'New email address', $this->tool_user_email, FALSE, TOOL_USERNAME_LOGIN_FIELD_SIZE );
-    html::new_paragraph();
+    HTML::input_field( 'username', 'New email address', $this->tool_user_email, FALSE, TOOL_USERNAME_LOGIN_FIELD_SIZE );
+    HTML::new_paragraph();
 
-    html::input_field( 'email_address', 'Confirm new email address', $this->tool_user_email, 
+    HTML::input_field( 'email_address', 'Confirm new email address', $this->tool_user_email, 
                        FALSE, TOOL_USERNAME_LOGIN_FIELD_SIZE );
 
-    html::hidden_field( 'tool_user_id', $this->tool_user_id );
-    html::hidden_field( 'tool_user_email', $this->tool_user_email );
+    HTML::hidden_field( 'tool_user_id', $this->tool_user_id );
+    HTML::hidden_field( 'tool_user_email', $this->tool_user_email );
 
-    html::div_end();
+    HTML::div_end();
 
-    html::div_start( 'class="button_div"' );
+    HTML::div_start( 'class="button_div"' );
     echo 'Save new email address: ';
-    html::submit_button( 'save_email_button', 'Save' );
-    html::div_end();
+    HTML::submit_button( 'save_email_button', 'Save' );
+    HTML::div_end();
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -625,12 +625,12 @@ class Tool_User extends User {
     }
 
     if( $failed_validation ) {
-      html::div_start( 'class="errmsg"' );
+      HTML::div_start( 'class="errmsg"' );
       echo $err_msg;
       echo LINEBREAK;
       echo 'Reverting to original values...';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
     }
     else {
       if( strlen( $surname ) > TOOL_USER_TEXT_FIELDS_SIZE ) 
@@ -698,10 +698,10 @@ class Tool_User extends User {
     }
 
     if( $failed_validation ) {
-      html::div_start( 'class="errmsg"' );
+      HTML::div_start( 'class="errmsg"' );
       echo $err_msg;
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
     }
     else {
       $statement = "update $this->tool_user_tablename"
@@ -761,11 +761,11 @@ class Tool_User extends User {
     }
 
     if( $failed_validation ) {
-      html::div_start( 'class="errmsg"' );
+      HTML::div_start( 'class="errmsg"' );
       echo $err_msg;
       echo LINEBREAK . 'Reverting to original value...';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
     }
     else {
       $statement = "update $this->tool_user_tablename"
@@ -792,7 +792,7 @@ class Tool_User extends User {
     echo '   font-style: italic;'                                    . NEWLINE;
     echo '   font-size: 11pt;'                                      . NEWLINE;
     echo '   text-decoration: none;'                                . NEWLINE;
-    echo '   color: ' .  html::get_contrast1_colour() . ';'         . NEWLINE;
+    echo '   color: ' .  HTML::get_contrast1_colour() . ';'         . NEWLINE;
     echo ' }'                                                       . NEWLINE;
     echo ' .resetpass {'                    . NEWLINE;
     echo '   font-weight: bold;'                                    . NEWLINE;
@@ -803,22 +803,22 @@ class Tool_User extends User {
     $href = $_SERVER['PHP_SELF'] . '?option=forgotpass';
     $title = 'Forgot your password?';
 
-    html::span_start( 'class="widespaceonleft forgotpass"' );
+    HTML::span_start( 'class="widespaceonleft forgotpass"' );
     
     echo '[ ';
-    html::link( $href, $title, $title );
+    HTML::link( $href, $title, $title );
     echo ' ]';
 
-    html::span_end();
+    HTML::span_end();
 
     if( $this->parm_found_in_post( 'auto_reset_password' )) {
-      html::new_paragraph();
-      html::div_start( 'class="resetpass"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="resetpass"' );
       echo 'N.B. Your password has now been reset and the new password has been sent'
            . ' to the email address you provided.';
       echo LINEBREAK;
       echo 'Please check your email and log in with the new password.';
-      html::div_end();
+      HTML::div_end();
     }
   }
   #-----------------------------------------------------
@@ -828,59 +828,59 @@ class Tool_User extends User {
     $this->registration_page_start();
 
     if( $err_msg ) {
-      html::new_paragraph();
-      html::div_start( 'class="errmsg"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="errmsg"' );
       echo $err_msg;
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
     }
 
-    html::form_start( 'tool_user', 'reset_password' );
+    HTML::form_start( 'tool_user', 'reset_password' );
 
-    html::new_paragraph();
-    html::h3_start();
+    HTML::new_paragraph();
+    HTML::h3_start();
     echo 'Reset password:';
-    html::h3_end();
+    HTML::h3_end();
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'Please enter the email address which you registered as your username on this system:';
-    html::h4_end();
+    HTML::h4_end();
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'You need to have registered using a valid email address as your username.'
           . ' A new password can then be sent to that email address.';
-    html::italic_end();
-    html::new_paragraph();
-    html::form_start( 'tool_user', 'reset_password' );
+    HTML::italic_end();
+    HTML::new_paragraph();
+    HTML::form_start( 'tool_user', 'reset_password' );
 
-    html::div_start( 'class="dataentrytextfields"' );
+    HTML::div_start( 'class="dataentrytextfields"' );
 
-    html::input_field( 'username', 'Email address under which registered', $username, 
+    HTML::input_field( 'username', 'Email address under which registered', $username, 
                        FALSE, TOOL_USERNAME_LOGIN_FIELD_SIZE );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo LINEBREAK;
 
-    html::input_field( 'email_address', 'Confirm email address', $email_address, 
+    HTML::input_field( 'email_address', 'Confirm email address', $email_address, 
                        FALSE, TOOL_USERNAME_LOGIN_FIELD_SIZE );
 
-    html::div_end();
+    HTML::div_end();
     echo LINEBREAK;
 
-    html::submit_button( 'reset_button', 'Reset' );
-    html::submit_button( 'cancel_button', 'Cancel' );
+    HTML::submit_button( 'reset_button', 'Reset' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
 
-    html::form_end();
+    HTML::form_end();
 
-    html::new_paragraph();
-    html::div_start( 'class="bold"' );
+    HTML::new_paragraph();
+    HTML::div_start( 'class="bold"' );
     echo 'When you click Reset, a new password will be automatically generated for you,'
          . ' and will be sent to the email address given above.';
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
     echo 'Please check your email, log in using the new password,'
          . ' and then change that password to one of your own choice.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->registration_page_end();
   }

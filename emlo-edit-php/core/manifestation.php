@@ -313,16 +313,16 @@ class Manifestation extends Project {
     if( ! $work_id )   die( 'Missing work ID' );
     if( ! $form_name ) die( 'Missing form name' );
 
-    html::hidden_field( 'work_id', $work_id );
+    HTML::hidden_field( 'work_id', $work_id );
 
     $editing_existing = FALSE;
     if( $this->parm_found_in_post( 'edit_manifestation_button' )) {
       $editing_existing = TRUE;
       $manifestation_id = $this->read_post_parm( 'manifestation_id' );
-      html::hidden_field( 'manifestation_id', $manifestation_id );
+      HTML::hidden_field( 'manifestation_id', $manifestation_id );
     }
     else
-      html::hidden_field( 'manifestation_id', NULL ); # value of field to be set by 'Edit' button
+      HTML::hidden_field( 'manifestation_id', NULL ); # value of field to be set by 'Edit' button
 
     # If you are not already editing an existing manifestation, put up a 'New' button enabling the 'Add' form.
     $this->add_new_manif_button( $editing_existing );
@@ -332,9 +332,9 @@ class Manifestation extends Project {
                                                                         $manifestation_id, 
                                                                         $form_name );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::anchor( 'data_entry_form_start' );
+    HTML::anchor( 'data_entry_form_start' );
 
     if( $editing_existing ) {
       $this->edit_manifestation( $manifestation_id, $work_id, $form_name ); # Set form property AFTER selecting data
@@ -354,7 +354,7 @@ class Manifestation extends Project {
 
     if( $editing_existing_manif ) {
       $go_to = 'window.location.hash="#data_entry_form_start"';
-      html::write_javascript_function( $go_to );
+      HTML::write_javascript_function( $go_to );
     }
   }
   #----------------------------------------------------------------------------------
@@ -371,7 +371,7 @@ class Manifestation extends Project {
             . '    alert( "Manifestation will not now be deleted." );'             . NEWLINE
             . '  }'                                                                . NEWLINE 
             . '}'                                                                  . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     return $scriptname;
   }
@@ -385,9 +385,9 @@ class Manifestation extends Project {
     $this->get_manifestations_of_work( $work_id );
 
     if( ! count( $this->manifestations )) {
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo 'No manifestation details found.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       return $currently_editing;
     }
 
@@ -403,23 +403,23 @@ class Manifestation extends Project {
       $edit_row_parms = 'class="editing_manif"';
     }
 
-    html::table_start( 'class="datatab spacepadded"' );
-    html::table_caption( 'Existing manifestations' );
+    HTML::table_start( 'class="datatab spacepadded"' );
+    HTML::table_caption( 'Existing manifestations' );
 
-    html::tablerow_start();
+    HTML::tablerow_start();
     if( $editable ) {
-      html::column_header( 'Edit', $edit_button_cell_parms );
-      html::column_header( 'Del' );
+      HTML::column_header( 'Edit', $edit_button_cell_parms );
+      HTML::column_header( 'Del' );
     }
-    html::column_header( 'Repository' );
+    HTML::column_header( 'Repository' );
     if( $this->get_system_prefix() == IMPACT_SYS_PREFIX )
-      html::column_header( 'ID, title, shelfmark, folios, bibliographic refs.' );
+      HTML::column_header( 'ID, title, shelfmark, folios, bibliographic refs.' );
     else
-      html::column_header( 'ID / shelfmark / printed edition' );
-    html::column_header( 'Document type' );
-    html::column_header( 'Image' );
-    html::column_header( 'Further details' );
-    html::tablerow_end();
+      HTML::column_header( 'ID / shelfmark / printed edition' );
+    HTML::column_header( 'Document type' );
+    HTML::column_header( 'Image' );
+    HTML::column_header( 'Further details' );
+    HTML::tablerow_end();
 
     $mrow = 0;
     foreach( $this->manifestations as $one_manifestation ) {
@@ -434,7 +434,7 @@ class Manifestation extends Project {
 
       $editing_this_row = FALSE;
 
-      html::tablerow_start();
+      HTML::tablerow_start();
 
       #---------------------
       # 'Edit' button column
@@ -453,7 +453,7 @@ class Manifestation extends Project {
           $td_parms = $edit_button_cell_parms;
         }
 
-        html::tabledata_start( $td_parms );
+        HTML::tabledata_start( $td_parms );
 
         if( $editing_this_row )
             echo 'Editing>';
@@ -462,10 +462,10 @@ class Manifestation extends Project {
           $set_manifestation_id_script = 'onclick="document.' . $form_name . '.manifestation_id.value='
                                        . "'" . $this->escape( $this->manifestation_id ) . "'" . '"';
 
-          html::submit_button( 'edit_manifestation_button', 'Edit', $tabindex=1, $set_manifestation_id_script );
+          HTML::submit_button( 'edit_manifestation_button', 'Edit', $tabindex=1, $set_manifestation_id_script );
         }
 
-        html::tabledata_end();
+        HTML::tabledata_end();
       }
 
       $td_parms = '';
@@ -476,12 +476,12 @@ class Manifestation extends Project {
       #-------------------------
       if( $editable ) {
         if( $currently_editing ) {
-          html::tabledata( ' ', $td_parms );
+          HTML::tabledata( ' ', $td_parms );
         }
         else {
-          html::tabledata_start();
+          HTML::tabledata_start();
           
-          html::checkbox( $fieldname = 'delete_manifestation[]', 
+          HTML::checkbox( $fieldname = 'delete_manifestation[]', 
                           $label = NULL, 
                           $is_checked = FALSE, 
                           $value_when_checked = $this->manifestation_id, 
@@ -490,37 +490,37 @@ class Manifestation extends Project {
                           $input_instance = $mrow, 
                           $parms = $chkbox_parms . ' ' . $td_parms );
 
-          html::tabledata_end();
+          HTML::tabledata_end();
         }
       }
 
       #--------------------
       # Normal data columns
       #--------------------
-      html::tabledata_start( $td_parms );
+      HTML::tabledata_start( $td_parms );
       $this->echo_repository();
       $this->echo_former_owners();
-      html::tabledata_end();
+      HTML::tabledata_end();
 
-      html::tabledata_start( $td_parms );
+      HTML::tabledata_start( $td_parms );
       $this->echo_shelfmark_or_printed_edition();
-      html::tabledata_end();
+      HTML::tabledata_end();
 
-      html::tabledata_start( $td_parms );
+      HTML::tabledata_start( $td_parms );
       $this->echo_manifestation_type();
-      html::tabledata_end();
+      HTML::tabledata_end();
 
-      html::tabledata_start( $td_parms );
+      HTML::tabledata_start( $td_parms );
       $this->echo_image_links();
-      html::tabledata_end();
+      HTML::tabledata_end();
 
-      html::tabledata_start( $td_parms );
+      HTML::tabledata_start( $td_parms );
       $this->echo_further_details();
-      html::tabledata_end();
+      HTML::tabledata_end();
 
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
-    html::table_end();
+    HTML::table_end();
 
     return $currently_editing;
   }
@@ -664,7 +664,7 @@ class Manifestation extends Project {
 
     if( count( $enclosing_ids )) {
       foreach( $enclosing_ids as $enclosing ) {
-        html::new_paragraph();
+        HTML::new_paragraph();
         echo $this->proj_get_field_label( 'enclosed_in' ) . ': ';
         $this->echo_safely( $this->get_manifestation_desc( $enclosing ));
       }
@@ -672,7 +672,7 @@ class Manifestation extends Project {
 
     if( count( $enclosed_ids )) {
       foreach( $enclosed_ids as $enclosed ) {
-        html::new_paragraph();
+        HTML::new_paragraph();
         echo $this->proj_get_field_label( 'enclosure' ) . ': ';
         $this->echo_safely( $this->get_manifestation_desc( $enclosed ));
       }
@@ -699,7 +699,7 @@ class Manifestation extends Project {
 
     if( count( $former_owner_ids )) {
       foreach( $former_owner_ids as $owner ) {
-        html::new_paragraph();
+        HTML::new_paragraph();
         echo 'Formerly owned by: ';
         $this->echo_safely( $this->person_obj->get_person_desc_from_id( $owner, $using_integer_id = FALSE  ));
         $from = $former_owner_dates[ "$owner" ][ 'from' ];
@@ -718,78 +718,78 @@ class Manifestation extends Project {
     if( $paper_size ) {
       echo 'Paper size: ';
       $this->echo_safely( $paper_size );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $paper_type_or_watermark ) {
       echo 'Paper type, watermark: ';
       $this->echo_safely( $paper_type_or_watermark );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $number_of_pages_of_document ) {
       echo $this->db_get_default_column_label( 'number_of_pages_of_document' ) . ': ';
       $this->echo_safely( $number_of_pages_of_document );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $number_of_pages_of_text ) {
       echo $this->db_get_default_column_label( 'number_of_pages_of_text' ) . ': ';
       $this->echo_safely( $number_of_pages_of_text );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $postage_marks ) {
       echo 'Postage marks: ';
       $this->echo_safely( $postage_marks );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $seal ) {
       echo 'Seal: ';
       $this->echo_safely( $seal );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $address ) {
       echo $this->db_get_default_column_label( 'address' ) . ': ';
       $this->echo_safely( $address );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $endorsements ) {
       echo $this->db_get_default_column_label( 'endorsements' ) . ': ';
       $this->echo_safely( $endorsements );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $language_of_manifestation ) {
       echo 'Language of this manifestation: ';
       $this->echo_safely( $language_of_manifestation );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $manifestation_is_translation ) {
       echo 'Manifestation is translation.';
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $manifestation_incipit ) {
       echo 'Manifestation incipit: ';
       $this->echo_safely( $manifestation_incipit );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $manifestation_excipit ) {
       echo $this->proj_get_field_label( 'manifestation_excipit' ) . ': ';
       $this->echo_safely( $manifestation_excipit );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( $manifestation_ps ) {
       echo $this->proj_get_field_label( 'manifestation_ps' ) . ': ';
       $this->echo_safely( $manifestation_ps );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
   }
   #----------------------------------------------------------------------------------
@@ -808,12 +808,12 @@ class Manifestation extends Project {
     $add_button_div_class = 'displayed_div';
     if( $editing_existing ) $add_button_div_class = 'hidden_div';
 
-    html::div_start( 'id="new_button_div" class="' . $add_button_div_class . '"' );
+    HTML::div_start( 'id="new_button_div" class="' . $add_button_div_class . '"' );
 
     echo 'Add new manifestation: ';
-    html::button( 'new_manif_button', 'New', 1, 'onclick="show_new_manif_form()"' );
+    HTML::button( 'new_manif_button', 'New', 1, 'onclick="show_new_manif_form()"' );
 
-    html::div_end();
+    HTML::div_end();
   }
   #----------------------------------------------------------------------------------
 
@@ -829,18 +829,18 @@ class Manifestation extends Project {
             . '    form_div.className = "displayed_div";'                         . NEWLINE
             . '    window.location.hash = "#data_entry_form_start";'              . NEWLINE
             . '  }'                                                               . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'id="new_manif_div" class="hidden_div"' );
+    HTML::div_start( 'id="new_manif_div" class="hidden_div"' );
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'Add new manifestation:';
-    html::h4_end();
+    HTML::h4_end();
 
     $this->manifestation_entry_form();
-    html::div_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -855,13 +855,13 @@ class Manifestation extends Project {
     $this->work_id = $work_id;
     $this->form_name = $form_name;
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'Edit manifestation:';
-    html::h4_end();
+    HTML::h4_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->manifestation_entry_form();
 
@@ -899,42 +899,42 @@ class Manifestation extends Project {
   function manif_basic_details_fieldgroup() {
 
     $this->proj_form_section_links( 'basic_details', $heading_level = 'bold' );
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
     $this->manifestation_title_field(); # For CofK will currently be just a stub. 
                                         # Overridden in IMPAcT child class.
 
     $this->manifestation_type_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->get_system_prefix() != IMPACT_SYS_PREFIX ) { # IMPAcT treats printed editions a bit differently
-      html::span_start( 'class="workfieldaligned"' );
-      html::italic_start();
+      HTML::span_start( 'class="workfieldaligned"' );
+      HTML::italic_start();
       echo 'Please create separate manifestation records for manuscripts and printed editions.';
-      html::italic_end();
-      html::span_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::span_end();
+      HTML::new_paragraph();
     }
 
     $this->repository_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->shelfmark_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->get_system_prefix() != IMPACT_SYS_PREFIX ) {
-      html::label( 'Or:' );
+      HTML::label( 'Or:' );
       echo LINEBREAK . LINEBREAK;
     }
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
 
     $this->printed_edition_field();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'basic_details' );
 
-    html::horizontal_rule();
-    html::div_end();  # end div workfield
+    HTML::horizontal_rule();
+    HTML::div_end();  # end div workfield
   }
   #-----------------------------------------------------
 
@@ -953,11 +953,11 @@ class Manifestation extends Project {
     $this->proj_form_section_links( 'former_owners', $heading_level = 'bold' );
     $this->former_owners_field();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'former_owners' );
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
@@ -965,53 +965,53 @@ class Manifestation extends Project {
 
     $this->proj_form_section_links( 'manif_study', $heading_level = 'bold' );
 
-    html::span_start( 'class="workfieldaligned"' );
-    html::bold_start();
+    HTML::span_start( 'class="workfieldaligned"' );
+    HTML::bold_start();
     echo 'Teachers:';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
 
     $this->taught_manif_field() ;
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'manif_study' );
-    html::div_end();  # end div workfield
-    html::horizontal_rule( 'class="pale"' );
+    HTML::div_end();  # end div workfield
+    HTML::horizontal_rule( 'class="pale"' );
 
     $extra_anchor = 'studied_manif';
-    html::anchor( $extra_anchor . '_anchor' );
+    HTML::anchor( $extra_anchor . '_anchor' );
     $this->extra_anchors[] = $extra_anchor;
 
-    html::span_start( 'class="workfieldaligned"' );
-    html::bold_start();
+    HTML::span_start( 'class="workfieldaligned"' );
+    HTML::bold_start();
     echo 'Students:';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
 
     $this->studied_manif_field() ;
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'studied_manif' );
-    html::div_end();  # end div workfield
-    html::horizontal_rule( 'class="pale"' );
+    HTML::div_end();  # end div workfield
+    HTML::horizontal_rule( 'class="pale"' );
 
     $extra_anchor = 'where_manif_was_studied';
-    html::anchor( $extra_anchor . '_anchor' );
+    HTML::anchor( $extra_anchor . '_anchor' );
     $this->extra_anchors[] = $extra_anchor;
 
-    html::span_start( 'class="workfieldaligned"' );
-    html::bold_start();
+    HTML::span_start( 'class="workfieldaligned"' );
+    HTML::bold_start();
     echo 'Place where studied:';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
 
     $this->where_manif_was_studied_field();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'where_manif_was_studied' );
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
@@ -1019,18 +1019,18 @@ class Manifestation extends Project {
 
     $this->proj_form_section_links( 'manif_annotator', $heading_level = 'bold' );
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->endorsements_field();
-    html::div_end();  # end div workfield
-    html::new_paragraph();
+    HTML::div_end();  # end div workfield
+    HTML::new_paragraph();
 
     $this->annotated_by_field() ;
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'manif_annotator' );
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
@@ -1040,11 +1040,11 @@ class Manifestation extends Project {
 
     $this->patrons_of_manif_field() ;
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'patrons_of_manif' );
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
 
   }
   #-----------------------------------------------------
@@ -1055,11 +1055,11 @@ class Manifestation extends Project {
 
     $this->dedicatees_of_manif_field() ;
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'dedicatees_of_manif' );
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
 
   }
   #-----------------------------------------------------
@@ -1068,44 +1068,44 @@ class Manifestation extends Project {
 
     $this->proj_form_section_links( 'endower_of_manif', $heading_level = 'bold' );
 
-    html::span_start( 'class="workfieldaligned"' );
-    html::bold_start();
+    HTML::span_start( 'class="workfieldaligned"' );
+    HTML::bold_start();
     echo 'Endower:';
-    html::bold_end();
-    html::span_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::span_end();
+    HTML::new_paragraph();
 
     $this->endower_of_manif_field() ;
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->notes_on_endowers_field();
-    html::new_paragraph();
-    html::horizontal_rule( 'class="pale"');
+    HTML::new_paragraph();
+    HTML::horizontal_rule( 'class="pale"');
   }
   #-----------------------------------------------------
 
   function endowee_of_manif_fieldgroup() {
 
-    html::span_start( 'class="workfieldaligned"' );
-    html::bold_start();
+    HTML::span_start( 'class="workfieldaligned"' );
+    HTML::bold_start();
     echo 'Endowee (person or organisation):';
-    html::bold_end();
-    html::span_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::span_end();
+    HTML::new_paragraph();
 
     $this->endowee_of_manif_field() ;
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->notes_on_endowees_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'endower_of_manif' );
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
 
   }
   #-----------------------------------------------------
@@ -1115,11 +1115,11 @@ class Manifestation extends Project {
     $this->proj_form_section_links( 'enclosures', $heading_level = 0 );
     $this->enclosures_field();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'enclosures' );
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
@@ -1128,11 +1128,11 @@ class Manifestation extends Project {
     $this->proj_form_section_links( 'enclosed_in', $heading_level = 'bold' );
     $this->enclosing_field();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'enclosed_in' );
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
@@ -1140,70 +1140,70 @@ class Manifestation extends Project {
 
     $this->proj_form_section_links( 'paper_and_markings', $heading_level = 'bold' );
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->paper_size_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->paper_type_or_watermark_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->number_of_pages_of_document_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->seal_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->postage_marks_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->address_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->endorsements_field();
 
     $this->extra_save_button( 'paper_and_markings' );
 
-    html::div_end();  # end div workfield
-    html::horizontal_rule();
+    HTML::div_end();  # end div workfield
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
   function manif_language_fieldgroup() {
 
     $this->proj_form_section_links( 'manif_lang', $heading_level = 'bold' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->manifestation_is_translation_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->get_system_prefix() != IMPACT_SYS_PREFIX ) {
-      html::italic_start();
+      HTML::italic_start();
       echo '(It is not necessary to enter language, incipit and explicit of manifestation if they are the same'
            . ' as those of the original work.)';
-      html::italic_end();
+      HTML::italic_end();
       echo LINEBREAK;
     }
 
     $this->language_of_manifestation_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
   function manif_incipit_and_excipit_fieldgroup() {
 
     $this->proj_form_section_links( 'incipit_and_excipit', $heading_level = 'bold' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->manifestation_incipit_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->manifestation_excipit_field();
 
     $this->extra_save_button( 'incipit_and_excipit' );
 
-    html::horizontal_rule();
-    html::div_end();  # end div workfield
+    HTML::horizontal_rule();
+    HTML::div_end();  # end div workfield
   }
   #-----------------------------------------------------
 
@@ -1212,13 +1212,13 @@ class Manifestation extends Project {
     $this->proj_form_section_links( 'manifestation_notes', $heading_level = 'bold' );
 
     $this->manifestation_notes_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'manifestation_notes' );
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
@@ -1227,11 +1227,11 @@ class Manifestation extends Project {
     $this->proj_form_section_links( 'scribe_hand', $heading_level = 'bold' );
     $this->scribes_field();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'scribe_hand' );
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
@@ -1258,7 +1258,7 @@ class Manifestation extends Project {
 
   function shelfmark_field() {
 
-    html::input_field( 'id_number_or_shelfmark', 
+    HTML::input_field( 'id_number_or_shelfmark', 
                        $this->proj_get_field_label( 'id_number_or_shelfmark' ), 
                        $this->id_number_or_shelfmark,
                        FALSE, FLD_SIZE_SHELFMARK );
@@ -1269,52 +1269,52 @@ class Manifestation extends Project {
 
     if( $this->get_system_prefix() != IMPACT_SYS_PREFIX ) {
       echo '(Can be left blank if same as date of work.)';
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     $this->date_as_marked_field() ;
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->manifestation_creation_calendar == 'U' ) # Unknown
       $this->manifestation_creation_calendar = '';
     $this->original_calendar_field() ;
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->manifestation_date_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->date_flags();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->date_notes_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'manif_dates' );
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
 
-    html::new_paragraph();
-    html::horizontal_rule();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
   function date_as_marked_field() {
 
-    html::span_start( 'class="workfield"' );
+    HTML::span_start( 'class="workfield"' );
 
-    html::input_field( 'manifestation_creation_date_as_marked',  $label = 'Date of manifestation as marked', 
+    HTML::input_field( 'manifestation_creation_date_as_marked',  $label = 'Date of manifestation as marked', 
                        $this->manifestation_creation_date_as_marked, 
                        FALSE, FLD_SIZE_DATE_AS_MARKED );
     
-    html::span_end( 'workfield' );
+    HTML::span_end( 'workfield' );
   }
   #-----------------------------------------------------
 
   function original_calendar_field() {
 
-    html::span_start( 'class="workfield"' );
-    html::label( 'Calendar used: ' );
-    html::span_end( 'workfield' );
+    HTML::span_start( 'class="workfield"' );
+    HTML::label( 'Calendar used: ' );
+    HTML::span_end( 'workfield' );
 
     $this->date_entity->calendar_selection_field( $fieldname='manifestation_creation_calendar', 
                                                   $selected_calendar = $this->manifestation_creation_calendar ); 
@@ -1338,25 +1338,25 @@ class Manifestation extends Project {
 
   function date_flags() {
 
-    html::span_start( 'class="workfield"' );
-    html::label( 'Issues with date of manifestation: ' );
-    html::span_end( 'workfield' );
+    HTML::span_start( 'class="workfield"' );
+    HTML::label( 'Issues with date of manifestation: ' );
+    HTML::span_end( 'workfield' );
 
-    html::ulist_start( 'class="dateflags"' );
+    HTML::ulist_start( 'class="dateflags"' );
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_inferred_date_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_uncertain_date_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_approx_date_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::ulist_end();
+    HTML::ulist_end();
   }
   #-----------------------------------------------------
 
@@ -1668,13 +1668,13 @@ class Manifestation extends Project {
 
   function printed_edition_field() {
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
-    html::textarea( 'printed_edition_details', FLD_SIZE_PRINTED_ED_ROWS, FLD_SIZE_PRINTED_ED_COLS, 
+    HTML::textarea( 'printed_edition_details', FLD_SIZE_PRINTED_ED_ROWS, FLD_SIZE_PRINTED_ED_COLS, 
                     $value = $this->printed_edition_details, 
                     $label = $this->proj_get_field_label( 'printed_edition_details' ) );
 
-    html::div_end();
+    HTML::div_end();
 
     $this->proj_publication_popups( $calling_field = 'printed_edition_details' );
   }
@@ -1682,21 +1682,21 @@ class Manifestation extends Project {
 
   function paper_size_field() {
 
-    html::input_field( 'paper_size', 'Paper size', $this->paper_size, FALSE, FLD_SIZE_PAPER_SIZE, $tabindex=1,
+    HTML::input_field( 'paper_size', 'Paper size', $this->paper_size, FALSE, FLD_SIZE_PAPER_SIZE, $tabindex=1,
                        NULL, NULL, NULL, 0, ' (up to 500 characters)' );
   }
   #-----------------------------------------------------
 
   function paper_type_or_watermark_field() {
 
-    html::input_field( 'paper_type_or_watermark', 'Paper type, watermark', $this->paper_type_or_watermark, FALSE, 
+    HTML::input_field( 'paper_type_or_watermark', 'Paper type, watermark', $this->paper_type_or_watermark, FALSE, 
                        FLD_SIZE_PAPER_TYPE_OR_WATERMARK, $tabindex=1, NULL, NULL, NULL, 0, ' (up to 500 characters)' );
   }
   #-----------------------------------------------------
 
   function number_of_pages_of_document_field() {
 
-    html::input_field( 'number_of_pages_of_document', 
+    HTML::input_field( 'number_of_pages_of_document', 
                        $this->proj_get_field_label( 'number_of_pages_of_document' ), 
                        $this->number_of_pages_of_document, 
                        FALSE, FLD_SIZE_NUM_PAGES_DOC, 1, NULL, NULL, 
@@ -1707,19 +1707,19 @@ class Manifestation extends Project {
 
   function seal_field() {
 
-    html::textarea( 'seal', FLD_SIZE_SEAL_ROWS, FLD_SIZE_SEAL_COLS, $value = $this->seal, $label = 'Seal' );
+    HTML::textarea( 'seal', FLD_SIZE_SEAL_ROWS, FLD_SIZE_SEAL_COLS, $value = $this->seal, $label = 'Seal' );
   }
   #-----------------------------------------------------
 
   function postage_marks_field() {
 
-    html::input_field( 'postage_marks', 'Postage marks', $this->postage_marks, FALSE, FLD_SIZE_POSTAGE_MARKS );
+    HTML::input_field( 'postage_marks', 'Postage marks', $this->postage_marks, FALSE, FLD_SIZE_POSTAGE_MARKS );
   }
   #-----------------------------------------------------
 
   function address_field() {
 
-    html::textarea( 'address', FLD_SIZE_ADDRESS_ROWS, FLD_SIZE_ADDRESS_COLS, $value = $this->address, 
+    HTML::textarea( 'address', FLD_SIZE_ADDRESS_ROWS, FLD_SIZE_ADDRESS_COLS, $value = $this->address, 
                     $label = 'Address' );
   }
   #-----------------------------------------------------
@@ -1730,7 +1730,7 @@ class Manifestation extends Project {
    
    if( $label == 'Endorsements' ) $label = 'Other endorsements';
 
-    html::textarea( 'endorsements', FLD_SIZE_ENDORSE_ROWS, FLD_SIZE_ENDORSE_COLS, $value = $this->endorsements, 
+    HTML::textarea( 'endorsements', FLD_SIZE_ENDORSE_ROWS, FLD_SIZE_ENDORSE_COLS, $value = $this->endorsements, 
                     $label );
   }
   #-----------------------------------------------------
@@ -1754,14 +1754,14 @@ class Manifestation extends Project {
 
   function manifestation_incipit_field() {
 
-    html::textarea( 'manifestation_incipit', FLD_SIZE_MANIF_INCIPIT_ROWS, FLD_SIZE_MANIF_INCIPIT_COLS, 
+    HTML::textarea( 'manifestation_incipit', FLD_SIZE_MANIF_INCIPIT_ROWS, FLD_SIZE_MANIF_INCIPIT_COLS, 
                     $value = $this->manifestation_incipit, $label = 'Manifestation incipit' );
   }
   #-----------------------------------------------------
 
   function manifestation_excipit_field() {
 
-    html::textarea( 'manifestation_excipit', FLD_SIZE_MANIF_EXCIPIT_ROWS, FLD_SIZE_MANIF_EXCIPIT_COLS, 
+    HTML::textarea( 'manifestation_excipit', FLD_SIZE_MANIF_EXCIPIT_ROWS, FLD_SIZE_MANIF_EXCIPIT_COLS, 
                     $value = $this->manifestation_excipit, 
                     $label = $this->proj_get_field_label( 'manifestation_excipit' ));
   }
@@ -1798,10 +1798,10 @@ class Manifestation extends Project {
 
   function enclosures_field() {
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Enclosures (letters and other types of enclosure):';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
 
     echo 'Note: when entering enclosure details, '
          . ' please treat any work/manifestation on the Cultures of Knowledge system as a letter.';
@@ -1817,19 +1817,19 @@ class Manifestation extends Project {
 
     echo LINEBREAK . LINEBREAK;
 
-    html::span_start( 'class="workfieldaligned"' );
-    html::italic_start();
+    HTML::span_start( 'class="workfieldaligned"' );
+    HTML::italic_start();
     echo 'OTHER TYPES of enclosure, e.g. money, books, samples of minerals:';
-    html::italic_end();
-    html::span_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::span_end();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
-    html::textarea( 'non_letter_enclosures', FLD_SIZE_NON_LETTER_ENCLOSURE_ROWS, FLD_SIZE_NON_LETTER_ENCLOSURE_COLS, 
+    HTML::textarea( 'non_letter_enclosures', FLD_SIZE_NON_LETTER_ENCLOSURE_ROWS, FLD_SIZE_NON_LETTER_ENCLOSURE_COLS, 
                     $value = $this->non_letter_enclosures, $label = 'Details of enclosures other than letters' );
 
-    html::div_end();  # end div workfield
+    HTML::div_end();  # end div workfield
   }
   #----------------------------------------------------------------------------------
 
@@ -1887,11 +1887,11 @@ class Manifestation extends Project {
 
       if( ! $this->new_manifestation_entered()) {
         if( ! $this->parm_found_in_post( 'delete_manifestation' )) {
-          html::div_start( 'class="warning"' );
+          HTML::div_start( 'class="warning"' );
           echo LINEBREAK . 'No new details to save.' . LINEBREAK;
           echo 'Save cancelled.';
           echo LINEBREAK . LINEBREAK;
-          html::div_end();
+          HTML::div_end();
         }
         return;
       }
@@ -2700,9 +2700,9 @@ class Manifestation extends Project {
         if( $i % $flush_frequency == 0 ) {
 
           $anchor_name = 'refreshed_manif_' . str_replace( '-', '_', str_replace( ':', '_', $manif ));
-          html::anchor( $anchor_name );
+          HTML::anchor( $anchor_name );
           $script = 'window.location.hash = "#' . $anchor_name . '"';
-          html::write_javascript_function( $script );
+          HTML::write_javascript_function( $script );
           flush();
         }
       }
@@ -2727,7 +2727,7 @@ class Manifestation extends Project {
     $document_type_obj->desc_dropdown( $form_name, $field_name . '_doc_type', $copy_field, $field_label = 'Document type',
                                        $in_table, $override_blank_row_descrip );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
 
     $this->repository_obj->desc_dropdown( $form_name, $field_name . '_repos', $copy_field, $field_label = 'Repository',
@@ -2738,24 +2738,24 @@ class Manifestation extends Project {
 
   function search_help_text() {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo 'The Manifestations field contains a very brief summary of all the manifestations of a work. This summary'
          . ' includes document type plus either repository and shelfmark or printed edition details.';
-    html::italic_start();
+    HTML::italic_start();
 
     echo ' You can search on both document type and repository at once if you wish, but please remember, document type'
          . ' comes first in the summary, then repository, so you need to enter your search terms in that same order.'
          . ' Also, if entering multiple search terms, you need to separate them using the wildcard % (percent-sign).';
 
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     echo 'E.g. to find all drafts in the Bodleian you would need to enter ';
-    html::bold_start();
+    HTML::bold_start();
     echo 'Draft%Bodleian';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 

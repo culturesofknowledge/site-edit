@@ -91,15 +91,15 @@ class Resource extends Project {
     $this->proj_form_section_links( $curr_section = 'add_new_resource', $heading_level = NULL );
     $this->clear();
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'Add a new resource:';
-    html::h4_end();
+    HTML::h4_end();
 
     $this->related_table = $related_table; # used for setting which standard text options to offer
     $this->resource_entry_fields();
 
     $this->extra_save_button( $prefix = 'new_resource' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     #------------------
     # Existing resources
@@ -107,11 +107,11 @@ class Resource extends Project {
     if( is_array( $resource_array ) && count( $resource_array ) >= 1 ) {
       $total_resources = count( $resource_array );
       $this_resource = 0;
-      html::horizontal_rule();
+      HTML::horizontal_rule();
 
-      html::h4_start();
+      HTML::h4_start();
       echo 'Edit existing resource(s):';
-      html::h4_end();
+      HTML::h4_end();
       foreach( $resource_array as $row ) {
         $this_resource++;
         extract( $row, EXTR_OVERWRITE );
@@ -127,7 +127,7 @@ class Resource extends Project {
 
         # Extra anchor for use with the 'Save and Continue' button
         $extra_anchor = 'resource' . $this->resource_id;
-        html::anchor( $extra_anchor . '_anchor' );
+        HTML::anchor( $extra_anchor . '_anchor' );
         $this->extra_anchors[] = $extra_anchor;
 
         # Navigation links
@@ -137,7 +137,7 @@ class Resource extends Project {
 
         $this->edit_resource();
 
-        if( $this_resource < $total_resources ) html::horizontal_rule();
+        if( $this_resource < $total_resources ) HTML::horizontal_rule();
       }
     }
   }
@@ -169,15 +169,15 @@ class Resource extends Project {
   function echo_resource_source_desc() {
 
     if( $this->resource_source_desc ) {
-      html::div_start( 'class="workfield"' );
-      html::span_start( 'class="workfieldaligned"' );
-      html::italic_start();
+      HTML::div_start( 'class="workfield"' );
+      HTML::span_start( 'class="workfieldaligned"' );
+      HTML::italic_start();
 
       $this->echo_safely( $this->resource_source_desc );
 
-      html::italic_end();
-      html::span_end();
-      html::div_end( 'workfield' );
+      HTML::italic_end();
+      HTML::span_end();
+      HTML::div_end( 'workfield' );
 
       echo LINEBREAK;
     }
@@ -192,7 +192,7 @@ class Resource extends Project {
     $this->resource_deletion_field();
 
     $this->echo_resource_source_desc();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->extra_save_button( $prefix = 'resource' . $this->resource_id );
   }
@@ -232,9 +232,9 @@ class Resource extends Project {
 
   function resource_entry_fields() {
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
-    if( $this->resource_id ) html::hidden_field( 'existing_resource_id[]', $this->resource_id, 
+    if( $this->resource_id ) HTML::hidden_field( 'existing_resource_id[]', $this->resource_id, 
                                                  $input_instance = $this->resource_id );
 
     #----------- Name ----------------
@@ -242,18 +242,18 @@ class Resource extends Project {
       $fieldname = 'existing_resource_name[]';
     else
       $fieldname = 'new_resource_name';
-    $name_field_id = html::field_id_from_fieldname( $fieldname, $this->resource_id );
+    $name_field_id = HTML::field_id_from_fieldname( $fieldname, $this->resource_id );
 
-    html::input_field( $fieldname, 'Title or brief description', $this->resource_name,
+    HTML::input_field( $fieldname, 'Title or brief description', $this->resource_name,
                        FALSE, FLD_SIZE_RESOURCE_NAME, $tabindex = 1,  NULL, NULL, NULL, 
                        $input_instance = $this->resource_id );
 
-    html::new_paragraph();
-    html::div_end( 'workfield' );
+    HTML::new_paragraph();
+    HTML::div_end( 'workfield' );
 
     $this->standard_text_options( $name_field_id );
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
 
     #----------- URL ----------------
@@ -262,7 +262,7 @@ class Resource extends Project {
     else
       $fieldname = 'new_resource_url';
 
-    $url_field_id = html::field_id_from_fieldname( $fieldname, $this->resource_id );
+    $url_field_id = HTML::field_id_from_fieldname( $fieldname, $this->resource_id );
     $test_link    = 'test_' . $url_field_id . '_link';
     $test_msg     = 'test_' . $url_field_id . '_msg';
     $script_name  = 'test_' . $url_field_id . '_function';
@@ -281,17 +281,17 @@ class Resource extends Project {
     $script .= '  }'                                                        . NEWLINE;
     $script .= '}'                                                          . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
    
-    html::input_field( $fieldname, 'URL', $this->resource_url,
+    HTML::input_field( $fieldname, 'URL', $this->resource_url,
                        FALSE, FLD_SIZE_RESOURCE_URL, $tabindex = 1,  NULL, NULL, 
                        $input_parms = 'onchange="' . $script_name . '( this.value )"',
                        $input_instance = $this->resource_id  );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     #---------- Test link -------------
-    html::span_start( 'class="workfieldaligned"');
+    HTML::span_start( 'class="workfieldaligned"');
 
     if( $this->resource_url ) {
       $link_display = 'inline';
@@ -302,18 +302,18 @@ class Resource extends Project {
       $msg_display = 'inline';
     }
 
-    html::link( $href = $this->resource_url, $displayed_text = 'Check URL', $title = 'Check the URL is working', 
+    HTML::link( $href = $this->resource_url, $displayed_text = 'Check URL', $title = 'Check the URL is working', 
                 $target = '_blank', $accesskey = '', $tabindex = 1,
                 $extra_parms = 'id="' . $test_link . '" style="display: ' . $link_display . '"' );
-    html::span_end();
+    HTML::span_end();
 
-    html::span_start( 'id="' . $test_msg . '" style="display: ' . $msg_display . '"' );
-    html::italic_start();
+    HTML::span_start( 'id="' . $test_msg . '" style="display: ' . $msg_display . '"' );
+    HTML::italic_start();
     echo "After entering URL, press Tab or click elsewhere on the form, and a 'Check URL' link will appear.";
-    html::italic_end();
-    html::span_end();
+    HTML::italic_end();
+    HTML::span_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     #----------- Details ----------------
     if( $this->resource_id )
@@ -330,9 +330,9 @@ class Resource extends Project {
                           NULL, NULL,
                           $input_instance = $this->resource_id );
 
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
 
-    $details_field_id = html::field_id_from_fieldname( $fieldname, $this->resource_id );
+    $details_field_id = HTML::field_id_from_fieldname( $fieldname, $this->resource_id );
     $this->standard_text_options( $details_field_id );
   }
   #----------------------------------------------------------------------------------
@@ -359,18 +359,18 @@ class Resource extends Project {
               . "    theSpan.className = '$normal_class';"                      . NEWLINE
               . '  }'                                                           . NEWLINE 
               . '}'                                                             . NEWLINE;
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
 
-      html::span_start( 'class="' . $normal_class . '" id="' . $span_id . '"' );
+      HTML::span_start( 'class="' . $normal_class . '" id="' . $span_id . '"' );
       $parms = 'onclick="' . $change_display_scriptname . '( this )"';
              
-      html::checkbox( $fieldname, $label = 'Delete the above resource', $is_checked = NULL, 
+      HTML::checkbox( $fieldname, $label = 'Delete the above resource', $is_checked = NULL, 
                       $value_when_checked = $this->resource_id, $in_table = FALSE,
                       $tabindex=1, 
                       $input_instance = $this->resource_id, 
                       $parms );
 
-      html::span_end();
+      HTML::span_end();
       echo LINEBREAK;
     }
   }
@@ -582,9 +582,9 @@ class Resource extends Project {
       $options[] = $row[ 'speed_entry_text' ];
     }
 
-    html::span_start( 'class="workfield"' );
-    html::label( 'Add standard text:' );
-    html::span_end();
+    HTML::span_start( 'class="workfield"' );
+    HTML::label( 'Add standard text:' );
+    HTML::span_end();
 
     $script_name = 'add_to_resource_field_' . $field_id;
 
@@ -598,10 +598,10 @@ class Resource extends Project {
     $script .= '  }'                                                           . NEWLINE;
     $script .= '}'                                                             . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     foreach( $options as $opt ) {
-      html::span_start( 'class="workfieldaligned highlight1"' );
+      HTML::span_start( 'class="workfieldaligned highlight1"' );
 
       $opt_id = $field_id . '_';
       for( $i = 0; $i < strlen( $opt ); $i++ ) {
@@ -614,14 +614,14 @@ class Resource extends Project {
           $opt_id .= '_';
       }
       
-      html::checkbox( $fieldname = $opt_id, $label = $opt, $is_checked = FALSE, 
+      HTML::checkbox( $fieldname = $opt_id, $label = $opt, $is_checked = FALSE, 
                       $value_when_checked = "$opt", $in_table = FALSE, $tabindex=1, $input_instance = NULL, 
                       $parms = 'onclick="' . $script_name . '( this.checked, this.value )"' );
-      html::span_end();
+      HTML::span_end();
       echo LINEBREAK;
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo LINEBREAK;
   }
   #-----------------------------------------------------

@@ -99,9 +99,9 @@ class Popup_Work extends Editable_Work {
 
   function app_popup_add_record() {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo "'Add work' menu option still under construction.";
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->close_self_button();
   }
   #-----------------------------------------------------
@@ -184,41 +184,41 @@ class Popup_Work extends Editable_Work {
 
     if( $this->is_impact ) {
       echo 'Enter selection in one or more fields and click the Search button or press the Return key.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       return;
     }
 
     echo 'Enter some details of the required work (e.g. date of work or name of correspondent)'
          . ' and click Search or press Return.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo "Please note that you can use the wildcard '%' (percent sign) to stand for any number of characters. ";
-    #html::new_paragraph();
+    #HTML::new_paragraph();
 
     echo 'For example, you could enter ';
-    html::bold_start();
+    HTML::bold_start();
     echo ' 1697%Deer%Lhwyd ';
-    html::bold_end();
+    HTML::bold_end();
     echo " to retrieve '7 Apr 1697: Deer, Richard to Lhwyd, Edward'. "; 
-    #html::new_paragraph();
+    #HTML::new_paragraph();
 
     echo 'Or you could enter ';
-    html::bold_start();
+    HTML::bold_start();
     echo ' 15 Apr ';
-    html::bold_end();
+    HTML::bold_end();
     echo " to find all letters dated 15th April of any year. "; 
-    #html::new_paragraph();
+    #HTML::new_paragraph();
 
     echo 'Please be aware that only the ';
-    html::italic_start();
+    HTML::italic_start();
     echo 'primary';
-    html::italic_end();
+    HTML::italic_end();
     echo ' name of a correspondent is given here in the brief details of a work. For example, Lhwyd not Lhuyd, '
          . ' Lister not Lyster.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo 'The list will be sorted by date of work, with undated works at the end.';
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 

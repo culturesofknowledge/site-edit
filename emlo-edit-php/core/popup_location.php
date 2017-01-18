@@ -87,18 +87,18 @@ class Popup_Location extends Location {
 
     $this->write_work_entry_stylesheet();  # method from CofK Entity, but overridden
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'save_location' );
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'save_location' );
 
     $this->app_popup_read_calling_form_and_field();
-    html::hidden_field( 'calling_form', $this->calling_form );
-    html::hidden_field( 'calling_field', $this->calling_field );
+    HTML::hidden_field( 'calling_form', $this->calling_form );
+    HTML::hidden_field( 'calling_field', $this->calling_field );
 
     $this->location_entry_fields();
 
-    html::submit_button( 'save_button', 'Save' );
-    html::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
+    HTML::submit_button( 'save_button', 'Save' );
+    HTML::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -124,17 +124,17 @@ class Popup_Location extends Location {
     $this->set_location( $location_id );
 
     echo $this->get_location_desc_from_id( $this->location_id );  
-    html::new_paragraph();
-    html::italic_start();
+    HTML::new_paragraph();
+    HTML::italic_start();
     echo 'Click OK to pass the details back into the main data entry screen.';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     $this->calling_form = $this->read_post_parm( 'calling_form' );
     $this->calling_field = $this->read_post_parm( 'calling_field' );
 
     $this->app_popup_pass_value_back(); 
-    html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+    HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
   }
   #-----------------------------------------------------
 
@@ -164,11 +164,11 @@ class Popup_Location extends Location {
 
     $this->write_letter_selection_stylesheet();
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'select_by_first_letter_of_name' );
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'select_by_first_letter_of_name' );
 
     $this->app_popup_read_calling_form_and_field();
-    html::hidden_field( 'calling_form', $this->calling_form );
-    html::hidden_field( 'calling_field', $this->calling_field );
+    HTML::hidden_field( 'calling_form', $this->calling_form );
+    HTML::hidden_field( 'calling_field', $this->calling_field );
 
     $places_found = 0;
 
@@ -178,9 +178,9 @@ class Popup_Location extends Location {
     $first_letter_of_name = $this->read_post_parm( 'first_letter_of_name' );
     $first_letter_of_name = $this->strip_all_slashes( $first_letter_of_name );
 
-    html::hidden_field( 'first_letter_of_name', $first_letter_of_name );
+    HTML::hidden_field( 'first_letter_of_name', $first_letter_of_name );
 
-    html::hidden_field( 'block_of_names_start', '' );  # Just a dummy field in most cases. 
+    HTML::hidden_field( 'block_of_names_start', '' );  # Just a dummy field in most cases. 
                                                        # Only used if you need to sub-divide a longer list
 
     $script  = 'function chooseNewLetter( letterButton ) {'                                    . NEWLINE;
@@ -188,11 +188,11 @@ class Popup_Location extends Location {
     $script .= "  document.$this->form_name.block_of_names_start.value = '';"                  . NEWLINE;
     $script .= '}'                                                                             . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'Click a letter to retrieve a list of place names beginning with that letter:';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $first_possible_letter = 'A';
     $letter_button_count = 26;
@@ -205,7 +205,7 @@ class Popup_Location extends Location {
     $letter = $first_possible_letter;
  
     for( $i = 0; $i < $letter_button_count; $i++ ) {
-      if( $i == 13 ) html::new_paragraph();
+      if( $i == 13 ) HTML::new_paragraph();
 
       $character_desc = $letter;
       if( $character_desc == "'" ) $character_desc = 'ayn'; # Arabic phoneme represented in English by single quote
@@ -219,7 +219,7 @@ class Popup_Location extends Location {
       $script = ' onclick="chooseNewLetter( this )" ';
       $parms .= $script;
 
-      html::submit_button( $button_name, $letter, $tabindex = 2, $parms );
+      HTML::submit_button( $button_name, $letter, $tabindex = 2, $parms );
       echo ' ';
 
       if( $letter >= 'A' && $letter <= 'Z' )
@@ -234,9 +234,9 @@ class Popup_Location extends Location {
     # with names beginning with that letter.
     #---------------------------------------
     if( $first_letter_of_name ) {
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
  
       $letter_value = $first_letter_of_name;
       if( $letter_value == "'" ) # Arabic phoneme represented in English by single quote
@@ -255,14 +255,14 @@ class Popup_Location extends Location {
     #-------------------------------------------
     if( $first_letter_of_name && ! $places_found ) {
       echo "No place names found starting with '$first_letter_of_name'.";
-      html::new_paragraph();
-      html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+      HTML::new_paragraph();
+      HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
       $focus_field = 'cancel_button';
     }
 
     elseif( ! $first_letter_of_name ) {
-      html::new_paragraph();
-      html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+      HTML::new_paragraph();
+      HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
     }
 
     elseif( $places_found ) {
@@ -275,50 +275,50 @@ class Popup_Location extends Location {
 
       $this->write_passback_script();
 
-      html::dropdown_start( 'location_sel', $label = NULL );
+      HTML::dropdown_start( 'location_sel', $label = NULL );
       $first = TRUE;
       foreach( $places as $row ) {
         $this->current_row_of_data = $row;
         extract( $row, EXTR_OVERWRITE );
         if( $first ) $selection = $location_id; # select first option initially
 
-        html::dropdown_option( $location_id, $this->app_popup_set_result_text(), $selection );
+        HTML::dropdown_option( $location_id, $this->app_popup_set_result_text(), $selection );
 
         $selection = NULL;
         $first = FALSE;
       }
-      html::dropdown_end();
+      HTML::dropdown_end();
 
       echo ' ';
 
-      html::button( 'select_button', 'Select', $tabindex = 1, 'onClick="selectlocation()"' );
-      html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+      HTML::button( 'select_button', 'Select', $tabindex = 1, 'onClick="selectlocation()"' );
+      HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
     }
 
-    html::form_end();
+    HTML::form_end();
 
     #----------------------------------------------------
     # Focus on letter 'A', dropdown list or Cancel button
     #----------------------------------------------------
     $script = "document.$this->form_name.$focus_field.focus();"  . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     #---------------------------------------
     # Provide normal 'Search' option as well
     #---------------------------------------
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::form_start( $this->app_get_class( $this ), $this->app_popup_get_search_method() );
+    HTML::form_start( $this->app_get_class( $this ), $this->app_popup_get_search_method() );
 
-    html::hidden_field( 'calling_form', $this->calling_form );
-    html::hidden_field( 'calling_field', $this->calling_field );
+    HTML::hidden_field( 'calling_form', $this->calling_form );
+    HTML::hidden_field( 'calling_field', $this->calling_field );
 
     echo 'Alternatively you can search using a more flexible set of criteria: ';
-    html::submit_button( 'search_button', 'Search' );
+    HTML::submit_button( 'search_button', 'Search' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -346,13 +346,13 @@ class Popup_Location extends Location {
     $script .= '  self.close();'                                                                 . NEWLINE;
     $script .= '}'                                                                               . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
 
   function subdivide_within_first_letter_of_name( $all_places ) {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $some_places = array();
     $all_places_count = count( $all_places );
@@ -403,22 +403,22 @@ class Popup_Location extends Location {
     $script .= "  document.$this->form_name.submit();"                                        . NEWLINE;
     $script .= '}'                                                                            . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
 
     foreach( $buttons as $button_number => $names ) {
 
       $button_label = $names['first_name'] . ' --- ' . $names['last_name'];
 
-      html::radio_button( 'block_of_names_start_selecter', $button_label, $value_when_checked = $button_number, 
+      HTML::radio_button( 'block_of_names_start_selecter', $button_label, $value_when_checked = $button_number, 
                           $current_value = $block_of_names_start, $tabindex=2, $button_instance=$button_number, 
                           $script='onclick="chooseNewBlockOfNames( this )"' );
       echo LINEBREAK;
     }
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
     for( $i = $block_of_names_start; $i < $block_of_names_start + POPUP_LOCATION_MAX_DROPDOWN_OPTIONS; $i++ ) {
       $some_places[] = $all_places[ $i ];
@@ -447,8 +447,8 @@ class Popup_Location extends Location {
     echo '<style type="text/css">' . NEWLINE;
 
     echo ' input.all_letters {'                                               . NEWLINE;
-    echo '   font-color: ' . html::get_contrast1_colour() . ';'               . NEWLINE;
-    echo '   background-color: ' .  html::header_background_colour() . ';'    . NEWLINE;
+    echo '   font-color: ' . HTML::get_contrast1_colour() . ';'               . NEWLINE;
+    echo '   background-color: ' .  HTML::header_background_colour() . ';'    . NEWLINE;
     echo '   padding: 2px;'                                                   . NEWLINE;
     echo '   margin: 5px;'                                                    . NEWLINE;
     echo ' }'                                                                 . NEWLINE;

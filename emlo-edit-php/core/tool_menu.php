@@ -22,7 +22,7 @@ class Tool_Menu extends Project {
 
     $tool_interface_file = $this->get_tool_interface_file(); # collect.php
 
-    html::div_start( 'class="mainmenu"' );
+    HTML::div_start( 'class="mainmenu"' );
 
     if( $this->user_is_supervisor() ) {
       $statement = 'select count(*) from ' . $this->proj_collect_upload_tablename() . ' u, '
@@ -37,26 +37,26 @@ class Tool_Menu extends Project {
         if( ! $menu_item_id ) die( 'Menu not correctly set up.' );
         $review_href = $_SERVER[ 'PHP_SELF' ] . '?menu_item_id=' . $menu_item_id;
         echo 'There are currently';
-        html::link_start( $review_href, 'Display contributions awaiting review' );
+        HTML::link_start( $review_href, 'Display contributions awaiting review' );
         echo " $num_outstanding contributions";
-        html::link_end();
+        HTML::link_end();
         echo ' awaiting review.';
       }
       else {
         echo 'No contributions awaiting review.';
       }
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
-    html::ulist_start();
+    HTML::ulist_start();
 
     if( $this->user_is_supervisor() && $num_outstanding > 0 ) {
-      html::listitem_start();
-      html::link_start( $review_href, 'Display contributions awaiting review' );
+      HTML::listitem_start();
+      HTML::link_start( $review_href, 'Display contributions awaiting review' );
       echo 'Display contributions awaiting review';
-      html::link_end();
-      html::listitem_end();
-      html::new_paragraph();
+      HTML::link_end();
+      HTML::listitem_end();
+      HTML::new_paragraph();
     }
 
     if( $this->user_is_supervisor() ) {
@@ -66,12 +66,12 @@ class Tool_Menu extends Project {
       if( ! $menu_item_id ) die( 'Menu not correctly set up.' );
       $browse_href = $_SERVER[ 'PHP_SELF' ] . '?menu_item_id=' . $menu_item_id;
 
-      html::listitem_start();
-      html::link_start( $browse_href, 'Browse or search contributed works' );
+      HTML::listitem_start();
+      HTML::link_start( $browse_href, 'Browse or search contributed works' );
       echo 'Browse or search contributed works';
-      html::link_end();
-      html::listitem_end();
-      html::new_paragraph();
+      HTML::link_end();
+      HTML::listitem_end();
+      HTML::new_paragraph();
 
       $statement = 'select menu_item_id from ' . $this->proj_menu_tablename()
                  . " where class_name = 'contributor' and method_name = 'db_search'";
@@ -79,12 +79,12 @@ class Tool_Menu extends Project {
       if( ! $menu_item_id ) die( 'Menu not correctly set up.' );
       $browse_href = $_SERVER[ 'PHP_SELF' ] . '?menu_item_id=' . $menu_item_id;
 
-      html::listitem_start();
-      html::link_start( $browse_href, 'Browse or search contributors' );
+      HTML::listitem_start();
+      HTML::link_start( $browse_href, 'Browse or search contributors' );
       echo 'Browse or search contributors';
-      html::link_end();
-      html::listitem_end();
-      html::new_paragraph();
+      HTML::link_end();
+      HTML::listitem_end();
+      HTML::new_paragraph();
     }
 
       if( $this->user_is_supervisor() ) {
@@ -94,23 +94,23 @@ class Tool_Menu extends Project {
           if (!$menu_item_id) die('Menu not correctly set up.');
           $browse_href = $_SERVER['PHP_SELF'] . '?menu_item_id=' . $menu_item_id;
 
-          html::listitem_start();
-          html::link_start($browse_href, 'Upload an Excel file with works, people, places, repositories and manifestat');
+          HTML::listitem_start();
+          HTML::link_start($browse_href, 'Upload an Excel file with works, people, places, repositories and manifestat');
           echo 'Upload an Excel File';
-          html::link_end();
-          html::listitem_end();
-          html::new_paragraph();
+          HTML::link_end();
+          HTML::listitem_end();
+          HTML::new_paragraph();
       }
 
-    html::listitem_start();
-    html::link_start( $href = $tool_interface_file, $title='Options for contributors' );
+    HTML::listitem_start();
+    HTML::link_start( $href = $tool_interface_file, $title='Options for contributors' );
     echo 'Options for contributors';
-    html::link_end();
-    html::listitem_end();
-    html::new_paragraph();
+    HTML::link_end();
+    HTML::listitem_end();
+    HTML::new_paragraph();
 
-    html::ulist_end();
-    html::div_end();
+    HTML::ulist_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -118,30 +118,30 @@ class Tool_Menu extends Project {
 
     $tool_interface_file = $this->get_tool_interface_file(); # collect.php
 
-    html::div_start( 'class="mainmenu"' );
+    HTML::div_start( 'class="mainmenu"' );
 
-    html::new_paragraph();
-    html::h3_start();
+    HTML::new_paragraph();
+    HTML::h3_start();
     echo 'You are about to be redirected to the Contributor Menu of the offline data collection tool.';
-    html::h3_end();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
   
     echo 'If the redirection does not happen within a couple of seconds, please follow this link to the ';
 
-    html::link_start( $href = $tool_interface_file, $title='Contributor menu' );
+    HTML::link_start( $href = $tool_interface_file, $title='Contributor menu' );
     echo 'contributor menu.';
-    html::link_end();
-    html::new_paragraph();
+    HTML::link_end();
+    HTML::new_paragraph();
 
-    html::div_end();
+    HTML::div_end();
 
     $script = 'function goToTool() {'                                    . NEWLINE
             . '  document.location.href="' . $tool_interface_file . '";' . NEWLINE
             . '}'                                                        . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     $script = 'window.setTimeout( goToTool, 1500);';
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
   function get_tool_interface_file() {

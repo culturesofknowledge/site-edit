@@ -139,13 +139,13 @@ class Menu extends Project {
     }
 
     # The HTML class will only attempt to set focus if BOTH form and field are non-null
-    html::body_start( $focus_form, $focus_field, $required_anchor );
+    HTML::body_start( $focus_form, $focus_field, $required_anchor );
   }
   #-----------------------------------------------------
 
   function page_body_end() {
 
-    html::body_end();
+    HTML::body_end();
   }
   #-----------------------------------------------------
 
@@ -190,17 +190,17 @@ class Menu extends Project {
 
     $this->construct_breadcrumb_trail();
 
-    html::html_start();
+    HTML::html_start();
 
-    html::html_head_start();
-    html::write_stylesheet(  FALSE, FALSE, $this->printable_output );
+    HTML::html_head_start();
+    HTML::write_stylesheet(  FALSE, FALSE, $this->printable_output );
     $this->write_js_check_form_valid();        # Call this in "on submit" event of any form (first call a function 
                                                # to set "validation err" field to 1 if applicable).
     $this->write_js_drop_form_validation();    # Can be called by Cancel button in forms with JS validation enabled
     $this->write_js_check_value_is_numeric();  # Function which may optionally be used for client-side validation.
     $this->write_js_open_search_window();      # Can open a search window which then returns a value to calling form
 
-    html::html_head_end();
+    HTML::html_head_end();
 
     $this->page_body_start();
 
@@ -270,7 +270,7 @@ class Menu extends Project {
     $this->page_foot( $suppress_breadcrumbs );
     $this->page_body_end();
 
-    html::html_end();
+    HTML::html_end();
   }
   #-----------------------------------------------------
 
@@ -279,31 +279,31 @@ class Menu extends Project {
     if( is_array( $this->menu_group )) {
       $this->write_session_parm( 'latest_menu', $this->menu_item_id );
 
-      html::div_start( 'class="mainmenu"');
+      HTML::div_start( 'class="mainmenu"');
       echo LINEBREAK;
 
-      html::ulist_start();   # <ul>
+      HTML::ulist_start();   # <ul>
 
       foreach( $this->menu_group as $row ) {
         if( is_array( $row )) {
-          html::listitem_start();  # <li>
+          HTML::listitem_start();  # <li>
 
           $href = $_SERVER['PHP_SELF'] . '?menu_item_id=' . $row['menu_item_id'];
           $title = $row['menu_item_name'];
 
-          html::link_start( $href, $title );  # <a>
+          HTML::link_start( $href, $title );  # <a>
           echo $title;
-          html::link_end();                   # </a>
+          HTML::link_end();                   # </a>
 
-          html::listitem_end();  # </li>
-          html::new_paragraph();
+          HTML::listitem_end();  # </li>
+          HTML::new_paragraph();
         }
       }
 
-      html::ulist_end();   # </ul>
+      HTML::ulist_end();   # </ul>
 
       echo LINEBREAK;
-      html::div_end();
+      HTML::div_end();
 
     }
   }
@@ -419,7 +419,7 @@ class Menu extends Project {
     $option_depth = 0;
     foreach( $this->breadcrumb_trail as $option ) {
       $option_depth++;
-      if( $option_depth > 1 ) html::bullet_point();
+      if( $option_depth > 1 ) HTML::bullet_point();
 
       if( ! $option ) { # main menu
         $href = $_SERVER['PHP_SELF'] . '?menu_item_id=';
@@ -431,9 +431,9 @@ class Menu extends Project {
         $parent_name = $row['menu_item_name'];
       }
 
-      html::link_start( $href, $parent_name );
+      HTML::link_start( $href, $parent_name );
       echo $parent_name;
-      html::link_end();
+      HTML::link_end();
     }
 
     $breadcrumb_trail_printed = TRUE;
@@ -611,51 +611,51 @@ class Menu extends Project {
       $logo_class = 'bannerlogo';
     }
       
-    html::div_start( ' class="' . $div_class . '" id="pagebanner" ' );
+    HTML::div_start( ' class="' . $div_class . '" id="pagebanner" ' );
 
-    html::page_top_anchor();
+    HTML::page_top_anchor();
     echo LINEBREAK;
 
     $logo_function = $this->get_system_prefix() . '_logo'; # e.g. 'cofk_logo', 'impt_logo'
     $this->$logo_function( $logo_class );
 
-    html::h1_start();
+    HTML::h1_start();
     if( CONSTANT_DATABASE_NAME == 'ouls' )
       echo CFG_SYSTEM_TITLE;
     else
       echo trim( CFG_SYSTEM_TITLE ) . ': Test/Training DB';
-    html::h1_end();
+    HTML::h1_end();
 
     if( ! $suppress_breadcrumbs ) {
       $breadcrumb_trail_printed = $this->breadcrumbs();
-      if( $breadcrumb_trail_printed ) html::bullet_point();
-      html::link_to_page_bottom( $tabindex=1, $title='Bottom of Page' );
+      if( $breadcrumb_trail_printed ) HTML::bullet_point();
+      HTML::link_to_page_bottom( $tabindex=1, $title='Bottom of Page' );
 
-      html::bullet_point();
+      HTML::bullet_point();
       $href = $_SERVER['PHP_SELF'] . '?logout=1';
-      html::link_start( $href, 'Log out of ' . CFG_SYSTEM_TITLE );
+      HTML::link_start( $href, 'Log out of ' . CFG_SYSTEM_TITLE );
       echo 'Logout';
-      html::link_end();
+      HTML::link_end();
     }
 
     echo LINEBREAK;
-    html::h2_start();
+    HTML::h2_start();
     if( $override_title )
       echo $override_title;
     else
       echo $this->menu_item_name;
-    html::h2_end();
+    HTML::h2_end();
 
     echo LINEBREAK;
 
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
 
     if( PROJ_RELOAD_IN_PROGRESS ) {
-      html::h1_start();
+      HTML::h1_start();
       echo 'The data is currently being upgraded and is incomplete. ';
       echo 'Please try again in about 10 minutes when the new version of the data will be available.';
-      html::h1_end();
+      HTML::h1_end();
     }
   }
   #-----------------------------------------------------------------
@@ -664,56 +664,56 @@ class Menu extends Project {
 
     if( $this->called_as_popup ) $suppress_breadcrumbs = TRUE;
 
-    html::linebreak();
-    html::horizontal_rule();
+    HTML::linebreak();
+    HTML::horizontal_rule();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( ! $suppress_breadcrumbs ) $this->footerlinks();
 
     $this->footimgs();
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------------------
 
   function footerlinks() {
 
-    html::div_start( 'class="footerlinks"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="footerlinks"' );
+    HTML::new_paragraph();
 
     $breadcrumb_trail_printed = $this->breadcrumbs();
-    if( $breadcrumb_trail_printed ) html::bullet_point();
+    if( $breadcrumb_trail_printed ) HTML::bullet_point();
 
-    html::link_to_page_top(  $tabindex=1, $title='Top of Page' );
-    html::page_bottom_anchor();
+    HTML::link_to_page_top(  $tabindex=1, $title='Top of Page' );
+    HTML::page_bottom_anchor();
 
-    html::bullet_point();
+    HTML::bullet_point();
     $href = $_SERVER['PHP_SELF'] . '?logout=1';
-    html::link_start( $href, 'Log out of ' . CFG_SYSTEM_TITLE );
+    HTML::link_start( $href, 'Log out of ' . CFG_SYSTEM_TITLE );
     echo 'Logout';
-    html::link_end();
+    HTML::link_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->footnotes();
 
-    html::div_end( 'footerlinks' );
+    HTML::div_end( 'footerlinks' );
   }
   #-----------------------------------------------------------------
 
   function footnotes() {
 
-    html::table_start( ' width="100%" ' );
-    html::tablerow_start();
-    html::tabledata_start();
+    HTML::table_start( ' width="100%" ' );
+    HTML::tablerow_start();
+    HTML::tabledata_start();
 
     $this->help_notes();
 
-    html::tabledata_end();
-    html::tabledata_start( ' class="rightaligned" ' );
+    HTML::tabledata_end();
+    HTML::tabledata_start( ' class="rightaligned" ' );
 
     if( $this->username ) {
-      html::small_start();
+      HTML::small_start();
       echo $this->get_datetime_now_in_words();
       echo LINEBREAK;
       if( $this->user_is_supervisor())
@@ -726,33 +726,33 @@ class Menu extends Project {
       echo 'Latest login: ' . $this->postgres_date_to_dd_mm_yyyy( $this->login_time );
       echo LINEBREAK;
       echo 'Previous login: ' . $this->postgres_date_to_dd_mm_yyyy( $this->prev_login );
-      html::small_end();
+      HTML::small_end();
     }
 
-    html::tabledata_end();
-    html::tablerow_end();
-    html::table_end();
+    HTML::tabledata_end();
+    HTML::tablerow_end();
+    HTML::table_end();
   }
   #-----------------------------------------------------------------
 
   function help_notes() {
 
-    html::small_start();
+    HTML::small_start();
     echo 'Help and hints: ';
 
-    html::ulist_start();
-    html::listitem_start();
+    HTML::ulist_start();
+    HTML::listitem_start();
     echo 'For technical support, contact ';
-    html::link( $href = 'mailto:support@bodleian.ox.ac.uk', 
+    HTML::link( $href = 'mailto:support@bodleian.ox.ac.uk', 
                 $displayed_text = 'support@bodleian.ox.ac.uk', 
                 $title = 'Technical Support', 
                 $target = '_blank' );
-    html::listitem_end();
+    HTML::listitem_end();
     
-    html::listitem( 'Ctrl-Home in Windows takes you to the top of the page. ' );
-    html::listitem( 'Ctrl-End in Windows takes you to the bottom of the page.' );
-    html::ulist_end();
-    html::small_end();
+    HTML::listitem( 'Ctrl-Home in Windows takes you to the top of the page. ' );
+    HTML::listitem( 'Ctrl-End in Windows takes you to the bottom of the page.' );
+    HTML::ulist_end();
+    HTML::small_end();
   }
   #-----------------------------------------------------------------
 
@@ -760,11 +760,11 @@ class Menu extends Project {
 
     if( ! $this->called_as_popup ) {
 
-      html::div_start( 'class="footimgs"' );
+      HTML::div_start( 'class="footimgs"' );
       $this->ox_logo();
       echo ' ';
       $this->funder_logos();
-      html::div_end( 'footimgs' );
+      HTML::div_end( 'footimgs' );
     }
   }
   #-----------------------------------------------------------------

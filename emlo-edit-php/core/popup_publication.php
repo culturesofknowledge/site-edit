@@ -121,15 +121,15 @@ class Popup_Publication extends publication {
 
     $this->publication_entry_stylesheets();
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'save_publication' );
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'save_publication' );
 
     $this->app_popup_read_calling_form_and_field();
-    html::hidden_field( 'calling_form', $this->calling_form );
-    html::hidden_field( 'calling_field', $this->calling_field );
+    HTML::hidden_field( 'calling_form', $this->calling_form );
+    HTML::hidden_field( 'calling_field', $this->calling_field );
 
     $this->add_publication();
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
   # Add selected text without overwriting what is already there.
@@ -177,17 +177,17 @@ class Popup_Publication extends publication {
     $this->set_publication( $publication_id );
 
     echo $this->get_publication_desc_from_id( $this->publication_id );  
-    html::new_paragraph();
-    html::italic_start();
+    HTML::new_paragraph();
+    HTML::italic_start();
     echo 'Click OK to pass the details back into the main data entry screen.';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     $this->calling_form = $this->read_post_parm( 'calling_form' );
     $this->calling_field = $this->read_post_parm( 'calling_field' );
 
     $this->app_popup_pass_value_back(); 
-    html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+    HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
   }
   #-----------------------------------------------------
 
@@ -252,11 +252,11 @@ class Popup_Publication extends publication {
 
     $this->write_letter_selection_stylesheet();
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'select_by_first_letter_of_name' );
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'select_by_first_letter_of_name' );
 
     $this->app_popup_read_calling_form_and_field();
-    html::hidden_field( 'calling_form', $this->calling_form );
-    html::hidden_field( 'calling_field', $this->calling_field );
+    HTML::hidden_field( 'calling_form', $this->calling_form );
+    HTML::hidden_field( 'calling_field', $this->calling_field );
 
     $publications_found = 0;
 
@@ -265,9 +265,9 @@ class Popup_Publication extends publication {
     #-----------------------------------------------------
     $first_letter_of_name = $this->read_post_parm( 'first_letter_of_name' );
 
-    html::hidden_field( 'first_letter_of_name', $first_letter_of_name );
+    HTML::hidden_field( 'first_letter_of_name', $first_letter_of_name );
 
-    html::hidden_field( 'block_of_names_start', '' );  # Just a dummy field in most cases. 
+    HTML::hidden_field( 'block_of_names_start', '' );  # Just a dummy field in most cases. 
                                                        # Only used if you need to sub-divide a longer list
 
     $script  = 'function chooseNewLetter( letterButton ) {'                                    . NEWLINE;
@@ -275,15 +275,15 @@ class Popup_Publication extends publication {
     $script .= "  document.$this->form_name.block_of_names_start.value = '';"                  . NEWLINE;
     $script .= '}'                                                                             . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'Click a letter to retrieve a list of publications with details beginning with that letter:';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $letter = 'A';
     for( $i = 0; $i < 26; $i++ ) {
-      if( $i == 13 ) html::new_paragraph();
+      if( $i == 13 ) HTML::new_paragraph();
 
       $button_name = 'first_letter_of_name_button' . $letter;
       if( $letter == 'A' ) $focus_field = $button_name;
@@ -295,7 +295,7 @@ class Popup_Publication extends publication {
       $script = ' onclick="chooseNewLetter( this )" ';
       $parms .= $script;
 
-      html::submit_button( $button_name, $letter, $tabindex = 2, $parms );
+      HTML::submit_button( $button_name, $letter, $tabindex = 2, $parms );
       echo ' ';
 
       $letter++;
@@ -307,9 +307,9 @@ class Popup_Publication extends publication {
     # with names beginning with that letter.
     #--------------------------------------------
     if( $first_letter_of_name ) {
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
 
       $field_to_get = $this->get_primary_display_fieldname();
       
@@ -326,14 +326,14 @@ class Popup_Publication extends publication {
     #-------------------------------------------
     if( $first_letter_of_name && ! $publications_found ) {
       echo "No publications found with details starting with '$first_letter_of_name'.";
-      html::new_paragraph();
-      html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+      HTML::new_paragraph();
+      HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
       $focus_field = 'cancel_button';
     }
 
     elseif( ! $first_letter_of_name ) {
-      html::new_paragraph();
-      html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+      HTML::new_paragraph();
+      HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
     }
 
     elseif( $publications_found ) {
@@ -346,50 +346,50 @@ class Popup_Publication extends publication {
 
       $this->write_passback_script();
 
-      html::dropdown_start( 'publication_sel', $label = NULL );
+      HTML::dropdown_start( 'publication_sel', $label = NULL );
       $first = TRUE;
       foreach( $publications as $row ) {
         $this->current_row_of_data = $row;
         extract( $row, EXTR_OVERWRITE );
         if( $first ) $selection = $publication_id; # select first option initially
 
-        html::dropdown_option( $publication_id, $this->app_popup_set_result_text(), $selection );
+        HTML::dropdown_option( $publication_id, $this->app_popup_set_result_text(), $selection );
 
         $selection = NULL;
         $first = FALSE;
       }
-      html::dropdown_end();
+      HTML::dropdown_end();
 
       echo ' ';
 
-      html::button( 'select_button', 'Select', $tabindex = 1, 'onClick="selectpublication()"' );
-      html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+      HTML::button( 'select_button', 'Select', $tabindex = 1, 'onClick="selectpublication()"' );
+      HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
     }
 
-    html::form_end();
+    HTML::form_end();
 
     #----------------------------------------------------
     # Focus on letter 'A', dropdown list or Cancel button
     #----------------------------------------------------
     $script = "document.$this->form_name.$focus_field.focus();"  . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     #---------------------------------------
     # Provide normal 'Search' option as well
     #---------------------------------------
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::form_start( $this->app_get_class( $this ), $this->app_popup_get_search_method() );
+    HTML::form_start( $this->app_get_class( $this ), $this->app_popup_get_search_method() );
 
-    html::hidden_field( 'calling_form', $this->calling_form );
-    html::hidden_field( 'calling_field', $this->calling_field );
+    HTML::hidden_field( 'calling_form', $this->calling_form );
+    HTML::hidden_field( 'calling_field', $this->calling_field );
 
     echo 'Alternatively you can search using a more flexible set of criteria: ';
-    html::submit_button( 'search_button', 'Search' );
+    HTML::submit_button( 'search_button', 'Search' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -420,13 +420,13 @@ class Popup_Publication extends publication {
     $script .= '  self.close();'                                                                      . NEWLINE;
     $script .= '}'                                                                                    . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
 
   function subdivide_within_first_letter_of_name( $all_publications ) {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $field_to_get = $this->get_primary_display_fieldname();
 
@@ -479,22 +479,22 @@ class Popup_Publication extends publication {
     $script .= "  document.$this->form_name.submit();"                                        . NEWLINE;
     $script .= '}'                                                                            . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
 
     foreach( $buttons as $button_number => $names ) {
 
       $button_label = $names['first_name'] . ' --- ' . $names['last_name'];
 
-      html::radio_button( 'block_of_names_start_selecter', $button_label, $value_when_checked = $button_number, 
+      HTML::radio_button( 'block_of_names_start_selecter', $button_label, $value_when_checked = $button_number, 
                           $current_value = $block_of_names_start, $tabindex=2, $button_instance=$button_number, 
                           $script='onclick="chooseNewBlockOfNames( this )"' );
       echo LINEBREAK;
     }
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
     for( $i = $block_of_names_start; $i < $block_of_names_start + POPUP_PUBLICATION_MAX_DROPDOWN_OPTIONS; $i++ ) {
       $some_publications[] = $all_publications[ $i ];
@@ -523,8 +523,8 @@ class Popup_Publication extends publication {
     echo '<style type="text/css">' . NEWLINE;
 
     echo ' input.all_letters {'                                               . NEWLINE;
-    echo '   font-color: ' . html::get_contrast1_colour() . ';'               . NEWLINE;
-    echo '   background-color: ' .  html::header_background_colour() . ';'    . NEWLINE;
+    echo '   font-color: ' . HTML::get_contrast1_colour() . ';'               . NEWLINE;
+    echo '   background-color: ' .  HTML::header_background_colour() . ';'    . NEWLINE;
     echo '   padding: 2px;'                                                   . NEWLINE;
     echo '   margin: 5px;'                                                    . NEWLINE;
     echo ' }'                                                                 . NEWLINE;

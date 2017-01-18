@@ -49,17 +49,17 @@ class Document_Type extends Lookup_Table {
     # rather than hard-coding a default document type which may not be suitable for every project.
     if( ! $selected_id ) $selected_id = $this->lookup_list[ 0 ][ 'document_type_code' ];
 
-    html::dropdown_start( $field_name, $field_label, $in_table=FALSE );
+    HTML::dropdown_start( $field_name, $field_label, $in_table=FALSE );
 
     foreach( $this->lookup_list as $lookup_row ) {
 
       extract( $lookup_row, EXTR_OVERWRITE );
 
-      html::dropdown_option( $document_type_code,
+      HTML::dropdown_option( $document_type_code,
                              $document_type_desc,
                              $selected_id );  # selected one
     }
-    html::dropdown_end( $in_table);
+    HTML::dropdown_end( $in_table);
   }
   #----------------------------------------------------- 
 

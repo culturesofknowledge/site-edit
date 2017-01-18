@@ -31,14 +31,14 @@ class Popup_Organisation extends Popup_Person {
 
   function gender_field() {
 
-    html::hidden_field( 'gender', '' ); 
+    HTML::hidden_field( 'gender', '' ); 
   }
   #-----------------------------------------------------
 
 
   function org_field() {
 
-    html::hidden_field( 'is_organisation', 'Y' ); 
+    HTML::hidden_field( 'is_organisation', 'Y' ); 
     $this->is_organisation = 'Y'; 
   }
   #-----------------------------------------------------

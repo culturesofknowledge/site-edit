@@ -270,28 +270,28 @@ class User extends DBEntity {
 
     $this->login_page_start( 'write_javascript_test_functions', $suppress_header ); # check Javascript is enabled
 
-    html::form_start();
+    HTML::form_start();
 
     if( $errmsg ) {
-      html::bold_start();
+      HTML::bold_start();
       echo $errmsg;
-      html::bold_end();
+      HTML::bold_end();
     }
     else
       echo 'Access is permitted only to authorised users of the ' . CFG_SYSTEM_TITLE . '.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::hidden_field( LOGIN_REQUEST, $this->create_login_request() );
+    HTML::hidden_field( LOGIN_REQUEST, $this->create_login_request() );
 
-    html::hidden_field( 'focus_form',  'user_login' );
-    html::hidden_field( 'focus_field', 'raw_usr' );
+    HTML::hidden_field( 'focus_form',  'user_login' );
+    HTML::hidden_field( 'focus_field', 'raw_usr' );
 
-    html::submit_button( 'login_button', 'Log in', 1 /*tabindex*/, ' onclick="check_js_enabled()" ' );
+    HTML::submit_button( 'login_button', 'Log in', 1 /*tabindex*/, ' onclick="check_js_enabled()" ' );
 
     $this->remember_get_parms(); # In case a record ID has been passed in, then after login
                                  # you can go straight to that record.
 
-    html::form_end();
+    HTML::form_end();
 
     $this->login_page_end();
   }
@@ -327,7 +327,7 @@ class User extends DBEntity {
     echo '// -->' . NEWLINE;
     echo '</script>' . NEWLINE;
 
-    html::write_stylesheet();
+    HTML::write_stylesheet();
 
     echo '</head>' . NEWLINE;
 
@@ -363,7 +363,7 @@ class User extends DBEntity {
     echo '// -->' . NEWLINE;
     echo '</script>' . NEWLINE;
 
-    html::write_stylesheet();
+    HTML::write_stylesheet();
 
     echo '</head>' . NEWLINE;
 
@@ -375,41 +375,41 @@ class User extends DBEntity {
     $this->login_page_start( 'write_javascript_password_functions' );  # Javascript to encrypt password etc
 
     if( ! $this->check_javascript_enabled()) {  # may have timed out, try again
-      html::bold_start();
+      HTML::bold_start();
       echo 'Sorry, it seems you were not quick enough logging in, and the system has timed out. Please try again.';
-      html::bold_end();
+      HTML::bold_end();
 
       $this->request_login_token( NULL, TRUE );
       return;
     }
 
-    html::form_start( NULL, NULL, $form_name='user_login' );
+    HTML::form_start( NULL, NULL, $form_name='user_login' );
 
-    html::hidden_field( LOGIN_TOKEN_FIELD, $this->create_login_token() );
+    HTML::hidden_field( LOGIN_TOKEN_FIELD, $this->create_login_token() );
 
-    html::table_start( ' cellspacing="10" ' );
-    html::tablerow_start();
+    HTML::table_start( ' cellspacing="10" ' );
+    HTML::tablerow_start();
     $in_table = TRUE;
 
-    html::input_field( RAW_USERNAME_FIELD, 'User name:', NULL /*value*/, $in_table, 
+    HTML::input_field( RAW_USERNAME_FIELD, 'User name:', NULL /*value*/, $in_table, 
                        $size = $this->get_username_field_size() );
 
-    html::tablerow_end();
-    html::tablerow_start();
+    HTML::tablerow_end();
+    HTML::tablerow_start();
 
-    html::password_field( RAW_PASSWORD_FIELD, 'Password:', $in_table );
+    HTML::password_field( RAW_PASSWORD_FIELD, 'Password:', $in_table );
 
-    html::hidden_field( MD5_USERNAME_FIELD, '' );
-    html::hidden_field( MD5_PASSWORD_FIELD, '' );
+    HTML::hidden_field( MD5_USERNAME_FIELD, '' );
+    HTML::hidden_field( MD5_PASSWORD_FIELD, '' );
 
-    html::tablerow_end();
-    html::table_end();
+    HTML::tablerow_end();
+    HTML::table_end();
 
-    html::submit_button( 'login_button', 'Log in', /*tabindex*/ 1, ' onclick="hidepass()" ' );
+    HTML::submit_button( 'login_button', 'Log in', /*tabindex*/ 1, ' onclick="hidepass()" ' );
 
     $this->carry_forward_get_parms(); # In case a record ID has been passed in, then after login
                                       # you can go straight to that record.
-    html::form_end();
+    HTML::form_end();
 
     $this->login_page_end();
   }
@@ -448,7 +448,7 @@ class User extends DBEntity {
     elseif( $login_result == LOGIN_FAILED_ACCOUNT_SUSPENDED ) {
       $this->login_page_start();
       echo 'Your account has been suspended. It can be re-activated by a member of technical support staff.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       $this->login_page_end();
     }
   }
@@ -457,8 +457,8 @@ class User extends DBEntity {
   function login_page_start( $write_javascript = NULL, $suppress_header = FALSE ) {
 
     $this->expire_page();
-    html::html_start();
-    html::html_head_start();
+    HTML::html_start();
+    HTML::html_head_start();
 
     if( $write_javascript ) $this->$write_javascript(); # Javascript to encrypt password etc
     if( $suppress_header ) return;
@@ -471,7 +471,7 @@ class User extends DBEntity {
 
     echo $this->get_datetime_now_in_words();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -480,7 +480,7 @@ class User extends DBEntity {
     $this->menu_obj->page_foot( $suppress_breadcrumbs = TRUE );
     $this->menu_obj->page_body_end();
 
-    html::html_end();
+    HTML::html_end();
   }
   #-----------------------------------------------------
 
@@ -644,57 +644,57 @@ class User extends DBEntity {
     $last_user = '0';  # a dummy value which won't exist in the database
     $all_roles = '';
 
-    html::table_start( ' class="widelyspacepadded" ' );
-    html::tablerow_start();
+    HTML::table_start( ' class="widelyspacepadded" ' );
+    HTML::tablerow_start();
 
-    html::tabledata_start( 'class="highlight1"' );  # Menu
-    html::form_start( 'user', 'edit_user1_other' );
-    html::submit_button( 'add_button', 'Add' );
-    html::form_end();
-    html::new_paragraph();
+    HTML::tabledata_start( 'class="highlight1"' );  # Menu
+    HTML::form_start( 'user', 'edit_user1_other' );
+    HTML::submit_button( 'add_button', 'Add' );
+    HTML::form_end();
+    HTML::new_paragraph();
 
-    html::form_start( '', '' );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::form_end();
-    html::tabledata_end();
+    HTML::form_start( '', '' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::form_end();
+    HTML::tabledata_end();
 
-    html::tabledata_start();  # List of users
+    HTML::tabledata_start();  # List of users
 
     if( ! is_array( $existing_users )) 
       echo 'No existing users found.';
     else {
-      html::table_start( ' class="datatab spacepadded" ' );
+      HTML::table_start( ' class="datatab spacepadded" ' );
 
-      html::table_head_start();
-      html::tablerow_start();
-      html::column_header( 'Username' );
-      html::column_header( 'Role(s)' );
-      html::column_header( 'Active' );
-      html::column_header( 'Forename' );
-      html::column_header( 'Surname' );
-      html::column_header( 'Email address' );
-      html::tablerow_end();
-      html::table_head_end();
+      HTML::table_head_start();
+      HTML::tablerow_start();
+      HTML::column_header( 'Username' );
+      HTML::column_header( 'Role(s)' );
+      HTML::column_header( 'Active' );
+      HTML::column_header( 'Forename' );
+      HTML::column_header( 'Surname' );
+      HTML::column_header( 'Email address' );
+      HTML::tablerow_end();
+      HTML::table_head_end();
 
-      html::table_body_start();
+      HTML::table_body_start();
       foreach( $existing_users as $row ) {
         if( $row['username'] != $last_user && $last_user != '0' ) {
-          html::tablerow_start();
+          HTML::tablerow_start();
 
-          html::tabledata_start( 'class="highlight2"' ); 
-          html::form_start( 'user', 'edit_user1_other' );
+          HTML::tabledata_start( 'class="highlight2"' ); 
+          HTML::form_start( 'user', 'edit_user1_other' );
           echo $username  . LINEBREAK;
-          html::hidden_field( 'username', $username );
-          html::submit_button( 'edit_button', 'Edit' );
-          html::form_end();
-          html::tabledata_end();
+          HTML::hidden_field( 'username', $username );
+          HTML::submit_button( 'edit_button', 'Edit' );
+          HTML::form_end();
+          HTML::tabledata_end();
 
-          html::tabledata( $all_roles );
-          html::tabledata( $active?'Yes':'No' );
-          html::tabledata( $forename );
-          html::tabledata( $surname );
-          html::tabledata( $email );
-          html::tablerow_end();
+          HTML::tabledata( $all_roles );
+          HTML::tabledata( $active?'Yes':'No' );
+          HTML::tabledata( $forename );
+          HTML::tabledata( $surname );
+          HTML::tabledata( $email );
+          HTML::tablerow_end();
 
           $all_roles = '';
         }
@@ -706,40 +706,40 @@ class User extends DBEntity {
         $all_roles .= $role_name;
       }
 
-      html::tablerow_start();
-      html::tabledata_start( 'class="highlight2"' ); 
-      html::form_start( 'user', 'edit_user1_other' );
+      HTML::tablerow_start();
+      HTML::tabledata_start( 'class="highlight2"' ); 
+      HTML::form_start( 'user', 'edit_user1_other' );
       echo $username  . LINEBREAK;
-      html::hidden_field( 'username', $username );
-      html::submit_button( 'edit_button', 'Edit' );
-      html::form_end();
-      html::tabledata_end();
+      HTML::hidden_field( 'username', $username );
+      HTML::submit_button( 'edit_button', 'Edit' );
+      HTML::form_end();
+      HTML::tabledata_end();
 
-      html::tabledata( $all_roles );
-      html::tabledata( $active?'Yes':'No' );
-      html::tabledata( $forename );
-      html::tabledata( $surname );
-      html::tabledata( $email );
-      html::tablerow_end();
+      HTML::tabledata( $all_roles );
+      HTML::tabledata( $active?'Yes':'No' );
+      HTML::tabledata( $forename );
+      HTML::tabledata( $surname );
+      HTML::tabledata( $email );
+      HTML::tablerow_end();
 
-      html::table_body_end();
-      html::table_end();
+      HTML::table_body_end();
+      HTML::table_end();
     }
 
-    html::tabledata_end();
-    html::tablerow_end();
-    html::table_end();
+    HTML::tabledata_end();
+    HTML::tablerow_end();
+    HTML::table_end();
 
-    html::new_paragraph();
-    html::italic_start();
+    HTML::new_paragraph();
+    HTML::italic_start();
     echo 'Note: if a user has repeatedly entered the wrong password, their account will be deactivated and they '
          . ' will not be able to log in. You can restore their login rights by clicking Edit and setting "Active"'
          . ' to Yes.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo 'All users who wish to produce reports as a CSV file should have an email address entered, otherwise '
          . ' the CSV file cannot be sent to them.';
-    html::italic_end();
+    HTML::italic_end();
   }
   #-----------------------------------------------------
 
@@ -790,77 +790,77 @@ class User extends DBEntity {
     }
 
     if( $new_record ) {
-      html::italic_start();
+      HTML::italic_start();
       echo 'Note: you can change the default username given below if you wish, but any alternative '
            . ' username MUST begin with "' . $this->get_system_prefix() . '" plus at least one other character.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo 'In addition, usernames can ONLY contain letters, numbers and the underline character.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo 'New username must not duplicate existing ones (shown below).';
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
     }
 
     $fields = $this->get_simple_input_fields();
 
-    html::table_start( ' class="widelyspacepadded boxed" ' );
-    html::tablerow_start();
+    HTML::table_start( ' class="widelyspacepadded boxed" ' );
+    HTML::tablerow_start();
 
-    html::tabledata_start( 'class="highlight1 bold"' );  # Menu
+    HTML::tabledata_start( 'class="highlight1 bold"' );  # Menu
 
     #-----------------------
     # Start "save user" form
     #-----------------------
-    html::form_start( 'user', $next_method );
+    HTML::form_start( 'user', $next_method );
     if( $new_record ) {
       $save_key_name = 'Save new user';
-      html::hidden_field( 'new_record', 1 );
+      HTML::hidden_field( 'new_record', 1 );
     }
     else
       $save_key_name = 'Save and end';
     echo $save_key_name . LINEBREAK;
-    html::submit_button( 'save_button', 'OK' );
+    HTML::submit_button( 'save_button', 'OK' );
 
     if( ! $new_record ) {
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
       echo 'Set password' . LINEBREAK;
-      html::submit_button( 'set_password_button', 'OK' );
+      HTML::submit_button( 'set_password_button', 'OK' );
 
       # "Editing self" flag only shows the route you took through the menu (i.e. "Edit your own details" option),
       # so need to check whether a supervisor is trying to delete their own self and prevent this.
       # Also don't allow deletion of the "primary" supervisor.
       if( $this->user_is_supervisor() && $this->db_get_username() != $username 
       && $username != $this->get_supervisor() ) {
-        html::new_paragraph();
-        html::horizontal_rule();
-        html::new_paragraph();
+        HTML::new_paragraph();
+        HTML::horizontal_rule();
+        HTML::new_paragraph();
         echo 'Delete user' . LINEBREAK;
-        html::submit_button( 'delete_user_button', 'OK' );
+        HTML::submit_button( 'delete_user_button', 'OK' );
       }
     }
 
-    html::new_paragraph();
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
     echo 'Cancel' . LINEBREAK;
-    html::submit_button( 'cancel_button', 'OK' );
+    HTML::submit_button( 'cancel_button', 'OK' );
 
-    html::tabledata_end();
+    HTML::tabledata_end();
 
-    html::tabledata_start();  # List of users
+    HTML::tabledata_start();  # List of users
 
-    html::table_start();
+    HTML::table_start();
 
     foreach( $fields as $field_name => $field_label ) {
       if( $field_name == 'active' && ( $editing_self || $this->db_get_username() == $username )) {
-        html::hidden_field( 'active', $edit_user->active );
+        HTML::hidden_field( 'active', $edit_user->active );
         continue;
       }
 
-      html::tablerow_start();
+      HTML::tablerow_start();
 
       $field_size = NULL;
       if( $field_name == 'email' ) $field_size = 60;
@@ -869,9 +869,9 @@ class User extends DBEntity {
       if( substr( $field_label, -1 ) == '*' ) $label_parms = 'class="bold"';
 
       if( $field_name == 'username' && ! $new_record ) {
-        html::tabledata( $field_label, 'class="bold "' );
-        html::tabledata( $username, 'class="bold highlight2"' );
-        html::hidden_field( 'username', $edit_user->username );
+        HTML::tabledata( $field_label, 'class="bold "' );
+        HTML::tabledata( $username, 'class="bold highlight2"' );
+        HTML::hidden_field( 'username', $edit_user->username );
       }
 
       elseif( $field_name == 'active' ) {
@@ -879,43 +879,43 @@ class User extends DBEntity {
       }
 
       else {
-        html::input_field( $field_name, $field_label, $edit_user->$field_name, $in_table = TRUE, $field_size,
+        HTML::input_field( $field_name, $field_label, $edit_user->$field_name, $in_table = TRUE, $field_size,
                            $tabindex=1, $label_parms );
       }
 
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
 
-    html::tablerow_start();
+    HTML::tablerow_start();
     if( $this->user_is_supervisor()) $edit_user->edit_user_roles( $username );
-    html::tablerow_end();
+    HTML::tablerow_end();
 
-    html::table_end();
-    html::form_end();
+    HTML::table_end();
+    HTML::form_end();
 
-    html::tabledata_end();
+    HTML::tabledata_end();
 
     if( $new_record ) {
-      html::tabledata_start( 'class="boxed"' );
+      HTML::tabledata_start( 'class="boxed"' );
       echo 'Existing users:';
-      html::new_paragraph();
+      HTML::new_paragraph();
       $statement = 'select distinct username, forename, surname from ' . $this->db_users_and_roles_viewname()
                  . ' order by username';
       $existing_users = $this->db_select_into_array( $statement );
       if( is_array( $existing_users )) {
-        html::ulist_start();
+        HTML::ulist_start();
         foreach( $existing_users as $row ) {
-          html::listitem( $row['username'] . ': ' . $row['forename'] . ' ' . $row['surname'] );
+          HTML::listitem( $row['username'] . ': ' . $row['forename'] . ' ' . $row['surname'] );
         }
-        html::ulist_end();
+        HTML::ulist_end();
       }
       else
         echo 'Existing users: none';
-      html::tabledata_end();
+      HTML::tabledata_end();
     }
 
-    html::tablerow_end();
-    html::table_end();
+    HTML::tablerow_end();
+    HTML::table_end();
   }
   #-----------------------------------------------------
 
@@ -943,18 +943,18 @@ class User extends DBEntity {
 
     if( ! $username ) $this->die_on_error( 'Invalid username.' );
 
-    html::h3_start();
+    HTML::h3_start();
     echo "Set password for user '";
     echo $edit_user->username . "': ";
     echo $edit_user->forename . ' ' . $edit_user->surname;
-    html::h3_end();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
 
     #---------------------
     # Display user details
     #---------------------
     $edit_user->display_user_roles( $username );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     #-----------
     # Start form
@@ -964,7 +964,7 @@ class User extends DBEntity {
       $method_name .= 'own';
     else
       $method_name .= 'other';
-    $this->form_name = html::form_start( 'user', $method_name ); 
+    $this->form_name = HTML::form_start( 'user', $method_name ); 
 
     #--------------------------------------
     # Write "Hide Password" Javascript here
@@ -1025,55 +1025,55 @@ class User extends DBEntity {
 
     $func .=  '}' . NEWLINE;
 
-    html::write_javascript_function( $func );
+    HTML::write_javascript_function( $func );
 
     #----------------------
     # Password entry fields
     #----------------------
-    html::table_start( 'class="widelyspacepadded highlight2 contrast1_boxed"' );
-    html::tablerow_start();
-    html::tabledata_start( 'class="rightaligned"' );
+    HTML::table_start( 'class="widelyspacepadded highlight2 contrast1_boxed"' );
+    HTML::tablerow_start();
+    HTML::tabledata_start( 'class="rightaligned"' );
 
     $this->write_authorising_token_field();
 
-    html::hidden_field( RAW_AUTHORISING_NAME_FIELD, $this->username );
-    html::hidden_field( RAW_EDITED_NAME_FIELD, $edit_user->username );
+    HTML::hidden_field( RAW_AUTHORISING_NAME_FIELD, $this->username );
+    HTML::hidden_field( RAW_EDITED_NAME_FIELD, $edit_user->username );
 
     if( $editing_self )
       $label = 'Enter your current password';
     else
       $label = 'Enter supervisor (' . $this->username . ') password';
-    html::password_field( RAW_AUTHORISING_PASSFIELD, $label );
-    html::new_paragraph();
+    HTML::password_field( RAW_AUTHORISING_PASSFIELD, $label );
+    HTML::new_paragraph();
 
     $label = 'Enter new password';
     if( ! $editing_self ) $label .= ' for ' . $edit_user->username ;
-    html::password_field( RAW_EDITED_PASSFIELD1, $label );
-    html::new_paragraph();
+    HTML::password_field( RAW_EDITED_PASSFIELD1, $label );
+    HTML::new_paragraph();
 
     $label = 'Re-enter new password';
     if( ! $editing_self ) $label .= ' for ' . $edit_user->username ;
-    html::password_field( RAW_EDITED_PASSFIELD2, $label );
-    html::new_paragraph();
+    HTML::password_field( RAW_EDITED_PASSFIELD2, $label );
+    HTML::new_paragraph();
 
-    html::hidden_field( MD5_AUTHORISING_PASSFIELD, '' );
-    html::hidden_field( MD5_AUTHORISING_NAME_FIELD, '' );
-    html::hidden_field( MD5_EDITED_PASSFIELD1, '' );
-    html::hidden_field( MD5_EDITED_PASSFIELD2, '' );
-    html::hidden_field( MD5_EDITED_NAME_FIELD, '' );
+    HTML::hidden_field( MD5_AUTHORISING_PASSFIELD, '' );
+    HTML::hidden_field( MD5_AUTHORISING_NAME_FIELD, '' );
+    HTML::hidden_field( MD5_EDITED_PASSFIELD1, '' );
+    HTML::hidden_field( MD5_EDITED_PASSFIELD2, '' );
+    HTML::hidden_field( MD5_EDITED_NAME_FIELD, '' );
 
-    html::tabledata_end();
-    html::new_tablerow();
+    HTML::tabledata_end();
+    HTML::new_tablerow();
 
-    html::tabledata_start();
-    html::submit_button( 'save_button', 'Save', /*tabindex*/ 1, ' onclick="prepare_values()" ' );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::tabledata_end();
+    HTML::tabledata_start();
+    HTML::submit_button( 'save_button', 'Save', /*tabindex*/ 1, ' onclick="prepare_values()" ' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::tabledata_end();
 
-    html::tablerow_end();
-    html::table_end();
+    HTML::tablerow_end();
+    HTML::table_end();
     
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -1110,7 +1110,7 @@ class User extends DBEntity {
 
     if( $this->parm_found_in_post( 'cancel_button' )) {
       echo 'Password change was cancelled.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       if( $editing_self ) 
         $this->edit_user1_self();
       else
@@ -1201,10 +1201,10 @@ class User extends DBEntity {
     }
 
     if( $failed_validation ) {
-      html::div_start( 'class="errmsg"' );
+      HTML::div_start( 'class="errmsg"' );
       echo $errmsg;
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
       $this->$calling_method( $username );
       return;
     }
@@ -1238,7 +1238,7 @@ class User extends DBEntity {
 
     if( $confirm == $username ) {
       echo 'Password has successfully been set for user "' . $username . '".';
-      html::new_paragraph();
+      HTML::new_paragraph();
       if( $editing_self )
         $this->edit_user1_self();
       else
@@ -1259,7 +1259,7 @@ class User extends DBEntity {
 
   function write_authorising_token_field() {
 
-    html::hidden_field( AUTHORISING_TOKEN_FIELD, $this->create_authorising_token() );
+    HTML::hidden_field( AUTHORISING_TOKEN_FIELD, $this->create_authorising_token() );
   }
   #-----------------------------------------------------
   function edit_user2_self( $username = NULL ) {
@@ -1280,7 +1280,7 @@ class User extends DBEntity {
     #-----------------------------------------------
     if( $this->parm_found_in_post( 'cancel_button' )) {
       echo 'User edit was cancelled.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       if( $this->user_is_supervisor() && ! $editing_self )
         $this->browse_users();
       else {
@@ -1404,10 +1404,10 @@ class User extends DBEntity {
     # If failed validation, put them back in edit screen
     #---------------------------------------------------
     if( $this->failed_validation ) {
-      html::div_start( 'class="errmsg"' );
+      HTML::div_start( 'class="errmsg"' );
       $this->echo_safely( $errmsg );
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
       $this->edit_user1( $username, $editing_self );
       return;
     }
@@ -1503,17 +1503,17 @@ class User extends DBEntity {
     #-----------------------------------
     echo $this->get_datetime_now_in_words() . ". Changes to user '" . $username . "' have been saved.";
     if( $new_record ) {
-      html::new_paragraph();
-      html::bold_start();
+      HTML::new_paragraph();
+      HTML::bold_start();
       echo 'This user has been allocated the following initial password: ' . $this->initial_password;
-      html::bold_end();
-      html::new_paragraph();
+      HTML::bold_end();
+      HTML::new_paragraph();
       echo 'Please inform this user of their initial password, and ask them to change it on their first login. ';
       echo LINEBREAK . "(Alternatively you could change the user's password yourself"
                      . " using the 'Edit' and 'Set password' options.)";
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->user_is_supervisor() && ! $editing_self )
       $this->browse_users();
@@ -1544,36 +1544,36 @@ class User extends DBEntity {
 
     if( ! $edit_user->username ) $this->die_on_error( 'Invalid user ID ' . $username );
 
-    html::div_start( ' id="deletion_choice" class="warning" ' );
+    HTML::div_start( ' id="deletion_choice" class="warning" ' );
 
-    html::h3_start();
+    HTML::h3_start();
     echo "DELETE user '$username'?";
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'Name: ' . $edit_user->forename . ' ' . $edit_user->surname;
-    html::new_paragraph();
+    HTML::new_paragraph();
     
     $edit_user->display_user_roles( $username );
-    html::h3_end();
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
     #-----------
     # Start form
     #-----------
-    $this->form_name = html::form_start( 'user', 'delete_user2' );
+    $this->form_name = HTML::form_start( 'user', 'delete_user2' );
 
     echo 'If you wish to delete this user, tick the checkbox below then click Delete.';
-    html::new_paragraph();
-    html::checkbox( 'confirm_deletion', 'Proceed with deletion', NULL, $value_when_checked = 'Y' );
-    html::new_paragraph();
-    html::hidden_field( 'username', $username );
-    html::submit_button( 'delete_button', 'Delete' );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::form_end();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::checkbox( 'confirm_deletion', 'Proceed with deletion', NULL, $value_when_checked = 'Y' );
+    HTML::new_paragraph();
+    HTML::hidden_field( 'username', $username );
+    HTML::submit_button( 'delete_button', 'Delete' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::form_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -1598,15 +1598,15 @@ class User extends DBEntity {
     if( $proceed_with_deletion ) {
       $confirm_deletion = $this->read_post_parm( 'confirm_deletion' );
       if( $confirm_deletion != 'Y' ) {
-        html::div_start( ' class="errmsg" ' );
+        HTML::div_start( ' class="errmsg" ' );
         echo '"Proceed with deletion" checkbox was not ticked, so deletion was cancelled.';
         $proceed_with_deletion = FALSE;
-        html::div_end();
+        HTML::div_end();
       }
     }
 
     if( ! $proceed_with_deletion ) {
-      html::new_paragraph();
+      HTML::new_paragraph();
       $this->edit_user1_other( $username );
       return;
     }
@@ -1622,7 +1622,7 @@ class User extends DBEntity {
     $this->db_run_query( $statement );
 
     echo "User '$username' has now been deleted.";
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->browse_users();
   }
@@ -1640,7 +1640,7 @@ class User extends DBEntity {
       $i++;
       $role_name = $row['role_name'];
       if( $role_name ) {
-        if( $i > 1 ) html::bullet_point();
+        if( $i > 1 ) HTML::bullet_point();
         echo ' ' . $role_name . ' ';
       }
       else
@@ -1669,7 +1669,7 @@ class User extends DBEntity {
       if( ! $this->is_integer( $value ) && ! $this->is_html_id( $value ))
         die( 'Invalid input.' );
 
-      html::hidden_field( GET_RECORD_AFTER_LOGIN_PREFIX . $fieldname, $value );
+      HTML::hidden_field( GET_RECORD_AFTER_LOGIN_PREFIX . $fieldname, $value );
     }
   }
   #-----------------------------------------------------
@@ -1688,7 +1688,7 @@ class User extends DBEntity {
         # Re-read from POST using the proper validation procedure
         $value = $this->read_post_parm( $fieldname );
 
-        html::hidden_field( $fieldname, $value );
+        HTML::hidden_field( $fieldname, $value );
       }
     }
   }

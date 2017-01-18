@@ -563,22 +563,22 @@ class Person extends Project {
 
     if( $enable_merge ) {
 
-      $this->merge_form = html::form_start( $this->app_get_class( $this ), 'start_merge' );
+      $this->merge_form = HTML::form_start( $this->app_get_class( $this ), 'start_merge' );
 
       $select_all_script_name = $this->write_script_to_set_merge_checkboxes( $details, $tick = TRUE );
       $clear_all_script_name = $this->write_script_to_set_merge_checkboxes( $details, $tick = FALSE );
 
-      html::new_paragraph();
-      html::italic_start();
+      HTML::new_paragraph();
+      HTML::italic_start();
       echo 'To start the process of merging records, tick the checkbox beside the relevant names '
            . ' and click the Merge button:';
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
 
-      html::submit_button( 'merge_button', 'Merge' );
-      html::button( 'select_all_button', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
-      html::button( 'clear_all_button', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
-      html::new_paragraph();
+      HTML::submit_button( 'merge_button', 'Merge' );
+      HTML::button( 'select_all_button', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
+      HTML::button( 'clear_all_button', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
+      HTML::new_paragraph();
 
       $this->db_write_pagination_fields( $this->db_page_required );  # also writes calling form/field if present
     }
@@ -586,12 +586,12 @@ class Person extends Project {
     parent::$browse_function( $details, $columns );
 
     if( $enable_merge ) {
-      html::new_paragraph();
-      html::submit_button( 'merge_button2', 'Merge' );
-      html::button( 'select_all_button2', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
-      html::button( 'clear_all_button2', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
-      html::new_paragraph();
-      html::form_end();
+      HTML::new_paragraph();
+      HTML::submit_button( 'merge_button2', 'Merge' );
+      HTML::button( 'select_all_button2', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
+      HTML::button( 'clear_all_button2', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
+      HTML::new_paragraph();
+      HTML::form_end();
     }
   }
   #-----------------------------------------------------
@@ -616,7 +616,7 @@ class Person extends Project {
     }
 
     $script .= ' }' . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     return $script_name;
   }
@@ -627,11 +627,11 @@ class Person extends Project {
     $to_merge = $this->read_post_parm( 'merge' );
 
     if( count( $to_merge ) < 2 ) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'You need to check two or more checkboxes. Cancelling merge...';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->db_set_search_result_parms();
       $results_method = $this->results_method;
@@ -639,7 +639,7 @@ class Person extends Project {
       return;
     }
 
-    html::form_start( $this->app_get_class( $this ), 'confirm_merge' );
+    HTML::form_start( $this->app_get_class( $this ), 'confirm_merge' );
 
     $this->app_popup_read_calling_form_and_field();  # if called via a popup window, find out where to pass values to
     $this->app_popup_write_calling_form_and_field();
@@ -649,55 +649,55 @@ class Person extends Project {
     $i = 0;
     foreach( $to_merge as $id_to_merge ) {
       $i++;
-      html::hidden_field( 'merge[]', $id_to_merge, $i );
+      HTML::hidden_field( 'merge[]', $id_to_merge, $i );
     }
 
 
-    html::new_paragraph();
-    html::submit_button( 'ok_button', 'OK' );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::submit_button( 'ok_button', 'OK' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::h3_start();
+    HTML::h3_start();
     echo 'Select the master record';
-    html::h3_end();
+    HTML::h3_end();
 
-    html::italic_start();
+    HTML::italic_start();
     echo "Please select the record into which all the others should be merged, then click 'Save': ";
-    html::italic_end();
+    HTML::italic_end();
 
-    html::new_paragraph();
-    html::table_start( 'class="datatab spacepadded"' );
-    html::tablerow_start();
-    html::column_header( 'Name' );
-    html::column_header( 'Works sent or received' );
-    html::tablerow_end();
+    HTML::new_paragraph();
+    HTML::table_start( 'class="datatab spacepadded"' );
+    HTML::tablerow_start();
+    HTML::column_header( 'Name' );
+    HTML::column_header( 'Works sent or received' );
+    HTML::tablerow_end();
 
     $i = 0;
     foreach( $to_merge as $id_to_merge ) {
-      html::tablerow_start();
+      HTML::tablerow_start();
       $i++;
 
       #----
 
-      html::tabledata_start();
+      HTML::tabledata_start();
 
       $person_name = $this->proj_get_description_from_id( $id_to_merge );
 
-      html::radio_button( $fieldname = 'selected_merge_id', 
+      HTML::radio_button( $fieldname = 'selected_merge_id', 
                           $person_name, 
                           $value_when_checked = $id_to_merge, 
                           $current_value = '', 
                           $tabindex=1, 
                           $button_instance=$i );
 
-      html::tabledata_end();
+      HTML::tabledata_end();
 
       #----
 
-      html::tabledata_start();
+      HTML::tabledata_start();
 
       $sent_rels = $this->get_righthand_values( $id_to_merge, RELTYPE_PERSON_CREATOR_OF_WORK, 
                                                 $this->proj_work_tablename());
@@ -718,25 +718,25 @@ class Person extends Project {
       #----
 
       echo 'Author/sender of ' . $sent . ' works, addressee of ' . $received . ', mentioned in ' . $mentioned . '.';
-      if( $sent + $received + $mentioned > 0 ) html::new_paragraph();
+      if( $sent + $received + $mentioned > 0 ) HTML::new_paragraph();
 
       $this->show_desc_of_related_works( $sent_rels, 'Author/sender of:' );
       $this->show_desc_of_related_works( $recd_rels, 'Addressee of:' );
       $this->show_desc_of_related_works( $mentioned_rels, 'Mentioned in:' );
-      html::tabledata_end();
+      HTML::tabledata_end();
 
       #----
 
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
-    html::table_end();
+    HTML::table_end();
 
-    html::new_paragraph();
-    html::submit_button( 'ok_button', 'OK' );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::submit_button( 'ok_button', 'OK' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::new_paragraph();
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -744,16 +744,16 @@ class Person extends Project {
 
     if( is_array( $rels ) && count( $rels ) > 0 ) {
 
-      html::italic_start();
+      HTML::italic_start();
       echo $heading;
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
 
       foreach( $rels as $row ) {
         $work_id = $row[ 'other_id_value' ];
         if( ! $work_obj ) $work_obj = new Work( $this->db_connection );
         echo $work_obj->get_work_desc( $work_id );
-        html::new_paragraph();
+        HTML::new_paragraph();
       }
     }
   }
@@ -769,11 +769,11 @@ class Person extends Project {
     $selected_merge_id = $this->read_post_parm( 'selected_merge_id' );
 
     if( ! $selected_merge_id ) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'You did not select the master record. Cannot proceed with merge.';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->start_merge();
       return;
@@ -781,56 +781,56 @@ class Person extends Project {
 
     # Display values to be merged, and wait for user to click OK
 
-    html::form_start( $this->app_get_class( $this ), 'save_merge' );
+    HTML::form_start( $this->app_get_class( $this ), 'save_merge' );
 
     $this->app_popup_read_calling_form_and_field();  # if called via a popup window, find out where to pass values to
     $this->app_popup_write_calling_form_and_field();
 
     $this->retain_options_during_merge(); # retain 'Advanced Search', rows per page, etc.
 
-    html::hidden_field( 'selected_merge_id', $selected_merge_id );
+    HTML::hidden_field( 'selected_merge_id', $selected_merge_id );
 
-    html::h3_start();
+    HTML::h3_start();
     echo $this->get_person_desc_from_id( $selected_merge_id );
-    html::h3_end();
+    HTML::h3_end();
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Will replace the following: ';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     $i = 0;
     foreach( $to_merge as $id_to_merge ) {
       if( $id_to_merge == $selected_merge_id ) continue;
 
       $i++;
-      html::hidden_field( 'merge[]', $id_to_merge, $i );
+      HTML::hidden_field( 'merge[]', $id_to_merge, $i );
       echo " $i. " . $this->get_person_desc_from_id( $id_to_merge );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     $sent_or_received_works = $this->read_post_parm( 'sent_or_received_works' );
     if( is_array( $sent_or_received_works )) {
       foreach( $sent_or_received_works as $work ) {
-        html::hidden_field( 'sent_or_received_works[]', $work );
+        HTML::hidden_field( 'sent_or_received_works[]', $work );
       }
     }
 
-    html::submit_button( 'save_button', 'Save' );
-    html::submit_button( 'cancel_button', 'Cancel' );
+    HTML::submit_button( 'save_button', 'Save' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
     
   function cancel_merge_at_user_request() {
 
     if( $this->parm_found_in_post( 'cancel_button' )) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'Merge cancelled at user request.';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->db_set_search_result_parms();
       $search_method = $this->search_method;
@@ -852,11 +852,11 @@ class Person extends Project {
     $selected_merge_id = $this->read_post_parm( 'selected_merge_id' );
 
     if( ! $selected_merge_id ) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'You did not select the master record. Cannot proceed with merge.';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->start_merge();
       return;
@@ -878,27 +878,27 @@ class Person extends Project {
       echo " $i. " . $desc . LINEBREAK;
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'Replaced by: ';
     echo $this->get_person_desc_from_id( $selected_merge_id );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->calling_form && $this->calling_field ) {
       $this->app_popup_pass_value_back();
-      html::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
+      HTML::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
     }
     else {
-      html::horizontal_rule();
-      html::h3_start();
+      HTML::horizontal_rule();
+      HTML::h3_start();
       echo 'Search again:';
-      html::h3_end();
+      HTML::h3_end();
 
       $this->db_set_search_result_parms();
       $search_method = $this->search_method;
       $this->$search_method();
 
       $script = "document.$this->form_name.names_and_titles.focus()";
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
     }
   }
   #-----------------------------------------------------
@@ -981,7 +981,7 @@ class Person extends Project {
 
       case 'person_id':
         if( ! $this->printable_output && ! $this->csv_output ) {
-          html::checkbox( $fieldname = 'merge[]',
+          HTML::checkbox( $fieldname = 'merge[]',
                           $label = NULL,
                           $is_checked = FALSE,
                           $value_when_checked = $column_value,
@@ -1032,9 +1032,9 @@ class Person extends Project {
                   . '&person_id=' . rawurlencode( $person_id )
                   . '&person_works_view_type=' . $view_type;
 
-            html::link_start( $href, $title, '_blank' );
+            HTML::link_start( $href, $title, '_blank' );
             echo $column_value;
-            html::link_end();
+            HTML::link_end();
           }
           return '';
         }
@@ -1182,14 +1182,14 @@ class Person extends Project {
 
     if( $display_status_msg ) {
       echo 'Deleted ' . $person_desc;
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
 
       $anchor_name = 'deleted_person_id_' . $person_id;
-      html::anchor( $anchor_name );
+      HTML::anchor( $anchor_name );
       $script = 'window.location.href = "' . $_SERVER['PHP_SELF'] . '" + "#' . $anchor_name . '"';
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
     }
   }
   #-----------------------------------------------------
@@ -1207,7 +1207,7 @@ class Person extends Project {
     else
       echo 'Enter some details of the required person or organisation (e.g. part or all of their name)'
            . ' and click Search or press Return.';
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -1216,10 +1216,10 @@ class Person extends Project {
       $this->edit_person();
     else {
 
-      html::italic_start();
+      HTML::italic_start();
       echo 'Sorry, you do not have edit privileges in this database. Read-only details are now being displayed.';
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
 
       $this->write_post_parm( 'iperson_id', $this->read_get_parm( 'iperson_id' ));
       $this->write_post_parm( 'date_or_numeric_query_op_iperson_id', 'equals' );
@@ -1251,9 +1251,9 @@ class Person extends Project {
  
     $href .= '&opening_method=' . $this->menu_method_name;
 
-    html::link_start( $href, $title, $target = '_blank' );
+    HTML::link_start( $href, $title, $target = '_blank' );
     echo 'Edit';
-    html::link_end();
+    HTML::link_end();
   }
   #-----------------------------------------------------
 
@@ -1281,9 +1281,9 @@ class Person extends Project {
 
     $this->person_entry_stylesheets();
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'save_person' );
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'save_person' );
 
-    html::hidden_field( 'opening_method', $opening_method );
+    HTML::hidden_field( 'opening_method', $opening_method );
     $focus_script = NULL;
 
     if( ! $new_record ) {
@@ -1291,30 +1291,30 @@ class Person extends Project {
       $href = '/interface/proform/activity_view.php'
             . '?person_id=' . rawurlencode( $iperson_id );
 
-      html::link_start( $href, 'Edit Prosopography', '_blank' );
+      HTML::link_start( $href, 'Edit Prosopography', '_blank' );
       echo 'Edit Prosopography';
-      html::link_end();
+      HTML::link_end();
 
 ## -- Couldn't get button invocation working below RG 25-sep-14 so setup link as above
-#      html::button( 'editpro_button2', 
+#      HTML::button( 'editpro_button2', 
 #            'Edit Prosopography', 
 #            $tabindex=1, 
 #            $other_parms='onclick="window.location.href="'.$href.'"' );
 
-      html::new_paragraph();
-      html::italic_start();
+      HTML::new_paragraph();
+      HTML::italic_start();
       echo 'Person or Organisation ID ' . $this->iperson_id 
            . '. Last changed ' . $this->postgres_date_to_words( $this->change_timestamp )
            . ' by ' . $this->change_user . ' ';
-      html::italic_end();
+      HTML::italic_end();
 
       $focus_script = $this->proj_write_post_save_refresh_button( $just_saved, $opening_method );
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
 
-      html::hidden_field( 'iperson_id', $iperson_id );
-      html::hidden_field( 'person_id', $this->person_id );
+      HTML::hidden_field( 'iperson_id', $iperson_id );
+      HTML::hidden_field( 'person_id', $this->person_id );
     }
 
     if( $this->failed_validation ) {  # read values from POST and re-display
@@ -1330,11 +1330,11 @@ class Person extends Project {
 
     $this->person_entry_fields( $new_record );
 
-    html::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
-    html::submit_button( 'clear_search_button', 'Search' );
+    HTML::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
+    HTML::submit_button( 'clear_search_button', 'Search' );
     $this->save_button( $prefix = 'page_bottom', $start_new_div = FALSE );
 
-    html::form_end();
+    HTML::form_end();
 
     if( ! $new_record ) {
       $this->offer_person_deletion_form();
@@ -1346,9 +1346,9 @@ class Person extends Project {
     $anchor_script = $this->proj_get_anchor_script_after_save();
 
     if( $anchor_script )
-      html::write_javascript_function( $anchor_script );
+      HTML::write_javascript_function( $anchor_script );
     elseif( $focus_script ) 
-      html::write_javascript_function( $focus_script );
+      HTML::write_javascript_function( $focus_script );
   }
   #-----------------------------------------------------
 
@@ -1379,9 +1379,9 @@ class Person extends Project {
 
     $this->save_button( $prefix = 'core_fields', $start_new_div = TRUE );
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
     #------
 
@@ -1390,12 +1390,12 @@ class Person extends Project {
       $this->proj_form_section_links( 'nisbas' );
       $this->person_nisbas_field();
       $this->save_button( 'nisbas', TRUE );
-      html::horizontal_rule();
+      HTML::horizontal_rule();
 
       $this->proj_form_section_links( 'professions' );
       $this->impact_roles_and_titles_field();
       $this->save_button( 'professions', TRUE );
-      html::horizontal_rule();
+      HTML::horizontal_rule();
     }
     #------
 
@@ -1421,20 +1421,20 @@ class Person extends Project {
     #------
 
     # Extra anchor for use with the 'Save and Continue' button
-    html::anchor( 'date_of_death_anchor' );
+    HTML::anchor( 'date_of_death_anchor' );
     $this->extra_anchors[] = 'date_of_death';
 
     $this->date_of_death_field();
     $this->save_button( 'date_of_death', TRUE );
 
     #------
-    html::anchor( 'flourished_anchor' );
+    HTML::anchor( 'flourished_anchor' );
     $this->extra_anchors[] = 'flourished';
 
     $this->flourished_field();
     $this->save_button( 'flourished', TRUE );
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
 
     #------
 
@@ -1442,16 +1442,16 @@ class Person extends Project {
       $this->proj_form_section_links( 'affiliation_types' );
       $this->org_subtype_field();
       $this->save_button( 'affiliation_types', TRUE );
-      html::horizontal_rule();
+      HTML::horizontal_rule();
 
       if( ! $new_record ) {  # cannot create relationships until the core record has been created
         $this->proj_form_section_links( 'belongs_to_orgs' );
         $this->orgs_of_which_member_entry_field();
 
-        html::new_paragraph();
+        HTML::new_paragraph();
         $this->save_button( 'belongs_to_orgs', TRUE );
-        html::horizontal_rule();
-        html::new_paragraph();
+        HTML::horizontal_rule();
+        HTML::new_paragraph();
       }
     }
     #------
@@ -1460,10 +1460,10 @@ class Person extends Project {
       $this->proj_form_section_links( 'nationalities' );
       $this->person_nationalities_field();
 
-      html::new_paragraph();
+      HTML::new_paragraph();
       $this->save_button( 'nationalities', TRUE );
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
     }
 
     #------
@@ -1475,17 +1475,17 @@ class Person extends Project {
       $this->proj_form_section_links( 'person_locations' );
       $this->person_locations_entry_field();
 
-      html::new_paragraph();
+      HTML::new_paragraph();
 
       if( $this->get_system_prefix() == IMPACT_SYS_PREFIX ) {
         $this->proj_notes_field( RELTYPE_COMMENT_REFERS_TO_LOCATIONS_OF_PERSON,
                                 'Bibliographic references and other notes on known locations:' );
-        html::new_paragraph();
+        HTML::new_paragraph();
       }
 
       $this->save_button( 'person_locations', TRUE );
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
 
       #------
 
@@ -1493,10 +1493,10 @@ class Person extends Project {
         $this->proj_form_section_links( 'belongs_to_orgs' );
         $this->orgs_of_which_member_entry_field();
 
-        html::new_paragraph();
+        HTML::new_paragraph();
         $this->save_button( 'belongs_to_orgs', TRUE );
-        html::horizontal_rule();
-        html::new_paragraph();
+        HTML::horizontal_rule();
+        HTML::new_paragraph();
       }
 
       #------
@@ -1513,57 +1513,57 @@ class Person extends Project {
           $msg_display_style = 'block';
         }
 
-        html::div_start( 'id="members_of_org_msg_div" style="display: ' . $msg_display_style . '"' );
+        HTML::div_start( 'id="members_of_org_msg_div" style="display: ' . $msg_display_style . '"' );
         if( $this->get_system_prefix() == IMPACT_SYS_PREFIX )
           echo 'This record refers to a person not a group. Affiliates can only be entered for groups.';
         else
           echo 'This record refers to a person not an organisation. Members can only be entered for organisations.';
-        html::div_end();
+        HTML::div_end();
 
-        html::div_start( 'id="members_of_org_entry_field_div" style="display: ' . $entry_fields_display_style . '"' );
+        HTML::div_start( 'id="members_of_org_entry_field_div" style="display: ' . $entry_fields_display_style . '"' );
 
         $this->members_of_org_entry_field();
 
-        html::new_paragraph();
+        HTML::new_paragraph();
         $this->save_button( 'has_members', TRUE );
-        html::div_end();
+        HTML::div_end();
 
-        html::horizontal_rule();
-        html::new_paragraph();
+        HTML::horizontal_rule();
+        HTML::new_paragraph();
       }
 
       #------
 
       $this->proj_form_section_links( 'person_to_person' );
       $this->person_to_person_entry_field();
-      html::horizontal_rule();
+      HTML::horizontal_rule();
 
       #------
 
       $this->proj_form_section_links( 'notes_on_person' );
       $this->notes_on_person_field();
 
-      html::new_paragraph();
+      HTML::new_paragraph();
       $this->save_button( 'notes_on_person', TRUE );
-      html::horizontal_rule();
+      HTML::horizontal_rule();
 
       #------
 
       $this->proj_form_section_links( 'related_resources' );
       $this->related_resources_field();
-      html::new_paragraph();
+      HTML::new_paragraph();
 
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
 
       #------
     }
 
     $this->proj_form_section_links( 'further_reading' );
     $this->further_reading_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->save_button( 'further_reading', TRUE );
-    html::horizontal_rule();
+    HTML::horizontal_rule();
 
     #------
 
@@ -1576,7 +1576,7 @@ class Person extends Project {
       $this->write_post_parm( 'person_id', $this->person_id ); # so it can be picked up by the image object
 
       $this->image_obj->image_entry_for_entity( $this->person_id, $entity_type = 'person' );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
   }
   #-----------------------------------------------------
@@ -1663,8 +1663,8 @@ class Person extends Project {
                         $save_and_continue_parms = NULL, $save_and_end_parms = NULL ) {
 
     if( $start_new_div ) {
-      html::div_start( 'class="workfield"' );
-      html::new_paragraph();
+      HTML::div_start( 'class="workfield"' );
+      HTML::new_paragraph();
     }
 
     $this_class = strtolower( $this->app_get_class( $this ));
@@ -1672,14 +1672,14 @@ class Person extends Project {
     if( $this_class == 'popup_person' || $this_class == 'popup_organisation' ) { #no 'Save and Continue' in popup screens
       $button_name = 'save_button';
       if( $prefix ) $prefix . '_' . $button_name;
-      html::submit_button( $button_name, 'Save' );
+      HTML::submit_button( $button_name, 'Save' );
     }
     else  # offer a choice between 'Save and Continue' and 'Save and End'
       $this->proj_extra_save_button( $prefix, $new_paragraph = FALSE, $save_and_continue_parms, $save_and_end_parms );
 
     if( $start_new_div ) {
-      html::new_paragraph();
-      html::div_end();
+      HTML::new_paragraph();
+      HTML::div_end();
     }
   }
   #-----------------------------------------------------
@@ -1691,10 +1691,10 @@ class Person extends Project {
       $this->write_post_parm( 'clear_search_button', 'Search' );
 
     if( $this->parm_found_in_post( 'clear_search_button' )) {
-      html::h4_start();
+      HTML::h4_start();
       echo 'Edit cancelled.';
-      html::h4_end();
-      html::new_paragraph();
+      HTML::h4_end();
+      HTML::new_paragraph();
       $this->db_search();
       return;
     }
@@ -1811,9 +1811,9 @@ class Person extends Project {
         $this->save_images();
       }
       
-      html::h4_start();
+      HTML::h4_start();
       echo 'Any changes have been saved.';
-      html::h4_end();
+      HTML::h4_end();
     }
   }
   #-----------------------------------------------------
@@ -1884,29 +1884,29 @@ class Person extends Project {
       $this->save_org_subtypes( $person_id );
     }
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'New person or organisation has been saved.';
-    html::h4_end();
+    HTML::h4_end();
 
     if( $this->app_get_class( $this ) == 'popup_person' || $this->app_get_class( $this ) == 'popup_organisation' ) 
       return $iperson_id;
 
-    html::div_start( 'class="buttonrow"' );
+    HTML::div_start( 'class="buttonrow"' );
 
-    html::form_start( $this->app_get_class( $this ), 'add_person' );
+    HTML::form_start( $this->app_get_class( $this ), 'add_person' );
     echo 'Add another new person? ';
-    html::submit_button( 'add_another_new_button', 'New' );
-    html::form_end();
+    HTML::submit_button( 'add_another_new_button', 'New' );
+    HTML::form_end();
 
     echo ' ';
 
-    html::form_start( $this->app_get_class( $this ), 'db_search' );
+    HTML::form_start( $this->app_get_class( $this ), 'db_search' );
     echo 'Return to search? ';
-    html::submit_button( 'return_to_search_button', 'Search' );
-    html::form_end();
+    HTML::submit_button( 'return_to_search_button', 'Search' );
+    HTML::form_end();
 
     echo LINEBREAK;
-    html::div_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -2147,31 +2147,31 @@ class Person extends Project {
 
     echo LINEBREAK;
 
-    html::div_start( 'class="workfield boldlabel"' );
+    HTML::div_start( 'class="workfield boldlabel"' );
 
-    html::input_field( 'foaf_name', 'Primary name*', $this->foaf_name, FALSE, PERSON_PRIMARY_NAME_FLD_SIZE );
+    HTML::input_field( 'foaf_name', 'Primary name*', $this->foaf_name, FALSE, PERSON_PRIMARY_NAME_FLD_SIZE );
 
     if( $this->app_get_class( $this ) == 'popup_person' || $this->app_get_class( $this ) == 'popup_organisation' ) 
-      html::new_paragraph();
+      HTML::new_paragraph();
 
-    html::italic_start();
+    HTML::italic_start();
     echo ' (No more than ' . PERSON_PRIMARY_NAME_MAX_FLD_SIZE . ' characters.';
 
     if( $this->get_system_prefix() != IMPACT_SYS_PREFIX ) {
       if( $this->app_get_class( $this ) != 'popup_organisation' ) echo ' Preferably Surname, Forename';
     }
     echo ')';
-    html::italic_end();
-    html::div_end();
+    HTML::italic_end();
+    HTML::div_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->get_system_prefix() == IMPACT_SYS_PREFIX ) {
-      html::div_start( 'class="workfield"' );
+      HTML::div_start( 'class="workfield"' );
 
       $this->impact_synonyms_field();
-      html::new_paragraph();
-      html::div_end();
+      HTML::new_paragraph();
+      HTML::div_end();
     }
   }
   #-----------------------------------------------------
@@ -2179,24 +2179,24 @@ class Person extends Project {
 
   function gender_field() {
 
-    html::span_start( 'class="workfield"' );
-    html::label( $label_text = 'Gender:', $label_id='gender_label' ); #free-standing label
-    html::span_end();
+    HTML::span_start( 'class="workfield"' );
+    HTML::label( $label_text = 'Gender:', $label_id='gender_label' ); #free-standing label
+    HTML::span_end();
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
 
-    html::radio_button( $fieldname = 'gender', $label = 'Male', $value_when_checked = 'M', 
+    HTML::radio_button( $fieldname = 'gender', $label = 'Male', $value_when_checked = 'M', 
                         $current_value = $this->gender, $tabindex=1, $button_instance=1, $script=NULL );
 
-    html::radio_button( $fieldname = 'gender', $label = 'Female', $value_when_checked = 'F', 
+    HTML::radio_button( $fieldname = 'gender', $label = 'Female', $value_when_checked = 'F', 
                         $current_value = $this->gender, $tabindex=1, $button_instance=2, $script=NULL );
 
-    html::radio_button( $fieldname = 'gender', $label = 'Unknown or not applicable', $value_when_checked = '', 
+    HTML::radio_button( $fieldname = 'gender', $label = 'Unknown or not applicable', $value_when_checked = '', 
                         $current_value = $this->gender, $tabindex=1, $button_instance=3, $script=NULL );
 
-    html::span_end();
+    HTML::span_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -2216,11 +2216,11 @@ class Person extends Project {
     $script .= '  }'                                                                                 . NEWLINE;
     $script .= '}'                                                                                   . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     #-----
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
     if( $this->get_system_prefix() == IMPACT_SYS_PREFIX ) {
       $onclick_action = 'enable_or_disable_org_type( this )'; 
@@ -2236,7 +2236,7 @@ class Person extends Project {
       $onclick_action .= 'enable_or_disable_org_type( this )'; 
     }
 
-    html::checkbox_with_label_on_left( $fieldname = 'is_organisation', 
+    HTML::checkbox_with_label_on_left( $fieldname = 'is_organisation', 
                                        $label, 
                                        $is_checked = $this->is_organisation, 
                                        $value_when_checked = 'Y',
@@ -2245,24 +2245,24 @@ class Person extends Project {
                                        $input_instance = NULL,
                                        $parms = 'onclick="' . $onclick_action . '"' ); 
 
-    if( $this->app_get_class( $this ) == 'popup_person' ) html::new_paragraph();
-    html::italic_start();
+    if( $this->app_get_class( $this ) == 'popup_person' ) HTML::new_paragraph();
+    HTML::italic_start();
 
     if( $this->get_system_prefix() == IMPACT_SYS_PREFIX ) {
       echo 'Leave this checkbox blank when entering details of an individual person.';
       echo LINEBREAK;
-      if( $this->app_get_class( $this ) != 'popup_person' ) html::span_start( 'class="workfieldaligned"' );
+      if( $this->app_get_class( $this ) != 'popup_person' ) HTML::span_start( 'class="workfieldaligned"' );
       echo 'Tick if entering details of a group or organisation such as a madhhab or theological school.';
-      if( $this->app_get_class( $this ) != 'popup_person' ) html::span_end();
+      if( $this->app_get_class( $this ) != 'popup_person' ) HTML::span_end();
     }
     else {
       echo ' (Leave this checkbox blank if the correspondent was an individual person;'
            . ' tick if the correspondent was a group or organisation.)';
     }
-    html::italic_end();
-    html::div_end();
+    HTML::italic_end();
+    HTML::div_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -2288,12 +2288,12 @@ class Person extends Project {
 
     $script .= '}'                                                                         . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     $org_type_obj = new Org_Type( $this->db_connection );
     $org_type_obj->set_data_entry_mode();
 
-    html::div_start( 'id="org_type_entry_field_div" class="workfield"' );
+    HTML::div_start( 'id="org_type_entry_field_div" class="workfield"' );
 
     # If the table is empty, create a dummy dropdown list so that your Javascript will still work
     $statement = 'select count(*) from ' . $this->proj_org_type_tablename();
@@ -2306,27 +2306,27 @@ class Person extends Project {
                                             $selected_id = $this->organisation_type );
     }
     else { # no options in table
-      html::dropdown_start( $fieldname = 'organisation_type', $label = $dropdown_label );
-      html::dropdown_option( $internal_value = 'null', $displayed_value = '(no options found)', $selection = 'null' );
-      html::dropdown_end();
+      HTML::dropdown_start( $fieldname = 'organisation_type', $label = $dropdown_label );
+      HTML::dropdown_option( $internal_value = 'null', $displayed_value = '(no options found)', $selection = 'null' );
+      HTML::dropdown_end();
     }
 
     if( $this->is_organisation ) {
       echo LINEBREAK;
-      html::span_start( 'class="workfieldaligned"' );
-      html::italic_start();
+      HTML::span_start( 'class="workfieldaligned"' );
+      HTML::italic_start();
       echo "Further details of a group's purpose or role can be given in the professions/titles field.";
-      html::italic_end();
-      html::span_end();
+      HTML::italic_end();
+      HTML::span_end();
     }
-    html::new_paragraph();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::div_end();
 
     # Hide the field if necessary
     if( ! $this->is_organisation ) {
       $script  = 'var isOrg = document.getElementById( "is_organisation" );'      . NEWLINE;
       $script .= 'enable_or_disable_org_type( isOrg );'                           . NEWLINE;
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
     }
   }
   #-----------------------------------------------------
@@ -2334,20 +2334,20 @@ class Person extends Project {
   function org_subtype_field() {
 
     # Allow entry of organisation sub-categories and affiliation types
-    html::div_start( 'id="org_subtype_entry_field_div"' );
+    HTML::div_start( 'id="org_subtype_entry_field_div"' );
 
     if( $this->person_id && ! $this->is_organisation ) {
       echo 'This section allows entry of a';
 
-      html::italic_start();
+      HTML::italic_start();
       echo ' summary';
-      html::italic_end();
+      HTML::italic_end();
 
       echo ' of affiliations. It is also possible to enter';
 
-      html::italic_start();
-      html::link( '#belongs_to_orgs_anchor', "dates and more specific details" );
-      html::italic_end();
+      HTML::italic_start();
+      HTML::link( '#belongs_to_orgs_anchor', "dates and more specific details" );
+      HTML::italic_end();
 
       echo ' of affiliations to a group or organisation.';
     }
@@ -2355,9 +2355,9 @@ class Person extends Project {
     $org_subtype_obj = new Org_Subtype( $this->db_connection );
     $org_subtype_obj->org_subtype_entry_fields( $person_id = $this->person_id,
                                                 $required_org_type = $this->organisation_type );
-    html::div_end();  # end subtypes entry div
+    HTML::div_end();  # end subtypes entry div
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->proj_notes_field( RELTYPE_COMMENT_REFERS_TO_AFFILIATIONS_OF_PERSON, 
                              'Bibliographic references and other notes on affiliations:' );
   }
@@ -2370,57 +2370,57 @@ class Person extends Project {
       return;
     }
 
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
 
     $this->proj_textarea( 'editors_notes', PERSON_EDITORS_NOTES_ROWS, PERSON_EDITORS_NOTES_COLS,
                           $value = $this->editors_notes, $label = "Editors' notes" );
     echo LINEBREAK;
 
-    html::italic_start();
+    HTML::italic_start();
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
     echo "These notes are for internal use; we do not plan to display them on the 'front end' website.";
     echo LINEBREAK;
-    html::span_end();
+    HTML::span_end();
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
     echo " To enter a publicly available note, please use the researchers' notes field instead.";
-    html::span_end();
+    HTML::span_end();
 
-    html::italic_end();
+    HTML::italic_end();
 
-    html::new_paragraph();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::div_end();
 
   }
   #-----------------------------------------------------
 
   function impact_bibliographic_refs_field() {  # also contains call to roles/titles functions
 
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
 
-    html::input_field( 'editors_notes', 'Bibliographic references and other notes', $this->editors_notes, 
+    HTML::input_field( 'editors_notes', 'Bibliographic references and other notes', $this->editors_notes, 
                         FALSE, PERSON_PRIMARY_NAME_FLD_SIZE );
-    html::div_end();
+    HTML::div_end();
 
     $this->proj_publication_popups( $calling_field = 'editors_notes' );
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
   function further_reading_field() {
 
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
 
     $this->proj_textarea( 'further_reading', FURTHER_READING_ROWS, FURTHER_READING_COLS,
                           $value = $this->further_reading, $label = "Bibliographical information" );
-    html::div_end();
+    HTML::div_end();
 
     $this->proj_publication_popups( $calling_field = 'further_reading' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
   }
   #-----------------------------------------------------
@@ -2443,33 +2443,33 @@ class Person extends Project {
 
   function impact_synonyms_field() {
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
-    html::input_field( 'skos_altlabel', 'Alternative names', 
+    HTML::input_field( 'skos_altlabel', 'Alternative names', 
                        $this->skos_altlabel, FALSE, PERSON_PRIMARY_NAME_FLD_SIZE );
 
 
     if( $this->app_get_class( $this ) != 'popup_person' && $this->app_get_class( $this ) != 'popup_organisation' ) {
       echo LINEBREAK;
-      html::span_start( 'class="workfieldaligned"' );
+      HTML::span_start( 'class="workfieldaligned"' );
     }
     else
-      html::new_paragraph();
+      HTML::new_paragraph();
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Please use this field for variations, e.g. Kamalpashazada vs. Ibn Kamal Basha.';
-    html::italic_end();
-    if( $this->app_get_class( $this ) != 'popup_person' && $this->app_get_class( $this ) != 'popup_organisation' ) html::span_end();
+    HTML::italic_end();
+    if( $this->app_get_class( $this ) != 'popup_person' && $this->app_get_class( $this ) != 'popup_organisation' ) HTML::span_end();
 
-    html::new_paragraph();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
   function aliases_field() {
 
     $this->person_role_categories_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $msg = 'Please use this field for titles and career-related details such as '
          . " '5th Earl of Aylesbury' or 'Bishop of Chester 1650-1680'.";
@@ -2490,29 +2490,29 @@ class Person extends Project {
 
   function impact_roles_and_titles_field() {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->person_role_categories_field();
 
-    html::new_paragraph();
-    html::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
 
-    html::input_field( 'person_aliases', 'Further details of professions / titles', 
+    HTML::input_field( 'person_aliases', 'Further details of professions / titles', 
                         $this->person_aliases, 
                         FALSE, PERSON_PRIMARY_NAME_FLD_SIZE );
 
     if( ! $this->is_organisation ) {
       echo LINEBREAK;
-      html::italic_start();
+      HTML::italic_start();
 
-      html::span_start( 'class="workfieldaligned"' );
+      HTML::span_start( 'class="workfieldaligned"' );
       echo "E.g. 'Made chair of Madrasa al-'Aziziyya by al-Malik al-Mu'azzaa, 617/1220-1.'";
-      html::span_end();
+      HTML::span_end();
 
-      html::italic_end();
+      HTML::italic_end();
     }
     echo LINEBREAK . LINEBREAK;
-    html::div_end();
+    HTML::div_end();
 
   }
   #-----------------------------------------------------
@@ -2532,45 +2532,45 @@ class Person extends Project {
       $this->$fieldname .= $line;
     }
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
-    html::textarea( $fieldname, 
+    HTML::textarea( $fieldname, 
                     $rows = PERSON_ALTERNATIVE_NAME_ROWS, 
                     $cols = PERSON_PRIMARY_NAME_FLD_SIZE, 
                     $value = $this->$fieldname, 
                     $label = $label_plural );
 
-    html::new_paragraph();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::div_end();
     
-    html::italic_start();
+    HTML::italic_start();
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
     echo $msg;
-    html::span_end();
+    HTML::span_end();
     echo LINEBREAK;
 
     if( $msg2 ) {
-      html::span_start( 'class="workfieldaligned"' );
+      HTML::span_start( 'class="workfieldaligned"' );
       echo $msg2;
-      html::span_end();
+      HTML::span_end();
       echo LINEBREAK;
     }
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
     echo "Please put each $label_singular on a separate line.";
-    html::new_paragraph();
-    html::span_end();
-    html::italic_end();
+    HTML::new_paragraph();
+    HTML::span_end();
+    HTML::italic_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield"' );
-    html::submit_button( 'save_button_' . $fieldname, 'Save' );
-    html::div_end();
+    HTML::div_start( 'class="workfield"' );
+    HTML::submit_button( 'save_button_' . $fieldname, 'Save' );
+    HTML::div_end();
 
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -2613,7 +2613,7 @@ class Person extends Project {
                                              $date_range_help = array( '(Tick this box if the date'
                                              . ' of birth cannot be narrowed down to a single year.)' ),
                                              $display_calendars_in_main_fieldset = TRUE );
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -2655,7 +2655,7 @@ class Person extends Project {
                                              $date_range_help = array( '(Tick this box if the date'
                                              . ' of death cannot be narrowed down to a single year.)' ),
                                              $display_calendars_in_main_fieldset = TRUE );
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -2697,7 +2697,7 @@ class Person extends Project {
                                              . ' or organisation is known to have been active'
                                              . ' for more than one year.)' ),
                                              $display_calendars_in_main_fieldset = TRUE );
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -2753,11 +2753,11 @@ class Person extends Project {
     $entries_per_page = $this->read_post_parm( 'entries_per_page' );
     $record_layout = $this->read_post_parm( 'record_layout' );
 
-    html::hidden_field( 'simplified_search', $simplified_search );
-    html::hidden_field( 'order_by', $order_by );
-    html::hidden_field( 'sort_descending', $sort_descending );
-    html::hidden_field( 'entries_per_page', $entries_per_page );
-    html::hidden_field( 'record_layout', $record_layout );
+    HTML::hidden_field( 'simplified_search', $simplified_search );
+    HTML::hidden_field( 'order_by', $order_by );
+    HTML::hidden_field( 'sort_descending', $sort_descending );
+    HTML::hidden_field( 'entries_per_page', $entries_per_page );
+    HTML::hidden_field( 'record_layout', $record_layout );
 
     $myclass = $this->app_get_class( $this );  # use different object to repeat query, so don't overwrite info needed for merge
     $parmwriter = new $myclass( $this->db_connection );
@@ -2796,7 +2796,7 @@ class Person extends Project {
                                           $include_date_fields = TRUE );
 
     if( $this->get_system_prefix() == IMPACT_SYS_PREFIX ) {
-      html::new_paragraph();
+      HTML::new_paragraph();
       $this->proj_notes_field( RELTYPE_COMMENT_REFERS_TO_MEMBERS_OF_ORG, 'Further details of affiliates:' );
     }
   }
@@ -2806,17 +2806,17 @@ class Person extends Project {
                                
     $this->proj_single_place_entry_field( $fieldset_name=$this->fieldset_name_for_place_of_birth(), $core_desc='birthplace', 
                                           $decode_field_label = 'Birthplace (or place of formation for organisations)');
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->proj_single_place_entry_field( $fieldset_name=$this->fieldset_name_for_place_of_death(), $core_desc='place of death',
                                           $decode_field_label = 'Place of death (or of cessation if an organisation)'); 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     
-    html::bold_start();
+    HTML::bold_start();
     echo 'Other locations:';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
 
 
     $this->proj_edit_area_calling_popups( $fieldset_name = $this->fieldset_name_for_person_locations(), 
@@ -2835,9 +2835,9 @@ class Person extends Project {
     if( $this->get_system_prefix() == IMPACT_SYS_PREFIX ) {
       $this->proj_notes_field( RELTYPE_COMMENT_REFERS_TO_RELATIONSHIPS_OF_PERSON,
                               'Bibliographic references and other notes on relationships:' );
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
     }
 
     $this->in_person_to_person_section = TRUE;
@@ -2871,16 +2871,16 @@ class Person extends Project {
 
     # Extra anchor for use with the 'Save and Continue' button
     $extra_anchor = $fieldset_name;
-    html::anchor( $extra_anchor . '_anchor' );
+    HTML::anchor( $extra_anchor . '_anchor' );
     $this->extra_anchors[] = $extra_anchor;
 
     # Navigation links
     $this->proj_form_section_links( $subsection_name, $heading_level = 0 );
 
     if( $section_heading ) {
-      html::h4_start();
+      HTML::h4_start();
       echo $section_heading;
-      html::h4_end();
+      HTML::h4_end();
     }
 
     $this->proj_edit_area_calling_popups( $fieldset_name,
@@ -2890,13 +2890,13 @@ class Person extends Project {
                                           $popup_object_name = 'popup_person', 
                                           $popup_object_class = 'popup_person',
                                           $include_date_fields );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->save_button( $prefix = $fieldset_name, $start_new_div = TRUE, 
                         $save_and_continue_parms = 'class="workfield_save_button"' );
 
     if( ! $last_subsection ) {
-      html::horizontal_rule();
+      HTML::horizontal_rule();
     }
   }
   #-----------------------------------------------------
@@ -2993,21 +2993,21 @@ class Person extends Project {
     if( ! $this->iperson_id ) return;
     if( $this->menu_called_as_popup ) return;  # don't offer deletion in a popup window, just gets too messy
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::form_start( 'person', 'confirm_person_deletion' );
-    html::hidden_field( 'person_id', $this->person_id );
-    html::hidden_field( 'iperson_id', $this->iperson_id );
+    HTML::form_start( 'person', 'confirm_person_deletion' );
+    HTML::hidden_field( 'person_id', $this->person_id );
+    HTML::hidden_field( 'iperson_id', $this->iperson_id );
 
     echo 'Delete this person/organisation? ';
-    html::submit_button( 'delete_button', 'Delete' );
+    HTML::submit_button( 'delete_button', 'Delete' );
 
-    html::italic_start();
+    HTML::italic_start();
     echo ' (Confirmation will be requested before the deletion takes place.)';
-    html::italic_end();
-    html::form_end();
+    HTML::italic_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -3023,13 +3023,13 @@ class Person extends Project {
 
     if( $this->person_id != $this->read_post_parm( 'person_id' )) $this->die_on_error( $invalid_input_msg );
 
-    html::form_start( 'person', 'delete_person' );
-    html::hidden_field( 'person_id', $this->person_id );
-    html::hidden_field( 'iperson_id', $this->iperson_id );
+    HTML::form_start( 'person', 'delete_person' );
+    HTML::hidden_field( 'person_id', $this->person_id );
+    HTML::hidden_field( 'iperson_id', $this->iperson_id );
 
-    html::h3_start();
+    HTML::h3_start();
     echo "Person or organisation to be deleted:";
-    html::h3_end();
+    HTML::h3_end();
     echo $this->foaf_name;
 
     if( $this->skos_altlabel ) {
@@ -3042,24 +3042,24 @@ class Person extends Project {
       $this->echo_safely_with_linebreaks( $this->person_aliases );
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="warning"' );
-    html::h3_start();
+    HTML::div_start( 'class="warning"' );
+    HTML::h3_start();
     echo "To delete, first tick the 'Confirm Deletion' checkbox then click the 'Delete' button.";
-    html::h3_end();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
 
-    html::checkbox( $fieldname = 'confirm_deletion',
+    HTML::checkbox( $fieldname = 'confirm_deletion',
                     $label = 'Tick to confirm deletion of this person/organisation',
                     $is_checked = FALSE,
                     $value_when_checked = 1 );
-    html::new_paragraph();
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::submit_button( 'delete_button', 'Delete' );
+    HTML::new_paragraph();
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::submit_button( 'delete_button', 'Delete' );
 
-    html::div_end();
-    html::form_end();
+    HTML::div_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -3086,12 +3086,12 @@ class Person extends Project {
     }
 
     if( ! $proceed_with_deletion ) {
-      html::new_paragraph();
-      html::div_start( 'class = "warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class = "warning"' );
       $this->echo_safely( "Person/organisation '$this->foaf_name' (ID $this->iperson_id) was NOT deleted." );
       echo LINEBREAK . $msg . LINEBREAK;
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
       $this->edit_person();
       return;
     }
@@ -3146,12 +3146,12 @@ class Person extends Project {
     $statement = 'COMMIT';
     $this->db_run_query( $statement );
 
-    html::div_start( 'class="warning"' );
+    HTML::div_start( 'class="warning"' );
     $this->echo_safely( "Person '$this->foaf_name' (ID $this->iperson_id) has been deleted." );
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
     echo 'Returning to search...';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->write_post_parm( 'person_id', NULL );
     $this->write_post_parm( 'iperson_id', NULL ); # so that these do not appear in the search form

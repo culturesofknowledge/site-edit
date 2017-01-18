@@ -136,14 +136,14 @@ class Publication extends Project {
     $this->db_run_query( $statement );
 
     if( $display_status_msg ) {
-      html::div_start( 'class="warning"' );
+      HTML::div_start( 'class="warning"' );
       echo 'Deleted ' . $publication_desc;
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
       echo 'Returning to search mode...';
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
     }
 
     $this->write_post_parm( 'clear_search_button', 'Search' ); 
@@ -154,7 +154,7 @@ class Publication extends Project {
 
     echo "Enter some details of the required publication (e.g. part or all of the author's name or the publication title)"
          . ' and click Search or press Return.';
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -187,27 +187,27 @@ class Publication extends Project {
 
     $this->publication_entry_stylesheets();
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'save_publication' );
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'save_publication' );
 
-    html::hidden_field( 'opening_method', $opening_method );
+    HTML::hidden_field( 'opening_method', $opening_method );
     $focus_script = NULL;
 
     if( ! $new_record ) {
-      html::italic_start();
+      HTML::italic_start();
       echo 'Publication ID ' . $this->publication_id 
            . '. Last changed ' . $this->postgres_date_to_words( $this->change_timestamp )
            . ' by ' . $this->change_user . ' ';
-      html::italic_end();
+      HTML::italic_end();
 
       $focus_script = $this->proj_write_post_save_refresh_button( $just_saved, $opening_method );
-      html::new_paragraph();
-      html::horizontal_rule();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
 
-      html::hidden_field( 'publication_id', $publication_id );
+      HTML::hidden_field( 'publication_id', $publication_id );
 
-      html::h3_start();
+      HTML::h3_start();
       echo 'Change existing details:';
-      html::h3_end();
+      HTML::h3_end();
     }
 
     if( $this->failed_validation ) {  # read values from POST and re-display
@@ -225,31 +225,31 @@ class Publication extends Project {
 
     $this->abbreviation_field();
 
-    html::span_start( 'class="workfieldaligned"' );
-    html::submit_button( 'save_button', 'Save' );
-    html::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
+    HTML::span_start( 'class="workfieldaligned"' );
+    HTML::submit_button( 'save_button', 'Save' );
+    HTML::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
 
     if( ! $this->is_popup_publication() )
-      html::submit_button( 'clear_search_button', 'Search' );
-    html::span_end();
+      HTML::submit_button( 'clear_search_button', 'Search' );
+    HTML::span_end();
 
 
     if( ! $new_record ) {
-      html::new_paragraph();
-      html::italic_start();
+      HTML::new_paragraph();
+      HTML::italic_start();
       echo 'Please note: changes to the details shown here will not affect the printed edition details'
            . ' of any existing works/manifestations.';
       echo LINEBREAK;
       echo "The publication details shown here will simply be used in a 'pick-list'"
            . " to help save you unnecessary typing in future.";
-      html::italic_end();
+      HTML::italic_end();
 
       $this->offer_deletion();
     }
 
-    html::form_end();
+    HTML::form_end();
 
-    if( $focus_script ) html::write_javascript_function( $focus_script );
+    if( $focus_script ) HTML::write_javascript_function( $focus_script );
   }
   #-----------------------------------------------------
 
@@ -261,35 +261,35 @@ class Publication extends Project {
 
   function offer_deletion() {
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::h3_start();
+    HTML::h3_start();
     echo 'Or delete publication details:';
-    html::h3_end();
+    HTML::h3_end();
 
     echo 'These publication details can be deleted if they are not needed in future pick-lists. This will ';
-    html::bold_start();
+    HTML::bold_start();
     echo 'not';
-    html::bold_end();
+    HTML::bold_end();
     echo ' have any effect on the details of existing works/manifestations.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo "To delete these publication details, you need both to tick the 'Confirm deletion' checkbox ";
-    html::italic_start();
+    HTML::italic_start();
     echo 'and';
-    html::italic_end();
+    HTML::italic_end();
     echo " click the 'Delete' button.";
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::span_start( 'class="bold"' );
-    html::checkbox( $fieldname = 'confirm_deletion', $label = 'Confirm deletion', $is_checked = FALSE );
-    html::span_end();
-    html::new_paragraph();
+    HTML::span_start( 'class="bold"' );
+    HTML::checkbox( $fieldname = 'confirm_deletion', $label = 'Confirm deletion', $is_checked = FALSE );
+    HTML::span_end();
+    HTML::new_paragraph();
 
-    html::submit_button( 'delete_button', 'Delete' );
-    html::new_paragraph();
+    HTML::submit_button( 'delete_button', 'Delete' );
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -300,26 +300,26 @@ class Publication extends Project {
       $this->write_post_parm( 'clear_search_button', 'Search' );
 
     if( $this->parm_found_in_post( 'clear_search_button' )) {
-      html::h4_start();
+      HTML::h4_start();
       echo 'Edit cancelled.';
-      html::h4_end();
-      html::new_paragraph();
+      HTML::h4_end();
+      HTML::new_paragraph();
       $this->db_search();
       return;
     }
 
     elseif( $this->parm_found_in_post( 'delete_button' )) {
       if( ! $this->parm_found_in_post( 'confirm_deletion' )) {
-        html::div_start( 'class="errmsg"' );
+        HTML::div_start( 'class="errmsg"' );
         echo "You did not tick the 'Confirm Deletion' checkbox, so the record was not deleted.";
-        html::div_end();
-        html::new_paragraph();
+        HTML::div_end();
+        HTML::new_paragraph();
         $this->edit_publication( $new_record = FALSE, $just_saved = FALSE );
       }
       else {
         $publication_id = $this->read_post_parm( 'publication_id' );
         $this->perform_delete_publication( $publication_id, $display_status_msg = TRUE );
-        html::new_paragraph();
+        HTML::new_paragraph();
         $this->db_search();
       }
       return;
@@ -398,9 +398,9 @@ class Publication extends Project {
       flush();
       $this->db_run_query( $statement );
 
-      html::h4_start();
+      HTML::h4_start();
       echo 'Any changes have been saved.';
-      html::h4_end();
+      HTML::h4_end();
     }
   }
   #-----------------------------------------------------
@@ -458,29 +458,29 @@ class Publication extends Project {
     $statement = 'insert into ' . $this->proj_publication_tablename() . " ( $col_statement ) values ( $val_statement )";
     $this->db_run_query( $statement );
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'New publication has been saved.';
-    html::h4_end();
+    HTML::h4_end();
 
     if( $this->is_popup_publication() )
       return $publication_id;
 
-    html::div_start( 'class="buttonrow"' );
+    HTML::div_start( 'class="buttonrow"' );
 
-    html::form_start( $this->app_get_class( $this ), 'add_publication' );
+    HTML::form_start( $this->app_get_class( $this ), 'add_publication' );
     echo 'Add another new publication? ';
-    html::submit_button( 'add_another_new_button', 'New' );
-    html::form_end();
+    HTML::submit_button( 'add_another_new_button', 'New' );
+    HTML::form_end();
 
     echo ' ';
 
-    html::form_start( $this->app_get_class( $this ), 'db_search' );
+    HTML::form_start( $this->app_get_class( $this ), 'db_search' );
     echo 'Return to search? ';
-    html::submit_button( 'return_to_search_button', 'Search' );
-    html::form_end();
+    HTML::submit_button( 'return_to_search_button', 'Search' );
+    HTML::form_end();
 
     echo LINEBREAK;
-    html::div_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -532,50 +532,50 @@ class Publication extends Project {
 
   function publication_details_field() {
 
-    html::div_start( 'class="workfield boldlabel"' );
+    HTML::div_start( 'class="workfield boldlabel"' );
     echo LINEBREAK;
 
     if( ! $this->publication_id ) {
-      html::italic_start();
+      HTML::italic_start();
       echo "Any details entered here will be made available on 'pick-lists' to save you typing" 
            . ' when entering the printed edition details of works/manifestations.';
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
     }
 
     $this->proj_textarea( 'publication_details', PUBLICATION_DETAILS_ROWS, PUBLICATION_DETAILS_COLS,
                           $value = $this->publication_details, $label = 'Publication details*' );
     echo LINEBREAK;
 
-    html::span_start( 'class="workfieldaligned"' );
-    html::italic_start();
+    HTML::span_start( 'class="workfieldaligned"' );
+    HTML::italic_start();
     echo '(e.g. author(s)/editor(s), title, place and year of publication)';
-    html::italic_end();
-    html::span_end();
+    HTML::italic_end();
+    HTML::span_end();
 
-    html::new_paragraph();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
 
   function abbreviation_field() {
 
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
 
-    html::input_field( 'abbrev', 'Abbreviation', $this->abbrev, 
+    HTML::input_field( 'abbrev', 'Abbreviation', $this->abbrev, 
                        $in_table = FALSE, $size = NULL, $tabindex = 1, $label_parms = NULL, $data_parms = NULL, 
                        $input_parms = 'MAXLENGTH="' . PUBLICATION_ABBREV_MAX_LENGTH . '"' );
 
-    html::span_start( 'class="narrowspaceonleft"' );
-    html::italic_start();
+    HTML::span_start( 'class="narrowspaceonleft"' );
+    HTML::italic_start();
     echo ' (optional, max. 50 characters)';
-    html::italic_end();
-    html::span_end();
+    HTML::italic_end();
+    HTML::span_end();
 
-    html::new_paragraph();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 

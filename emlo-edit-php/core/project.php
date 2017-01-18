@@ -740,7 +740,7 @@ class Project extends DBEntity {
     echo ' }'                                                                 . NEWLINE;
 
     echo ' span.popupinputfield input {'                                      . NEWLINE;
-    echo '   background-color: ' .  html::header_background_colour() . ';'    . NEWLINE;
+    echo '   background-color: ' .  HTML::header_background_colour() . ';'    . NEWLINE;
     echo ' }'                                                                 . NEWLINE;
 
     echo ' span.popupinputfield label {'                      . NEWLINE;
@@ -759,12 +759,12 @@ class Project extends DBEntity {
     echo '   padding: 8px;'                                   . NEWLINE;
     echo '   font-size: 11pt; '                               . NEWLINE;
     echo '   text-align: right; '                             . NEWLINE;
-    echo '   background-color: ' .  html::get_highlight2_colour() . ';' . NEWLINE;
+    echo '   background-color: ' .  HTML::get_highlight2_colour() . ';' . NEWLINE;
     echo ' }'                                                 . NEWLINE;
 
     echo ' td.entityrels {'                                   . NEWLINE; 
     echo '   padding: 3px;'                                   . NEWLINE;
-    echo '   background-color: ' .  html::header_background_colour() . ';'    
+    echo '   background-color: ' .  HTML::header_background_colour() . ';'    
                                                               . NEWLINE;
     echo ' }'                                                 . NEWLINE;
 
@@ -783,7 +783,7 @@ class Project extends DBEntity {
 
     echo ' td.delchecked { '                                    . NEWLINE; 
     echo '   padding: 8px;'                                   . NEWLINE;
-    echo '   background-color: ' . html::header_background_colour() . ';' . NEWLINE;
+    echo '   background-color: ' . HTML::header_background_colour() . ';' . NEWLINE;
     echo '   font-weight: bold; '                             . NEWLINE;
     echo ' }'                                                 . NEWLINE;
 
@@ -818,7 +818,7 @@ class Project extends DBEntity {
     #----
 
     echo ' td.editing_manif {'                                                . NEWLINE;
-    echo '   background-color: ' .  html::header_background_colour() . ';'    . NEWLINE;
+    echo '   background-color: ' .  HTML::header_background_colour() . ';'    . NEWLINE;
 #-- garbles Arabic script etc to try and put it into italic
 #-- echo '   font-style: italic;'                                             . NEWLINE;
     echo ' }'                                                                 . NEWLINE;
@@ -847,7 +847,7 @@ class Project extends DBEntity {
     #----
 
     echo ' span.highlighted, textarea.highlighted, input.highlighted {'       . NEWLINE;
-    echo '   background-color: ' .  html::header_background_colour() . ';'    . NEWLINE;
+    echo '   background-color: ' .  HTML::header_background_colour() . ';'    . NEWLINE;
     echo ' }'                                                                 . NEWLINE;
 
     echo ' .boldlabel label  {'                               . NEWLINE;
@@ -873,14 +873,14 @@ class Project extends DBEntity {
     echo '<style type="text/css">' . NEWLINE;
 
     echo ' div.tabform { '                                                     . NEWLINE;
-    echo '   background-color: ' . html::header_background_colour() . ';'      . NEWLINE;
+    echo '   background-color: ' . HTML::header_background_colour() . ';'      . NEWLINE;
     echo '   -margin-top: 30px;'                                                . NEWLINE;
     echo '   -margin-bottom: 30px;'                                             . NEWLINE;
     echo '   padding: 0px;'                                                    . NEWLINE; 
     echo ' }'                                                                  . NEWLINE;
 
     echo ' div.tabrow {'                                                       . NEWLINE;
-    echo '   background-color: ' . html::header_background_colour() . ';'      . NEWLINE;
+    echo '   background-color: ' . HTML::header_background_colour() . ';'      . NEWLINE;
     echo '   padding: 0px;'                                                    . NEWLINE; 
     echo '   margin-bottom: 0px;'                                              . NEWLINE; 
     echo ' }'                                                                  . NEWLINE;
@@ -898,15 +898,15 @@ class Project extends DBEntity {
 
     echo '   border-left-style: solid;'                                       . NEWLINE;
     echo '   border-left-width: 1px;'                                         . NEWLINE;
-    echo '   border-left-color: ' . html::get_contrast1_colour() . ';'        . NEWLINE;
+    echo '   border-left-color: ' . HTML::get_contrast1_colour() . ';'        . NEWLINE;
 
     echo '   border-right-style: solid;'                                      . NEWLINE;
     echo '   border-right-width: 1px;'                                        . NEWLINE;
-    echo '   border-right-color: ' . html::get_contrast1_colour() . ';'       . NEWLINE;
+    echo '   border-right-color: ' . HTML::get_contrast1_colour() . ';'       . NEWLINE;
 
     echo '   border-top-style: solid;'                                        . NEWLINE;
     echo '   border-top-width: 1px;'                                          . NEWLINE;
-    echo '   border-top-color: ' . html::get_contrast1_colour() . ';'         . NEWLINE;
+    echo '   border-top-color: ' . HTML::get_contrast1_colour() . ';'         . NEWLINE;
 
     echo '   border-bottom-style: solid;'                                     . NEWLINE;
     echo '   border-bottom-width: 1px;'                                       . NEWLINE;
@@ -928,19 +928,19 @@ class Project extends DBEntity {
 
     echo '   border-left-style: solid;'                                        . NEWLINE;
     echo '   border-left-width: 1px;'                                          . NEWLINE;
-    echo '   border-left-color: ' . html::get_contrast1_colour() . ';'         . NEWLINE;
+    echo '   border-left-color: ' . HTML::get_contrast1_colour() . ';'         . NEWLINE;
 
     echo '   border-right-style: solid;'                                       . NEWLINE;
     echo '   border-right-width: 1px;'                                         . NEWLINE;
-    echo '   border-right-color: ' . html::get_contrast1_colour() . ';'        . NEWLINE;
+    echo '   border-right-color: ' . HTML::get_contrast1_colour() . ';'        . NEWLINE;
 
     echo '   border-top-style: solid;'                                         . NEWLINE;
     echo '   border-top-width: 1px;'                                           . NEWLINE;
-    echo '   border-top-color: ' . html::get_contrast1_colour() . ';'          . NEWLINE;
+    echo '   border-top-color: ' . HTML::get_contrast1_colour() . ';'          . NEWLINE;
 
     echo '   border-bottom-style: solid;'                                      . NEWLINE;
     echo '   border-bottom-width: 1px;'                                        . NEWLINE;
-    echo '   border-bottom-color: ' . html::get_contrast1_colour() . ';'       . NEWLINE;
+    echo '   border-bottom-color: ' . HTML::get_contrast1_colour() . ';'       . NEWLINE;
 
     echo '   border-top-left-radius:          5px;'                            . NEWLINE;
     echo '   -moz-border-top-left-radius:     5px;'                            . NEWLINE;
@@ -1215,7 +1215,7 @@ class Project extends DBEntity {
     $style = ' class="basic_checkbox" ';
     $parms .= $style;
 
-    html::checkbox( $fieldname, $label, $is_checked, $value_when_checked, $in_table = FALSE,
+    HTML::checkbox( $fieldname, $label, $is_checked, $value_when_checked, $in_table = FALSE,
                      $tabindex=1, $input_instance = NULL, $parms = $parms, $label_on_left );
   }
   #----------------------------------------------------------------------------------
@@ -1272,14 +1272,14 @@ class Project extends DBEntity {
 
     $results = $this->proj_get_entries_for_fieldgroup( $fieldset_name );
     $result_count = count( $results );
-    html::anchor( $fieldset_name );
+    HTML::anchor( $fieldset_name );
 
     if( $include_date_fields ) $this->proj_write_rel_date_fields_check_func( $fieldset_name );
 
     $heading_label_class = 'workfieldaligned';
     if( $separate_section ) {  # horizontal rule and bold heading
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
       $heading_label_class .= ' boldlabel';
     }
     else
@@ -1287,15 +1287,15 @@ class Project extends DBEntity {
 
     if( $section_heading ) {
       $heading_label_parms = 'class="' . $heading_label_class . '"';
-      html::span_start( $heading_label_parms );
-      html::label( $section_heading, $label_id=$fieldset_name . '_sectionhead' );
-      html::span_end();
-      html::new_paragraph();
+      HTML::span_start( $heading_label_parms );
+      HTML::label( $section_heading, $label_id=$fieldset_name . '_sectionhead' );
+      HTML::span_end();
+      HTML::new_paragraph();
     }
 
     if( $result_count >= 1 ) {
       $this->proj_edit_existing_rels( $fieldset_name, $results, $decode_display, $include_date_fields );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     $add_label = 'Add ';
@@ -1319,16 +1319,16 @@ class Project extends DBEntity {
                            $include_date_fields, $fieldset_name ); 
 
     if( $extra_notes ) {
-      html::new_paragraph();
-      html::italic_start();
+      HTML::new_paragraph();
+      HTML::italic_start();
       $this->echo_safely( $extra_notes );
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
     }
 
     if( $separate_section ) {
-      html::new_paragraph();
-      html::submit_button( 'save_' . $fieldset_name . '_button', 'Save', $tabindex = 1, 'class="workfield_save_button"' );
+      HTML::new_paragraph();
+      HTML::submit_button( 'save_' . $fieldset_name . '_button', 'Save', $tabindex = 1, 'class="workfield_save_button"' );
     }
   }
   #--------------------------------------------------------------
@@ -1342,12 +1342,12 @@ class Project extends DBEntity {
                                              $calling_field_initial_value = NULL,
                                              $include_date_fields = FALSE, $fieldgroup_name = NULL ) {
 
-    html::new_paragraph();
-    html::hidden_field( $calling_field, $calling_field_initial_value );
+    HTML::new_paragraph();
+    HTML::hidden_field( $calling_field, $calling_field_initial_value );
 
-    html::span_start( 'class="popupinputfield"' );
+    HTML::span_start( 'class="popupinputfield"' );
 
-    html::input_field( $decode_fieldname, 
+    HTML::input_field( $decode_fieldname, 
                        $decode_field_label, 
                        $decode_field_initial_value,
                        $in_table = FALSE, # handle this manually
@@ -1357,7 +1357,7 @@ class Project extends DBEntity {
                        $data_parms = NULL, 
                        $input_parms = 'READONLY' );
 
-    html::span_end(); # end CSS styling for input field
+    HTML::span_end(); # end CSS styling for input field
     echo ' ';
 
     if( ! $selection_method ) 
@@ -1378,42 +1378,42 @@ class Project extends DBEntity {
 
     $this->proj_extra_popup_buttons( $id_fieldname = $calling_field, $decode_fieldname );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $include_date_fields ) {
       $start_fieldname = $this->proj_start_fieldname_from_id_fieldname( $calling_field );
       $end_fieldname = $this->proj_end_fieldname_from_id_fieldname( $calling_field );
 
-      html::span_start( 'class="workfieldaligned"' );
+      HTML::span_start( 'class="workfieldaligned"' );
       echo 'Relevant dates: ';
 
       $check_function = $this->proj_get_funcname_for_rel_date_fields_check( $fieldgroup_name );
       $input_parms = 'onchange="' . $check_function . '( this, ' . "''" . ' )"';
 
-      html::span_start( 'class="narrowspaceonleft"' );
-      html::input_field( $start_fieldname, 'From', NULL, FALSE, $size=FLD_SIZE_RELATIONSHIP_DATES, 
+      HTML::span_start( 'class="narrowspaceonleft"' );
+      HTML::input_field( $start_fieldname, 'From', NULL, FALSE, $size=FLD_SIZE_RELATIONSHIP_DATES, 
                          $tabindex=1, NULL, NULL, $input_parms  ); 
-      html::span_end();
+      HTML::span_end();
 
       echo ' ';
 
-      html::span_start( 'class="narrowspaceonleft"' );
-      html::input_field( $end_fieldname, 'To', NULL, FALSE, $size=FLD_SIZE_RELATIONSHIP_DATES, 
+      HTML::span_start( 'class="narrowspaceonleft"' );
+      HTML::input_field( $end_fieldname, 'To', NULL, FALSE, $size=FLD_SIZE_RELATIONSHIP_DATES, 
                          $tabindex=1, NULL, NULL, $input_parms  ); 
-      html::span_end();
+      HTML::span_end();
 
-      html::span_start( 'class="narrowspaceonleft"' );
-      html::italic_start();
+      HTML::span_start( 'class="narrowspaceonleft"' );
+      HTML::italic_start();
       if( $this->get_system_prefix() == IMPACT_SYS_PREFIX )
         echo '(Enter CE year only, OR full date in dd/mm/yyyy format)';
       else
         echo '(Enter year only, OR full date in dd/mm/yyyy format)';
-      html::italic_end();
-      html::span_end();
+      HTML::italic_end();
+      HTML::span_end();
 
-      html::span_end();
+      HTML::span_end();
 
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
   }
   #-----------------------------------------------------
@@ -1546,16 +1546,16 @@ class Project extends DBEntity {
     echo ' }'                                                                      . NEWLINE;
     echo '</style>'                                                                . NEWLINE;
 
-    html::table_start( 'class="relationshiplist"' );
+    HTML::table_start( 'class="relationshiplist"' );
 
     foreach( $results as $entity_id => $rels ) {
 
-      html::tablerow_start();
+      HTML::tablerow_start();
 
       #--------------------------------------------
       # Display decode for one side of relationship
       #--------------------------------------------
-      html::tabledata_start( 'class="entitydesc ' . $entitydesc_style . '"' );
+      HTML::tabledata_start( 'class="entitydesc ' . $entitydesc_style . '"' );
 
       if( is_a( $popup_object, 'work' )) {
         $iwork_id = $popup_object->set_work_by_text_id( $entity_id );
@@ -1571,8 +1571,8 @@ class Project extends DBEntity {
       $this->echo_safely( $desc );
 
       $id_fieldname = $this->proj_id_fieldname_from_fieldset_name( $fieldset_name, $entity_id );
-      html::hidden_field( $id_fieldname, $entity_id );
-      html::tabledata_end();
+      HTML::hidden_field( $id_fieldname, $entity_id );
+      HTML::tabledata_end();
 
       #----------------------------------------------------
       # Checkboxes allowing selection of relationship types,
@@ -1584,13 +1584,13 @@ class Project extends DBEntity {
       $current_rel = 0;
 
       if( $include_date_fields || $display_checkboxes ) {
-        html::tabledata_start( 'class="entityrels"' );
-        html::table_start();
+        HTML::tabledata_start( 'class="entityrels"' );
+        HTML::table_start();
       }
 
 
       foreach( $relevant_relationship_types as $relationship_code => $label ) {
-        if( $include_date_fields || $display_checkboxes ) html::tablerow_start();
+        if( $include_date_fields || $display_checkboxes ) HTML::tablerow_start();
         $current_rel++;
 
         $rel_checkbox = $this->proj_make_rel_checkbox_name( $fieldset_name, $relationship_code, $entity_id );
@@ -1615,30 +1615,30 @@ class Project extends DBEntity {
             $checkbox_td_class = 'relunchecked';
           $action = '"showIfRelSelected( this, ' . "'$selection_td'" . ')"';
 
-          html::tabledata_start( 'class="entityrels ' . $checkbox_td_class . '" id="' . $selection_td . '"' );
-          html::checkbox( $rel_checkbox, $label, $is_checked, $value_when_checked = $relationship_code, FALSE, 1, NULL,
+          HTML::tabledata_start( 'class="entityrels ' . $checkbox_td_class . '" id="' . $selection_td . '"' );
+          HTML::checkbox( $rel_checkbox, $label, $is_checked, $value_when_checked = $relationship_code, FALSE, 1, NULL,
                           $parms = "onchange=$action onclick=$action" );
-          html::tabledata_end();
+          HTML::tabledata_end();
         }
         else {
           # If there is only one option, it can be a hidden field because the user does not need to change it.
-          html::hidden_field( $rel_checkbox, $relationship_code );
+          HTML::hidden_field( $rel_checkbox, $relationship_code );
         }
 
         #----------------
         # Start/end dates
         #----------------
         if( $include_date_fields ) {
-          html::tabledata_start( 'class="entityrels"' );  # start list of start/end dates
+          HTML::tabledata_start( 'class="entityrels"' );  # start list of start/end dates
           $this->proj_relationship_date_entry_fields( $fieldset_name, $entity_id, $relationship_code, $rel_checkbox );
-          html::tabledata_end();  # end list of start/end dates
+          HTML::tabledata_end();  # end list of start/end dates
         }
-        if( $include_date_fields || $display_checkboxes ) html::tablerow_end();
+        if( $include_date_fields || $display_checkboxes ) HTML::tablerow_end();
       }
 
       if( $include_date_fields || $display_checkboxes ) {
-        html::table_end();
-        html::tabledata_end();
+        HTML::table_end();
+        HTML::tabledata_end();
       }
 
       #------------------
@@ -1657,16 +1657,16 @@ class Project extends DBEntity {
         $deletion_td_style = 'delunchecked';
       }
         
-      html::tabledata_start( 'class="' . $deletion_td_style . '"  id="' . $deletion_td . '"' );
+      HTML::tabledata_start( 'class="' . $deletion_td_style . '"  id="' . $deletion_td . '"' );
       $label = "Delete from '$core_decode' list";
-      html::checkbox( $deletion_checkbox, $label, $is_checked, $value_when_checked = $entity_id, FALSE, 1, NULL, 
+      HTML::checkbox( $deletion_checkbox, $label, $is_checked, $value_when_checked = $entity_id, FALSE, 1, NULL, 
                       $parms = "onchange=$action onclick=$action" );
-      html::tabledata_end();
+      HTML::tabledata_end();
 
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
 
-    html::table_end();
+    HTML::table_end();
   }
   #----------------------------------------------------------------------------------
 
@@ -1714,10 +1714,10 @@ class Project extends DBEntity {
     $check_function = $this->proj_get_funcname_for_rel_date_fields_check( $fieldgroup_name );
     $input_parms = 'onchange="' . $check_function . '( this, ' . "'$rel_checkbox'" . ' )"';
 
-    html::input_field( $start_fieldname, 'From', $start_date, FALSE, $size=FLD_SIZE_RELATIONSHIP_DATES, 
+    HTML::input_field( $start_fieldname, 'From', $start_date, FALSE, $size=FLD_SIZE_RELATIONSHIP_DATES, 
                        $tabindex=1, NULL, NULL, $input_parms );
     echo ' ';
-    html::input_field( $end_fieldname, 'To', $end_date, FALSE, $size=FLD_SIZE_RELATIONSHIP_DATES, 
+    HTML::input_field( $end_fieldname, 'To', $end_date, FALSE, $size=FLD_SIZE_RELATIONSHIP_DATES, 
                        $tabindex=1, NULL, NULL, $input_parms );
   }
   #----------------------------------------------------------------------------------
@@ -1809,7 +1809,7 @@ class Project extends DBEntity {
             . '   } '                                                                   . NEWLINE
             . ' } '                                                                     . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #----------------------------------------------------------------------------------
 
@@ -1830,20 +1830,20 @@ class Project extends DBEntity {
     $script .= '   checkboxCell.className = newDisplayStyle;'                           . NEWLINE;
     $script .= ' }   '                                                                  . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     $script  = ' function showIfForDeletion( theCheckbox, tdName ) {   '                            . NEWLINE;  
     $script .= '   changeDisplayStyleOnClick( theCheckbox, tdName, "delchecked", "delunchecked" );' . NEWLINE;  
     $script .= ' }   '                                                                              . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     $script  = ' function showIfRelSelected( theCheckbox, tdName ) {   '                            . NEWLINE;  
     $script .= '   changeDisplayStyleOnClick( theCheckbox, tdName, "entityrels relchecked", "entityrels relunchecked" );'
                                                                                                     . NEWLINE;  
     $script .= ' }   '                                                                              . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
 
   #----------------------------------------------------------------------------------
@@ -1861,16 +1861,16 @@ class Project extends DBEntity {
 
     $add_method = $this->popup_publication->proj_initial_popup_add_method();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     #-------------------
     # 'Copy' button line
     #-------------------
-    html::span_start( 'class="workfieldaligned"' );
-    html::italic_start();
+    HTML::span_start( 'class="workfieldaligned"' );
+    HTML::italic_start();
     echo 'You can copy references from an existing list into the above field: ';
-    html::italic_end();
-    html::span_end();
+    HTML::italic_end();
+    HTML::span_end();
 
     # Decide whether to start the next little group of fields on a new line (if a popup window) or same line.
     $first_field_parms = 'class="narrowspaceonleft highlighted"';
@@ -1880,7 +1880,7 @@ class Project extends DBEntity {
       $first_field_parms = 'class="workfieldaligned highlighted"';
     }
 
-    html::span_start( $first_field_parms );
+    HTML::span_start( $first_field_parms );
 
     $this->popup_publication->app_popup_searchform_caller( $calling_form = $this->form_name, 
                                                            $calling_field, 
@@ -1889,54 +1889,54 @@ class Project extends DBEntity {
                                                            $view_desc = ' Full details: ' );
 
 
-    html::span_end();
+    HTML::span_end();
 
     #----
 
-    html::span_start( 'class="narrowspaceonleft highlighted"' );
+    HTML::span_start( 'class="narrowspaceonleft highlighted"' );
 
     $this->popup_publication_abbrev->app_popup_searchform_caller( $calling_form = $this->form_name, 
                                                                   $calling_field, 
                                                                   $method_to_call = $selection_method,
                                                                   $select_desc = NULL, 
                                                                   $view_desc = 'Abbreviation: ' );
-    html::span_end();
+    HTML::span_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     #-------------------
     # 'Add' button line
     #-------------------
     if( $this->popup_publication->proj_enable_popup_add_method()) {
 
-      html::span_start( 'class="workfieldaligned"' );
-      html::italic_start();
+      HTML::span_start( 'class="workfieldaligned"' );
+      HTML::italic_start();
       echo 'Or add a new reference to the list, then pick up full details or abbreviation: ';
-      html::italic_end();
-      html::span_end();
+      HTML::italic_end();
+      HTML::span_end();
 
       if( $this->string_starts_with( $calling_class, 'popup' )) 
         echo LINEBREAK;
 
-      html::span_start( $first_field_parms );
+      HTML::span_start( $first_field_parms );
 
       $this->popup_publication->app_popup_addform_caller( $calling_form = $this->form_name, 
                                                           $calling_field, 
                                                           $method_to_call = $add_method,
                                                           $option_desc = 'Full details: ' );
-      html::span_end();
+      HTML::span_end();
 
       #----
 
-      html::span_start( 'class="narrowspaceonleft highlighted"' );
+      HTML::span_start( 'class="narrowspaceonleft highlighted"' );
 
       $this->popup_publication_abbrev->app_popup_addform_caller( $calling_form = $this->form_name, 
                                                           $calling_field, 
                                                           $method_to_call = $add_method,
                                                           $option_desc = 'Abbreviation: ' );
 
-      html::span_end();
-      html::new_paragraph();
+      HTML::span_end();
+      HTML::new_paragraph();
     }
   }
   #----------------------------------------------------------------------------------
@@ -1964,34 +1964,34 @@ class Project extends DBEntity {
       }
 
       if( ! $anchor_exists ) {
-        html::anchor( $prefix . '_anchor' );  # create an anchor that we can return to after Save
+        HTML::anchor( $prefix . '_anchor' );  # create an anchor that we can return to after Save
       }
     }
 
     if( $prefix ) $prefix .= '_';
 
-    if( $new_paragraph ) html::new_paragraph();
+    if( $new_paragraph ) HTML::new_paragraph();
 
     #-------------------------
     # Save and Continue button
     #-------------------------
-    html::submit_button( $prefix . 'save_button', 'Save', $tabindex = 1, $parms );
-    html::span_start( 'class="highlight2"' );
+    HTML::submit_button( $prefix . 'save_button', 'Save', $tabindex = 1, $parms );
+    HTML::span_start( 'class="highlight2"' );
     echo ' (and continue here) ';
-    html::span_end();
+    HTML::span_end();
 
     #--------------------
     # Save and End button
     #--------------------
-    html::span_start( 'class="widespaceonleft"' );
+    HTML::span_start( 'class="widespaceonleft"' );
 
-    html::submit_button( $prefix . 'save_and_end_button', 'Save', $tabindex = 1, $save_and_end_parms );
-    html::span_start( 'class="highlight2"' );
+    HTML::submit_button( $prefix . 'save_and_end_button', 'Save', $tabindex = 1, $save_and_end_parms );
+    HTML::span_start( 'class="highlight2"' );
     echo ' (and return to top of page) ';
-    html::span_end(); # end highlight 2
-    html::span_end(); # end narrow space on left
+    HTML::span_end(); # end highlight 2
+    HTML::span_end(); # end narrow space on left
 
-    if( $new_paragraph ) html::new_paragraph();
+    if( $new_paragraph ) HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -2575,7 +2575,7 @@ class Project extends DBEntity {
     $value = str_replace( '</p>', NEWLINE, $value );
     $value = str_replace( '<lb/>', NEWLINE, $value );
 
-    html::textarea( $fieldname, $rows, $cols, $value, $label, $textarea_parms, $label_parms, $input_instance );
+    HTML::textarea( $fieldname, $rows, $cols, $value, $label, $textarea_parms, $label_parms, $input_instance );
   }
   #-----------------------------------------------------
   function proj_write_post_save_refresh_button( $just_saved = NULL, $opening_method = NULL ) {
@@ -2583,15 +2583,15 @@ class Project extends DBEntity {
     $focus_script = '';  # focus on 'Refresh' button if applicable
 
     if( $just_saved && $this->is_search_results_method( $opening_method )) {
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo "Click the 'Refresh' button to close the Edit tab and show the new details in the Search Results page: ";
-      html::button( 'refresh_caller_button', 'Refresh', $tabindex=1, 
+      HTML::button( 'refresh_caller_button', 'Refresh', $tabindex=1, 
                     'onclick="window.opener.location.reload(); self.close()"' );
-      html::new_paragraph();
-      html::italic_start();
+      HTML::new_paragraph();
+      HTML::italic_start();
       echo '(Note: you will be prompted to confirm that you want to reload the Search Results page. ';
       echo " It is fine to answer 'Yes' to this prompt.)";
-      html::italic_end();
+      HTML::italic_end();
 
       $focus_script = "document.$this->form_name.refresh_caller_button.focus()";
     }
@@ -2671,15 +2671,15 @@ class Project extends DBEntity {
 
     if( $curr_section ) $this->proj_form_section_anchor( $curr_section );
 
-    html::div_start( 'class="form_section_links_div"' );
+    HTML::div_start( 'class="form_section_links_div"' );
 
     $first = TRUE;
     foreach( $form_sections as $section => $display ) {
       if( ! $first ) echo ' | ';
-      html::link( '#' . $section . '_anchor', $display );
+      HTML::link( '#' . $section . '_anchor', $display );
       $first = FALSE;
     }
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $heading_level ) {
       $start_func = 'bold_start';
@@ -2692,13 +2692,13 @@ class Project extends DBEntity {
       }
       $desc = $form_sections[ "$curr_section" ];
       if( $desc ) {
-        html::$start_func();
+        HTML::$start_func();
         echo $desc . ':';
-        html::$end_func();
+        HTML::$end_func();
       }
     }
 
-    html::div_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -2708,7 +2708,7 @@ class Project extends DBEntity {
 
     if( $curr_section ) {
       if( key_exists( $curr_section, $form_sections ))
-        html::anchor( $curr_section . '_anchor' );
+        HTML::anchor( $curr_section . '_anchor' );
       else
         echo 'Did not find anchor ' . $curr_section;
     }
@@ -2745,12 +2745,12 @@ class Project extends DBEntity {
                            $decode_fieldname, $decode_field_label, $decode_field_initial_value,
                            NULL, NULL, $calling_field_value ); 
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $parms = 'onclick="document.' . $this->form_name . '.' . $calling_field    . ".value='';"
                     . 'document.' . $this->form_name . '.' . $decode_fieldname . ".value='';" . '"';
-    html::button( 'clear_' . $fieldset_name . '_button', 'X', $tabindex=1, $parms );
+    HTML::button( 'clear_' . $fieldset_name . '_button', 'X', $tabindex=1, $parms );
     echo ' (Click to blank out ' . $core_desc . ' on screen, then Save to finalise.)';
-    html::div_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -2960,21 +2960,21 @@ class Project extends DBEntity {
             . '      theListItem.className = ""; '                            . NEWLINE
             . '    } '                                                        . NEWLINE
             . '  } '                                                          . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
-    html::new_paragraph();
-    html::span_start('class="workfield"');
-    html::label( $list_label, $label_id = $checkbox_fieldname . 'list_label' );
-    html::span_end();
+    HTML::new_paragraph();
+    HTML::span_start('class="workfield"');
+    HTML::label( $list_label, $label_id = $checkbox_fieldname . 'list_label' );
+    HTML::span_end();
 
     if( $use_table ) {
-      html::table_start( 'class="' . $table_class . '"' );
-      html::tablerow_start();
-      html::tabledata_start();
+      HTML::table_start( 'class="' . $table_class . '"' );
+      HTML::tablerow_start();
+      HTML::tabledata_start();
       $curr_column = 1;
       $items_in_column = 0;
     }
-    html::ulist_start( 'class="' . $list_class . '"' );
+    HTML::ulist_start( 'class="' . $list_class . '"' );
 
     foreach( $all_possible_ids_and_descs as $possible_id => $possible_desc ) {
 
@@ -2987,7 +2987,7 @@ class Project extends DBEntity {
       if( in_array( $possible_id, $selected_ids )) $is_checked = TRUE;
       if( $is_checked ) $li_parms .= ' class="' . $selected_class . '"';
 
-      html::listitem_start( $li_parms );
+      HTML::listitem_start( $li_parms );
 
       $this->proj_echo_safely_checkbox( 
                       $fieldname = $checkbox_fieldname . $possible_id, 
@@ -2996,31 +2996,31 @@ class Project extends DBEntity {
                       $value_when_checked = $possible_id,
                       $tabindex = 1, $input_instance = NULL,
                       $chk_parms ); 
-      html::listitem_end();
+      HTML::listitem_end();
 
       if( $use_table ) {
         $items_in_column++;
         if( $items_in_column >= $num_possible_ids_and_descs / $num_columns ) {
           if( $curr_column < $num_columns ) {  # don't start a new column after you have reached the last column
-            html::ulist_end();
-            html::tabledata_end();
+            HTML::ulist_end();
+            HTML::tabledata_end();
 
             $items_in_column = 0;
             $curr_column++;
 
-            html::tabledata_start();
-            html::ulist_start( 'class="' . $list_class . '"' );
+            HTML::tabledata_start();
+            HTML::ulist_start( 'class="' . $list_class . '"' );
           }
         }
       }
     }
 
     if( $use_table ) {
-      html::table_end();
-      html::tablerow_end();
-      html::tabledata_end();
+      HTML::table_end();
+      HTML::tablerow_end();
+      HTML::tabledata_end();
     }
-    html::ulist_end();
+    HTML::ulist_end();
 
   }
   #-----------------------------------------------------
@@ -3029,7 +3029,7 @@ class Project extends DBEntity {
   function proj_echo_safely_checkbox( $fieldname, $label, $is_checked = NULL, $value_when_checked = 1, 
                                       $tabindex=1, $input_instance = NULL, $parms = NULL, $label_on_left = FALSE ) {
 
-    $field_id = html::field_id_from_fieldname( $fieldname, $input_instance );
+    $field_id = HTML::field_id_from_fieldname( $fieldname, $input_instance );
 
     echo NEWLINE;
 

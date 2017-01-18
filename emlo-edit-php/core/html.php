@@ -113,7 +113,7 @@ class HTML extends Application_Entity {
 
   function footer_text_colour() {
 
-    return html::header_text_colour();
+    return HTML::header_text_colour();
   }
   #-----------------------------------------------------------------
 
@@ -133,7 +133,7 @@ class HTML extends Application_Entity {
 
   function footer_background_colour() {
 
-    return html::header_background_colour();
+    return HTML::header_background_colour();
   }
   #-----------------------------------------------------------------
 
@@ -211,11 +211,11 @@ class HTML extends Application_Entity {
       echo ' }'                                                       . NEWLINE;
 
       echo ' a:link  {'                                               . NEWLINE; 
-      echo '   color: ' .  html::get_contrast1_colour() . ';'         . NEWLINE;
+      echo '   color: ' .  HTML::get_contrast1_colour() . ';'         . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
       echo ' a:active, a:hover, a:visited  {'                                      . NEWLINE; 
-      echo '   color: ' .  html::get_contrast2_colour( $for_cms_deployment ) . ';' . NEWLINE;
+      echo '   color: ' .  HTML::get_contrast2_colour( $for_cms_deployment ) . ';' . NEWLINE;
       echo ' }'                                                                    . NEWLINE;
 
       echo ' input, textarea {'                                       . NEWLINE;
@@ -226,16 +226,16 @@ class HTML extends Application_Entity {
       echo ' }'                                                       . NEWLINE;
 
       echo ' fieldset {'                                                      . NEWLINE;
-      echo '   background-color: ' .  html::header_background_colour() . ';'  . NEWLINE;
+      echo '   background-color: ' .  HTML::header_background_colour() . ';'  . NEWLINE;
       echo '   border-style: solid;'                                          . NEWLINE;
-      echo '   border-color: ' .  html::get_contrast1_colour() . ';'          . NEWLINE;
+      echo '   border-color: ' .  HTML::get_contrast1_colour() . ';'          . NEWLINE;
       echo '   border-width: 1px;'                                            . NEWLINE;
       echo '   padding: 5px;'                                                 . NEWLINE;
       echo ' }'                                                               . NEWLINE;
 
       echo ' legend {'                                                   . NEWLINE;
       echo '   font-weight: bold;'                                       . NEWLINE;
-      echo '   color: ' .  html::get_contrast1_colour() . ';'            . NEWLINE;
+      echo '   color: ' .  HTML::get_contrast1_colour() . ';'            . NEWLINE;
       echo '   margin-left: 20px;'                                       . NEWLINE;
       echo ' }'                                                          . NEWLINE;
 
@@ -261,15 +261,15 @@ class HTML extends Application_Entity {
       echo ' }'                                                       . NEWLINE;
 
       echo ' hr { ' . NEWLINE;
-      echo '   color: ' . html::get_contrast2_colour() . ';'              . NEWLINE;  # apparently used by IE
-      echo '   background-color: ' . html::get_contrast2_colour() . ';'   . NEWLINE;  # apparently used by Firefox
+      echo '   color: ' . HTML::get_contrast2_colour() . ';'              . NEWLINE;  # apparently used by IE
+      echo '   background-color: ' . HTML::get_contrast2_colour() . ';'   . NEWLINE;  # apparently used by Firefox
       echo '   height: 1px;'  . NEWLINE;
       echo '   border-style: none;'  . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
       echo ' hr.pale { '                                                   . NEWLINE;
-      echo '   color: ' . html::get_highlight1_colour() . ';'              . NEWLINE;  # apparently used by IE
-      echo '   background-color: ' . html::get_highlight1_colour() . ';'   . NEWLINE;  # apparently used by Firefox
+      echo '   color: ' . HTML::get_highlight1_colour() . ';'              . NEWLINE;  # apparently used by IE
+      echo '   background-color: ' . HTML::get_highlight1_colour() . ';'   . NEWLINE;  # apparently used by Firefox
       echo '   height: 1px;'                                               . NEWLINE;
       echo '   border-style: none;'                                        . NEWLINE;
       echo ' }'                                                            . NEWLINE;
@@ -279,12 +279,12 @@ class HTML extends Application_Entity {
       #--------
 
       echo ' .banner {'                                                                        . NEWLINE; 
-      echo '   color: ' . html::header_text_colour() . ';'                                     . NEWLINE;
-      echo '   background-color: ' .  html::header_background_colour() . ';'                   . NEWLINE;
+      echo '   color: ' . HTML::header_text_colour() . ';'                                     . NEWLINE;
+      echo '   background-color: ' .  HTML::header_background_colour() . ';'                   . NEWLINE;
       echo ' }'                                                                                . NEWLINE;
 
       echo ' .banner h1  {'                                           . NEWLINE; 
-      echo '   color: ' .  html::header_text_colour() . ';'           . NEWLINE;
+      echo '   color: ' .  HTML::header_text_colour() . ';'           . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
       echo ' .banner h1, .printbanner h1  {'                          . NEWLINE; 
@@ -294,20 +294,20 @@ class HTML extends Application_Entity {
       echo ' }'                                                       . NEWLINE;
 
       echo ' .banner h2 {'                                            . NEWLINE; 
-      echo '   color: ' .  html::header_text_colour() . ';'           . NEWLINE;
+      echo '   color: ' .  HTML::header_text_colour() . ';'           . NEWLINE;
       echo '   margin-left: 15px; '                                    . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
       echo ' .banner a:link, .banner a:visited  {'                    . NEWLINE; 
       echo '   font-weight: bold;'                                    . NEWLINE;
       echo '   text-decoration: none;'                                . NEWLINE;
-      echo '   color: ' .  html::header_text_colour() . ';'           . NEWLINE;
+      echo '   color: ' .  HTML::header_text_colour() . ';'           . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
       echo ' .banner a:active, .banner a:hover  {'                                 . NEWLINE; 
       echo '   font-weight: bold;'                                                 . NEWLINE;
       echo '   text-decoration: none;'                                             . NEWLINE;
-      echo '   color: ' .  html::get_contrast2_colour() . ';'                      . NEWLINE;
+      echo '   color: ' .  HTML::get_contrast2_colour() . ';'                      . NEWLINE;
       echo ' }'                                                                    . NEWLINE;
 
       echo ' .banner br, .printbanner br {'                                        . NEWLINE;
@@ -326,7 +326,7 @@ class HTML extends Application_Entity {
       echo ' }'                                                                            . NEWLINE;
 
       echo ' img.bannerlogo {'                                                             . NEWLINE;
-      echo '   border-color: ' .  html::header_background_colour() . ';'                   . NEWLINE;
+      echo '   border-color: ' .  HTML::header_background_colour() . ';'                   . NEWLINE;
       echo ' }'                                                                            . NEWLINE;
 
       echo ' img.printbannerlogo {'                                                        . NEWLINE;
@@ -342,8 +342,8 @@ class HTML extends Application_Entity {
       echo ' }'                                                       . NEWLINE;
 
       echo ' .banner input  {'                                                                 . NEWLINE;
-      echo '   color: ' . html::header_text_colour() . ' ;'                                    . NEWLINE;
-      echo '   background-color: ' .  html::header_background_colour() . ';'                   . NEWLINE;
+      echo '   color: ' . HTML::header_text_colour() . ' ;'                                    . NEWLINE;
+      echo '   background-color: ' .  HTML::header_background_colour() . ';'                   . NEWLINE;
       echo '   border-style: none;'                                                            . NEWLINE;
       echo '   border-width: 0px;'                                                             . NEWLINE;
       echo '   padding: 0px; '                                                                 . NEWLINE;
@@ -362,25 +362,25 @@ class HTML extends Application_Entity {
       echo ' }'                                                                                . NEWLINE;
 
       echo ' .footerlinks {'                                                                   . NEWLINE; 
-      echo '   color: '  .  html::footer_text_colour() . ';'                                   . NEWLINE;
-      echo '   background-color: ' . html::footer_background_colour() . ';'                    . NEWLINE;
+      echo '   color: '  .  HTML::footer_text_colour() . ';'                                   . NEWLINE;
+      echo '   background-color: ' . HTML::footer_background_colour() . ';'                    . NEWLINE;
       echo ' }'                                                                                . NEWLINE;
 
       echo ' .footerlinks a:link, .footerlinks a:visited  {'          . NEWLINE; 
       echo '   font-weight: bold;'                                    . NEWLINE;
       echo '   text-decoration: none;'                                . NEWLINE;
-      echo '   color: '  .  html::get_contrast1_colour() . ';'        . NEWLINE;
+      echo '   color: '  .  HTML::get_contrast1_colour() . ';'        . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
       echo ' .footerlinks a:active, .footerlinks a:hover  {'                       . NEWLINE; 
       echo '   font-weight: bold;'                                                 . NEWLINE;
       echo '   text-decoration: none;'                                             . NEWLINE;
-      echo '   color: ' .  html::get_contrast2_colour() . ';'                      . NEWLINE;
+      echo '   color: ' .  HTML::get_contrast2_colour() . ';'                      . NEWLINE;
       echo ' }'                                                                    . NEWLINE;
 
       echo ' .footnotes {'                                                         . NEWLINE; 
-      echo '   background-color: ' .  html::footer_background_colour() . ';'       . NEWLINE;
-      echo '   color: ' . html::footer_text_colour() . ';'                         . NEWLINE;
+      echo '   background-color: ' .  HTML::footer_background_colour() . ';'       . NEWLINE;
+      echo '   color: ' . HTML::footer_text_colour() . ';'                         . NEWLINE;
       echo ' }'                                                                    . NEWLINE;
 
       echo ' a.footimg img  {'                                        . NEWLINE; 
@@ -404,7 +404,7 @@ class HTML extends Application_Entity {
       echo '   font-weight: bold;'                                    . NEWLINE;
       echo '   font-size: 11pt;'                                      . NEWLINE;
       echo '   text-decoration: none;'                                . NEWLINE;
-      echo '   color: ' .  html::get_contrast1_colour() . ';'         . NEWLINE;
+      echo '   color: ' .  HTML::get_contrast1_colour() . ';'         . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
       echo ' .boldlink a:active, .boldlink a:hover, .boldlink a:visited, ';
@@ -412,7 +412,7 @@ class HTML extends Application_Entity {
       echo '   font-weight: bold;'                                                  . NEWLINE;
       echo '   font-size: 11pt;'                                                    . NEWLINE;
       echo '   text-decoration: none;'                                              . NEWLINE;
-      echo '   color: ' .  html::get_contrast2_colour( $for_cms_deployment ) . ';'  . NEWLINE;
+      echo '   color: ' .  HTML::get_contrast2_colour( $for_cms_deployment ) . ';'  . NEWLINE;
       echo ' }'                                                                     . NEWLINE;
 
       echo ' .bold {'                                                 . NEWLINE;
@@ -423,12 +423,12 @@ class HTML extends Application_Entity {
       # Reports menu
       #-------------
       echo ' .reportsmenu {'                                                             . NEWLINE;
-      echo '   background: ' .  html::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
+      echo '   background: ' .  HTML::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
       echo ' }'                                                                          . NEWLINE;
 
       echo ' .reportsmenu table {'                                                             . NEWLINE;
       echo '   border-left-style: solid;'                                                      . NEWLINE;
-      echo '   border-left-color: ' .  html::get_contrast1_colour( $for_cms_deployment ) . ';' . NEWLINE;
+      echo '   border-left-color: ' .  HTML::get_contrast1_colour( $for_cms_deployment ) . ';' . NEWLINE;
       echo '   border-left-width: 20px;'                                                       . NEWLINE;
       echo '   border-collapse: collapse;'                                                     . NEWLINE;
       echo ' }'                                                                                . NEWLINE;
@@ -456,19 +456,19 @@ class HTML extends Application_Entity {
       echo ' }'                                                       . NEWLINE;
 
       echo ' td.contrast1, th.contrast1 {'                                               . NEWLINE;
-      echo '   background: ' .  html::get_contrast1_colour( $for_cms_deployment ) . ';'  . NEWLINE;
+      echo '   background: ' .  HTML::get_contrast1_colour( $for_cms_deployment ) . ';'  . NEWLINE;
       echo ' }'                                                                          . NEWLINE;
 
       echo ' td.contrast2, th.contrast2 {'                                               . NEWLINE;
-      echo '   background: ' .  html::get_contrast2_colour( $for_cms_deployment ) . ';'  . NEWLINE;
+      echo '   background: ' .  HTML::get_contrast2_colour( $for_cms_deployment ) . ';'  . NEWLINE;
       echo ' }'                                                                          . NEWLINE;
 
       echo ' .highlight1 td, .highlight1 th {'                                           . NEWLINE;
-      echo '   background: ' .  html::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
+      echo '   background: ' .  HTML::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
       echo ' }'                                                                          . NEWLINE;
 
       echo ' .highlight2 td, .highlight2 th {'                                           . NEWLINE;
-      echo '   background: ' .  html::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
+      echo '   background: ' .  HTML::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
       echo ' }'                                                                          . NEWLINE;
 
       echo ' table.datatab {'                                         . NEWLINE;
@@ -527,14 +527,14 @@ class HTML extends Application_Entity {
 
       echo ' table.contrast1_boxed {'                                                     . NEWLINE;
       echo '   border-style: solid;'                                                      . NEWLINE;
-      echo '   border-color: ' .  html::get_contrast1_colour( $for_cms_deployment ) . ';' . NEWLINE;
+      echo '   border-color: ' .  HTML::get_contrast1_colour( $for_cms_deployment ) . ';' . NEWLINE;
       echo '   border-width: 1px;'                                                        . NEWLINE;
       echo '   border-collapse: collapse;'                                                . NEWLINE;
       echo ' }'                                                                           . NEWLINE;
 
       echo ' table.contrast2_boxed {'                                                     . NEWLINE;
       echo '   border-style: solid;'                                                      . NEWLINE;
-      echo '   border-color: ' .  html::get_contrast2_colour( $for_cms_deployment ) . ';' . NEWLINE;
+      echo '   border-color: ' .  HTML::get_contrast2_colour( $for_cms_deployment ) . ';' . NEWLINE;
       echo '   border-width: 1px;'                                                        . NEWLINE;
       echo '   border-collapse: collapse;'                                                . NEWLINE;
       echo ' }'                                                                           . NEWLINE;
@@ -562,7 +562,7 @@ class HTML extends Application_Entity {
 
     echo ' .searchablefields table {'                                                   . NEWLINE;
     echo '   border-style: solid;'                                                      . NEWLINE;
-    echo '   border-color: ' .  html::get_contrast1_colour( $for_cms_deployment ) . ';' . NEWLINE;
+    echo '   border-color: ' .  HTML::get_contrast1_colour( $for_cms_deployment ) . ';' . NEWLINE;
     echo '   border-width: 1px;'                                                        . NEWLINE;
     echo '   border-collapse: collapse;'                                                . NEWLINE;
     echo ' }'                                                                           . NEWLINE;
@@ -604,18 +604,23 @@ class HTML extends Application_Entity {
 
     echo ' .queryresults td {'                                      . NEWLINE;
     echo '    border-style: solid;'                                 . NEWLINE;
-    echo '    border-width: 1px;'                                   . NEWLINE;
-    echo '    border-color: black;'                                 . NEWLINE;
-    echo '    padding: 5px;'                                        . NEWLINE;
+    echo '    border-width: 2px;'                                   . NEWLINE;
+    echo '    border-color: #f0f0f0;'                                 . NEWLINE;
+    echo '    padding: 13px 9px;'                                        . NEWLINE;
     echo '    vertical-align:top;'                                  . NEWLINE;
     echo ' }'                                                       . NEWLINE;
 
     echo ' .queryresults th {'                                      . NEWLINE;
     echo '    border-style: solid;'                                 . NEWLINE;
-    echo '    border-width: 1px;'                                   . NEWLINE;
-    echo '    border-color: black;'                                 . NEWLINE;
+    echo '    border-width: 2px;'                                   . NEWLINE;
+    echo '    border-color: #e3e3e3;'                                 . NEWLINE;
     echo '    padding: 5px;'                                        . NEWLINE;
-    echo ' }'                                                       . NEWLINE;
+	  echo '      background-color: #f2f2f2;'                         . NEWLINE;
+	  echo '      vertical-align: middle;'                         . NEWLINE;
+	  echo '      text-align: center;'                         . NEWLINE;
+	  echo '      padding: 10px 0;'                         . NEWLINE;
+	  echo ' }'                                                       . NEWLINE;
+	  
 
     if( ! $for_cms_deployment ) { # CMS apparently already does space-padding of listitems
       echo ' .queryresults ul, .printableacrosspage ul {'           . NEWLINE;
@@ -676,41 +681,41 @@ class HTML extends Application_Entity {
     #-----------------------------------
 
     echo ' div.highlight1, span.highlight1, p.highlight1 {'                            . NEWLINE;
-    echo '   background: ' .  html::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
+    echo '   background: ' .  HTML::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
     echo ' }'                                                                          . NEWLINE;
 
     echo ' div.highlight2, span.highlight2, p.highlight2 {'                            . NEWLINE;
-    echo '   background: ' .  html::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
+    echo '   background: ' .  HTML::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
     echo ' }'                                                                          . NEWLINE;
 
     echo ' p.contrast1 {'                                                              . NEWLINE;
-    echo '   background: ' .  html::get_contrast1_colour( $for_cms_deployment ) . ';'  . NEWLINE;
+    echo '   background: ' .  HTML::get_contrast1_colour( $for_cms_deployment ) . ';'  . NEWLINE;
     echo ' }'                                                                          . NEWLINE;
 
     echo ' p.contrast2 {'                                                              . NEWLINE;
-    echo '   background: ' .  html::get_contrast2_colour( $for_cms_deployment ) . ';'  . NEWLINE;
+    echo '   background: ' .  HTML::get_contrast2_colour( $for_cms_deployment ) . ';'  . NEWLINE;
     echo ' }'                                                                          . NEWLINE;
 
     echo ' td.highlight1, th.highlight1  {'                                            . NEWLINE;
-    echo '   background: ' .  html::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
+    echo '   background: ' .  HTML::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
     echo ' }'                                                                          . NEWLINE;
 
     echo ' td.highlight2, th.highlight2 {'                                             . NEWLINE;
-    echo '   background: ' .  html::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
+    echo '   background: ' .  HTML::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
     echo ' }'                                                                          . NEWLINE;
 
     echo NEWLINE;
 
     echo '.errmsg {'                                                                         . NEWLINE;
-    echo '   background-color: ' .  html::get_contrast2_colour( $for_cms_deployment ) . ';'  . NEWLINE;
+    echo '   background-color: ' .  HTML::get_contrast2_colour( $for_cms_deployment ) . ';'  . NEWLINE;
     echo '   font-size: 11pt;'                                                               . NEWLINE;
     echo '   font-weight: bold;'                                                             . NEWLINE;
     echo '   color: white;'                                                                  . NEWLINE;
     echo ' }'                                                                                . NEWLINE;
 
     echo '.warning {'                                                                        . NEWLINE;
-    echo '   background-color: ' .  html::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
-    echo '   color: ' .  html::get_contrast2_colour( $for_cms_deployment ) . ';'             . NEWLINE;
+    echo '   background-color: ' .  HTML::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
+    echo '   color: ' .  HTML::get_contrast2_colour( $for_cms_deployment ) . ';'             . NEWLINE;
     echo '   font-size: 11pt;'                                                               . NEWLINE;
     echo '   font-weight: bold;'                                                             . NEWLINE;
     echo ' }'                                                                                . NEWLINE;
@@ -720,11 +725,11 @@ class HTML extends Application_Entity {
     # Entry fields
     #-------------
     echo ' input.highlight1, select.highlight1, option.highlight1 {'                         . NEWLINE;
-    echo '   background-color: ' .  html::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
+    echo '   background-color: ' .  HTML::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
     echo ' }'                                                                                . NEWLINE;
 
     echo ' input.highlight2, select.highlight2, option.highlight2 {'                         . NEWLINE;
-    echo '   background-color: ' .  html::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
+    echo '   background-color: ' .  HTML::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
     echo ' }'                                                                                . NEWLINE;
 
     echo ' input.bold, option.bold {'                               . NEWLINE;
@@ -759,13 +764,13 @@ class HTML extends Application_Entity {
       echo ' .buttonrow a:link, .buttonrow a:visited  {'              . NEWLINE; 
       echo '   font-weight: bold;'                                    . NEWLINE;
       echo '   text-decoration: none;'                                . NEWLINE;
-      echo '   color: ' .  html::get_contrast1_colour() . ';'         . NEWLINE;
+      echo '   color: ' .  HTML::get_contrast1_colour() . ';'         . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
       echo ' .buttonrow a:active, .buttonrow a:hover  {'                           . NEWLINE; 
       echo '   font-weight: bold;'                                                 . NEWLINE;
       echo '   text-decoration: none;'                                             . NEWLINE;
-      echo '   color: ' .  html::get_contrast2_colour( $for_cms_deployment ) . ';' . NEWLINE;
+      echo '   color: ' .  HTML::get_contrast2_colour( $for_cms_deployment ) . ';' . NEWLINE;
       echo ' }'                                                                    . NEWLINE;
     }
     echo NEWLINE;
@@ -777,8 +782,8 @@ class HTML extends Application_Entity {
     echo ' }'                                                       . NEWLINE;
 
     echo ' input.pagelist  {'                                                                . NEWLINE;
-    echo '   color: ' .  html::get_contrast1_colour() . ';'                                  . NEWLINE;
-    echo '   background-color: ' .  html::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
+    echo '   color: ' .  HTML::get_contrast1_colour() . ';'                                  . NEWLINE;
+    echo '   background-color: ' .  HTML::get_highlight1_colour( $for_cms_deployment ) . ';' . NEWLINE;
     echo '   border-style: solid;'                                                           . NEWLINE;
     echo '   border-width: 2px;'                                                             . NEWLINE;
     echo '   border-color: white ;'                                                          . NEWLINE; 
@@ -787,17 +792,17 @@ class HTML extends Application_Entity {
 
     echo ' input.currpage  {'                                                                . NEWLINE;
     echo '   font-weight: bold;'                                                             . NEWLINE;
-    echo '   color: ' .  html::get_contrast2_colour() . ';'                                  . NEWLINE;
-    echo '   background-color: ' .  html::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
+    echo '   color: ' .  HTML::get_contrast2_colour() . ';'                                  . NEWLINE;
+    echo '   background-color: ' .  HTML::get_highlight2_colour( $for_cms_deployment ) . ';' . NEWLINE;
     echo '   border-style: solid;'                                                           . NEWLINE;
     echo '   border-width: 1px;'                                                             . NEWLINE;
-    echo '   border-color: ' . html::get_contrast2_colour() . ' ;'                           . NEWLINE;
+    echo '   border-color: ' . HTML::get_contrast2_colour() . ' ;'                           . NEWLINE;
     echo '   padding: 2px; '                                                                 . NEWLINE;
     echo ' }'                                                                                . NEWLINE;
 
 
     echo ' input.dummypage  {'                                                               . NEWLINE;
-    echo '   color: ' . html::get_contrast1_colour()  . ';'                                  . NEWLINE;
+    echo '   color: ' . HTML::get_contrast1_colour()  . ';'                                  . NEWLINE;
     echo '   background-color: white ;'                                                      . NEWLINE;
     echo '   border-style: solid;'                                                           . NEWLINE;
     echo '   border-left-width: 2px;'                                                        . NEWLINE;
@@ -825,7 +830,7 @@ class HTML extends Application_Entity {
     echo NEWLINE;
 
     echo ' .choosepresentation {'                                                              . NEWLINE;
-    echo '   background-color: ' .  html::get_highlight1_colour( $for_cms_deployment ) . ';'   . NEWLINE;
+    echo '   background-color: ' .  HTML::get_highlight1_colour( $for_cms_deployment ) . ';'   . NEWLINE;
     echo '   border: none;'                                                                    . NEWLINE;
     echo '   padding-top: 10px;'                                                               . NEWLINE;
     echo '   padding-bottom: 10px;'                                                            . NEWLINE;
@@ -937,13 +942,13 @@ class HTML extends Application_Entity {
     echo ' >';
     echo NEWLINE;
 
-    html::div_start( 'class="innerbody"' );
+    HTML::div_start( 'class="innerbody"' );
   }
   #-----------------------------------------------------------------
   function body_end() {
 
     echo NEWLINE;
-    html::div_end( 'innerbody' );
+    HTML::div_end( 'innerbody' );
 
 	echo '<script type="text/javascript" src="smoothscroll.js"></script>';
 
@@ -1054,8 +1059,8 @@ class HTML extends Application_Entity {
 
     echo NEWLINE . '</div>';
     echo NEWLINE;
-    if( $div_class ) html::comment("End class $div_class");
-    if( $div_id )    html::comment("End ID $div_id");
+    if( $div_class ) HTML::comment("End class $div_class");
+    if( $div_id )    HTML::comment("End ID $div_id");
   }
   #-----------------------------------------------------------------
 
@@ -1071,7 +1076,7 @@ class HTML extends Application_Entity {
 
     echo NEWLINE . '</span>';
     echo NEWLINE;
-    if( $parms ) html::comment("End $parms");
+    if( $parms ) HTML::comment("End $parms");
   }
   #-----------------------------------------------------------------
 
@@ -1117,16 +1122,16 @@ class HTML extends Application_Entity {
     echo NEWLINE;
 
     echo '<input type="hidden" name="class_name"  value="';
-    echo html::call_htmlentities( $class_name );
+    echo HTML::call_htmlentities( $class_name );
     echo '" />' . NEWLINE;
 
     echo '<input type="hidden" name="method_name"  value="';
-    echo html::call_htmlentities( $method_name );
+    echo HTML::call_htmlentities( $method_name );
     echo '" />' . NEWLINE;
 
     if( $_SESSION['session_token'] ) {
       echo '<input type="hidden" name="' . SESSION_TOKEN_FIELD . '"  value="';
-      echo html::call_htmlentities( $_SESSION['session_token'] );
+      echo HTML::call_htmlentities( $_SESSION['session_token'] );
       echo '" />' . NEWLINE;
     }
 
@@ -1246,10 +1251,10 @@ class HTML extends Application_Entity {
 
     echo NEWLINE;
 
-    $field_id = html::field_id_from_fieldname( $fieldname, $input_instance );
+    $field_id = HTML::field_id_from_fieldname( $fieldname, $input_instance );
 
     echo '<input type="hidden" name="' . $fieldname . '" id="' . $field_id . '"  value="';
-    echo html::call_htmlentities( $value );
+    echo HTML::call_htmlentities( $value );
     echo '" />' . NEWLINE;
 
   }
@@ -1259,7 +1264,7 @@ class HTML extends Application_Entity {
                         $label_parms = NULL, $data_parms = NULL, $input_parms = NULL, $input_instance = 0,
                         $trailing_text = NULL ) {
 
-    $field_id = html::field_id_from_fieldname( $fieldname, $input_instance );
+    $field_id = HTML::field_id_from_fieldname( $fieldname, $input_instance );
 
     echo NEWLINE;
     if( $in_table ) { 
@@ -1283,7 +1288,7 @@ class HTML extends Application_Entity {
     }
 
     echo '<input type="text" name="' . $fieldname . '" id="' . $field_id . '" value="';
-    echo html::call_htmlentities( $value );
+    echo HTML::call_htmlentities( $value );
     echo '"';
     if( $size != NULL ) echo ' size="' . $size . '" ';
     if( $tabindex > 0 ) echo ' tabindex="' . $tabindex . '" ';
@@ -1327,7 +1332,7 @@ class HTML extends Application_Entity {
   function checkbox( $fieldname, $label, $is_checked = NULL, $value_when_checked = 1, $in_table = FALSE,
                      $tabindex=1, $input_instance = NULL, $parms = NULL, $label_on_left = FALSE ) {
 
-    $field_id = html::field_id_from_fieldname( $fieldname, $input_instance );
+    $field_id = HTML::field_id_from_fieldname( $fieldname, $input_instance );
 
     echo NEWLINE;
     if( $in_table ) echo '<td>';
@@ -1340,7 +1345,7 @@ class HTML extends Application_Entity {
     }
 
     echo '<input type="checkbox" name="' . $fieldname . '" id="' . $field_id . '" value="';
-    echo html::call_htmlentities( $value_when_checked );
+    echo HTML::call_htmlentities( $value_when_checked );
     echo '"';
     if( $is_checked ) echo ' CHECKED ';
     if( $tabindex > 0 ) echo ' tabindex="' . $tabindex . '" ';
@@ -1365,7 +1370,7 @@ class HTML extends Application_Entity {
   function checkbox_with_label_on_left( $fieldname, $label, $is_checked = NULL, $value_when_checked = 1, 
                                         $in_table = FALSE, $tabindex=1, $input_instance = NULL, $parms = NULL ) {
 
-    html::checkbox( $fieldname, $label, $is_checked, $value_when_checked, 
+    HTML::checkbox( $fieldname, $label, $is_checked, $value_when_checked, 
                     $in_table, $tabindex, $input_instance, $parms, $label_on_left = TRUE );
   }
   #-----------------------------------------------------------------
@@ -1381,7 +1386,7 @@ class HTML extends Application_Entity {
     echo '<label for="' . $id . '">';
 
     echo '<input type="radio" name="' . $fieldname . '" id="' . $id . '" value="';
-    echo html::call_htmlentities( $value_when_checked );
+    echo HTML::call_htmlentities( $value_when_checked );
     echo '"';
     if( $current_value == $value_when_checked ) echo ' CHECKED ';
     if( $tabindex > 0 ) echo ' tabindex="' . $tabindex . '" ';
@@ -1416,7 +1421,7 @@ class HTML extends Application_Entity {
 
     echo NEWLINE;
 
-    $field_id = html::field_id_from_fieldname( $fieldname, $input_instance );
+    $field_id = HTML::field_id_from_fieldname( $fieldname, $input_instance );
 
     if( $in_table ) echo '<td ' . $label_parms . ' >';
     if( strlen( $label ) > 0 ) echo '<label for="' . $fieldname . '">';
@@ -1480,7 +1485,7 @@ class HTML extends Application_Entity {
 
     echo NEWLINE;
 
-    $field_id = html::field_id_from_fieldname( $fieldname, $input_instance );
+    $field_id = HTML::field_id_from_fieldname( $fieldname, $input_instance );
 
     if( $label ) {
       echo '<label for="' . $field_id . '"';
@@ -1513,7 +1518,7 @@ class HTML extends Application_Entity {
 
     echo NEWLINE;
 
-    $field_id = html::field_id_from_fieldname( $fieldname, $input_instance );
+    $field_id = HTML::field_id_from_fieldname( $fieldname, $input_instance );
 
     if( $label ) {
       echo '<label for="' . $field_id . '"';
@@ -1540,7 +1545,7 @@ class HTML extends Application_Entity {
     echo NEWLINE;
 
     echo '<input type="submit" name="' . $button_name . '"  value="';
-    echo html::call_htmlentities( $value );
+    echo HTML::call_htmlentities( $value );
     echo '" ';
     if( $tabindex > 0 ) echo ' tabindex="' . $tabindex . '" ';
     if( $other_parms ) 
@@ -1559,7 +1564,7 @@ class HTML extends Application_Entity {
 
     echo '<input type="submit" name="' . $button_name . '"  value="';
 
-    echo html::call_htmlentities( $value );
+    echo HTML::call_htmlentities( $value );
     echo '" ';
 
     #----------------------------------------
@@ -1582,7 +1587,7 @@ class HTML extends Application_Entity {
     echo NEWLINE;
 
     echo '<input type="reset" name="' . $button_name . '"  value="';
-    echo html::call_htmlentities( $value );
+    echo HTML::call_htmlentities( $value );
     echo '" ';
     if( $tabindex > 0 ) echo ' tabindex="' . $tabindex . '" ';
     echo ' />' . NEWLINE;
@@ -1595,7 +1600,7 @@ class HTML extends Application_Entity {
     echo NEWLINE;
 
     echo '<input type="button" name="' . $button_name . '"  value="';
-    echo html::call_htmlentities( $value );
+    echo HTML::call_htmlentities( $value );
     echo '" ';
     if( $tabindex > 0 ) echo ' tabindex="' . $tabindex . '" ';
     if( $other_parms ) 
@@ -1608,7 +1613,7 @@ class HTML extends Application_Entity {
   function file_upload_field( $fieldname, $label = '', $value = NULL, $size = NULL, $tabindex=1,
                               $label_parms = NULL, $input_parms = NULL, $input_instance = 0 ) {
 
-    $field_id = html::field_id_from_fieldname( $fieldname, $input_instance );
+    $field_id = HTML::field_id_from_fieldname( $fieldname, $input_instance );
 
     echo NEWLINE;
 
@@ -1620,7 +1625,7 @@ class HTML extends Application_Entity {
     echo ' </label>';
 
     echo '<input type="file" name="' . $fieldname . '" id="' . $field_id . '" value="';
-    echo html::call_htmlentities( $value );
+    echo HTML::call_htmlentities( $value );
     echo '"';
     if( $size != NULL ) echo ' size="' . $size . '" ';
     if( $tabindex > 0 ) echo ' tabindex="' . $tabindex . '" ';
@@ -1641,7 +1646,7 @@ class HTML extends Application_Entity {
     else
       $input_parms = 'multiple="true"';
 
-    html::file_upload_field( $fieldname, $label, $value, $size, $tabindex,
+    HTML::file_upload_field( $fieldname, $label, $value, $size, $tabindex,
                               $label_parms, $input_parms, $input_instance );
   }
   #-----------------------------------------------------------------
@@ -1943,7 +1948,7 @@ class HTML extends Application_Entity {
     if( $fieldset_name ) echo ' id="' . $fieldset_name . '_legend" ';
     if( $legend_parms ) echo ' ' . $legend_parms . ' ';
     echo ' >';
-    echo html::call_htmlentities( $legend );
+    echo HTML::call_htmlentities( $legend );
     echo '</legend>';
     
     echo NEWLINE;
@@ -1953,7 +1958,7 @@ class HTML extends Application_Entity {
   function fieldset_end( $desc ) {
     echo NEWLINE;
     echo '</fieldset>';
-    if( $desc ) html::comment( 'End ' . $desc );
+    if( $desc ) HTML::comment( 'End ' . $desc );
     echo NEWLINE;
   }
   #-----------------------------------------------------

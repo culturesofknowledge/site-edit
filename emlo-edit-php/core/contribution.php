@@ -138,7 +138,7 @@ class Contribution extends Application_Entity {
     echo '   padding: 25px;'                                          . NEWLINE;
     echo '   border-style: solid;'                                    . NEWLINE;
     echo '   border-width: 1px;'                                      . NEWLINE;
-    echo '   border-color: ' . html::get_contrast1_colour() . ';'     . NEWLINE;
+    echo '   border-color: ' . HTML::get_contrast1_colour() . ';'     . NEWLINE;
     echo ' }'                                                         . NEWLINE;
 
     echo ' div.reviewmenu {'                                          . NEWLINE; 
@@ -146,7 +146,7 @@ class Contribution extends Application_Entity {
     echo '   padding-top: 25px;'                                      . NEWLINE;
     echo '   border-top-style: solid;'                                . NEWLINE;
     echo '   border-top-width: 1px;'                                  . NEWLINE;
-    echo '   border-top-color: ' . html::get_contrast1_colour() . ';' . NEWLINE;
+    echo '   border-top-color: ' . HTML::get_contrast1_colour() . ';' . NEWLINE;
     echo ' }'                                                         . NEWLINE;
 
     echo '  br.clearboth {'                                           . NEWLINE;
@@ -156,18 +156,18 @@ class Contribution extends Application_Entity {
     echo '</style>'                                                   . NEWLINE;
 
     #----
-    html::div_start( 'class="contribmenu"' );
+    HTML::div_start( 'class="contribmenu"' );
     echo LINEBREAK;
     #----
 
-    html::div_start( 'class="extramenu"' );
-    html::link( $href=TOOL_DOWNLOAD_URL, $displayed_text='Download a fresh copy of the tool', 
+    HTML::div_start( 'class="extramenu"' );
+    HTML::link( $href=TOOL_DOWNLOAD_URL, $displayed_text='Download a fresh copy of the tool', 
                 $title='Download a fresh copy of the tool' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::link( $href=OPENOFFICE_DOWNLOAD_URL, $displayed_text='Download OpenOffice', 
+    HTML::link( $href=OPENOFFICE_DOWNLOAD_URL, $displayed_text='Download OpenOffice', 
                 $title='Download OpenOffice', $target = '_blank' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->user_is_supervisor() ) {
 
@@ -179,19 +179,19 @@ class Contribution extends Application_Entity {
       $reviewer_menu_item = $project_obj->db_select_one_value( $statement );
       $project_obj = NULL;
 
-      html::div_start( 'class="reviewmenu"' );
-      html::link_start( $this->get_main_editing_interface_file() . '?menu_item_id=' . $reviewer_menu_item,
+      HTML::div_start( 'class="reviewmenu"' );
+      HTML::link_start( $this->get_main_editing_interface_file() . '?menu_item_id=' . $reviewer_menu_item,
                         'Options for reviewers' ); # <a>
       echo 'Options for reviewers';
-      html::link_end();
-      html::div_end();  # end reviewmenu
+      HTML::link_end();
+      HTML::div_end();  # end reviewmenu
     }
-    html::div_end();    # end extramenu
+    HTML::div_end();    # end extramenu
 
     #----
 
-    html::div_start( 'class="mainmenu"' );
-    html::ulist_start();   # <ul>
+    HTML::div_start( 'class="mainmenu"' );
+    HTML::ulist_start();   # <ul>
 
     $options = array( 'upload'  => 'Upload new contribution',
                       'history' => 'View your earlier contributions',
@@ -207,54 +207,54 @@ class Contribution extends Application_Entity {
       if( $option == 'maindb' && ! $user_of_main_db ) continue; 
       if( $option == 'account' && $user_of_main_db ) continue; # they should use MAIN password change screen
 
-      html::listitem_start();  # <li>
+      HTML::listitem_start();  # <li>
       if( $option == 'logout' ) {
-        html::link_start( $href . '?logout=1', $title ); # <a>
+        HTML::link_start( $href . '?logout=1', $title ); # <a>
       }
       elseif( $option == 'maindb' ) {
-        html::link_start( $this->get_main_editing_interface_file() . '?menu_item_id=', # sends you to Main Menu
+        HTML::link_start( $this->get_main_editing_interface_file() . '?menu_item_id=', # sends you to Main Menu
                           $title ); # <a>
       }
       else {
-        html::link_start( $href . '?option=' . $option, $title ); # <a>
+        HTML::link_start( $href . '?option=' . $option, $title ); # <a>
       }
       echo $title;
-      html::link_end(); # </a>
-      html::new_paragraph();
-      html::listitem_end();  # </li>
+      HTML::link_end(); # </a>
+      HTML::new_paragraph();
+      HTML::listitem_end();  # </li>
     }
-    html::ulist_end();   # </ul>
-    html::div_end();     # end mainmenu
+    HTML::ulist_end();   # </ul>
+    HTML::div_end();     # end mainmenu
 
     #---
-    html::linebreak( 'class="clearboth"' );
-    html::div_end();    # end contribmenu
+    HTML::linebreak( 'class="clearboth"' );
+    HTML::div_end();    # end contribmenu
   }
   #-----------------------------------------------------
 
   function contributor_page_start( $heading_text = 'Contributor menu', $in_menu = TRUE ) {
 
     $this->expire_page();
-    html::html_start();
-    html::html_head_start();
+    HTML::html_start();
+    HTML::html_head_start();
 
     $this->menu_obj->page_body_start();
-    html::write_stylesheet();
+    HTML::write_stylesheet();
 
     $this->menu_obj->page_head( $heading_text, TRUE ); # TRUE = suppress breadcrumb trail
 
     if( ! $in_menu ) {
       $this->contributor_navigation_links();  # offer links back to main menu and to log out
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
     }
   }
   #-----------------------------------------------------
 
   function contributor_page_end( $in_menu = TRUE ) {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $in_menu )
       $this->contributor_logged_in_msg();
@@ -264,13 +264,13 @@ class Contribution extends Application_Entity {
     $this->menu_obj->page_foot( $suppress_breadcrumbs = TRUE );
     $this->menu_obj->page_body_end();
 
-    html::html_end();
+    HTML::html_end();
   }
   #-----------------------------------------------------
 
   function contributor_navigation_links() {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->back_to_contributor_menu_link();
     echo ' | ';
@@ -288,9 +288,9 @@ class Contribution extends Application_Entity {
     $found = $the_user->set_user( $username );
     if( ! $found ) die( 'Invalid user details.' );
     $person_name = $the_user->get_person_name();
-    html::italic_start();
+    HTML::italic_start();
     $this->echo_safely( 'You are logged in as ' . $person_name  . ' (' . $username . ') ' );
-    html::italic_end();
+    HTML::italic_end();
   }
   #-----------------------------------------------------
 
@@ -299,11 +299,11 @@ class Contribution extends Application_Entity {
     $href = $_SERVER['PHP_SELF'];
     $title = 'Menu';
 
-    html::span_start( 'class="boldlink"' );
-    html::link_start( $href, $title ); # <a>
+    HTML::span_start( 'class="boldlink"' );
+    HTML::link_start( $href, $title ); # <a>
     echo $title;
-    html::link_end(); # </a>
-    html::span_end();
+    HTML::link_end(); # </a>
+    HTML::span_end();
   }
   #-----------------------------------------------------
 
@@ -312,11 +312,11 @@ class Contribution extends Application_Entity {
     $href = $_SERVER['PHP_SELF'] . '?logout=1';
     $title = 'Logout';
 
-    html::span_start( 'class="boldlink"' );
-    html::link_start( $href, $title ); # <a>
+    HTML::span_start( 'class="boldlink"' );
+    HTML::link_start( $href, $title ); # <a>
     echo $title;
-    html::link_end(); # </a>
-    html::span_end();
+    HTML::link_end(); # </a>
+    HTML::span_end();
   }
   #-----------------------------------------------------
 

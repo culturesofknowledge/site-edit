@@ -100,21 +100,21 @@ class Popup_Person extends Person {
 
     $this->person_entry_stylesheets();
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'save_person' );
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'save_person' );
 
     $this->app_popup_read_calling_form_and_field();
-    html::hidden_field( 'calling_form', $this->calling_form );
-    html::hidden_field( 'calling_field', $this->calling_field );
+    HTML::hidden_field( 'calling_form', $this->calling_form );
+    HTML::hidden_field( 'calling_field', $this->calling_field );
 
     if( ! $this->failed_validation )
       $this->gender = 'M';  # for CofK default to male
 
     $this->person_entry_fields();
 
-    html::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
-    html::submit_button( 'save_button2', 'Save' );
+    HTML::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
+    HTML::submit_button( 'save_button2', 'Save' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -139,17 +139,17 @@ class Popup_Person extends Person {
     $this->set_person( $iperson_id );
 
     echo $this->get_person_desc_from_id( $this->iperson_id, $using_integer_id = TRUE );  
-    html::new_paragraph();
-    html::italic_start();
+    HTML::new_paragraph();
+    HTML::italic_start();
     echo 'Click OK to pass the details back into the main data entry screen.';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     $this->calling_form = $this->read_post_parm( 'calling_form' );
     $this->calling_field = $this->read_post_parm( 'calling_field' );
 
     $this->app_popup_pass_value_back(); 
-    html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+    HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
   }
   #-----------------------------------------------------
 
@@ -217,11 +217,11 @@ class Popup_Person extends Person {
 
     $this->write_letter_selection_stylesheet();
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'select_by_first_letter_of_name' );
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'select_by_first_letter_of_name' );
 
     $this->app_popup_read_calling_form_and_field();
-    html::hidden_field( 'calling_form', $this->calling_form );
-    html::hidden_field( 'calling_field', $this->calling_field );
+    HTML::hidden_field( 'calling_form', $this->calling_form );
+    HTML::hidden_field( 'calling_field', $this->calling_field );
 
     $people_found = 0;
 
@@ -231,9 +231,9 @@ class Popup_Person extends Person {
     $first_letter_of_name = $this->read_post_parm( 'first_letter_of_name' );
     $first_letter_of_name = $this->strip_all_slashes( $first_letter_of_name );
 
-    html::hidden_field( 'first_letter_of_name', $first_letter_of_name );
+    HTML::hidden_field( 'first_letter_of_name', $first_letter_of_name );
 
-    html::hidden_field( 'block_of_names_start', '' );  # Just a dummy field in most cases. 
+    HTML::hidden_field( 'block_of_names_start', '' );  # Just a dummy field in most cases. 
                                                        # Only used if you need to sub-divide a longer list
 
     $script  = '  function chooseNewLetter( letterButton ) { '                                   . NEWLINE;
@@ -241,11 +241,11 @@ class Popup_Person extends Person {
     $script .= "    document.$this->form_name.block_of_names_start.value = '';"                  . NEWLINE;
     $script .= '  } '                                                                            . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'Click a letter to retrieve a list of people or groups with names beginning with that letter:';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $first_possible_letter = 'A';
     $letter_button_count = 26;
@@ -258,7 +258,7 @@ class Popup_Person extends Person {
     $letter = $first_possible_letter;
 
     for( $i = 0; $i < $letter_button_count; $i++ ) {
-      if( $i == 13 ) html::new_paragraph();
+      if( $i == 13 ) HTML::new_paragraph();
 
       $character_desc = $letter;
       if( $character_desc == "'" ) $character_desc = 'ayn'; # Arabic phoneme represented in English by single quote
@@ -272,7 +272,7 @@ class Popup_Person extends Person {
       $script = ' onclick="chooseNewLetter( this )" ';
       $parms .= $script;
 
-      html::submit_button( $button_name, $letter, $tabindex = 2, $parms );
+      HTML::submit_button( $button_name, $letter, $tabindex = 2, $parms );
       echo ' ';
 
       if( $letter >= 'A' && $letter <= 'Z' )
@@ -287,9 +287,9 @@ class Popup_Person extends Person {
     # with names beginning with that letter.
     #---------------------------------------
     if( $first_letter_of_name ) {
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
 
       $letter_value = $first_letter_of_name;
       if( $letter_value == "'" ) # Arabic phoneme represented in English by single quote
@@ -326,14 +326,14 @@ class Popup_Person extends Person {
     #-------------------------------------------
     if( $first_letter_of_name && ! $people_found ) {
       echo "No people or groups found with names starting with '$first_letter_of_name'.";
-      html::new_paragraph();
-      html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+      HTML::new_paragraph();
+      HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
       $focus_field = 'cancel_button';
     }
 
     elseif( ! $first_letter_of_name ) {
-      html::new_paragraph();
-      html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+      HTML::new_paragraph();
+      HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
     }
 
     elseif( $people_found ) {
@@ -346,50 +346,50 @@ class Popup_Person extends Person {
 
       $this->write_passback_script();
 
-      html::dropdown_start( 'person_sel', $label = NULL );
+      HTML::dropdown_start( 'person_sel', $label = NULL );
       $first = TRUE;
       foreach( $people as $row ) {
         $this->current_row_of_data = $row;
         extract( $row, EXTR_OVERWRITE );
         if( $first ) $selection = $person_id; # select first option initially
 
-        html::dropdown_option( $person_id, $this->app_popup_set_result_text(), $selection );
+        HTML::dropdown_option( $person_id, $this->app_popup_set_result_text(), $selection );
 
         $selection = NULL;
         $first = FALSE;
       }
-      html::dropdown_end();
+      HTML::dropdown_end();
 
       echo ' ';
 
-      html::button( 'select_button', 'Select', $tabindex = 1, 'onClick="selectPerson()"' );
-      html::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
+      HTML::button( 'select_button', 'Select', $tabindex = 1, 'onClick="selectPerson()"' );
+      HTML::button( 'cancel_button', 'Cancel', $tabindex=1, 'onclick="self.close()"' );
     }
 
-    html::form_end();
+    HTML::form_end();
 
     #----------------------------------------------------
     # Focus on letter 'A', dropdown list or Cancel button
     #----------------------------------------------------
     $script = "document.$this->form_name.$focus_field.focus();"  . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     #---------------------------------------
     # Provide normal 'Search' option as well
     #---------------------------------------
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::form_start( $this->app_get_class( $this ), $this->app_popup_get_search_method() );
+    HTML::form_start( $this->app_get_class( $this ), $this->app_popup_get_search_method() );
 
-    html::hidden_field( 'calling_form', $this->calling_form );
-    html::hidden_field( 'calling_field', $this->calling_field );
+    HTML::hidden_field( 'calling_form', $this->calling_form );
+    HTML::hidden_field( 'calling_field', $this->calling_field );
 
     echo 'Alternatively you can search using a more flexible set of criteria: ';
-    html::submit_button( 'search_button', 'Search' );
+    HTML::submit_button( 'search_button', 'Search' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -417,13 +417,13 @@ class Popup_Person extends Person {
     $script .= '    self.close();'                                                                 . NEWLINE;
     $script .= '  } '                                                                              . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
 
   function subdivide_within_first_letter_of_name( $all_people ) {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $some_people = array();
     $all_people_count = count( $all_people );
@@ -474,22 +474,22 @@ class Popup_Person extends Person {
     $script .= "    document.$this->form_name.submit();"                                        . NEWLINE;
     $script .= '  } '                                                                           . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
 
     foreach( $buttons as $button_number => $names ) {
 
       $button_label = $names['first_name'] . ' --- ' . $names['last_name'];
 
-      html::radio_button( 'block_of_names_start_selecter', $button_label, $value_when_checked = $button_number, 
+      HTML::radio_button( 'block_of_names_start_selecter', $button_label, $value_when_checked = $button_number, 
                           $current_value = $block_of_names_start, $tabindex=2, $button_instance=$button_number, 
                           $script='onclick="chooseNewBlockOfNames( this )"' );
       echo LINEBREAK;
     }
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
     for( $i = $block_of_names_start; $i < $block_of_names_start + POPUP_PERSON_MAX_DROPDOWN_OPTIONS; $i++ ) {
       $some_people[] = $all_people[ $i ];
@@ -518,8 +518,8 @@ class Popup_Person extends Person {
     echo '<style type="text/css">' . NEWLINE;
 
     echo ' input.all_letters {'                                               . NEWLINE;
-    echo '   font-color: ' . html::get_contrast1_colour() . ';'               . NEWLINE;
-    echo '   background-color: ' .  html::header_background_colour() . ';'    . NEWLINE;
+    echo '   font-color: ' . HTML::get_contrast1_colour() . ';'               . NEWLINE;
+    echo '   background-color: ' .  HTML::header_background_colour() . ';'    . NEWLINE;
     echo '   padding: 2px;'                                                   . NEWLINE;
     echo '   margin: 5px;'                                                    . NEWLINE;
     echo ' }'                                                                 . NEWLINE;
@@ -570,14 +570,14 @@ class Popup_Person extends Person {
 
     if( $this->get_system_prefix() != IMPACT_SYS_PREFIX ) return;
 
-    html::new_paragraph();
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::new_paragraph();
+    HTML::span_start( 'class="workfieldaligned"' );
 
     $this->unknown_person_button();
     $this->multiple_people_buttons();
     $this->repeat_person_button();
 
-    html::span_end();
+    HTML::span_end();
   }
   #-----------------------------------------------------
 
@@ -626,9 +626,9 @@ class Popup_Person extends Person {
     $script .= "    document.$calling_form.$decode_field.className = 'highlight2';"         . NEWLINE;
     $script .= "  } "                                                                       . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
-    html::button( $button_name, $button_label, $tabindex = 1, 'onclick="' . $funcname . '()"' );
+    HTML::button( $button_name, $button_label, $tabindex = 1, 'onclick="' . $funcname . '()"' );
   }
   #----------------------------------------------------------------------------------
 
@@ -647,7 +647,7 @@ class Popup_Person extends Person {
             . '&work_id=' . $this->work_id
             . '&manifestation_ids=' . $this->manifestation_ids;
  
-    html::button( $button_name = $this->calling_field . 'RepeatButton', 
+    HTML::button( $button_name = $this->calling_field . 'RepeatButton', 
                   $button_label = 'Repeat', 
                   $tabindex = 1, 
                   'onclick="searchWindow( ' . "'" . $href . "', 'repeatPersonWindow' )" . '"' );
@@ -700,9 +700,9 @@ class Popup_Person extends Person {
 
     echo 'You can use this screen to make a quick selection from any people or organisations already associated'
          . ' with the current work or any of its manifestations.';
-    html::new_paragraph();
-    html::button( 'cancel_repeat_selection_button', 'Cancel', 1, 'onclick="self.close()"' );
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::button( 'cancel_repeat_selection_button', 'Cancel', 1, 'onclick="self.close()"' );
+    HTML::new_paragraph();
 
     $person_ids = array();
 
@@ -722,32 +722,32 @@ class Popup_Person extends Person {
                . ' order by foaf_name';
     $people = $this->db_select_into_array( $statement );
 
-    html::table_start( 'class="datatab spacepadded"' );
-    html::tablerow_start();
-    html::column_header( 'Name' );
-    html::column_header( 'Select' );
-    html::tablerow_end();
+    HTML::table_start( 'class="datatab spacepadded"' );
+    HTML::tablerow_start();
+    HTML::column_header( 'Name' );
+    HTML::column_header( 'Select' );
+    HTML::tablerow_end();
 
     foreach( $people as $row ) {
       extract( $row, EXTR_OVERWRITE );
-      html::tablerow_start();
+      HTML::tablerow_start();
 
-      html::tabledata( $foaf_name );
+      HTML::tabledata( $foaf_name );
 
-      html::tabledata_start();
+      HTML::tabledata_start();
       $funcname = $this->write_passback_script_for_repeat_button( $person_id, $foaf_name );
-      html::button( $button_name = $funcname . 'Button', 
+      HTML::button( $button_name = $funcname . 'Button', 
                     $button_label = 'OK', 
                     $tabindex = 1, 
                     'onclick="' . $funcname . '()"' );
-      html::tabledata_end();
+      HTML::tabledata_end();
 
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
-    html::table_end();
+    HTML::table_end();
 
-    html::new_paragraph();
-    html::button( 'cancel_repeat_selection_button2', 'Cancel', 1, 'onclick="self.close()"' );
+    HTML::new_paragraph();
+    HTML::button( 'cancel_repeat_selection_button2', 'Cancel', 1, 'onclick="self.close()"' );
   }
   #----------------------------------------------------------------------------------
 
@@ -778,7 +778,7 @@ class Popup_Person extends Person {
     $script .= '    self.close();'                                                                 . NEWLINE;
     $script .= "  } "                                                                              . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
     return $funcname;
   }
   #-----------------------------------------------------

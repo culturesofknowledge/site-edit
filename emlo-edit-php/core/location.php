@@ -294,22 +294,22 @@ class Location extends Project {
 
     if( $enable_merge ) {
 
-      $this->merge_form = html::form_start( $this->app_get_class( $this ), 'start_merge' );
+      $this->merge_form = HTML::form_start( $this->app_get_class( $this ), 'start_merge' );
 
       $select_all_script_name = $this->write_script_to_set_merge_checkboxes( $details, $tick = TRUE );
       $clear_all_script_name = $this->write_script_to_set_merge_checkboxes( $details, $tick = FALSE );
 
-      html::new_paragraph();
-      html::italic_start();
+      HTML::new_paragraph();
+      HTML::italic_start();
       echo 'To start the process of merging records, tick the checkbox beside the relevant names '
            . ' and click the Merge button:';
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
 
-      html::submit_button( 'merge_button', 'Merge' );
-      html::button( 'select_all_button', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
-      html::button( 'clear_all_button', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
-      html::new_paragraph();
+      HTML::submit_button( 'merge_button', 'Merge' );
+      HTML::button( 'select_all_button', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
+      HTML::button( 'clear_all_button', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
+      HTML::new_paragraph();
 
       $this->db_write_pagination_fields( $this->db_page_required );  # also writes calling form/field if present
     }
@@ -317,12 +317,12 @@ class Location extends Project {
     parent::$browse_function( $details, $columns );
 
     if( $enable_merge ) {
-      html::new_paragraph();
-      html::submit_button( 'merge_button2', 'Merge' );
-      html::button( 'select_all_button2', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
-      html::button( 'clear_all_button2', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
-      html::new_paragraph();
-      html::form_end();
+      HTML::new_paragraph();
+      HTML::submit_button( 'merge_button2', 'Merge' );
+      HTML::button( 'select_all_button2', 'Select all', 1, 'onclick="' . $select_all_script_name . '()"' );
+      HTML::button( 'clear_all_button2', 'Clear all', 1, 'onclick="' . $clear_all_script_name . '()"' );
+      HTML::new_paragraph();
+      HTML::form_end();
     }
   }
   #-----------------------------------------------------
@@ -347,7 +347,7 @@ class Location extends Project {
     }
 
     $script .= '}' . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     return $script_name;
   }
@@ -358,11 +358,11 @@ class Location extends Project {
     $to_merge = $this->read_post_parm( 'merge' );
 
     if( count( $to_merge ) < 2 ) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'You need to check two or more checkboxes. Cancelling merge...';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->db_set_search_result_parms();
       $results_method = $this->results_method;
@@ -370,7 +370,7 @@ class Location extends Project {
       return;
     }
 
-    html::form_start( $this->app_get_class( $this ), 'confirm_merge' );
+    HTML::form_start( $this->app_get_class( $this ), 'confirm_merge' );
 
     $this->app_popup_read_calling_form_and_field();  # if called via a popup window, find out where to pass values to
     $this->app_popup_write_calling_form_and_field();
@@ -380,58 +380,58 @@ class Location extends Project {
     $i = 0;
     foreach( $to_merge as $id_to_merge ) {
       $i++;
-      html::hidden_field( 'merge[]', $id_to_merge, $i );
+      HTML::hidden_field( 'merge[]', $id_to_merge, $i );
     }
 
 
-    html::new_paragraph();
-    html::submit_button( 'ok_button', 'OK' );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::submit_button( 'ok_button', 'OK' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::h3_start();
+    HTML::h3_start();
     echo 'Select the master record';
-    html::h3_end();
+    HTML::h3_end();
 
-    html::italic_start();
+    HTML::italic_start();
     echo "Please select the record into which all the others should be merged, then click 'Save': ";
-    html::italic_end();
+    HTML::italic_end();
 
-    html::new_paragraph();
-    html::table_start( 'class="datatab spacepadded"' );
-    html::tablerow_start();
-    html::column_header( 'Name' );
+    HTML::new_paragraph();
+    HTML::table_start( 'class="datatab spacepadded"' );
+    HTML::tablerow_start();
+    HTML::column_header( 'Name' );
     if( $this->get_system_prefix() == IMPACT_SYS_PREFIX ) 
-      html::column_header( 'Works composed here' );
+      HTML::column_header( 'Works composed here' );
     else
-      html::column_header( 'Works sent or received' );
-    html::tablerow_end();
+      HTML::column_header( 'Works sent or received' );
+    HTML::tablerow_end();
 
     $i = 0;
     foreach( $to_merge as $id_to_merge ) {
-      html::tablerow_start();
+      HTML::tablerow_start();
       $i++;
 
       #----
 
-      html::tabledata_start();
+      HTML::tabledata_start();
 
       $location_name = $this->proj_get_description_from_id( $id_to_merge );
 
-      html::radio_button( $fieldname = 'selected_merge_id', 
+      HTML::radio_button( $fieldname = 'selected_merge_id', 
                           $location_name, 
                           $value_when_checked = $id_to_merge, 
                           $current_value = '', 
                           $tabindex=1, 
                           $button_instance=$i );
 
-      html::tabledata_end();
+      HTML::tabledata_end();
 
       #----
 
-      html::tabledata_start();
+      HTML::tabledata_start();
 
       $sent_rels = $this->get_lefthand_values( $id_to_merge, RELTYPE_WORK_SENT_FROM_PLACE, 
                                                 $this->proj_work_tablename());
@@ -449,24 +449,24 @@ class Location extends Project {
         echo 'Place of composition of ' . $sent . ' works.';
       else
         echo 'Origin of ' . $sent . ' works, destination of ' . $received . '.';
-      if( $sent + $received > 0 ) html::new_paragraph();
+      if( $sent + $received > 0 ) HTML::new_paragraph();
 
       $this->show_desc_of_sent_or_received_works( $sent_rels );
       $this->show_desc_of_sent_or_received_works( $recd_rels );
-      html::tabledata_end();
+      HTML::tabledata_end();
 
       #----
 
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
-    html::table_end();
+    HTML::table_end();
 
-    html::new_paragraph();
-    html::submit_button( 'ok_button', 'OK' );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::submit_button( 'ok_button', 'OK' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::new_paragraph();
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -477,7 +477,7 @@ class Location extends Project {
         $work_id = $row[ 'other_id_value' ];
         if( ! $work_obj ) $work_obj = new Work( $this->db_connection );
         echo $work_obj->get_work_desc( $work_id );
-        html::new_paragraph();
+        HTML::new_paragraph();
       }
     }
   }
@@ -493,11 +493,11 @@ class Location extends Project {
     $selected_merge_id = $this->read_post_parm( 'selected_merge_id' );
 
     if( ! $selected_merge_id ) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'You did not select the master record. Cannot proceed with merge.';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->start_merge();
       return;
@@ -505,56 +505,56 @@ class Location extends Project {
 
     # Display values to be merged, and wait for user to click OK
 
-    html::form_start( $this->app_get_class( $this ), 'save_merge' );
+    HTML::form_start( $this->app_get_class( $this ), 'save_merge' );
 
     $this->app_popup_read_calling_form_and_field();  # if called via a popup window, find out where to pass values to
     $this->app_popup_write_calling_form_and_field();
 
     $this->retain_options_during_merge(); # retain 'Advanced Search', rows per page, etc.
 
-    html::hidden_field( 'selected_merge_id', $selected_merge_id );
+    HTML::hidden_field( 'selected_merge_id', $selected_merge_id );
 
-    html::h3_start();
+    HTML::h3_start();
     echo $this->get_location_desc_from_id( $selected_merge_id );
-    html::h3_end();
+    HTML::h3_end();
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Will replace the following: ';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     $i = 0;
     foreach( $to_merge as $id_to_merge ) {
       if( $id_to_merge == $selected_merge_id ) continue;
 
       $i++;
-      html::hidden_field( 'merge[]', $id_to_merge, $i );
+      HTML::hidden_field( 'merge[]', $id_to_merge, $i );
       echo " $i. " . $this->get_location_desc_from_id( $id_to_merge );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     $sent_or_received_works = $this->read_post_parm( 'sent_or_received_works' );
     if( is_array( $sent_or_received_works )) {
       foreach( $sent_or_received_works as $work ) {
-        html::hidden_field( 'sent_or_received_works[]', $work );
+        HTML::hidden_field( 'sent_or_received_works[]', $work );
       }
     }
 
-    html::submit_button( 'save_button', 'Save' );
-    html::submit_button( 'cancel_button', 'Cancel' );
+    HTML::submit_button( 'save_button', 'Save' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
     
   function cancel_merge_at_user_request() {
 
     if( $this->parm_found_in_post( 'cancel_button' )) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'Merge cancelled at user request.';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->db_set_search_result_parms();
       $search_method = $this->search_method;
@@ -576,11 +576,11 @@ class Location extends Project {
     $selected_merge_id = $this->read_post_parm( 'selected_merge_id' );
 
     if( ! $selected_merge_id ) {
-      html::new_paragraph();
-      html::div_start( 'class="warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class="warning"' );
       echo 'You did not select the master record. Cannot proceed with merge.';
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
 
       $this->start_merge();
       return;
@@ -602,27 +602,27 @@ class Location extends Project {
       echo " $i. " . $desc . LINEBREAK;
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'Replaced by: ';
     echo $this->get_location_desc_from_id( $selected_merge_id );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->calling_form && $this->calling_field ) {
       $this->app_popup_pass_value_back();
-      html::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
+      HTML::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
     }
     else {
-      html::horizontal_rule();
-      html::h3_start();
+      HTML::horizontal_rule();
+      HTML::h3_start();
       echo 'Search again:';
-      html::h3_end();
+      HTML::h3_end();
 
       $this->db_set_search_result_parms();
       $search_method = $this->search_method;
       $this->$search_method();
 
       $script = "document.$this->form_name.location_name.focus()";
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
     }
   }
   #-----------------------------------------------------
@@ -700,7 +700,7 @@ class Location extends Project {
       case 'extra':
         if( ! $this->printable_output && ! $this->csv_output ) {
           $place = $this->current_row_of_data[ 'location_id' ];
-          html::checkbox( $fieldname = 'merge[]',
+          HTML::checkbox( $fieldname = 'merge[]',
                           $label = NULL,
                           $is_checked = FALSE,
                           $value_when_checked = $place,
@@ -741,9 +741,9 @@ class Location extends Project {
                   . '&location_id=' . rawurlencode( $location_id )
                   . '&location_works_view_type=' . $view_type;
 
-            html::link_start( $href, $title, '_blank' );
+            HTML::link_start( $href, $title, '_blank' );
             echo $column_value;
-            html::link_end();
+            HTML::link_end();
           }
           return '';
         }
@@ -801,14 +801,14 @@ class Location extends Project {
 
     if( $display_status_msg ) {
       echo 'Deleted ' . $location_desc;
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
 
       $anchor_name = 'deleted_location_id_' . $location_id;
-      html::anchor( $anchor_name );
+      HTML::anchor( $anchor_name );
       $script = 'window.location.href = "' . $_SERVER['PHP_SELF'] . '" + "#' . $anchor_name . '"';
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
     }
   }
   #-----------------------------------------------------
@@ -816,7 +816,7 @@ class Location extends Project {
   function db_explain_how_to_query() {
 
     echo 'Enter some details of the required location and click Search or press Return.';
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -826,10 +826,10 @@ class Location extends Project {
       $this->edit_location();
 
     else {
-      html::italic_start();
+      HTML::italic_start();
       echo 'Sorry, you do not have edit privileges in this database. Read-only details are now being displayed.';
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
 
       $this->write_post_parm( 'location_id', $this->read_get_parm( 'location_id' ));
       $this->write_post_parm( 'date_or_numeric_query_op_location_id', 'equals' );
@@ -861,9 +861,9 @@ class Location extends Project {
  
     $href .= '&opening_method=' . $this->menu_method_name;
 
-    html::link_start( $href, $title, $target = '_blank' );
+    HTML::link_start( $href, $title, $target = '_blank' );
     echo 'Edit';
-    html::link_end();
+    HTML::link_end();
   }
   #-----------------------------------------------------
 
@@ -891,23 +891,23 @@ class Location extends Project {
 
     $this->write_work_entry_stylesheet();  # method from Project
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'save_location' );
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'save_location' );
 
-    html::hidden_field( 'opening_method', $opening_method );
+    HTML::hidden_field( 'opening_method', $opening_method );
     $focus_script = NULL;
 
     if( ! $new_record ) {
-      html::italic_start();
+      HTML::italic_start();
       echo 'Location ID ' . $this->location_id 
            . '. Last changed ' . $this->postgres_date_to_words( $this->change_timestamp )
            . ' by ' . $this->change_user . ' ';
-      html::italic_end();
+      HTML::italic_end();
 
       $focus_script = $this->proj_write_post_save_refresh_button( $just_saved, $opening_method );
-      html::new_paragraph();
-      html::horizontal_rule();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
 
-      html::hidden_field( 'location_id', $location_id );
+      HTML::hidden_field( 'location_id', $location_id );
     }
 
     if( $this->failed_validation ) {  # read values from POST and re-display
@@ -923,13 +923,13 @@ class Location extends Project {
 
     $this->location_entry_fields();
 
-    html::form_end();
+    HTML::form_end();
 
     if( ! $new_record ) {
       $this->offer_location_deletion_form();
     }
 
-    if( $focus_script ) html::write_javascript_function( $focus_script );
+    if( $focus_script ) HTML::write_javascript_function( $focus_script );
 
     # The above focus script will put you on the 'city' field.
     # However, may want to go to a different section of the form if they pressed 'Save and Continue'.
@@ -937,7 +937,7 @@ class Location extends Project {
     if( $this->app_get_class( $this ) != 'popup_location' ) {  # no 'Save and Continue' in popup screen
       $anchor_script = $this->proj_get_anchor_script_after_save();
       if( $anchor_script )
-        html::write_javascript_function( $anchor_script );
+        HTML::write_javascript_function( $anchor_script );
     }
   }
   #-----------------------------------------------------
@@ -961,20 +961,20 @@ class Location extends Project {
       $this->proj_extra_save_button( $prefix = 'core_fields', $new_paragraph = FALSE, 'class ="workfield_save_button"' );
 
       if( $this->location_id ) { #Edit Existing is in new tab, but Add New is in main window which we don't want to close
-        html::span_start( 'class="widespaceonleft"' );
-        html::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
-        html::span_end();
+        HTML::span_start( 'class="widespaceonleft"' );
+        HTML::submit_button( 'cancel_button', 'Cancel', $tabindex=1, $other_parms='onclick="self.close()"' );
+        HTML::span_end();
       }
 
-      html::span_start( 'class="widespaceonleft"' );
-      html::submit_button( 'clear_search_button', 'Search' );
-      html::span_end();
+      HTML::span_start( 'class="widespaceonleft"' );
+      HTML::submit_button( 'clear_search_button', 'Search' );
+      HTML::span_end();
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->location_id ) { # can't enter relationships until the core record exists
-      html::horizontal_rule();
+      HTML::horizontal_rule();
 
       $this->proj_form_section_links( 'researchers_notes' );
       $this->researchers_notes_field();
@@ -983,8 +983,8 @@ class Location extends Project {
       $this->related_resources_field();
 
       if( $this->get_system_prefix() != IMPACT_SYS_PREFIX ) {
-        html::horizontal_rule();
-        html::new_paragraph();
+        HTML::horizontal_rule();
+        HTML::new_paragraph();
         $this->proj_form_section_links( 'imgs' );
         $this->images_field();
       }
@@ -999,10 +999,10 @@ class Location extends Project {
       $this->write_post_parm( 'clear_search_button', 'Search' );
 
     if( $this->parm_found_in_post( 'clear_search_button' )) {
-      html::h4_start();
+      HTML::h4_start();
       echo 'Edit cancelled.';
-      html::h4_end();
-      html::new_paragraph();
+      HTML::h4_end();
+      HTML::new_paragraph();
       $this->db_search();
       return;
     }
@@ -1095,9 +1095,9 @@ class Location extends Project {
         $this->save_images();
       }
 
-      html::h4_start();
+      HTML::h4_start();
       echo 'Any changes have been saved.';
-      html::h4_end();
+      HTML::h4_end();
     }
   }
   #-----------------------------------------------------
@@ -1155,28 +1155,28 @@ class Location extends Project {
     $statement = 'insert into ' . $this->proj_location_tablename() . " ( $col_statement ) values ( $val_statement )";
     $this->db_run_query( $statement );
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'New location has been saved.';
-    html::h4_end();
+    HTML::h4_end();
 
     if( $this->app_get_class( $this ) == 'popup_location' ) return $location_id;
 
-    html::div_start( 'class="buttonrow"' );
+    HTML::div_start( 'class="buttonrow"' );
 
-    html::form_start( $this->app_get_class( $this ), 'add_location' );
+    HTML::form_start( $this->app_get_class( $this ), 'add_location' );
     echo 'Add another new location? ';
-    html::submit_button( 'add_another_new_button', 'New' );
-    html::form_end();
+    HTML::submit_button( 'add_another_new_button', 'New' );
+    HTML::form_end();
 
     echo ' ';
 
-    html::form_start( $this->app_get_class( $this ), 'db_search' );
+    HTML::form_start( $this->app_get_class( $this ), 'db_search' );
     echo 'Return to search? ';
-    html::submit_button( 'return_to_search_button', 'Search' );
-    html::form_end();
+    HTML::submit_button( 'return_to_search_button', 'Search' );
+    HTML::form_end();
 
     echo LINEBREAK;
-    html::div_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -1235,20 +1235,20 @@ class Location extends Project {
 
   function location_name_field() {
 
-    html::div_start( 'class="workfield"' );
-    html::input_field( 'location_name', 'Full name of location', $this->location_name, FALSE, FLD_SIZE_LOCATION_NAME,
+    HTML::div_start( 'class="workfield"' );
+    HTML::input_field( 'location_name', 'Full name of location', $this->location_name, FALSE, FLD_SIZE_LOCATION_NAME,
                        $tabindex=1,  NULL, NULL, ' READONLY class="highlight2"' );
 
     echo LINEBREAK;
 
-    html::span_start( 'class="workfieldaligned"' );
-    html::italic_start();
+    HTML::span_start( 'class="workfieldaligned"' );
+    HTML::italic_start();
     echo 'The full name of the location will be automatically generated from its individual elements.';
-    html::italic_end();
-    html::span_end();
+    HTML::italic_end();
+    HTML::span_end();
 
-    html::new_paragraph();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -1260,12 +1260,12 @@ class Location extends Project {
     echo '}' . NEWLINE;
     echo '</style>' . NEWLINE;
 
-    html::div_start( 'class="highlight2"' );
-    html::h4_start();
+    HTML::div_start( 'class="highlight2"' );
+    HTML::h4_start();
     echo 'Elements of location name:';
-    html::h4_end();
+    HTML::h4_end();
 
-    html::div_start( 'class="workfield" id="location_elements_div"' );
+    HTML::div_start( 'class="workfield" id="location_elements_div"' );
 
     # Write script to generate full name of location
     $scriptname = 'makeFullLocationName';
@@ -1292,24 +1292,24 @@ class Location extends Project {
 
     $script .= "  document.$this->form_name.location_name.value = fullname;" . NEWLINE;
     $script .= '}' . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
    
     for( $i = SMALLEST_ELEMENT_OF_PLACENAME; $i <= LARGEST_ELEMENT_OF_PLACENAME; $i++ ) {
       if( $this->get_system_prefix() == IMPACT_SYS_PREFIX && $i == COUNTY_ELEMENT_OF_PLACENAME ) 
         continue; # IMPAcT don't want to use counties etc.
 
       $this->location_element_field( $i, $scriptname );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
-    html::div_end();
+    HTML::div_end();
 
     $this->location_name_field();
-    html::div_end();
+    HTML::div_end();
 
     $focus_field = $this->location_element_name( PRIMARY_ELEMENT_OF_PLACENAME );
     $focus_script = "document.$this->form_name.$focus_field.focus()";
-    html::write_javascript_function( $focus_script );
+    HTML::write_javascript_function( $focus_script );
   }
   #-----------------------------------------------------
 
@@ -1323,16 +1323,16 @@ class Location extends Project {
 
     $label = $this->location_element_label( $fieldname, $include_the_word_element=FALSE );
 
-    if( $element_no == PRIMARY_ELEMENT_OF_PLACENAME ) html::span_start( 'class="bold"' );
+    if( $element_no == PRIMARY_ELEMENT_OF_PLACENAME ) HTML::span_start( 'class="bold"' );
 
-    html::input_field( $fieldname, $label, $this->$fieldname, FALSE, FLD_SIZE_LOCATION_NAME,
+    HTML::input_field( $fieldname, $label, $this->$fieldname, FALSE, FLD_SIZE_LOCATION_NAME,
                        $tabindex=1, NULL, NULL, $input_parms = $parms );
 
-    html::span_start( 'class="narrowspaceonleft"' );
+    HTML::span_start( 'class="narrowspaceonleft"' );
     $example = $this->location_element_example( $element_no, $brief = FALSE );
     echo ' ' . $example;
-    html::span_end();
-    if( $element_no == PRIMARY_ELEMENT_OF_PLACENAME ) html::span_end();
+    HTML::span_end();
+    if( $element_no == PRIMARY_ELEMENT_OF_PLACENAME ) HTML::span_end();
   }
   #-----------------------------------------------------
 
@@ -1475,69 +1475,69 @@ class Location extends Project {
       $this->location_synonyms .= $line;
     }
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
-    html::textarea( 'location_synonyms', 
+    HTML::textarea( 'location_synonyms', 
                     $rows = LOCATION_SYNONYM_ROWS, 
                     $cols = FLD_SIZE_LOCATION_NAME, 
                     $value = $this->location_synonyms, 
                     $label = 'Alternative names for location' );
 
-    html::div_end();
+    HTML::div_end();
 
-    html::italic_start();
+    HTML::italic_start();
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
     echo "Please put each synonym on a separate line.";
-    html::new_paragraph();
-    html::span_end();
-    html::italic_end();
+    HTML::new_paragraph();
+    HTML::span_end();
+    HTML::italic_end();
 
   }
   #-----------------------------------------------------
 
   function latitude_field() {
 
-    html::div_start( 'class="workfield"' );
-    html::input_field( 'latitude', 'Latitude', $this->latitude );
-    html::new_paragraph();
-    html::div_end();
+    HTML::div_start( 'class="workfield"' );
+    HTML::input_field( 'latitude', 'Latitude', $this->latitude );
+    HTML::new_paragraph();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
   function longitude_field() {
 
-    html::div_start( 'class="workfield"' );
-    html::input_field( 'longitude', 'Longitude', $this->longitude );
-    html::new_paragraph();
-    html::div_end();
+    HTML::div_start( 'class="workfield"' );
+    HTML::input_field( 'longitude', 'Longitude', $this->longitude );
+    HTML::new_paragraph();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
   function editors_notes_field() {
 
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
 
     $this->proj_textarea( 'editors_notes', PLACE_EDITORS_NOTES_ROWS, PLACE_EDITORS_NOTES_COLS,
                           $value = $this->editors_notes, $label = "Editors' notes" );
     echo LINEBREAK;
 
-    html::italic_start();
+    HTML::italic_start();
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
     echo "These notes are for internal use; we do not plan to display them on the 'front end' website.";
     echo LINEBREAK;
-    html::span_end();
+    HTML::span_end();
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
     echo " To enter a publicly available note, please use the researchers' notes field instead.";
-    html::span_end();
+    HTML::span_end();
 
-    html::italic_end();
+    HTML::italic_end();
 
-    html::new_paragraph();
-    html::div_end();
+    HTML::new_paragraph();
+    HTML::div_end();
 
   }
   #-----------------------------------------------------
@@ -1551,14 +1551,14 @@ class Location extends Project {
     $this->comment_obj->display_or_edit_comments( $general_notes, RELTYPE_COMMENT_REFERS_TO_ENTITY,
                                                   NULL, $this->form_name );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->proj_extra_save_button( $prefix = 'researchers_notes', $new_paragraph = FALSE, 
                                    'class ="workfield_save_button"' );
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -1625,11 +1625,11 @@ class Location extends Project {
     $entries_per_page = $this->read_post_parm( 'entries_per_page' );
     $record_layout = $this->read_post_parm( 'record_layout' );
 
-    html::hidden_field( 'simplified_search', $simplified_search );
-    html::hidden_field( 'order_by', $order_by );
-    html::hidden_field( 'sort_descending', $sort_descending );
-    html::hidden_field( 'entries_per_page', $entries_per_page );
-    html::hidden_field( 'record_layout', $record_layout );
+    HTML::hidden_field( 'simplified_search', $simplified_search );
+    HTML::hidden_field( 'order_by', $order_by );
+    HTML::hidden_field( 'sort_descending', $sort_descending );
+    HTML::hidden_field( 'entries_per_page', $entries_per_page );
+    HTML::hidden_field( 'record_layout', $record_layout );
 
     $myclass = $this->app_get_class( $this );  # use different object to repeat query, so don't overwrite info needed for merge
     $parmwriter = new $myclass( $this->db_connection );
@@ -1660,20 +1660,20 @@ class Location extends Project {
     if( ! $this->location_id ) return;
     if( $this->menu_called_as_popup ) return;  # don't offer deletion in a popup window, just gets too messy
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::form_start( 'location', 'confirm_location_deletion' );
-    html::hidden_field( 'location_id', $this->location_id );
+    HTML::form_start( 'location', 'confirm_location_deletion' );
+    HTML::hidden_field( 'location_id', $this->location_id );
 
     echo 'Delete this location? ';
-    html::submit_button( 'delete_button', 'Delete' );
+    HTML::submit_button( 'delete_button', 'Delete' );
 
-    html::italic_start();
+    HTML::italic_start();
     echo ' (Confirmation will be requested before the deletion takes place.)';
-    html::italic_end();
-    html::form_end();
+    HTML::italic_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -1687,12 +1687,12 @@ class Location extends Project {
     $this->set_location( $location_id );
     if( ! $this->location_id ) $this->die_on_error( $invalid_input_msg );
 
-    html::form_start( 'location', 'delete_location' );
-    html::hidden_field( 'location_id', $this->location_id );
+    HTML::form_start( 'location', 'delete_location' );
+    HTML::hidden_field( 'location_id', $this->location_id );
 
-    html::h3_start();
+    HTML::h3_start();
     echo "Location to be deleted:";
-    html::h3_end();
+    HTML::h3_end();
     echo $this->location_name;
 
     if( $this->location_synonyms ) {
@@ -1710,24 +1710,24 @@ class Location extends Project {
       $this->echo_safely_with_linebreaks( $this->longitude );
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="warning"' );
-    html::h3_start();
+    HTML::div_start( 'class="warning"' );
+    HTML::h3_start();
     echo "To delete, first tick the 'Confirm Deletion' checkbox then click the 'Delete' button.";
-    html::h3_end();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
 
-    html::checkbox( $fieldname = 'confirm_deletion',
+    HTML::checkbox( $fieldname = 'confirm_deletion',
                     $label = 'Tick to confirm deletion of this location',
                     $is_checked = FALSE,
                     $value_when_checked = 1 );
-    html::new_paragraph();
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::submit_button( 'delete_button', 'Delete' );
+    HTML::new_paragraph();
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::submit_button( 'delete_button', 'Delete' );
 
-    html::div_end();
-    html::form_end();
+    HTML::div_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -1754,12 +1754,12 @@ class Location extends Project {
     }
 
     if( ! $proceed_with_deletion ) {
-      html::new_paragraph();
-      html::div_start( 'class = "warning"' );
+      HTML::new_paragraph();
+      HTML::div_start( 'class = "warning"' );
       $this->echo_safely( "Location '$this->location_name' (ID $this->location_id) was NOT deleted." );
       echo LINEBREAK . $msg . LINEBREAK;
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
       $this->edit_location();
       return;
     }
@@ -1814,12 +1814,12 @@ class Location extends Project {
     $statement = 'COMMIT';
     $this->db_run_query( $statement );
 
-    html::div_start( 'class="warning"' );
+    HTML::div_start( 'class="warning"' );
     $this->echo_safely( "Location '$this->location_name' (ID $this->location_id) has been deleted." );
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
     echo 'Returning to search...';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->write_post_parm( 'location_id', NULL );
 

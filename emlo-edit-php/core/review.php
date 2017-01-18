@@ -83,28 +83,28 @@ class Review extends Project {
     }
 
     $this->write_reviewform_stylesheet();
-    html::div_start( 'class="reviewform"' );
-    html::form_start( $class_name = 'review', $method_name = 'accept_all_works' );
+    HTML::div_start( 'class="reviewform"' );
+    HTML::form_start( $class_name = 'review', $method_name = 'accept_all_works' );
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'Number of works still awaiting review: ' . $num_works;
-    html::h4_end();
+    HTML::h4_end();
     echo 'Any new people, places and repositories referenced in the works will also be added to the system'
          . ' if you click Accept.';
 
-    html::hidden_field( 'upload_id', $upload_id );
+    HTML::hidden_field( 'upload_id', $upload_id );
 
     $this->fields_for_all_works( $multiple_works = TRUE );
 
-    html::submit_button( 'confirm_accept_all_button', 'Accept' );
-    html::form_end();
-    html::div_end();
+    HTML::submit_button( 'confirm_accept_all_button', 'Accept' );
+    HTML::form_end();
+    HTML::div_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::form_start( $class_name = 'upload', $method_name = 'upload_list' );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::form_end();
+    HTML::form_start( $class_name = 'upload', $method_name = 'upload_list' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::form_end();
 
     echo LINEBREAK;
   }
@@ -124,28 +124,28 @@ class Review extends Project {
     }
 
     $this->write_buttonrow_stylesheet();
-    html::div_start( 'class="buttonrow"' );
+    HTML::div_start( 'class="buttonrow"' );
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'Reject all ' . $num_works . ' works from this contribution';
-    html::h4_end();
-    html::italic_start();
+    HTML::h4_end();
+    HTML::italic_start();
     echo 'Please note that, if you click Reject, this will be a permanent rejection.'
           . ' There is currently no mechanism for reversing it.';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
-    html::form_start( $class_name = 'review', $method_name = 'reject_all_works' );
-    html::hidden_field( 'upload_id', $upload_id );
-    html::submit_button( 'confirm_reject_all_button', 'Reject' );
-    html::form_end();
+    HTML::form_start( $class_name = 'review', $method_name = 'reject_all_works' );
+    HTML::hidden_field( 'upload_id', $upload_id );
+    HTML::submit_button( 'confirm_reject_all_button', 'Reject' );
+    HTML::form_end();
 
-    html::form_start( $class_name = 'upload', $method_name = 'upload_list' );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::form_end();
+    HTML::form_start( $class_name = 'upload', $method_name = 'upload_list' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::form_end();
 
     echo LINEBREAK;
-    html::div_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -167,20 +167,20 @@ class Review extends Project {
 
     foreach( $works as $work ) {
       $curr_work++;
-      html::bold_start();
+      HTML::bold_start();
       echo LINEBREAK . "Processing work $curr_work of $num_works ..." . LINEBREAK;
-      html::bold_end();
+      HTML::bold_end();
 
       $this->save_one_work( $upload_id, $work );
     }
 
     $this->contributor_contact_link( $upload_id );
 
-    html::form_start( $class_name = 'upload', $method_name = 'upload_list' );
+    HTML::form_start( $class_name = 'upload', $method_name = 'upload_list' );
     echo 'Back to list of contributions: ';
-    html::submit_button( 'back_to_upload_list_button', 'Back' );
+    HTML::submit_button( 'back_to_upload_list_button', 'Back' );
     echo SPACE;
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -455,14 +455,14 @@ class Review extends Project {
     $statement = 'select status_desc from ' . $this->proj_collect_status_tablename()
                . " where status_id = $new_status";
     $new_status_desc = $this->db_select_one_value( $statement );
-    html::italic_start();
+    HTML::italic_start();
     echo 'Status of contribution is now: ' . $new_status_desc . LINEBREAK;
-    html::italic_end();
+    HTML::italic_end();
 
     $anchor_name = 'saved_' . $union_iwork_id . '_anchor';
-    html::anchor( $anchor_name );
+    HTML::anchor( $anchor_name );
     $script = "document.location.hash = '#$anchor_name'";
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
     flush();
   }
   #-----------------------------------------------------
@@ -1264,16 +1264,16 @@ echo LINEBREAK; //RG_DEBUG
     $statement = 'COMMIT';
     $this->db_run_query( $statement );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'Review of this contribution is now complete.' . LINEBREAK;
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->contributor_contact_link( $upload_id );
 
-    html::form_start( $class_name = 'upload', $method_name = 'upload_list' );
+    HTML::form_start( $class_name = 'upload', $method_name = 'upload_list' );
     echo 'Back to list of contributions: ';
-    html::submit_button( 'back_to_upload_list_button', 'Back' );
-    html::form_end();
+    HTML::submit_button( 'back_to_upload_list_button', 'Back' );
+    HTML::form_end();
   }
   #-----------------------------------------------------
   function write_buttonrow_stylesheet() {
@@ -1300,7 +1300,7 @@ echo LINEBREAK; //RG_DEBUG
     echo '  padding: 15px;'                                             . NEWLINE;
     echo '  border-style: solid;'                                       . NEWLINE;
     echo '  border-width: 1px;'                                         . NEWLINE;
-    echo '  border-color: ' . html::get_contrast2_colour() . ' ;'       . NEWLINE;
+    echo '  border-color: ' . HTML::get_contrast2_colour() . ' ;'       . NEWLINE;
     echo ' }'                                                           . NEWLINE;
 
     echo ' .reviewform label  {'                                        . NEWLINE;
@@ -1370,34 +1370,34 @@ echo LINEBREAK; //RG_DEBUG
     }
 
     $this->write_reviewform_stylesheet();
-    html::div_start( 'class="reviewform"' );
+    HTML::div_start( 'class="reviewform"' );
 
-    html::form_start( $class_name = 'review', $method_name = 'accept_one_work' );
-    html::hidden_field( 'upload_id', $upload_id );
-    html::hidden_field( 'iwork_id', $iwork_id );
+    HTML::form_start( $class_name = 'review', $method_name = 'accept_one_work' );
+    HTML::hidden_field( 'upload_id', $upload_id );
+    HTML::hidden_field( 'iwork_id', $iwork_id );
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'Accept the following work and any new people, places or repositories referenced by it?';
-    html::h4_end();
+    HTML::h4_end();
 
     $this->fields_for_all_works( $multiple_works = FALSE );
 
-    html::submit_button( 'confirm_accept_work_button', 'Accept' );
-    html::form_end();
-    html::div_end();
+    HTML::submit_button( 'confirm_accept_work_button', 'Accept' );
+    HTML::form_end();
+    HTML::div_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::form_start( $class_name = 'upload', $method_name = 'upload_details' );
-    html::hidden_field( 'upload_id', $upload_id );
-    html::hidden_field( 'iwork_id', $iwork_id );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::form_end();
+    HTML::form_start( $class_name = 'upload', $method_name = 'upload_details' );
+    HTML::hidden_field( 'upload_id', $upload_id );
+    HTML::hidden_field( 'iwork_id', $iwork_id );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::form_end();
 
-    html::new_paragraph();
-    html::italic_start();
+    HTML::new_paragraph();
+    HTML::italic_start();
     echo 'Details of work awaiting review:';
-    html::italic_end();
+    HTML::italic_end();
 
     $this->upload_obj->set_upload( $upload_id, $iwork_id );
     $this->upload_obj->display_current_work();
@@ -1427,13 +1427,13 @@ echo LINEBREAK; //RG_DEBUG
 
     $this->contributor_contact_link( $upload_id );
 
-    html::form_start( $class_name = 'upload', $method_name = 'upload_details' );
+    HTML::form_start( $class_name = 'upload', $method_name = 'upload_details' );
     echo 'Back to contribution: ';
-    html::hidden_field( 'upload_id', $upload_id );
-    html::hidden_field( 'iwork_id', $iwork_id );
-    html::submit_button( 'back_to_upload_details_button', 'Back' );
+    HTML::hidden_field( 'upload_id', $upload_id );
+    HTML::hidden_field( 'iwork_id', $iwork_id );
+    HTML::submit_button( 'back_to_upload_details_button', 'Back' );
     echo SPACE;
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -1477,30 +1477,30 @@ echo LINEBREAK; //RG_DEBUG
     }
 
     $this->write_buttonrow_stylesheet();
-    html::div_start( 'class="buttonrow"' );
+    HTML::div_start( 'class="buttonrow"' );
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'Reject the following work?';
-    html::h4_end();
-    html::italic_start();
+    HTML::h4_end();
+    HTML::italic_start();
     echo 'Please note that, if you click Reject, this will be a permanent rejection.'
           . ' There is currently no mechanism for reversing it.';
-    html::italic_end();
+    HTML::italic_end();
 
-    html::form_start( $class_name = 'review', $method_name = 'reject_one_work' );
-    html::hidden_field( 'upload_id', $upload_id );
-    html::hidden_field( 'iwork_id', $iwork_id );
-    html::submit_button( 'confirm_reject_work_button', 'Reject' );
-    html::form_end();
+    HTML::form_start( $class_name = 'review', $method_name = 'reject_one_work' );
+    HTML::hidden_field( 'upload_id', $upload_id );
+    HTML::hidden_field( 'iwork_id', $iwork_id );
+    HTML::submit_button( 'confirm_reject_work_button', 'Reject' );
+    HTML::form_end();
 
-    html::form_start( $class_name = 'upload', $method_name = 'upload_details' );
-    html::hidden_field( 'upload_id', $upload_id );
-    html::hidden_field( 'iwork_id', $iwork_id );
-    html::submit_button( 'cancel_button', 'Cancel' );
-    html::form_end();
+    HTML::form_start( $class_name = 'upload', $method_name = 'upload_details' );
+    HTML::hidden_field( 'upload_id', $upload_id );
+    HTML::hidden_field( 'iwork_id', $iwork_id );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
+    HTML::form_end();
 
     echo LINEBREAK;
-    html::div_end();
+    HTML::div_end();
 
     $this->upload_obj->set_upload( $upload_id, $iwork_id );
     $this->upload_obj->display_current_work();
@@ -1541,27 +1541,27 @@ echo LINEBREAK; //RG_DEBUG
     $statement = 'COMMIT';
     $this->db_run_query( $statement );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'The selected work has been rejected.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $statement = 'select status_desc from ' . $this->proj_collect_status_tablename()
                . " where status_id = $new_status";
     $new_status_desc = $this->db_select_one_value( $statement );
 
-    html::div_start( 'class="highlight1 bold"' );
+    HTML::div_start( 'class="highlight1 bold"' );
     echo 'The status of the contribution as a whole is now: ' . $new_status_desc;
-    html::div_end();
+    HTML::div_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->contributor_contact_link( $upload_id );
 
-    html::form_start( $class_name = 'upload', $method_name = 'upload_details' );
+    HTML::form_start( $class_name = 'upload', $method_name = 'upload_details' );
     echo 'Back to contribution: ';
-    html::hidden_field( 'upload_id', $upload_id );
-    html::hidden_field( 'iwork_id', $iwork_id );
-    html::submit_button( 'back_to_upload_details_button', 'Back' );
-    html::form_end();
+    HTML::hidden_field( 'upload_id', $upload_id );
+    HTML::hidden_field( 'iwork_id', $iwork_id );
+    HTML::submit_button( 'back_to_upload_details_button', 'Back' );
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -1597,17 +1597,17 @@ echo LINEBREAK; //RG_DEBUG
     $uploader_email = $this->db_select_one_value( $statement );
     if( ! $uploader_email ) return;
 
-    html::new_paragraph();
-    html::h4_start();
+    HTML::new_paragraph();
+    HTML::h4_start();
     echo 'Contributor contact details: ';
 
-    html::link( $href = "mailto:$uploader_email", 
+    HTML::link( $href = "mailto:$uploader_email", 
                 $displayed_text = $uploader_email, 
                 $title = 'Contact the contributor', 
                 $target = '_blank' );
-    html::h4_end();
+    HTML::h4_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -1701,17 +1701,17 @@ echo LINEBREAK; //RG_DEBUG
 
   function fields_for_all_works( $multiple_works = FALSE ) {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
 
     $statement = 'select upload_description from ' . $this->proj_collect_upload_tablename()
                . " where upload_id = $this->upload_id";
     $upload_description = $this->db_select_one_value( $statement );
     
-    html::input_field( 'accession_code',  $label = 'Source of data', $upload_description, 
+    HTML::input_field( 'accession_code',  $label = 'Source of data', $upload_description, 
                        FALSE, FLD_SIZE_ACCESSION_CODE );
     echo ' (max. ' . MAX_SIZE_ACCESSION_CODE . ' characters)';
-		html::new_paragraph();
+		HTML::new_paragraph();
 
     $catg_obj = new Catalogue( $this->db_connection );
 
@@ -1719,24 +1719,24 @@ echo LINEBREAK; //RG_DEBUG
                                    $field_label = 'Original catalogue',
                                    $selected_code = NULL );
 
-		html::new_paragraph();
+		HTML::new_paragraph();
 
-    html::span_start( 'class="inputfieldaligned"' );
-    html::italic_start();
+    HTML::span_start( 'class="inputfieldaligned"' );
+    HTML::italic_start();
     echo "You can optionally set the 'Source of data' and 'Original catalogue' fields";
     if( $multiple_works )
       echo ' for every work still outstanding.';
     else
       echo ' for this work.';
-    html::span_end();
+    HTML::span_end();
     echo LINEBREAK;
 
-    html::span_start( 'class="inputfieldaligned"' );
+    HTML::span_start( 'class="inputfieldaligned"' );
     echo " Change the default value for 'Source of data', and/or choose a catalogue from the drop-down list,"
          . ' then click Accept.';
-    html::italic_end();
-    html::span_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::span_end();
+    HTML::new_paragraph();
 
   }
   #-----------------------------------------------------

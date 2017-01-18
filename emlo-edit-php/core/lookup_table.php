@@ -162,7 +162,7 @@ class lookup_table extends DBEntity {
     $this->lookup_list = $this->get_lookup_list( $called_by = 'lookup_table_dropdown' );
     if( ! is_array( $this->lookup_list )) return;
 
-    html::dropdown_start( $field_name, $field_label, $in_table, $script );
+    HTML::dropdown_start( $field_name, $field_label, $in_table, $script );
 
     foreach( $this->lookup_list as $lookup_row ) {
 
@@ -172,11 +172,11 @@ class lookup_table extends DBEntity {
       else
         $display_desc = $lookup_row["$this->desc_column_name"];
 
-      html::dropdown_option( $display_id,
+      HTML::dropdown_option( $display_id,
                              $display_desc,
                              $selected_id );  # selected one
     }
-    html::dropdown_end( $in_table);
+    HTML::dropdown_end( $in_table);
   }
   #----------------------------------------------------- 
 
@@ -195,7 +195,7 @@ class lookup_table extends DBEntity {
     $script = NULL;
     if( $copy_field ) {
       $script = 'onchange="var val=' . "$form_name.$field_name.value;" . NEWLINE;
-      $script = $script . "var fieldcolour = '" . html::get_highlight2_colour( $this->publicly_available_page );
+      $script = $script . "var fieldcolour = '" . HTML::get_highlight2_colour( $this->publicly_available_page );
       $script = $script . "';" . NEWLINE;
       $script = $script . "$form_name.$copy_field.value=val;" . NEWLINE;
       $script = $script . "if( val == '' ) fieldcolour='white';" . NEWLINE;
@@ -203,16 +203,16 @@ class lookup_table extends DBEntity {
       $script = $script . '"';
     }
 
-    html::dropdown_start( $field_name, $field_label, $in_table, $script );
+    HTML::dropdown_start( $field_name, $field_label, $in_table, $script );
 
     $blank_row_descrip = 'Possible values';
     if( trim( $override_blank_row_descrip ) > '' ) $blank_row_descrip = $override_blank_row_descrip;
-    html::dropdown_option( '', $blank_row_descrip );
+    HTML::dropdown_option( '', $blank_row_descrip );
     foreach( $this->lookup_list as $lookup_row ) {
       $display_desc = $lookup_row[ "$this->desc_column_name" ];
-      html::dropdown_option( $display_desc, $display_desc );
+      HTML::dropdown_option( $display_desc, $display_desc );
     }
-    html::dropdown_end( $in_table);
+    HTML::dropdown_end( $in_table);
   }
   #----------------------------------------------------- 
 
@@ -248,33 +248,33 @@ class lookup_table extends DBEntity {
     $this->class_name = $this->app_get_class($this);
 
     echo 'You can use this screen to add new records to the closed list, or change existing ones.';
-    html::new_paragraph();
+    HTML::new_paragraph();
     
     #-------------------
     # New lookup records
     #-------------------
-    html::div_start( 'id="new_lookup_record"' );
-    html::bold_start();
+    HTML::div_start( 'id="new_lookup_record"' );
+    HTML::bold_start();
     echo 'Enter new records here:';
     if( $this->debug ) echo "RG edit_lookup_table1() 91<br>";
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
 
     $this->form_count = 1;
     $form_name = $this->class_name . '_edit_form' . $this->form_count;
     
-    $this->form_name = html::form_start( $this->class_name, 'edit_lookup_table2', $form_name,
+    $this->form_name = HTML::form_start( $this->class_name, 'edit_lookup_table2', $form_name,
                        $form_target = '', $onsubmit_validation = TRUE );
 
-    html::table_start( 'class="highlight2 contrast1_boxed spacepadded"' );
-    html::tablerow_start();
+    HTML::table_start( 'class="highlight2 contrast1_boxed spacepadded"' );
+    HTML::tablerow_start();
 
     #------------------
     # New row: ID field
     #------------------
     if( ! $this->auto_generated_id ) {   # user selects the ID themselves
-      html::input_field( $this->id_column_name, 'ID', NULL, $in_table=TRUE, $size=$this->id_size  );
-      html::new_tablerow();
+      HTML::input_field( $this->id_column_name, 'ID', NULL, $in_table=TRUE, $size=$this->id_size  );
+      HTML::new_tablerow();
     }
 
     $this->write_extra_fields1_new();  # give opportunity for child class to add extra data here by overriding
@@ -283,50 +283,50 @@ class lookup_table extends DBEntity {
     # New row: code field (if applicable)
     #------------------------------------
     if( $this->table_contains_code ) {
-      html::input_field( $this->code_column_name, $this->get_label_for_code_field(), $this->default_code, 
+      HTML::input_field( $this->code_column_name, $this->get_label_for_code_field(), $this->default_code, 
                          $in_table=TRUE, $size=$this->code_size, $tabindex=1, $label_parms='class="rightaligned"');
-      html::new_tablerow();
+      HTML::new_tablerow();
     }
 
     #--------------------------------
     # New row: description field
     #--------------------------------
-    html::input_field( $this->desc_column_name, $this->get_label_for_desc_field(), '', 
+    HTML::input_field( $this->desc_column_name, $this->get_label_for_desc_field(), '', 
                        $in_table=TRUE, $size=$this->desc_size, $tabindex=1, $label_parms='class="rightaligned"' );
-    html::new_tablerow();
+    HTML::new_tablerow();
 
     $this->write_extra_fields2_new();  # give opportunity for child class to add extra data here by overriding
 
-    html::tabledata_start( 'class="rightaligned"');
-    html::submit_button( 'add_button', 'Add' );
-    html::tabledata_end();
+    HTML::tabledata_start( 'class="rightaligned"');
+    HTML::submit_button( 'add_button', 'Add' );
+    HTML::tabledata_end();
 
-    html::tabledata_start();
+    HTML::tabledata_start();
     if( $this->auto_generated_id )
-      html::hidden_field( $this->id_column_name, 0 );  # will tell the "save" function to insert not update
-    html::tabledata_end();
+      HTML::hidden_field( $this->id_column_name, 0 );  # will tell the "save" function to insert not update
+    HTML::tabledata_end();
 
-    html::tablerow_end();
-    html::table_end();
-    html::form_end();
-    html::div_end();
+    HTML::tablerow_end();
+    HTML::table_end();
+    HTML::form_end();
+    HTML::div_end();
 
     #-----------------
     # Existing records
     #-----------------
     if( $this->debug ) echo "RG edit_lookup_table1() 93<br>";
-    html::div_start( 'id="existing_lookup_record"' );
-    html::new_paragraph();
+    HTML::div_start( 'id="existing_lookup_record"' );
+    HTML::new_paragraph();
 
     $existing_lookup = $this->get_lookup_list( $called_by = 'edit_lookup_table1' );
     if( ! is_array( $existing_lookup )) return;
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Change existing records here:';
-    html::bold_end();
+    HTML::bold_end();
     echo LINEBREAK;
     echo '(You can only change one record at a time.)';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     foreach( $existing_lookup as $row ) {
       extract( $row, EXTR_OVERWRITE ); # copy into simple variables
@@ -346,23 +346,23 @@ class lookup_table extends DBEntity {
       $this->form_count++;
       $form_name = $this->class_name . '_edit_form' . $this->form_count;
 
-      $this->form_name = html::form_start( $this->class_name, 'edit_lookup_table2', $form_name,
+      $this->form_name = HTML::form_start( $this->class_name, 'edit_lookup_table2', $form_name,
                          $form_target = '', $onsubmit_validation = TRUE );
 
       $anchor = 'id_' . $id_value . '_anchor';
-      html::anchor( $anchor );
+      HTML::anchor( $anchor );
 
-      html::hidden_field( $this->id_column_name, $id_value ); #tells "save" function to update not insert
+      HTML::hidden_field( $this->id_column_name, $id_value ); #tells "save" function to update not insert
 
-      html::table_start( 'class="highlight1 contrast1_boxed spacepadded"' );
-      html::tablerow_start();
+      HTML::table_start( 'class="highlight1 contrast1_boxed spacepadded"' );
+      HTML::tablerow_start();
 
       #--------------------------------
       # Existing row: write readonly ID 
       #--------------------------------
-      html::tabledata( 'ID ' . $id_value  );
-      html::tabledata();
-      html::new_tablerow();
+      HTML::tabledata( 'ID ' . $id_value  );
+      HTML::tabledata();
+      HTML::new_tablerow();
 
       $this->write_extra_fields1_existing( $id_value );  # let child class add extra data here by overriding
 
@@ -385,113 +385,113 @@ class lookup_table extends DBEntity {
           }
         }
         if( $changeable_code )
-          html::input_field( $this->code_column_name, $this->get_label_for_code_field(), $code_value, $in_table=TRUE, 
+          HTML::input_field( $this->code_column_name, $this->get_label_for_code_field(), $code_value, $in_table=TRUE, 
                              $size=$this->code_size, $tabindex=1, $label_parms='class="rightaligned"'  );
         else {
-          html::tabledata( $this->get_label_for_code_field() );
-          html::tabledata( $code_value );
+          HTML::tabledata( $this->get_label_for_code_field() );
+          HTML::tabledata( $code_value );
         }
-        #html::new_tablerow();
+        #HTML::new_tablerow();
       } 
       #-----------------------------------------------------------------
       # Give option to continue at the same point in the form after Save
       #-----------------------------------------------------------------
 /*
-      html::tablerow_start();
-      html::tabledata('Publish'); # empty cell
+      HTML::tablerow_start();
+      HTML::tabledata('Publish'); # empty cell
 
       $is_checked = ($publ_value == 1 ) ? TRUE  : FALSE ;
       echo "RG edit_lookup_table1() publ_value == $publ_value <br>";
 
-      html::tabledata_start();
-      #html::italic_start();
+      HTML::tabledata_start();
+      #HTML::italic_start();
 
-      html::checkbox( $fieldname = 'publish_status', $label = 'Publish', 
+      HTML::checkbox( $fieldname = 'publish_status', $label = 'Publish', 
                       $is_checked , $value_when_checked = 1, $in_table = FALSE, $tabindex = 1,
                       $input_instance = $id_value, $label_on_left = TRUE );
-      html::tabledata_end();
+      HTML::tabledata_end();
 */
-      html::tablerow_end();
+      HTML::tablerow_end();
 
       #--------------------------------
       # Existing row: write description
       #--------------------------------
-      html::input_field( $this->desc_column_name, $this->get_label_for_desc_field(), $desc_value, $in_table=TRUE, 
+      HTML::input_field( $this->desc_column_name, $this->get_label_for_desc_field(), $desc_value, $in_table=TRUE, 
                          $size=$this->desc_size, $tabindex=1, $label_parms='class="rightaligned"' );
 
       #-----------------------------------------------------------------
       # Give option to continue at the same point in the form after Save
       #-----------------------------------------------------------------
-      html::tablerow_start();
-      html::tabledata('Publish'); # empty cell
+      HTML::tablerow_start();
+      HTML::tabledata('Publish'); # empty cell
 
       $is_checked = ($publ_value == 1 ) ? TRUE  : FALSE ;
       if( $this->debug ) echo "RG2 edit_lookup_table1() publ_value == $publ_value <br>";
 
-      html::tabledata_start();
-      #html::italic_start();
+      HTML::tabledata_start();
+      #HTML::italic_start();
 
-      html::checkbox( $fieldname = 'publish_status', $label = '', 
+      HTML::checkbox( $fieldname = 'publish_status', $label = '', 
                       $is_checked , $value_when_checked = 1, $in_table = FALSE, $tabindex = 1,
                       $input_instance = $id_value, $label_on_left = TRUE );
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
 
-      html::new_tablerow();
+      HTML::new_tablerow();
 
       $this->write_extra_fields2_existing( $id_value );  # let child class add extra data here by overriding
 
-      html::tabledata_start( 'class="rightaligned"' );
-      html::submit_button( 'change_button', $this->get_label_for_change_button() );
-      html::tabledata_end();
+      HTML::tabledata_start( 'class="rightaligned"' );
+      HTML::submit_button( 'change_button', $this->get_label_for_change_button() );
+      HTML::tabledata_end();
 
       #.................................................................
 
-      html::tabledata_start( 'class="rightaligned"' );
+      HTML::tabledata_start( 'class="rightaligned"' );
 
-      html::hidden_field( $this->id_column_name, $id_value );
+      HTML::hidden_field( $this->id_column_name, $id_value );
       if( $this->table_contains_code && ! $changeable_code )
-        html::hidden_field( $this->code_column_name, $code_value );
+        HTML::hidden_field( $this->code_column_name, $code_value );
 
-      html::italic_start();
+      HTML::italic_start();
       echo 'Check whether deletion is currently possible:';
-      html::italic_end();
-      html::submit_button( 'check_deletion_button', 'Check' );
+      HTML::italic_end();
+      HTML::submit_button( 'check_deletion_button', 'Check' );
 
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
 
       #-----------------------------------------------------------------
       # Give option to continue at the same point in the form after Save
       #-----------------------------------------------------------------
-      html::tablerow_start();
-      html::tabledata(); # empty cell
+      HTML::tablerow_start();
+      HTML::tabledata(); # empty cell
 
-      html::tabledata_start();
-      html::italic_start();
+      HTML::tabledata_start();
+      HTML::italic_start();
 
-      html::checkbox( $fieldname = 'existing_record_anchor', $label = 'Continue here after saving', 
+      HTML::checkbox( $fieldname = 'existing_record_anchor', $label = 'Continue here after saving', 
                       $is_checked = TRUE, $value_when_checked = $anchor, $in_table = FALSE, $tabindex = 1,
                       $input_instance = $id_value );
 
-      html::span_start( 'class="widespaceonleft"' );
-      html::link_to_page_top();
-      html::span_end();
+      HTML::span_start( 'class="widespaceonleft"' );
+      HTML::link_to_page_top();
+      HTML::span_end();
 
-      html::italic_end();
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::italic_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
 
-      html::table_end();
+      HTML::table_end();
 
-      html::form_end();
-      html::new_paragraph();
+      HTML::form_end();
+      HTML::new_paragraph();
     }
-    html::div_end();
+    HTML::div_end();
 
     if( $this->parm_found_in_post( 'existing_record_anchor' )) {
       $anchor = $this->read_post_parm( 'existing_record_anchor' );
-      html::write_javascript_function( 'window.location.hash = "' . $anchor . '"' );
+      HTML::write_javascript_function( 'window.location.hash = "' . $anchor . '"' );
     }
   }
   #----------------------------------------------------- 
@@ -551,10 +551,10 @@ class lookup_table extends DBEntity {
     }
 
     elseif( $this->parm_found_in_post( 'cancel_deletion_button' )) {
-      html::italic_start();
+      HTML::italic_start();
       echo 'Deletion cancelled.';
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
       $this->edit_lookup_table1();
       return;
     }
@@ -619,14 +619,14 @@ class lookup_table extends DBEntity {
     if( $this->debug ) echo "RG edit_lookup_table2() executing<br>$statement<br> ";
     $this->db_run_query( $statement );
 
-    html::italic_start();
+    HTML::italic_start();
     $code_val = $this->strip_all_slashes( $code_val );
     $desc_val = $this->strip_all_slashes( $desc_val );
     echo "Saved $descrip record: ";
     if( $id_val ) echo "ID $id_val: ";
     $this->echo_safely( "$code_val $desc_val" );
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     $this->edit_lookup_table1();
   }
@@ -645,10 +645,10 @@ class lookup_table extends DBEntity {
     $statement = "delete from $this->lookup_table_name where $this->id_column_name = $id_val";
     $this->db_run_query( $statement );
 
-    html::italic_start();
+    HTML::italic_start();
     $this->echo_safely( 'Deleted ID ' . $id_val . ' (' . $desc . ')' );
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     $this->edit_lookup_table1();
   }
@@ -705,96 +705,96 @@ class lookup_table extends DBEntity {
 
     $class_name = $this->app_get_class($this);
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Check whether record can be deleted:';
-    html::italic_end();
-    html::new_paragraph();
-    html::bold_start();
+    HTML::italic_end();
+    HTML::new_paragraph();
+    HTML::bold_start();
 
     echo 'ID ' . $id_value;
-    html::new_paragraph();
+    HTML::new_paragraph();
     if( $this->table_contains_code ) {
       $this->echo_safely( 'Code: ' . $this->get_lookup_code( $id_value ));
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     $this->echo_safely( 'Description: ' . $this->get_lookup_desc( $id_value ));
 
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
 
     $uses = $this->find_uses_of_this_id( $id_value );
 
     if( ! $uses ) {
-      html::form_start( $class_name, 'edit_lookup_table2' );
-      html::new_paragraph();
+      HTML::form_start( $class_name, 'edit_lookup_table2' );
+      HTML::new_paragraph();
       echo 'It should be possible to delete this record, as it does not appear to be used elsewhere in the data.';
-      html::new_paragraph();
-      html::submit_button( 'delete_button', 'Delete' );
+      HTML::new_paragraph();
+      HTML::submit_button( 'delete_button', 'Delete' );
       echo ' ';
-      html::submit_button( 'cancel_deletion_button', 'Cancel' );
-      html::hidden_field( $this->id_column_name, $id_value );
-      html::form_end();
+      HTML::submit_button( 'cancel_deletion_button', 'Cancel' );
+      HTML::hidden_field( $this->id_column_name, $id_value );
+      HTML::form_end();
     }
     else {  # ID is in use
       $can_edit_referencing_data = FALSE;
       if( $this->referencing_class && $this->referencing_method && $this->referencing_id_column )
         $can_edit_referencing_data = TRUE;
 
-      html::form_start( $class_name, 'edit_lookup_table2' );
-      html::new_paragraph();
+      HTML::form_start( $class_name, 'edit_lookup_table2' );
+      HTML::new_paragraph();
       echo 'This record is in use within the database, so cannot be deleted until all references '
            . ' to it have been removed.';
-      html::new_paragraph();
+      HTML::new_paragraph();
 
       if( $can_edit_referencing_data ) {
         echo 'Click the Edit button below to open a new browser tab or window allowing you to edit the data '
              . ' and remove references to the lookup record which you wish to delete. ';
-        html::new_paragraph();
+        HTML::new_paragraph();
 
         echo 'After removing the reference to this lookup record, simply close the newly-opened tab/window '
              . ' and click the Refresh button in the current one.';
-        html::new_paragraph();
+        HTML::new_paragraph();
       }
 
 
-      html::submit_button( 'check_deletion_button', 'Refresh' );
+      HTML::submit_button( 'check_deletion_button', 'Refresh' );
       echo ' ';
-      html::submit_button( 'cancel_deletion_button', 'Cancel' );
-      html::hidden_field( $this->id_column_name, $id_value );
-      html::form_end();
-      html::new_paragraph();
+      HTML::submit_button( 'cancel_deletion_button', 'Cancel' );
+      HTML::hidden_field( $this->id_column_name, $id_value );
+      HTML::form_end();
+      HTML::new_paragraph();
       
       if( is_array( $uses )) {
 
         $uses = $this->limit_display_of_lookup_uses( $uses );
 
         $first_row = TRUE;
-        html::table_start( 'class="datatab spacepadded"' );
+        HTML::table_start( 'class="datatab spacepadded"' );
         foreach( $uses as $row ) {
           if( $first_row ) {
             $first_row = FALSE;
             if( is_array( $this->lookup_reference_column_labels )) {
-              html::tablerow_start();
+              HTML::tablerow_start();
               foreach( $row as $colname => $colvalue ) {
-                html::column_header( $this->lookup_reference_column_labels[ "$colname" ] );
+                HTML::column_header( $this->lookup_reference_column_labels[ "$colname" ] );
               }
-              html::tablerow_end();
+              HTML::tablerow_end();
             }
           }
-          html::tablerow_start();
+          HTML::tablerow_start();
           foreach( $row as $colname => $colvalue ) {
 
             # If enough details have been supplied, allow editing of the data which references this lookup record
             if( $can_edit_referencing_data && $colname ==  $this->referencing_id_column ) {
-              html::tabledata_start( 'class="highlight1"' );
+              HTML::tabledata_start( 'class="highlight1"' );
 
-              html::form_start( $this->referencing_class, $this->referencing_method, 
+              HTML::form_start( $this->referencing_class, $this->referencing_method, 
                                 $form_name = '', # name will be auto-generated 
                                 $form_target = '_blank' );
               if( ! $this->hide_referencing_id_column )
                 echo $colvalue . LINEBREAK;
-              html::hidden_field( $colname, $colvalue );
+              HTML::hidden_field( $colname, $colvalue );
 
               #---------------------------------------------------------------------------------------------
               # Initial step in enabling the called class to put up a message saying:
@@ -802,23 +802,23 @@ class lookup_table extends DBEntity {
               # However, called class will have to explicitly call method copy_opening_class_and_method()
               # in its 'Save' form before the message/close button are fully enabled.
               #---------------------------------------------------------------------------------------------
-              html::hidden_field( 'opening_class',  $this->app_get_class( $this ));
-              html::hidden_field( 'opening_method', 'check_lookup_deletion' );
+              HTML::hidden_field( 'opening_class',  $this->app_get_class( $this ));
+              HTML::hidden_field( 'opening_method', 'check_lookup_deletion' );
 
-              html::submit_button( 'edit_button', 'Edit' );
-              html::form_end();
-              html::tabledata_end();
+              HTML::submit_button( 'edit_button', 'Edit' );
+              HTML::form_end();
+              HTML::tabledata_end();
             }
 
             else
-              html::tabledata( $colvalue );
+              HTML::tabledata( $colvalue );
           }
-          html::tablerow_end();
+          HTML::tablerow_end();
         }
-        html::table_end();
+        HTML::table_end();
       }
     }
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #----------------------------------------------------- 
 
@@ -840,11 +840,11 @@ class lookup_table extends DBEntity {
     }
     $uses = NULL;
 
-    html::italic_start();
+    HTML::italic_start();
     echo '(This record is used in more than ' . MAX_LOOKUP_USES_DISPLAYED . ' places in the database. ';
     echo 'Only the first ' . MAX_LOOKUP_USES_DISPLAYED . ' uses are being displayed here.)';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     return $limited_uses;
   }

@@ -164,7 +164,7 @@ class Help extends DBEntity {
       return NULL;
 
     else {
-      return html::return_link( $this->short_url, 'Help', $title = $this->page_title, $target );
+      return HTML::return_link( $this->short_url, 'Help', $title = $this->page_title, $target );
     }
   }
   #-----------------------------------------------------
@@ -175,7 +175,7 @@ class Help extends DBEntity {
       return NULL;
 
     else {
-      return html::return_link( $this->default_full_url, $this->default_full_url, $this->page_title, $target );
+      return HTML::return_link( $this->default_full_url, $this->default_full_url, $this->page_title, $target );
     }
   }
   #-----------------------------------------------------
@@ -186,7 +186,7 @@ class Help extends DBEntity {
       return NULL;
 
     else {
-      return html::return_link( $this->full_url, $this->full_url, $this->page_title, $target );
+      return HTML::return_link( $this->full_url, $this->full_url, $this->page_title, $target );
     }
   }
   #-----------------------------------------------------
@@ -197,7 +197,7 @@ class Help extends DBEntity {
       return NULL;
 
     else {
-      return html::return_link( $this->full_url, $this->page_title, $this->page_title, $target );
+      return HTML::return_link( $this->full_url, $this->page_title, $this->page_title, $target );
     }
   }
   #-----------------------------------------------------
@@ -208,7 +208,7 @@ class Help extends DBEntity {
       return NULL;
 
     else {
-      return html::return_link( $this->full_url . '&printable_output=Y', 
+      return HTML::return_link( $this->full_url . '&printable_output=Y', 
                                 'Printable version', 'Printable version of this page', $target );
     }
   }
@@ -220,7 +220,7 @@ class Help extends DBEntity {
       return NULL;
 
     else {
-      return html::return_link( $this->index_url, 'Help index', $title = 'Help index', $target );
+      return HTML::return_link( $this->index_url, 'Help index', $title = 'Help index', $target );
     }
   }
   #-----------------------------------------------------
@@ -231,7 +231,7 @@ class Help extends DBEntity {
       return NULL;
 
     else {
-      return html::return_link( $this->printable_index_url, 'Printable index', 
+      return HTML::return_link( $this->printable_index_url, 'Printable index', 
                                 $title = 'Printable version of help index', $target );
     }
   }
@@ -243,7 +243,7 @@ class Help extends DBEntity {
       return NULL;
 
     else {
-      return html::return_link( $this->whole_manual_url, 'Whole manual', 
+      return HTML::return_link( $this->whole_manual_url, 'Whole manual', 
                                 $title = 'Printable version of whole manual', $target );
     }
   }
@@ -253,11 +253,11 @@ class Help extends DBEntity {
   function help_edit_button( $post_help_edit_menu_item_id, $called_from_help_summary=FALSE ) {  
 
     if( $this->help_page_is_editable()) {
-      html::form_start( 'help', 'edit_help' );
+      HTML::form_start( 'help', 'edit_help' );
 
-      html::hidden_field( 'page_id', $this->page_id );
+      HTML::hidden_field( 'page_id', $this->page_id );
 
-      html::hidden_field( 'post_help_edit_menu_item_id', $post_help_edit_menu_item_id );
+      HTML::hidden_field( 'post_help_edit_menu_item_id', $post_help_edit_menu_item_id );
 
       if( $this->help_page_is_custom_url()) {
         echo '*** N.B. Using custom URL. ***';
@@ -268,8 +268,8 @@ class Help extends DBEntity {
 
       if( ! $called_from_help_summary ) $button_title = '[ ' . $button_title . ' ]';
 
-      html::submit_button( 'edit_help_button', $button_title );
-      html::form_end();
+      HTML::submit_button( 'edit_help_button', $button_title );
+      HTML::form_end();
     }
   }
   #-----------------------------------------------------
@@ -278,17 +278,17 @@ class Help extends DBEntity {
   function change_help_url_button( $post_help_edit_menu_item_id, $called_from_help_summary=FALSE ) {  
 
     if( $this->help_page_is_editable()) {
-      html::form_start( 'help', 'change_help_url' );
+      HTML::form_start( 'help', 'change_help_url' );
 
-      html::hidden_field( 'page_id', $this->page_id );
+      HTML::hidden_field( 'page_id', $this->page_id );
 
-      html::hidden_field( 'post_help_edit_menu_item_id', $post_help_edit_menu_item_id );
+      HTML::hidden_field( 'post_help_edit_menu_item_id', $post_help_edit_menu_item_id );
 
       $button_title = 'Change Help URL';
       if( ! $called_from_help_summary ) $button_title = '[ ' . $button_title . ' ]';
 
-      html::submit_button( 'change_help_url_button', $button_title );
-      html::form_end();
+      HTML::submit_button( 'change_help_url_button', $button_title );
+      HTML::form_end();
     }
   }
   #-----------------------------------------------------
@@ -301,58 +301,58 @@ class Help extends DBEntity {
     $this->set_help( $page_id );
     if( ! $this->page_id ) $this->die_on_error( 'Invalid page ID.' );
 
-    html::h3_start();
+    HTML::h3_start();
     echo $this->page_title;
-    html::h3_end();
+    HTML::h3_end();
 
     if( $this->help_page_is_custom_url()) {
-      html::div_start( 'class="warning"' );
+      HTML::div_start( 'class="warning"' );
       echo 'Warning: you are currently using a custom URL not the default one.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo 'You can edit the default help text, but the Help link in the page banner will not point at it.';
 
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo "To re-activate the default URL, go back and select 'Change Help URL'.";
 
-      html::div_end( "warning" );
+      HTML::div_end( "warning" );
     }
 
-    html::ulist_start();
-    html::listitem( 'Please enter your text in the box below.' );
-    html::listitem( "'Save draft' saves your changes in the database but does not publish the edited text." );
-    html::listitem( "'Publish' makes the edited text visible on this URL: " 
+    HTML::ulist_start();
+    HTML::listitem( 'Please enter your text in the box below.' );
+    HTML::listitem( "'Save draft' saves your changes in the database but does not publish the edited text." );
+    HTML::listitem( "'Publish' makes the edited text visible on this URL: " 
                     . $this->get_link_to_default_help_page());
-    html::ulist_end();
+    HTML::ulist_end();
 
-    html::form_start( 'help', 'save_help' );
+    HTML::form_start( 'help', 'save_help' );
 
-    html::hidden_field( 'page_id', $this->page_id );
+    HTML::hidden_field( 'page_id', $this->page_id );
 
-    html::hidden_field( 'post_help_edit_menu_item_id', $this->post_help_edit_menu_item_id );
+    HTML::hidden_field( 'post_help_edit_menu_item_id', $this->post_help_edit_menu_item_id );
 
     $this->buttons_for_saving_help();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::textarea_start( 'draft_text', $rows = HELP_EDIT_ROWS, $columns = HELP_EDIT_COLS );
+    HTML::textarea_start( 'draft_text', $rows = HELP_EDIT_ROWS, $columns = HELP_EDIT_COLS );
     $this->echo_safely( $this->draft_text );
-    html::textarea_end();
+    HTML::textarea_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->buttons_for_saving_help();
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
   function buttons_for_saving_help() {
 
-    html::submit_button( 'save_button', 'Save draft' );
+    HTML::submit_button( 'save_button', 'Save draft' );
     echo ' (Shortcut key S) ';
 
-    html::submit_button( 'publish_button', 'Publish' );
+    HTML::submit_button( 'publish_button', 'Publish' );
     echo ' ';
 
-    html::submit_button( 'cancel_button', 'Cancel' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
   }
   #-----------------------------------------------------
 
@@ -364,13 +364,13 @@ class Help extends DBEntity {
     $this->set_help( $page_id );
     if( ! $this->page_id ) $this->die_on_error( 'Invalid page ID.' );
 
-    html::h3_start();
+    HTML::h3_start();
     echo $this->page_title;
-    html::h3_end();
+    HTML::h3_end();
 
     if( $this->parm_found_in_post( 'cancel_button' )) {
       echo 'Changes to help text were cancelled.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       $this->post_help_edit_options();
       return;
     }
@@ -383,7 +383,7 @@ class Help extends DBEntity {
     $this->db_run_query( $statement );
 
     echo $this->get_datetime_now_in_words() . ': Changes to help text were saved in the database.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->parm_found_in_post( 'publish_button' )) {
       $this->publish_help( $page_id );
@@ -405,7 +405,7 @@ class Help extends DBEntity {
 
     if( $this->parm_found_in_post( 'cancel_button' )) {
       echo 'Changes to help text were cancelled.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       $this->post_help_edit_options();
       return;  # later change this to a return to the appropriate screen
     }
@@ -417,7 +417,7 @@ class Help extends DBEntity {
 
     echo $this->get_datetime_now_in_words() . ': Saved text has now been published on ' 
          . $this->get_link_to_default_help_page();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->post_help_edit_options();
     return;
@@ -426,20 +426,20 @@ class Help extends DBEntity {
 
   function post_help_edit_options() {
 
-    html::div_start( 'class="highlight1"' );
-    html::form_start( 'help', 'edit_help' );
-    html::hidden_field( 'page_id', $this->page_id );
-    html::hidden_field( 'post_help_edit_menu_item_id', $this->post_help_edit_menu_item_id );
+    HTML::div_start( 'class="highlight1"' );
+    HTML::form_start( 'help', 'edit_help' );
+    HTML::hidden_field( 'page_id', $this->page_id );
+    HTML::hidden_field( 'post_help_edit_menu_item_id', $this->post_help_edit_menu_item_id );
     echo 'Continue editing help text: ';
-    html::submit_button();
-    html::form_end();
-    html::div_end( "highlight1" );
+    HTML::submit_button();
+    HTML::form_end();
+    HTML::div_end( "highlight1" );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="highlight2"' );
+    HTML::div_start( 'class="highlight2"' );
     $this->return_to_calling_menu_option_form();
-    html::div_end( "highlight2" );
+    HTML::div_end( "highlight2" );
   }
   #-----------------------------------------------------
 
@@ -459,17 +459,17 @@ class Help extends DBEntity {
     }
 
     if( $post_help_edit_class_name == 'help' && $post_help_edit_method_name == 'help_pages_summary' ) {
-      html::form_start( $post_help_edit_class_name, $post_help_edit_method_name );
-      html::hidden_field( 'required_anchor', $this->get_anchor_name());
+      HTML::form_start( $post_help_edit_class_name, $post_help_edit_method_name );
+      HTML::hidden_field( 'required_anchor', $this->get_anchor_name());
     }
     else {
-      html::form_start( NULL, NULL, NULL, '_self',  FALSE, NULL, 'GET' );
-      html::hidden_field( 'menu_item_id', $this->post_help_edit_menu_item_id );
+      HTML::form_start( NULL, NULL, NULL, '_self',  FALSE, NULL, 'GET' );
+      HTML::hidden_field( 'menu_item_id', $this->post_help_edit_menu_item_id );
     }
 
     echo "Return to $post_help_edit_menu_item_name: ";
-    html::submit_button();
-    html::form_end();
+    HTML::submit_button();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -477,18 +477,18 @@ class Help extends DBEntity {
 
     if( $this->printable_output ) {
       if( ! $page_top ) {
-        html::italic_start();
+        HTML::italic_start();
         echo 'End of manual page ' . $this->order_in_manual . ' [ID ' . $this->page_id . ']. ' . $this->page_title;
-        html::italic_end();
+        HTML::italic_end();
       }
     }
     else {  # not the printable version, a normal online page
       echo $this->get_link_to_printable_version( '_self' );
-      html::bullet_point();
+      HTML::bullet_point();
 
       echo $this->get_link_to_index_url();
 
-      html::bullet_point();
+      HTML::bullet_point();
       echo $this->get_link_to_whole_manual_url();
 
       if( $this->order_in_manual ) {
@@ -509,7 +509,7 @@ class Help extends DBEntity {
                      . " where order_in_manual = $next_order";
           $next_page = $this->db_select_one_value( $statement );
           $other_help->set_help( $next_page, $next_order );
-          html::bullet_point();
+          HTML::bullet_point();
           $next_link = $other_help->get_link_to_current_help_by_page_title( $target = '_self' );
           $next_link = str_replace( 'Help:', 'Next help page:', $next_link );
           echo $next_link;
@@ -520,14 +520,14 @@ class Help extends DBEntity {
                      . " where order_in_manual = $prev_order";
           $prev_page = $this->db_select_one_value( $statement );
           $other_help->set_help( $prev_page, $prev_order );
-          html::bullet_point();
+          HTML::bullet_point();
           $prev_link = $other_help->get_link_to_current_help_by_page_title( $target = '_self' );
           $prev_link = str_replace( 'Help:', 'Previous help page:', $prev_link );
           echo $prev_link;
         }
       }
-      if( $page_top ) html::horizontal_rule();
-      html::new_paragraph();
+      if( $page_top ) HTML::horizontal_rule();
+      HTML::new_paragraph();
     }
 
   }
@@ -572,7 +572,7 @@ class Help extends DBEntity {
 
       echo nl2br( $this->safe_output( $this->published_text ));  # do not allow HTML tags etc, too insecure
 
-      html::new_paragraph();
+      HTML::new_paragraph();
       $this->help_navigation_links();
 
       if( ! $this->printable_output ) {
@@ -585,17 +585,17 @@ class Help extends DBEntity {
           $show_link_to_page_top = TRUE;
 
         if( $show_link_to_page_top ) {
-          html::link_to_page_top(  $tabindex=1, $title='Back to top of page' );
-          html::new_paragraph();
+          HTML::link_to_page_top(  $tabindex=1, $title='Back to top of page' );
+          HTML::new_paragraph();
         }
       }
 
-      html::horizontal_rule();
+      HTML::horizontal_rule();
 
       if( ! $producing_manual_as_one_file ) {
-        html::italic_start();
+        HTML::italic_start();
         $this->aeolus_version_info();
-        html::italic_end();
+        HTML::italic_end();
       }
     }
   }
@@ -609,50 +609,50 @@ class Help extends DBEntity {
     $this->set_help( $page_id );
     if( ! $this->page_id ) $this->die_on_error( 'Invalid page ID.' );
 
-    html::h3_start();
+    HTML::h3_start();
     echo $this->page_title;
-    html::h3_end();
+    HTML::h3_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::form_start( 'help', 'save_changed_help_url' );
+    HTML::form_start( 'help', 'save_changed_help_url' );
 
-    html::hidden_field( 'page_id', $this->page_id );
-    html::hidden_field( 'post_help_edit_menu_item_id', $this->post_help_edit_menu_item_id );
+    HTML::hidden_field( 'page_id', $this->page_id );
+    HTML::hidden_field( 'post_help_edit_menu_item_id', $this->post_help_edit_menu_item_id );
 
-    if( ! $this->custom_url ) html::div_start( 'class="highlight2"' );
-    html::bold_start();
+    if( ! $this->custom_url ) HTML::div_start( 'class="highlight2"' );
+    HTML::bold_start();
     echo 'By default, the Help link for this menu option will point to the following URL:';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
     echo $this->get_link_to_default_help_page();
-    if( ! $this->custom_url ) html::div_end( "highlight2" );
+    if( ! $this->custom_url ) HTML::div_end( "highlight2" );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'You may wish to use a different URL to provide help for this menu option, e.g. a page within the OULS CMS.';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
     echo 'If so, enter the alternative URL below.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    if( $this->custom_url ) html::div_start( 'class="highlight1 bold"' );
-    html::input_field( 'custom_url', 'Alternative URL', $this->custom_url, FALSE, $size = 100 );
-    if( $this->custom_url ) html::div_end( "highlight1 bold" );
-    html::new_paragraph();
+    if( $this->custom_url ) HTML::div_start( 'class="highlight1 bold"' );
+    HTML::input_field( 'custom_url', 'Alternative URL', $this->custom_url, FALSE, $size = 100 );
+    if( $this->custom_url ) HTML::div_end( "highlight1 bold" );
+    HTML::new_paragraph();
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'If you have entered an alternative URL and then wish to revert to the default, simply blank out '
          . ' the alternative URL and click Save. Any help text within the original default help page will '
          . ' have been preserved, and will become visible to the users again.';
-    html::italic_end();
+    HTML::italic_end();
 
-    html::new_paragraph();
-    html::submit_button( 'save_button', 'Save' );
-    html::submit_button( 'cancel_button', 'Cancel' );
+    HTML::new_paragraph();
+    HTML::submit_button( 'save_button', 'Save' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -664,14 +664,14 @@ class Help extends DBEntity {
     $this->set_help( $page_id );
     if( ! $this->page_id ) $this->die_on_error( 'Invalid page ID.' );
 
-    html::h3_start();
+    HTML::h3_start();
     echo $this->page_title;
-    html::h3_end();
+    HTML::h3_end();
 
     if( $this->parm_found_in_post( 'cancel_button' )) {
-      html::italic_start();
+      HTML::italic_start();
       echo 'Any changes to help URL have been cancelled.';
-      html::italic_end();
+      HTML::italic_end();
     }
     else {
       $this->custom_url = $this->read_post_parm( 'custom_url' );
@@ -680,32 +680,32 @@ class Help extends DBEntity {
                  . " set custom_url = '" . $this->escape( $this->custom_url ) . "' "
                  . " where page_id = $this->page_id";
       $this->db_run_query( $statement );
-      html::italic_start();
+      HTML::italic_start();
       echo 'Changes to help URL have been saved.';
-      html::italic_end();
+      HTML::italic_end();
       $this->set_help( $this->page_id );  # refresh all URL settings
     }
 
-    html::new_paragraph();
-    html::div_start( 'class="highlight2"' );
+    HTML::new_paragraph();
+    HTML::div_start( 'class="highlight2"' );
     echo 'Current URL type: ';
     
     if( $this->help_page_is_custom_url()) {
-      html::bold_start();
+      HTML::bold_start();
       echo 'Custom';
-      html::bold_end();
+      HTML::bold_end();
     }
     else
       echo 'Default';
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'Currently active URL is: ';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo $this->get_link_to_current_help_by_full_url();
-    html::div_end( "highlight2" );
+    HTML::div_end( "highlight2" );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->return_to_calling_menu_option_form();
   }
   #-----------------------------------------------------
@@ -726,30 +726,30 @@ class Help extends DBEntity {
         $this->construct_default_url();
         $this->set_url();
 
-        html::anchor( $this->get_anchor_name() );
+        HTML::anchor( $this->get_anchor_name() );
 
-        html::bold_start();
+        HTML::bold_start();
         echo $this->page_title;
-        html::bold_end();
-        html::new_paragraph();
+        HTML::bold_end();
+        HTML::new_paragraph();
 
 
         if( $this->help_page_is_custom_url()) {
-          html::div_start( 'class="highlight2 bold"' );
+          HTML::div_start( 'class="highlight2 bold"' );
           echo 'Current URL: '. $this->get_link_to_current_help_by_full_url();
-          html::div_end( "highlight2 bold" );
-          html::new_paragraph();
-          html::italic_start();
+          HTML::div_end( "highlight2 bold" );
+          HTML::new_paragraph();
+          HTML::italic_start();
           echo 'Not using default URL: ' . $this->get_link_to_default_help_page();
-          html::italic_end();
-          html::new_paragraph();
+          HTML::italic_end();
+          HTML::new_paragraph();
         }
         else {
           echo 'URL: '. $this->get_link_to_current_help_by_full_url();
         }
 
-        html::new_paragraph();
-        html::div_start('class="buttonrow"');
+        HTML::new_paragraph();
+        HTML::div_start('class="buttonrow"');
 
         $this->help_edit_button( $post_help_edit_menu_item_id = $this->menu_item_id, 
                                  $called_from_help_summary = TRUE );
@@ -757,11 +757,11 @@ class Help extends DBEntity {
         $this->change_help_url_button( $post_help_edit_menu_item_id = $this->menu_item_id, 
                                        $called_from_help_summary = TRUE );
         echo LINEBREAK;
-        html::div_end('buttonrow');
-        html::new_paragraph();
+        HTML::div_end('buttonrow');
+        HTML::new_paragraph();
 
-        html::horizontal_rule();
-        html::new_paragraph();
+        HTML::horizontal_rule();
+        HTML::new_paragraph();
       }
     }
   }
@@ -935,10 +935,10 @@ class Help extends DBEntity {
     $menu_obj->page_head( $override_title, $suppress_breadcrumbs=TRUE, $suppress_colours );
 
     if( $producing_manual_as_one_file ) {
-     html::horizontal_rule();
-     html::h3_start();
+     HTML::horizontal_rule();
+     HTML::h3_start();
      echo 'Contents';
-     html::h3_end();
+     HTML::h3_end();
     }
 
     $last_menu_depth = 0;
@@ -957,55 +957,55 @@ class Help extends DBEntity {
         if( $first ) {
           if( ! $this->printable_output ) {
             echo $this->get_link_to_printable_index_url();
-            html::bullet_point();
+            HTML::bullet_point();
             echo $this->get_link_to_whole_manual_url();
-            html::horizontal_rule();
-            html::new_paragraph();
+            HTML::horizontal_rule();
+            HTML::new_paragraph();
           }
-          html::ulist_start();
+          HTML::ulist_start();
           $first = FALSE;
         }
 
         if(  $menu_depth > $last_menu_depth )
-          html::ulist_start();
+          HTML::ulist_start();
         elseif(  $menu_depth < $last_menu_depth )
-          html::ulist_end();
+          HTML::ulist_end();
 
         if( $this->printable_output )
           $listitem = $order_in_manual . '. ' . $page_title;
         else
           $listitem = $this->get_link_to_current_help_by_page_title( $target = '_self' );
 
-        if( $menu_depth ==  0 ) html::bold_start();
+        if( $menu_depth ==  0 ) HTML::bold_start();
 
-        html::listitem( $listitem );
+        HTML::listitem( $listitem );
 
-        if( $menu_depth ==  0 ) html::bold_end();
+        if( $menu_depth ==  0 ) HTML::bold_end();
         $last_menu_depth = $menu_depth;
       }
     }
 
     while( $last_menu_depth > 0 ) {
-      html::ulist_end();
+      HTML::ulist_end();
       $last_menu_depth--;
     }
 
-    html::ulist_end();
+    HTML::ulist_end();
 
     if( ! $this->printable_output ) {
       echo $this->get_link_to_printable_index_url();
-      html::bullet_point();
+      HTML::bullet_point();
       echo $this->get_link_to_whole_manual_url();
-      html::bullet_point();
-      html::link_to_page_top(  $tabindex=1, $title='Back to top of page' );
+      HTML::bullet_point();
+      HTML::link_to_page_top(  $tabindex=1, $title='Back to top of page' );
     }
-    html::new_paragraph();
-    html::horizontal_rule();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
 
     if( ! $producing_manual_as_one_file ) {
-      html::italic_start();
+      HTML::italic_start();
       $this->aeolus_version_info();
-      html::italic_end();
+      HTML::italic_end();
     }
   }
   #-----------------------------------------------------
@@ -1025,12 +1025,12 @@ class Help extends DBEntity {
     $this->write_get_parm( 'printable_output', 'Y' );
 
     if( $this->producing_manual_from_commandline_script()) {
-      html::html_start();
-      html::html_head_start();
-      html::write_stylesheet( $for_cms_deployment = FALSE, $banner_only = TRUE );
-      html::html_head_end();
+      HTML::html_start();
+      HTML::html_head_start();
+      HTML::write_stylesheet( $for_cms_deployment = FALSE, $banner_only = TRUE );
+      HTML::html_head_end();
 
-      html::body_start();
+      HTML::body_start();
     }
 
     $this->display_help_index( $producing_manual_as_one_file );
@@ -1051,18 +1051,18 @@ class Help extends DBEntity {
       $this->write_get_parm( 'page_id', $this->page_id );
       $this->write_get_parm( 'order_in_manual', $this->order_in_manual );
 
-      html::h3_start();
+      HTML::h3_start();
       echo $this->order_in_manual . '. ' . $this->page_title;
-      html::h3_end();
+      HTML::h3_end();
       $this->display_help( $producing_manual_as_one_file );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
-    html::italic_start();
+    HTML::italic_start();
     $this->aeolus_version_info();
-    html::italic_end();
+    HTML::italic_end();
 
-    if( $this->producing_manual_from_commandline_script()) html::body_end();
+    if( $this->producing_manual_from_commandline_script()) HTML::body_end();
   }
   #-----------------------------------------------------
 
@@ -1074,11 +1074,11 @@ class Help extends DBEntity {
     $producing_manual_as_one_file = FALSE;
     if( $manual_format == 'printable' ) $this->write_get_parm( 'printable_output', 'Y' );
 
-    html::html_start();
-    html::html_head_start();
-    html::write_stylesheet( $for_cms_deployment = FALSE, $banner_only = TRUE );
-    html::html_head_end();
-    html::body_start();
+    HTML::html_start();
+    HTML::html_head_start();
+    HTML::write_stylesheet( $for_cms_deployment = FALSE, $banner_only = TRUE );
+    HTML::html_head_end();
+    HTML::body_start();
 
     if( $page_id == 'index' )
       $this->display_help_index( $producing_manual_as_one_file );
@@ -1087,7 +1087,7 @@ class Help extends DBEntity {
       $this->display_help( $producing_manual_as_one_file );
     }
 
-    html::body_end();
+    HTML::body_end();
   }
   #-----------------------------------------------------
 

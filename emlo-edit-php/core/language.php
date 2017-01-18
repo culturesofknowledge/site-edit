@@ -190,19 +190,19 @@ class Language extends Project {
 
     echo 'You can use this screen to search for, or browse through, all the languages defined by ISO '
          . '(the International Organization for Standardization). There are more than eight thousand of these languages.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo 'Simply click Search without entering a selection to browse through the whole list, page by page.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo 'Or enter part or all of a language name before clicking Search. For example, enter the word Greek'
          . ' to find both Ancient Greek and Modern Greek.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo  " Having found the languages you are interested in, you can mark them as 'favourites', "
          . ' so that only relevant languages appear in your data entry screens when entering details of'
          . ' the language of a work.';
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -256,7 +256,7 @@ class Language extends Project {
     $language_code = $this->current_row_of_data[ 'code_639_3' ];
     $selected = $this->current_row_of_data[ 'selected' ];
 
-    html::form_start( 'language', 'save_language' );
+    HTML::form_start( 'language', 'save_language' );
 
     if( $selected ) {
       $action = 'remove';
@@ -267,14 +267,14 @@ class Language extends Project {
       $msg = 'Add to favourites:';
     }
 
-    html::hidden_field( 'code_639_3', $language_code );
-    html::hidden_field( 'action', $action );
+    HTML::hidden_field( 'code_639_3', $language_code );
+    HTML::hidden_field( 'action', $action );
 
-    html::italic_start();
+    HTML::italic_start();
     echo $msg;
-    html::italic_end();
-    html::submit_button( $action . '_' . $language_code . '_button', 'OK' );
-    html::form_end();
+    HTML::italic_end();
+    HTML::submit_button( $action . '_' . $language_code . '_button', 'OK' );
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -291,10 +291,10 @@ class Language extends Project {
                  . " where language_code = '$language_code'";
     $this->db_run_query( $statement );
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Language selection has been saved.';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
 
     $this->write_post_parm( 'text_query_op_code_639_3', 'equals' );
     $this->db_search_results();
@@ -303,13 +303,13 @@ class Language extends Project {
 
   function language_entry_fields( $list_of_lang_codes, $langs_in_use ) {
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'If a language you require is not displayed below, you can add it to the list: ';
-    html::italic_end();
-    html::span_start( 'class="narrowspaceonleft"' );
+    HTML::italic_end();
+    HTML::span_start( 'class="narrowspaceonleft"' );
     $this->link_to_language_search();
-    html::span_end();
-    html::new_paragraph();
+    HTML::span_end();
+    HTML::new_paragraph();
 
     echo 'If the languages you want are already displayed below, tick one or more checkboxes to select'
          . ' as many as required, then click Save.';
@@ -324,8 +324,8 @@ class Language extends Project {
     }
 
     echo LINEBREAK;
-    html::submit_button( 'save_languages_button', 'Save' );
-    html::new_paragraph();
+    HTML::submit_button( 'save_languages_button', 'Save' );
+    HTML::new_paragraph();
 
     $langdata = $this->select_list_of_languages( $list_of_lang_codes );
     $langcount = count( $langdata );
@@ -338,11 +338,11 @@ class Language extends Project {
     $cells_to_print -= $remainder;
     if( $remainder ) $cells_to_print += $cols_per_row;
 
-    html::table_start( 'class="widelyspacepadded boxed"' );
+    HTML::table_start( 'class="widelyspacepadded boxed"' );
     foreach( $langdata as $row ) {
       extract( $row, EXTR_OVERWRITE );
 
-      if( $cells_printed % $cols_per_row == 0 ) html::tablerow_start();
+      if( $cells_printed % $cols_per_row == 0 ) HTML::tablerow_start();
 
       $selected = FALSE;
       $notes = '';
@@ -357,18 +357,18 @@ class Language extends Project {
       $this->language_selection_field( $code_639_3, $language_name, $selected, $notes );
 
       $cells_printed++;
-      if( $cells_printed % $cols_per_row == 0 ) html::tablerow_end();
+      if( $cells_printed % $cols_per_row == 0 ) HTML::tablerow_end();
     }
 
     if( $cells_printed < $cells_to_print ) {
       while( $cells_printed < $cells_to_print ) {
-        html::tabledata();
+        HTML::tabledata();
         $cells_printed++;
       }
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
-    html::table_end();
-    html::new_paragraph();
+    HTML::table_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -387,7 +387,7 @@ class Language extends Project {
     $parms = 'id="' . $cell_id . '" class="' . $current_class . '"';
     $change_display_scriptname = 'change_display_of_' . $cell_id;
 
-    html::tabledata_start( $parms );
+    HTML::tabledata_start( $parms );
 
     $script = "function $change_display_scriptname( chkbox ) {"               . NEWLINE
             . "  var theCell = document.getElementById( '$cell_id' );"        . NEWLINE
@@ -398,18 +398,18 @@ class Language extends Project {
             . "    theCell.className = '$unselected_class';"                  . NEWLINE
             . '  }'                                                           . NEWLINE 
             . '}'                                                             . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     $parms = 'onclick="' . $change_display_scriptname . '( this )"';
            
-    html::checkbox( $checkbox_field, $label = $language_name, $is_checked = $selected, 
+    HTML::checkbox( $checkbox_field, $label = $language_name, $is_checked = $selected, 
                     $value_when_checked = $language_code, $in_table = FALSE,
                     $tabindex=1, $input_instance = NULL, $parms );
 
     echo LINEBREAK;
 
-    html::input_field( $notes_field,  $label = '', $notes ); 
-    html::tabledata_end();
+    HTML::input_field( $notes_field,  $label = '', $notes ); 
+    HTML::tabledata_end();
   }
   #----------------------------------------------------------------------------------
 
@@ -442,9 +442,9 @@ class Language extends Project {
 
     $href = $_SERVER['PHP_SELF'] . '?menu_item_id=' . $menu_item_id;
 
-    html::link_start( $href, $title );
+    HTML::link_start( $href, $title );
     echo $title;
-    html::link_end();
+    HTML::link_end();
   }
   #-----------------------------------------------------
 

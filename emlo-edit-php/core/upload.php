@@ -135,30 +135,30 @@ class Upload extends Project {
 
   function file_upload_form() {
 
-    html::h3_start();
+    HTML::h3_start();
     echo 'Locate your data export files';
-    html::h3_end();
+    HTML::h3_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo "When you clicked the 'Export' button in the data collection tool, " . NUM_CSV_FILES_TO_UPLOAD . ' files'
          . ' were created in the same folder as your OpenOffice database file (EMLOcollect.odb).';
     echo LINEBREAK . 'These files were called '; 
-    html::bold_start();
+    HTML::bold_start();
     echo $this->csv_filename_from_number( 1 );
-    html::bold_end();
+    HTML::bold_end();
     echo ' through to ';
-    html::bold_start();
+    HTML::bold_start();
     echo $this->csv_filename_from_number( NUM_CSV_FILES_TO_UPLOAD );
-    html::bold_end();
+    HTML::bold_end();
 
-    html::new_paragraph();
-    html::italic_start();
+    HTML::new_paragraph();
+    HTML::italic_start();
     echo 'Please upload these files, using Shift-Click or Ctrl-Click to select them all at once,'
          . ' then Open.';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
-    html::form_start( $class_name = 'upload', 
+    HTML::form_start( $class_name = 'upload', 
                       $method_name = 'process_uploaded_files', 
                       $form_name = NULL,  # use default
                       $form_target = '_self',
@@ -167,15 +167,15 @@ class Upload extends Project {
                       $form_method='POST',
                       $parms = 'enctype="multipart/form-data"' );
 
-    html::multiple_file_upload_field( $fieldname = 'files_to_process[]', 
+    HTML::multiple_file_upload_field( $fieldname = 'files_to_process[]', 
                              $label = 'Select the ' . NUM_CSV_FILES_TO_UPLOAD . " '"
                                     . CSV_FILENAME_ROOT . "' files", 
                              $value = NULL, 
                              $size = CSV_UPLOAD_FIELD_SIZE );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::submit_button( 'upload_button', 'Upload' );
-    html::form_end();
+    HTML::submit_button( 'upload_button', 'Upload' );
+    HTML::form_end();
   }
   #----------------------------------------------------------------------------------
 
@@ -197,18 +197,18 @@ class Upload extends Project {
 
     if( $invalid ) {
       echo LINEBREAK;
-      html::div_start( 'class="warning"' );
+      HTML::div_start( 'class="warning"' );
       echo 'Sorry, you have not uploaded the correct number of files. ';
-      html::new_paragraph();
+      HTML::new_paragraph();
 
       echo 'You need to upload ' . NUM_CSV_FILES_TO_UPLOAD . ' files, named ' 
            . CSV_FILENAME_ROOT . '01.csv through to '
            . CSV_FILENAME_ROOT . NUM_CSV_FILES_TO_UPLOAD . '.csv.';
-      html::new_paragraph();
+      HTML::new_paragraph();
 
       echo ' Please try again, selecting all ' . NUM_CSV_FILES_TO_UPLOAD
            . ' files using Shift-Click or Ctrl-Click.';
-      html::div_end();
+      HTML::div_end();
       echo LINEBREAK;
 
       $this->file_upload_form();
@@ -417,14 +417,14 @@ class Upload extends Project {
     $this->upload_id = $this->set_upload( $upload_id );
     $this->failed_validation = FALSE;
 
-    html::h3_start();
+    HTML::h3_start();
     echo 'Processing your contribution... ';
-    html::h3_end();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
 
-    html::h4_start();
+    HTML::h4_start();
     echo 'Reading uploaded files...';
-    html::h4_end();
+    HTML::h4_end();
     flush();
 
     $file_to_openoffice_table_lookup = $this->get_file_to_openoffice_table_lookup() ;
@@ -540,25 +540,25 @@ class Upload extends Project {
 
       if( $duplicate ) {
         $this->failed_validation = TRUE;
-        html::new_paragraph();
-        html::div_start( 'class="errmsg"' );
+        HTML::new_paragraph();
+        HTML::div_start( 'class="errmsg"' );
         echo "Error processing file: the '$table_desc' file contains duplicate lines.";
-        html::div_end();
-        html::new_paragraph();
-        html::div_start( 'class="highlight2 bold"' );
+        HTML::div_end();
+        HTML::new_paragraph();
+        HTML::div_start( 'class="highlight2 bold"' );
         echo "This was probably caused by the 'Export' button in the data collection tool"
              . ' being pressed multiple times, as the export procedure appends data to the end'
              . ' of any existing file.';
-        html::new_paragraph();
+        HTML::new_paragraph();
         echo 'You need to clear out existing files before you begin. Please go to the local folder'
              . ' on your personal computer from which you uploaded the files ' . CSV_FILENAME_ROOT 
              . '01.csv through to ' . CSV_FILENAME_ROOT . NUM_CSV_FILES_TO_UPLOAD . '.csv'
              . ' and delete all those ' . NUM_CSV_FILES_TO_UPLOAD . ' files.';
-        html::new_paragraph();
+        HTML::new_paragraph();
         echo "Then return to the OpenOffice data collection tool, go into the 'Upload your"
              . " contribution' form, and click the 'Export' button again.";
-        html::div_end();
-        html::new_paragraph();
+        HTML::div_end();
+        HTML::new_paragraph();
 
         break; # stop reading the file
       }
@@ -682,9 +682,9 @@ class Upload extends Project {
 
     echo LINEBREAK;
     
-    html::h4_start();
+    HTML::h4_start();
     echo 'Transferring data into holding area ready for review...' . LINEBREAK;
-    html::h4_end();
+    HTML::h4_end();
 
     $file_to_tables_lookup = $this->get_file_to_tables_lookup();
 
@@ -697,9 +697,9 @@ class Upload extends Project {
       echo "Processing '" . $this->table_desc . "' data..." . LINEBREAK;
 
       $anchor = $this->temp_postgres_table . '_anchor';
-      html::anchor( $anchor );
+      HTML::anchor( $anchor );
       $script = "document.location.hash = '#$anchor';";
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
       flush();
 
       $this->uploaded_data = array();
@@ -740,16 +740,16 @@ class Upload extends Project {
                  . ' set upload_status = ' . CONTRIB_STATUS_REJECTED
                  . " where upload_id = $this->upload_id";
       $this->db_run_query( $statement );
-      html::div_start( 'class="warning"' );
+      HTML::div_start( 'class="warning"' );
       echo 'You did not upload any works in your contribution. The Works file was empty.'
            . ' This means that your contribution cannot be accepted.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo 'Please try again, ensuring that you are exporting from the correct data source; you may'
            . ' need to re-register your database with OpenOffice.'
            . ' Instructions for registering an OpenOffice data source are given in Step 1'
            . " of the 'Upload your contribution' form within the data collection tool."; 
-      html::div_end();
-      html::new_paragraph();
+      HTML::div_end();
+      HTML::new_paragraph();
       return;
     }
     else {  # write an easily-displayed summary of everything to do with the work: authors, manifestations, etc.
@@ -780,39 +780,39 @@ class Upload extends Project {
     $this->inform_reviewer_of_upload();
 
     # If they did manage to upload some valid data, tell them it is awaiting review.
-    html::h4_start();
+    HTML::h4_start();
     echo 'Upload complete.';
-    html::h4_end();
+    HTML::h4_end();
 
-    html::div_start( 'class="highlight2 bold"' );
+    HTML::div_start( 'class="highlight2 bold"' );
     echo 'Thank you for your contribution. Your data has been successfully imported into the EMLO-edit holding area.';
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'The project editors have been informed.';
-    html::new_paragraph();
+    HTML::new_paragraph();
     echo 'Your contribution will now be reviewed and, if accepted, will be transferred into the main EMLO database.'
          . ' You will shortly receive an email informing you of the results of the review.';
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="boldlink"' );
+    HTML::div_start( 'class="boldlink"' );
     echo 'You can also ';
     $href = $_SERVER['PHP_SELF'] . '?option=history&upload_id=' . $this->upload_id;
-    html::link( $href, 'check the status and details', 'Check the status and details of your contribution' );
+    HTML::link( $href, 'check the status and details', 'Check the status and details of your contribution' );
     echo ' of your contribution online.';
 
-    html::button( 'check_upload_button', 'Check', $tabindex = 1,
+    HTML::button( 'check_upload_button', 'Check', $tabindex = 1,
                   'id="check_upload_button" onclick="window.location.href=' . "'$href'" . '"' );
 
-    html::div_end();
+    HTML::div_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::anchor( 'endofmessages' );
+    HTML::anchor( 'endofmessages' );
     $script = 'document.location.hash = "endofmessages";';
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     $script = 'var checkButton = document.getElementById( "check_upload_button" ); checkButton.focus();';
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
   function transfer_person() {  # transfer into the 'collect person' table 
@@ -1137,18 +1137,18 @@ class Upload extends Project {
       $uploads = $this->db_select_into_array( $statement );
       $num_uploads = count( $uploads );
       if( $num_uploads == 0 ) {
-        html::h3_start();
+        HTML::h3_start();
         echo 'No contributions are currently awaiting review.';
-        html::h3_end();
+        HTML::h3_end();
         $this->link_to_contributed_work_search( $num_uploads );
         return;
       }
       else {
-        html::h3_start();
+        HTML::h3_start();
         echo 'Click Review to accept or reject the data from a particular contribution.';
-        html::h3_end();
+        HTML::h3_end();
         $this->link_to_contributed_work_search( $num_uploads );
-        html::new_paragraph();
+        HTML::new_paragraph();
       }
     }
     else { # a normal user viewing their own contributions
@@ -1161,117 +1161,117 @@ class Upload extends Project {
       $uploads = $this->db_select_into_array( $statement );
       $num_uploads = count( $uploads );
 
-      html::h3_start();
+      HTML::h3_start();
       echo "Uploads by $this->person_name ($this->username): $num_uploads";
-      html::h3_end();
+      HTML::h3_end();
 
-      html::italic_start();
+      HTML::italic_start();
       echo 'Click the Export button to export contribution data to a spreadsheet.';
-      html::italic_end();
-      html::new_paragraph();
+      HTML::italic_end();
+      HTML::new_paragraph();
       
       if( $num_uploads == 0 ) {
-        html::new_paragraph();
-        html::div_start( 'class="warning"' );
+        HTML::new_paragraph();
+        HTML::div_start( 'class="warning"' );
         echo 'Sorry, no history of existing contributions was found for this username.';
-        html::div_end();
-        html::new_paragraph();
+        HTML::div_end();
+        HTML::new_paragraph();
         return;
       }
     }
 
-    html::table_start( 'class="datatab spacepadded"' );
+    HTML::table_start( 'class="datatab spacepadded"' );
 
-    html::tablerow_start();
-    html::column_header( 'ID' );
-    html::column_header( 'Date / time' );
-    if( $this->review_underway()) html::column_header( 'Source of data' );
-    if( $this->review_underway()) html::column_header( 'Contact email' );
-    html::column_header( 'Works uploaded' );
-    html::column_header( 'Accepted' );
-    html::column_header( 'Rejected' );
-    html::column_header( 'Status' );
-    if( $review_underway ) html::column_header( 'Review' );
-    html::column_header( 'Export' );
-    html::tablerow_end();
+    HTML::tablerow_start();
+    HTML::column_header( 'ID' );
+    HTML::column_header( 'Date / time' );
+    if( $this->review_underway()) HTML::column_header( 'Source of data' );
+    if( $this->review_underway()) HTML::column_header( 'Contact email' );
+    HTML::column_header( 'Works uploaded' );
+    HTML::column_header( 'Accepted' );
+    HTML::column_header( 'Rejected' );
+    HTML::column_header( 'Status' );
+    if( $review_underway ) HTML::column_header( 'Review' );
+    HTML::column_header( 'Export' );
+    HTML::tablerow_end();
 
     foreach( $uploads as $row ) {
       extract( $row, EXTR_OVERWRITE );
       $display_parms = '';
       if( $editable ) $display_parms = 'class="highlight1"';
 
-      html::tablerow_start();
-      html::tabledata( $upload_id );
+      HTML::tablerow_start();
+      HTML::tabledata( $upload_id );
 
-      html::tabledata_start();
+      HTML::tabledata_start();
       if( $review_underway ) {   # supervisor reviewing contributions ready for ingest into the main database
         echo $this->postgres_date_to_dd_mm_yyyy( $upload_timestamp );
       }
       else { # ordinary user looking at their own data
-        html::link_start( $href = $_SERVER['PHP_SELF'] . '?option=history&upload_id=' . $upload_id,
+        HTML::link_start( $href = $_SERVER['PHP_SELF'] . '?option=history&upload_id=' . $upload_id,
                           $title = 'View details of upload no. ' . $upload_id );
         echo $this->postgres_date_to_dd_mm_yyyy( $upload_timestamp );
-        html::link_end();
+        HTML::link_end();
       }
-      html::tabledata_end();
+      HTML::tabledata_end();
 
       if( $this->review_underway()) {
-        html::tabledata( $upload_description );
-        html::tabledata_start();
-        html::link( $href = "mailto:$uploader_email", 
+        HTML::tabledata( $upload_description );
+        HTML::tabledata_start();
+        HTML::link( $href = "mailto:$uploader_email", 
                     $displayed_text = $uploader_email, 
                     $title = 'Contact the contributor', 
                     $target = '_blank' );
-        html::tabledata_end();
+        HTML::tabledata_end();
       }
 
-      html::tabledata( $total_works, 'class="rightaligned"' );
-      html::tabledata( $works_accepted, 'class="rightaligned"' );
-      html::tabledata( $works_rejected, 'class="rightaligned"' );
+      HTML::tabledata( $total_works, 'class="rightaligned"' );
+      HTML::tabledata( $works_accepted, 'class="rightaligned"' );
+      HTML::tabledata( $works_rejected, 'class="rightaligned"' );
 
-      html::tabledata( $status_desc );
+      HTML::tabledata( $status_desc );
 
       if( $review_underway ) {
-        html::tabledata_start( $display_parms );
+        HTML::tabledata_start( $display_parms );
         if( ! $editable ) echo 'Can be displayed in read-only mode: ';
-        html::form_start( $class_name='upload', $method_name='upload_details' );
-        html::hidden_field( 'upload_id', $upload_id );
+        HTML::form_start( $class_name='upload', $method_name='upload_details' );
+        HTML::hidden_field( 'upload_id', $upload_id );
         if( $editable ) {
           echo ' ';
-          html::submit_button( 'review_upload_' . $upload_id . '_button', 'Review' );
+          HTML::submit_button( 'review_upload_' . $upload_id . '_button', 'Review' );
         }
         else {
-          html::submit_button( 'display_upload_' . $upload_id . '_button', 'Display' );
+          HTML::submit_button( 'display_upload_' . $upload_id . '_button', 'Display' );
         }
-        html::form_end();
-        html::tabledata_end();
+        HTML::form_end();
+        HTML::tabledata_end();
       }
 
-      html::tabledata_start();
+      HTML::tabledata_start();
       $this->contributed_works_export_button( $upload_id, $verbose = FALSE );
-      html::tabledata_end();
+      HTML::tabledata_end();
 
-      html::tablerow_end();
+      HTML::tablerow_end();
     }
 
 
-    html::table_end();
+    HTML::table_end();
   }
   #-----------------------------------------------------
 
   function link_to_contributed_work_search( $num_awaiting_review ) {
 
-    html::new_paragraph();
-    html::form_start( 'contributed_work', 'db_search' );
-    html::italic_start();
+    HTML::new_paragraph();
+    HTML::form_start( 'contributed_work', 'db_search' );
+    HTML::italic_start();
     if( $num_awaiting_review > 0 )
       echo 'You can also search and browse through works from earlier contributions that have already been reviewed.';
     else
       echo 'However, you can search and browse through the works from contributions that have already been reviewed.';
-    html::italic_end();
-    html::submit_button( 'search_button', 'Search' );
-    html::form_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::submit_button( 'search_button', 'Search' );
+    HTML::form_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -1316,12 +1316,12 @@ class Upload extends Project {
       $num_uploads = count( $uploads );
       
       if( $num_uploads == 0 ) {
-        html::new_paragraph();
-        html::div_start( 'class="warning"' );
+        HTML::new_paragraph();
+        HTML::div_start( 'class="warning"' );
         echo "Contribution no. $this->upload_id does not exist or was not uploaded by user '"
              . $this->username . "'.";
-        html::div_end();
-        html::new_paragraph();
+        HTML::div_end();
+        HTML::new_paragraph();
         return;
       }
     }
@@ -1348,22 +1348,22 @@ class Upload extends Project {
     echo ' }'                      . NEWLINE;
     echo '</style>'                . NEWLINE;
 
-    html::h3_start();
+    HTML::h3_start();
     echo "Contribution by $contributing_person_name ($contributing_username) uploaded " 
          . $this->postgres_date_to_dd_mm_yyyy( $upload_timestamp );
-    html::h3_end();
+    HTML::h3_end();
 
     if( $review_underway ) {
       echo 'Contact details: ';
-      html::link( $href = "mailto:$uploader_email", 
+      HTML::link( $href = "mailto:$uploader_email", 
                   $displayed_text = $uploader_email, 
                   $title = 'Contact the contributor', 
                   $target = '_blank' );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     if( ! $suppress_status ) {
-      html::div_start( 'class="highlight2 bold"' );
+      HTML::div_start( 'class="highlight2 bold"' );
       echo 'Status: ' . $status_desc;
       echo ' | ';
       echo 'Number of works uploaded: ' . $total_works;
@@ -1371,51 +1371,51 @@ class Upload extends Project {
       echo 'Accepted: ' . $works_accepted;
       echo ' | ';
       echo 'Rejected: ' . $works_rejected;
-      html::div_end();
+      HTML::div_end();
     }
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     if( $header_only ) return;
 
     if( $review_underway && $editable ) {
-      html::div_start( 'class="buttonrow"' );
+      HTML::div_start( 'class="buttonrow"' );
 
-      html::form_start( $class_name = 'upload', $method_name = 'upload_list' );
+      HTML::form_start( $class_name = 'upload', $method_name = 'upload_list' );
       echo 'Back to list of contributions: ';
-      html::submit_button( 'back_to_upload_list_button', 'Back' );
+      HTML::submit_button( 'back_to_upload_list_button', 'Back' );
       echo SPACE;
-      html::form_end();
+      HTML::form_end();
 
 
-      html::form_start( $class_name = 'review', $method_name = 'accept_all_works' );
+      HTML::form_start( $class_name = 'review', $method_name = 'accept_all_works' );
       echo 'Accept entire contribution: ';
-      html::hidden_field( 'upload_id', $this->upload_id );
-      html::submit_button( 'accept_all_button', 'Accept all' );
+      HTML::hidden_field( 'upload_id', $this->upload_id );
+      HTML::submit_button( 'accept_all_button', 'Accept all' );
       echo SPACE;
-      html::form_end();
+      HTML::form_end();
 
-      html::form_start( $class_name = 'review', $method_name = 'reject_all_works' );
+      HTML::form_start( $class_name = 'review', $method_name = 'reject_all_works' );
       echo 'Reject entire contribution: ';
-      html::hidden_field( 'upload_id', $this->upload_id );
-      html::submit_button( 'reject_all_button', 'Reject all' );
-      html::form_end();
+      HTML::hidden_field( 'upload_id', $this->upload_id );
+      HTML::submit_button( 'reject_all_button', 'Reject all' );
+      HTML::form_end();
 
-      html::linebreak( 'class="clearleft"' );
-      html::div_end();
+      HTML::linebreak( 'class="clearleft"' );
+      HTML::div_end();
 
-      html::italic_start();
+      HTML::italic_start();
       echo 'Note: confirmation will be required before Accept/Reject of entire contribution.';
-      html::italic_end();
+      HTML::italic_end();
     }
     else {
       if( $review_underway ) { # supervisor, came in via EMLO-edit
-        html::form_start( $class_name = 'upload', $method_name = 'upload_list' );
+        HTML::form_start( $class_name = 'upload', $method_name = 'upload_list' );
         echo 'Back to list of contributions: ';
-        html::submit_button( 'back_to_upload_list_button', 'Back' );
-        html::form_end();
+        HTML::submit_button( 'back_to_upload_list_button', 'Back' );
+        HTML::form_end();
       }
       else { # normal user, came in via collection tool
-        html::link_start( $href = $_SERVER['PHP_SELF'] . '?option=history',
+        HTML::link_start( $href = $_SERVER['PHP_SELF'] . '?option=history',
                           $title = 'View list of contributions' );
       }
     }
@@ -1425,22 +1425,22 @@ class Upload extends Project {
     $this->display_places_uploaded();
     $this->display_repos_uploaded();
 
-    html::new_paragraph();
-    html::italic_start();
+    HTML::new_paragraph();
+    HTML::italic_start();
     echo 'End of data uploaded ' . $this->postgres_date_to_dd_mm_yyyy( $this->upload_timestamp )
          . ' by ' . $contributing_person_name;
-    html::italic_end();
-    html::new_paragraph();
-    html::anchor( 'end_of_upload_details_page' );
+    HTML::italic_end();
+    HTML::new_paragraph();
+    HTML::anchor( 'end_of_upload_details_page' );
   }
   #-----------------------------------------------------
 
   function display_people_uploaded() {
 
-    html::anchor( 'people_section' );
-    html::h4_start();
+    HTML::anchor( 'people_section' );
+    HTML::h4_start();
     echo 'People and groups';
-    html::h4_end();
+    HTML::h4_end();
 
     $statement = 'select * from ' . $this->proj_collect_person_tablename()
                . " where upload_id = $this->upload_id"
@@ -1449,7 +1449,7 @@ class Upload extends Project {
     $people = $this->db_select_into_array( $statement );
     $num_people = count( $people );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $num_people == 0 ) {
       echo 'No details of new people or groups were uploaded in this contribution.';
@@ -1460,7 +1460,7 @@ class Upload extends Project {
       echo 'Details of one new person or group were uploaded in this contribution.';
     else
       echo 'Details of ' . $num_people . ' new people or groups were uploaded in this contribution.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $current_person = 0;
     foreach( $people as $row ) {
@@ -1470,25 +1470,25 @@ class Upload extends Project {
       }
       $current_person++;
 
-      html::new_paragraph();
-      html::anchor( 'person' . $current_person );
+      HTML::new_paragraph();
+      HTML::anchor( 'person' . $current_person );
 
-      html::h5_start();
+      HTML::h5_start();
       echo "Person/group $current_person of $num_people";
-      html::h5_end();
+      HTML::h5_end();
 
-      html::span_start( 'class="widespaceonleft"' );
+      HTML::span_start( 'class="widespaceonleft"' );
       if( $current_person > 1 ) {
         $prev_person = intval( $current_person ) - 1;
-        html::link( '#person' . $prev_person, 'Previous person', 'Previous person' );
+        HTML::link( '#person' . $prev_person, 'Previous person', 'Previous person' );
       }
       if( $current_person < $num_people && $current_person > 1 ) 
         echo ' | ';
       if( $current_person < $num_people ) {
         $next_person = intval( $current_person ) + 1;
-        html::link( '#person' . $next_person, 'Next person', 'Next person' );
+        HTML::link( '#person' . $next_person, 'Next person', 'Next person' );
       }
-      html::span_end();
+      HTML::span_end();
 
       if( $current_person < $num_people || $current_person > 1 ) echo ' | ';
       $this->link_to_other_sections( $this_section = 'people' );
@@ -1501,38 +1501,38 @@ class Upload extends Project {
 
   function display_one_person_uploaded() {
 
-    html::div_start( 'class="queryresults"' );
-    html::table_start( 'width="100%"' );
-    html::tablerow_start();
-    html::tabledata( 'Primary name', 'class="label"' );
-    html::tabledata_start();
+    HTML::div_start( 'class="queryresults"' );
+    HTML::table_start( 'width="100%"' );
+    HTML::tablerow_start();
+    HTML::tabledata( 'Primary name', 'class="label"' );
+    HTML::tabledata_start();
     $this->echo_safely( $this->primary_name );
-    html::tabledata_end();
-    html::tablerow_end();
+    HTML::tabledata_end();
+    HTML::tablerow_end();
 
     if( $this->alternative_names > '' ) {
-      html::tablerow_start();
-      html::tabledata( 'Alternative name(s)', 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( 'Alternative name(s)', 'class="label"' );
+      HTML::tabledata_start();
       $this->echo_safely( $this->alternative_names );
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
 
     if( $this->gender > '' ) {
-      html::tablerow_start();
-      html::tabledata( 'Gender', 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( 'Gender', 'class="label"' );
+      HTML::tabledata_start();
       $this->echo_safely( $this->gender );
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
 
     if( $this->is_organisation == '0' ) $this->is_organisation = '';
     if( $this->is_organisation > '' ) {
-      html::tablerow_start();
-      html::tabledata( 'Organisation?', 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( 'Organisation?', 'class="label"' );
+      HTML::tabledata_start();
       echo 'Yes. ';
       if( $this->organisation_type ) {
         $statement = 'select org_type_desc from ' . $this->proj_org_type_tablename()
@@ -1540,17 +1540,17 @@ class Upload extends Project {
         $desc = $this->db_select_one_value( $statement );
         echo 'Type of organisation: ' . $desc;
       }
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
 
     if( $this->roles_or_titles > '' ) {
-      html::tablerow_start();
-      html::tabledata( 'Roles or titles', 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( 'Roles or titles', 'class="label"' );
+      HTML::tabledata_start();
       $this->echo_safely( $this->roles_or_titles );
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
 
     $statement = 'select r.* from ' . $this->proj_role_category_tablename() .  ' r, '
@@ -1562,25 +1562,25 @@ class Upload extends Project {
     $occs = $this->db_select_into_array( $statement );
     $num_occs = count( $occs );
     if( $num_occs > 0 ) {
-      html::tablerow_start();
-      html::tabledata( 'Professional categories', 'class="label"' );
-      html::tabledata_start();
-      if( $num_occs > 1 ) html::ulist_start();
+      HTML::tablerow_start();
+      HTML::tabledata( 'Professional categories', 'class="label"' );
+      HTML::tabledata_start();
+      if( $num_occs > 1 ) HTML::ulist_start();
       foreach( $occs as $occ ) {
         extract( $occ, EXTR_OVERWRITE );
-        if( $num_occs > 1 ) html::listitem_start();
+        if( $num_occs > 1 ) HTML::listitem_start();
         echo $role_category_desc;
-        if( $num_occs > 1 ) html::listitem_end();
+        if( $num_occs > 1 ) HTML::listitem_end();
       }
-      if( $num_occs > 1 ) html::ulist_end();
-      html::tabledata_end();
-      html::tablerow_end();
+      if( $num_occs > 1 ) HTML::ulist_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
 
     if( $this->date_of_birth_year || $this->date_of_birth2_year ) {
-      html::tablerow_start();
-      html::tabledata( 'Date of birth', 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( 'Date of birth', 'class="label"' );
+      HTML::tabledata_start();
       echo $this->date_of_birth_year;
       if( $this->date_of_birth2_year || $this->date_of_birth_is_range ) echo '&ndash;';
       echo $this->date_of_birth2_year;
@@ -1588,14 +1588,14 @@ class Upload extends Project {
       $flag_fields = array( 'date_of_birth_is_range', 'date_of_birth_inferred', 
                            'date_of_birth_uncertain', 'date_of_birth_approx' );
       $this->display_flags( $flag_fields, $flags_heading = 'Issues with date of birth', TRUE );
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }        
 
     if( $this->date_of_death_year || $this->date_of_death2_year ) {
-      html::tablerow_start();
-      html::tabledata( 'Date of death', 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( 'Date of death', 'class="label"' );
+      HTML::tabledata_start();
       echo $this->date_of_death_year;
       if( $this->date_of_death2_year || $this->date_of_death_is_range ) echo '&ndash;';
       echo $this->date_of_death2_year;
@@ -1603,37 +1603,37 @@ class Upload extends Project {
       $flag_fields = array( 'date_of_death_is_range', 'date_of_death_inferred', 
                            'date_of_death_uncertain', 'date_of_death_approx' );
       $this->display_flags( $flag_fields, $flags_heading = 'Issues with date of death', TRUE );
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }        
 
     if( $this->flourished_year || $this->flourished2_year ) {
-      html::tablerow_start();
-      html::tabledata( 'Flourished', 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( 'Flourished', 'class="label"' );
+      HTML::tabledata_start();
       echo $this->flourished_year;
       if( $this->flourished2_year || $this->flourished_is_range ) echo '&ndash;';
       echo $this->flourished2_year;
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }        
 
     if( $this->notes_on_person > '' ) {
-      html::tablerow_start();
-      html::tabledata( 'Publicly visible notes on person/group', 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( 'Publicly visible notes on person/group', 'class="label"' );
+      HTML::tabledata_start();
       $this->echo_safely( $this->notes_on_person );
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
 
     if( $this->editors_notes > '' ) {
-      html::tablerow_start();
-      html::tabledata( "Project editors' notes", 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( "Project editors' notes", 'class="label"' );
+      HTML::tabledata_start();
       $this->echo_safely( $this->editors_notes );
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
 
     $this->set_related_resources_for_display( $table_name = $this->proj_collect_person_resource_tablename(), 
@@ -1641,25 +1641,25 @@ class Upload extends Project {
                                               $id_value = $this->iperson_id );
     $this->display_simple_field( 'related_resources', 'Related resources' );
 
-    html::table_end();
-    html::div_end();
-    html::new_paragraph();
+    HTML::table_end();
+    HTML::div_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
   function display_places_uploaded() {
 
-    html::anchor( 'places_section' );
-    html::div_start( 'class="head_plus_nav"' );
-    html::h4_start();
+    HTML::anchor( 'places_section' );
+    HTML::div_start( 'class="head_plus_nav"' );
+    HTML::h4_start();
     echo 'Places';
-    html::h4_end();
+    HTML::h4_end();
 
-    html::span_start( 'class="widespaceonleft"' );
+    HTML::span_start( 'class="widespaceonleft"' );
     $this->link_to_other_sections( $this_section = 'places' );
-    html::span_end();
-    html::div_end();
-    html::new_paragraph();
+    HTML::span_end();
+    HTML::div_end();
+    HTML::new_paragraph();
 
     $statement = 'select * from ' . $this->proj_collect_location_tablename()
                . " where upload_id = $this->upload_id"
@@ -1680,26 +1680,26 @@ class Upload extends Project {
     }
 
     echo 'Details of ' . $num_places . ' new places were uploaded in this contribution.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $i = 0;
     foreach( $places as $row ) {
       $i++;
-      html::h5_start();
+      HTML::h5_start();
       echo "Place $i of $num_places";
-      html::h5_end();
+      HTML::h5_end();
       extract( $row, EXTR_OVERWRITE );
       $this->display_one_place( $row );
     }
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
   function display_one_place( $place ) {
 
     if( ! $place[ 'location_id' ] ) die( 'Invalid input while displaying places uploaded.' );
 
-    html::div_start( 'class="queryresults"' );
-    html::table_start();
+    HTML::div_start( 'class="queryresults"' );
+    HTML::table_start();
 
     foreach( $place as $fieldname => $value ) {
 
@@ -1728,25 +1728,25 @@ class Upload extends Project {
                                               $id_value = $this->location_id );
     $this->display_simple_field( 'related_resources', 'Related resources' );
 
-    html::table_end();
-    html::div_end();
-    html::new_paragraph();
+    HTML::table_end();
+    HTML::div_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
   function display_repos_uploaded() {
 
-    html::anchor( 'repositories_section' );
-    html::div_start( 'class="head_plus_nav"' );
-    html::h4_start();
+    HTML::anchor( 'repositories_section' );
+    HTML::div_start( 'class="head_plus_nav"' );
+    HTML::h4_start();
     echo 'Repositories';
-    html::h4_end();
+    HTML::h4_end();
 
-    html::span_start( 'class="widespaceonleft"' );
+    HTML::span_start( 'class="widespaceonleft"' );
     $this->link_to_other_sections( $this_section = 'repositories' );
-    html::span_end();
-    html::div_end();
-    html::new_paragraph();
+    HTML::span_end();
+    HTML::div_end();
+    HTML::new_paragraph();
 
     $statement = 'select * from ' . $this->proj_collect_institution_tablename()
                . " where upload_id = $this->upload_id"
@@ -1762,42 +1762,42 @@ class Upload extends Project {
 
     elseif( $num_repos == 1 ) {
       echo 'Details of one new repository were uploaded in this contribution:';
-      html::new_paragraph();
+      HTML::new_paragraph();
       $this->display_one_repository( $repos[ 0 ] );
-      html::new_paragraph();
+      HTML::new_paragraph();
       return;
     }
 
     echo 'Details of ' . $num_repos . ' new repositories were uploaded in this contribution.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::ulist_start();
+    HTML::ulist_start();
     foreach( $repos as $row ) {
       extract( $row, EXTR_OVERWRITE );
-      html::listitem_start();
+      HTML::listitem_start();
       $this->echo_safely( $institution_name );
-      html::listitem_end();
+      HTML::listitem_end();
     }
-    html::ulist_end();
+    HTML::ulist_end();
 
     $i = 0;
     foreach( $repos as $row ) {
       $i++;
-      html::h5_start();
+      HTML::h5_start();
       echo "Repository $i of $num_repos";
-      html::h5_end();
+      HTML::h5_end();
       extract( $row, EXTR_OVERWRITE );
       $this->display_one_repository( $row );
     }
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
   function display_one_repository( $repository ) {
 
     if( ! $repository[ 'institution_id' ] ) die( 'Invalid input while displaying repositories uploaded.' );
 
-    html::div_start( 'class="queryresults"' );
-    html::table_start();
+    HTML::div_start( 'class="queryresults"' );
+    HTML::table_start();
 
     foreach( $repository as $fieldname => $value ) {
 
@@ -1822,19 +1822,19 @@ class Upload extends Project {
                                               $id_column_name = 'institution_id', 
                                               $id_value = $this->institution_id );
     $this->display_simple_field( 'related_resources', 'Related resources' );
-    html::table_end();
-    html::div_end();
-    html::new_paragraph();
+    HTML::table_end();
+    HTML::div_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
   function display_works_uploaded() {
 
     if( $this->debug ) echo "RG display_works_uploaded()<br>";
 
-    html::anchor( 'works_section' );
-    html::h4_start();
+    HTML::anchor( 'works_section' );
+    HTML::h4_start();
     echo 'Works';
-    html::h4_end();
+    HTML::h4_end();
 
     $cstatement = 'select count(*) from ' . $this->proj_collect_work_tablename()
                . " where upload_id = $this->upload_id";
@@ -1853,7 +1853,7 @@ class Upload extends Project {
     else
       echo 'Details of ' . $num_works . ' new works were uploaded in this contribution.';
     $this->contributed_works_export_button( $this->upload_id, $verbose = TRUE );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $current_work = 0;
     $LIMIT = 100;
@@ -1874,25 +1874,25 @@ class Upload extends Project {
         }
         $current_work++;
 
-        html::new_paragraph();
-        html::anchor( 'work' . $current_work );
+        HTML::new_paragraph();
+        HTML::anchor( 'work' . $current_work );
 
-        html::h5_start();
+        HTML::h5_start();
         echo "Work $current_work of $num_works";
-        html::h5_end();
+        HTML::h5_end();
 
-        html::span_start( 'class="widespaceonleft"' );
+        HTML::span_start( 'class="widespaceonleft"' );
         if( $current_work > 1 ) {
           $prev_work = intval( $current_work ) - 1;
-          html::link( '#work' . $prev_work, 'Previous work', 'Previous work' );
+          HTML::link( '#work' . $prev_work, 'Previous work', 'Previous work' );
         }
         if( $current_work < $num_works && $current_work > 1 ) 
           echo ' | ';
         if( $current_work < $num_works ) {
           $next_work = intval( $current_work ) + 1;
-          html::link( '#work' . $next_work, 'Next work', 'Next work' );
+          HTML::link( '#work' . $next_work, 'Next work', 'Next work' );
         }
-        html::span_end();
+        HTML::span_end();
         if( $current_work < $num_works || $current_work > 1 ) echo ' | ';
         $this->link_to_other_sections( $this_section = 'works' );
         echo LINEBREAK;
@@ -1904,8 +1904,8 @@ class Upload extends Project {
   #-----------------------------------------------------
   function display_current_work() {
 
-    html::div_start( 'class="queryresults"' );
-    html::table_start( 'width="100%"' );
+    HTML::div_start( 'class="queryresults"' );
+    HTML::table_start( 'width="100%"' );
 
     $this->accept_or_reject_work_buttons();
     $this->display_date_of_work();
@@ -1930,8 +1930,8 @@ class Upload extends Project {
                                               $id_value = $this->iwork_id );
     $this->display_simple_field( 'related_resources', 'Related resources' );
 
-    html::table_end();
-    html::div_end();
+    HTML::table_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -1942,46 +1942,46 @@ class Upload extends Project {
                . " where status_id = $this->upload_status";
     $this->db_select_into_properties( $statement );
 
-    html::tablerow_start();
+    HTML::tablerow_start();
     if( $this->review_underway && $this->editable ) 
       $tabledata_desc = 'Status and possible actions';
     else
       $tabledata_desc = 'Status';
-    html::tabledata( LINEBREAK . $tabledata_desc, 'class="label"' );
+    HTML::tabledata( LINEBREAK . $tabledata_desc, 'class="label"' );
 
-    html::tabledata_start();
-    html::bold_start();
+    HTML::tabledata_start();
+    HTML::bold_start();
     echo LINEBREAK . $this->work_status_desc; 
-    html::bold_end();
+    HTML::bold_end();
     if( $this->union_iwork_id ) echo ' (ID: ' . $this->union_iwork_id . ')';
     echo LINEBREAK;
 
-    html::div_start( 'class="buttonrow"' );
+    HTML::div_start( 'class="buttonrow"' );
 
     if( $this->review_underway && $this->editable && $this->work_editable ) {
 
-      html::form_start( $class_name = "review", $method_name = "accept_one_work" );
-      html::hidden_field( 'upload_id', $this->upload_id );
-      html::hidden_field( 'iwork_id', $this->iwork_id );
-      html::submit_button( 'accept_work_' . $this->iwork_id, 'Accept' );
+      HTML::form_start( $class_name = "review", $method_name = "accept_one_work" );
+      HTML::hidden_field( 'upload_id', $this->upload_id );
+      HTML::hidden_field( 'iwork_id', $this->iwork_id );
+      HTML::submit_button( 'accept_work_' . $this->iwork_id, 'Accept' );
       echo SPACE;
-      html::form_end();
+      HTML::form_end();
       
-      html::form_start( $class_name = "review", $method_name = "reject_one_work" );
-      html::hidden_field( 'upload_id', $this->upload_id );
-      html::hidden_field( 'iwork_id', $this->iwork_id );
-      html::submit_button( 'reject_work_' . $this->iwork_id, 'Reject' );
-      html::form_end();
+      HTML::form_start( $class_name = "review", $method_name = "reject_one_work" );
+      HTML::hidden_field( 'upload_id', $this->upload_id );
+      HTML::hidden_field( 'iwork_id', $this->iwork_id );
+      HTML::submit_button( 'reject_work_' . $this->iwork_id, 'Reject' );
+      HTML::form_end();
 
-      html::linebreak( 'class="clearleft"' );
+      HTML::linebreak( 'class="clearleft"' );
 
-      html::italic_start();
+      HTML::italic_start();
       echo 'Note: confirmation will be required before Accept/Reject of work.';
     }
 
-    html::div_end();
-    html::tabledata_end();
-    html::tablerow_end();
+    HTML::div_end();
+    HTML::tabledata_end();
+    HTML::tablerow_end();
   }
   #-----------------------------------------------------
 
@@ -2004,9 +2004,9 @@ class Upload extends Project {
 
     if( ! $date_entered ) return;
 
-    html::tablerow_start();
-    html::tabledata( 'Date of work', 'class="label"' );
-    html::tabledata_start();
+    HTML::tablerow_start();
+    HTML::tabledata( 'Date of work', 'class="label"' );
+    HTML::tabledata_start();
     
     $start_date_entered = FALSE;
     $end_date_entered = FALSE;
@@ -2087,8 +2087,8 @@ class Upload extends Project {
       echo LINEBREAK;
     }
 
-    html::tabledata_end();
-    html::tablerow_end();
+    HTML::tabledata_end();
+    HTML::tablerow_end();
   }
   #-----------------------------------------------------
 
@@ -2172,24 +2172,24 @@ class Upload extends Project {
     }
     if( ! $person_data_entered ) return;
 
-    html::tablerow_start();
-    html::tabledata( $label, 'class="label"' );
-    html::tabledata_start();
+    HTML::tablerow_start();
+    HTML::tabledata( $label, 'class="label"' );
+    HTML::tabledata_start();
 
-    if( $num_people > 1 ) html::ulist_start();
+    if( $num_people > 1 ) HTML::ulist_start();
     foreach( $people as $person ) {
 			// MATTT
       //echo "<!-- ";
       //var_dump( $person );
       //echo " --> ";
-      if( $num_people > 1 ) html::listitem_start();
+      if( $num_people > 1 ) HTML::listitem_start();
       extract( $person, EXTR_OVERWRITE );
 
       $this->echo_safely( $primary_name );
       if( $iperson_id >= IDS_CREATED_IN_TOOL_START ) {
-        html::italic_start();
+        HTML::italic_start();
         echo " (new record)";
-        html::italic_end();
+        HTML::italic_end();
       }
       echo LINEBREAK;
 
@@ -2201,9 +2201,9 @@ class Upload extends Project {
         }
       }
 
-      if( $num_people > 1 ) html::listitem_end();
+      if( $num_people > 1 ) HTML::listitem_end();
     }
-    if( $num_people > 1 ) html::ulist_end();
+    if( $num_people > 1 ) HTML::ulist_end();
 
     if( $flag_fields_start ) {
       $flag_fields = array ( $flag_fields_start . '_inferred', $flag_fields_start . '_uncertain' );
@@ -2219,17 +2219,17 @@ class Upload extends Project {
       }
     }
 
-    html::tabledata_end();
-    html::tablerow_end();
+    HTML::tabledata_end();
+    HTML::tablerow_end();
   }
   #-----------------------------------------------------
 
   function display_origin() {
 
     if( $this->origin_id || $this->origin_as_marked ) {
-      html::tablerow_start();
-      html::tabledata( 'Origin', 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( 'Origin', 'class="label"' );
+      HTML::tabledata_start();
       if( $this->origin_id ) {
         if( $this->origin_id >= IDS_CREATED_IN_TOOL_START ) { # newly created
           $statement = 'select location_name from ' . $this->proj_collect_location_tablename()
@@ -2254,8 +2254,8 @@ class Upload extends Project {
       $flag_fields = array( 'origin_inferred', 'origin_uncertain' );
       $this->display_flags( $flag_fields, $flags_heading = 'Issues with origin', TRUE );
 
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
   }
   #-----------------------------------------------------
@@ -2263,9 +2263,9 @@ class Upload extends Project {
   function display_destination() {
 
     if( $this->destination_id || $this->destination_as_marked ) {
-      html::tablerow_start();
-      html::tabledata( 'Destination', 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( 'Destination', 'class="label"' );
+      HTML::tabledata_start();
       if( $this->destination_id ) {
         if( $this->destination_id >= IDS_CREATED_IN_TOOL_START ) { # newly created
           $statement = 'select location_name from ' . $this->proj_collect_location_tablename()
@@ -2290,8 +2290,8 @@ class Upload extends Project {
       $flag_fields = array( 'destination_inferred', 'destination_uncertain' );
       $this->display_flags( $flag_fields, $flags_heading = 'Issues with destination', TRUE );
 
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
   }
   #-----------------------------------------------------
@@ -2308,20 +2308,20 @@ class Upload extends Project {
     $num_subjs = count( $subjs );
     if( $num_subjs == 0 ) return;
 
-    html::tablerow_start();
-    html::tabledata( 'Subject(s)', 'class="label"' );
-    html::tabledata_start();
+    HTML::tablerow_start();
+    HTML::tabledata( 'Subject(s)', 'class="label"' );
+    HTML::tabledata_start();
 
-    if( $num_subjs > 1 ) html::ulist_start();
+    if( $num_subjs > 1 ) HTML::ulist_start();
     foreach( $subjs as $subj ) {
-      if( $num_subjs > 1 ) html::listitem_start();
+      if( $num_subjs > 1 ) HTML::listitem_start();
       extract( $subj, EXTR_OVERWRITE );
       $this->echo_safely( $subject_desc );
-      if( $num_subjs > 1 ) html::listitem_end();
+      if( $num_subjs > 1 ) HTML::listitem_end();
     }
-    if( $num_subjs > 1 ) html::ulist_end();
-    html::tabledata_end();
-    html::tablerow_end();
+    if( $num_subjs > 1 ) HTML::ulist_end();
+    HTML::tabledata_end();
+    HTML::tablerow_end();
   }
   #-----------------------------------------------------
 
@@ -2339,26 +2339,26 @@ class Upload extends Project {
     if( $num_langs == 0 && ! $language_of_work ) return;
     $this->display_simple_field( '', 'Language(s)' );
 
-    html::tablerow_start();
-    html::tabledata( 'Language(s)', 'class="label"' );
-    html::tabledata_start();
+    HTML::tablerow_start();
+    HTML::tabledata( 'Language(s)', 'class="label"' );
+    HTML::tabledata_start();
 
-    if( $num_langs > 1 ) html::ulist_start();
+    if( $num_langs > 1 ) HTML::ulist_start();
     foreach( $langs as $lang ) {
-      if( $num_langs > 1 ) html::listitem_start();
+      if( $num_langs > 1 ) HTML::listitem_start();
       extract( $lang, EXTR_OVERWRITE );
       $this->echo_safely( $language_name );
-      if( $num_langs > 1 ) html::listitem_end();
+      if( $num_langs > 1 ) HTML::listitem_end();
     }
-    if( $num_langs > 1 ) html::ulist_end();
+    if( $num_langs > 1 ) HTML::ulist_end();
 
     if( $language_of_work ) {
       if( $num_langs == 1 ) echo LINEBREAK;
       $this->echo_safely( $language_of_work );
     }
 
-    html::tabledata_end();
-    html::tablerow_end();
+    HTML::tabledata_end();
+    HTML::tablerow_end();
   }
   #-----------------------------------------------------
 
@@ -2375,20 +2375,20 @@ class Upload extends Project {
     $num_places = count( $places );
     if( $num_places == 0 ) return;
 
-    html::tablerow_start();
-    html::tabledata( 'Places mentioned', 'class="label"' );
-    html::tabledata_start();
+    HTML::tablerow_start();
+    HTML::tabledata( 'Places mentioned', 'class="label"' );
+    HTML::tabledata_start();
 
-    if( $num_places > 1 ) html::ulist_start();
+    if( $num_places > 1 ) HTML::ulist_start();
     foreach( $places as $place ) {
-      if( $num_places > 1 ) html::listitem_start();
+      if( $num_places > 1 ) HTML::listitem_start();
       extract( $place, EXTR_OVERWRITE );
       $this->echo_safely( $location_name );
-      if( $num_places > 1 ) html::listitem_end();
+      if( $num_places > 1 ) HTML::listitem_end();
     }
-    if( $num_places > 1 ) html::ulist_end();
-    html::tabledata_end();
-    html::tablerow_end();
+    if( $num_places > 1 ) HTML::ulist_end();
+    HTML::tabledata_end();
+    HTML::tablerow_end();
   }
   #-----------------------------------------------------
 
@@ -2405,13 +2405,13 @@ class Upload extends Project {
     $num_manifs = count( $manifs );
     if( $num_manifs == 0 ) return;
 
-    html::tablerow_start();
-    html::tabledata( 'Repositories and versions', 'class="label"' );
-    html::tabledata_start();
+    HTML::tablerow_start();
+    HTML::tabledata( 'Repositories and versions', 'class="label"' );
+    HTML::tabledata_start();
 
-    if( $num_manifs > 1 ) html::ulist_start();
+    if( $num_manifs > 1 ) HTML::ulist_start();
     foreach( $manifs as $manif ) {
-      if( $num_manifs > 1 ) html::listitem_start();
+      if( $num_manifs > 1 ) HTML::listitem_start();
       extract( $manif, EXTR_OVERWRITE );
 
       echo 'Document type: ';
@@ -2451,11 +2451,11 @@ class Upload extends Project {
         echo LINEBREAK;
       }
 
-      if( $num_manifs > 1 ) html::listitem_end();
+      if( $num_manifs > 1 ) HTML::listitem_end();
     }
-    if( $num_manifs > 1 ) html::ulist_end();
-    html::tabledata_end();
-    html::tablerow_end();
+    if( $num_manifs > 1 ) HTML::ulist_end();
+    HTML::tabledata_end();
+    HTML::tablerow_end();
   }
   #-----------------------------------------------------
 
@@ -2468,13 +2468,13 @@ class Upload extends Project {
       if( $i > 0 ) echo ' | ';
       $i++;
       $section_link = '#' . $section . '_section';
-      html::link( $section_link, ucfirst($section), ucfirst($section) );
+      HTML::link( $section_link, ucfirst($section), ucfirst($section) );
     }
 
     echo ' | ';
-    html::link( '#aeolus_page_top_anchor', 'Top of page', 'Top of page' );
+    HTML::link( '#aeolus_page_top_anchor', 'Top of page', 'Top of page' );
     echo ' | ';
-    html::link( '#end_of_upload_details_page', 'Bottom of page', 'Bottom of page' );
+    HTML::link( '#end_of_upload_details_page', 'Bottom of page', 'Bottom of page' );
   }
   #-----------------------------------------------------
 
@@ -2482,12 +2482,12 @@ class Upload extends Project {
 
     if( ! $fieldname ) return;
     if( $this->$fieldname ) {
-      html::tablerow_start();
-      html::tabledata( $label, 'class="label"' );
-      html::tabledata_start();
+      HTML::tablerow_start();
+      HTML::tabledata( $label, 'class="label"' );
+      HTML::tabledata_start();
       $this->echo_safely_with_linebreaks( $this->$fieldname );
-      html::tabledata_end();
-      html::tablerow_end();
+      HTML::tabledata_end();
+      HTML::tablerow_end();
     }
   }
   #-----------------------------------------------------
@@ -2519,9 +2519,9 @@ class Upload extends Project {
     $num_reviewers = count( $reviewers );
     if( $num_reviewers > 0 ) {
 
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo 'Informing project editors that a new contribution has been uploaded...';
-      html::new_paragraph();
+      HTML::new_paragraph();
 
       $statement = 'select * from ' . $this->proj_collect_work_summary_viewname()
                  . " where upload_id = $this->upload_id"
@@ -2566,13 +2566,13 @@ class Upload extends Project {
 
     if( ! $upload_id ) die( 'Invalid input.' );
 
-    html::form_start( $class_name = 'upload', $method_name = 'export_upload_to_csv',
+    HTML::form_start( $class_name = 'upload', $method_name = 'export_upload_to_csv',
                       $form_name = '', $form_target = '_blank' );
 
-    html::hidden_field( 'upload_id', $upload_id );
+    HTML::hidden_field( 'upload_id', $upload_id );
     if( $verbose ) echo 'You can export details of the works in this contribution to a spreadsheet: ';
-    html::submit_button( 'csv_button', 'Export' );
-    html::form_end();
+    HTML::submit_button( 'csv_button', 'Export' );
+    HTML::form_end();
   }
   #-----------------------------------------------------
   function export_upload_to_csv() {
@@ -2750,14 +2750,14 @@ class Upload extends Project {
 
     function file_upload_excel_form() {
 
-        html::h3_start();
+        HTML::h3_start();
         echo 'Excel upload to Collect';
-        html::h3_end();
+        HTML::h3_end();
 
-        html::new_paragraph();
+        HTML::new_paragraph();
         echo "For uploading Excel documents containing manifestations, people, places, repositories, works into collect.";
 
-        html::form_start( $class_name = 'upload',
+        HTML::form_start( $class_name = 'upload',
             $method_name = 'file_upload_excel_form_response',
             $form_name = NULL,  # use default
             $form_target = '_self',
@@ -2766,16 +2766,16 @@ class Upload extends Project {
             $form_method='POST',
             $parms = 'enctype="multipart/form-data"' );
 
-        html::file_upload_field( $fieldname = 'file_to_process',
+        HTML::file_upload_field( $fieldname = 'file_to_process',
             $label = "Upload file",
             $value = NULL,
             $size = CSV_UPLOAD_FIELD_SIZE );
-        html::new_paragraph();
+        HTML::new_paragraph();
 
 	echo '<p>Please only upload one excel file at a time. The webpage may appear to freeze while the processing takes place.</p>';
 
-        html::submit_button( 'upload_button', 'Upload' );
-        html::form_end();
+        HTML::submit_button( 'upload_button', 'Upload' );
+        HTML::form_end();
     }
 
     #----------------------------------------------------------------------------------
@@ -2822,14 +2822,14 @@ class Upload extends Project {
             die( 'FAILED TO MOVE file to image directory. Can you change the name and try again?' );
 
         flush();
-        html::new_paragraph();
+        HTML::new_paragraph();
 	$command = "cd /home/cofkadmin/backend/emlo.dev/bin/;./runIngest.sh \"" . $foldername . "\"";
 	
 	echo "<pre>";
         system( $command, $result );
 	echo "</pre>";
 
-        html::new_paragraph();
+        HTML::new_paragraph();
 
 	echo "Error logs:";
 	echo "<pre>";
@@ -2838,7 +2838,7 @@ class Upload extends Project {
         readfile("/home/cofkadmin/backend/emlo.dev/logs/import2Postgres.err");
 	echo "</pre>";
 
-	html::new_paragraph();
+	HTML::new_paragraph();
         if( $result == 0 ) {
             echo "<b>Successfully uploaded</b>";
         }

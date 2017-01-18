@@ -145,7 +145,7 @@ class Image extends Project {
 
     if( ! $entity_id ) {
       echo "It will be possible to add images once the new $entity_type has been created.";
-      html::new_paragraph();
+      HTML::new_paragraph();
       return;
     }
 
@@ -155,33 +155,33 @@ class Image extends Project {
         echo $this->proj_make_image_link( $one_img [ 'image_filename' ] );
         echo ' ';
       }
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
     $this->write_image_entry_stylesheet();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Copyright law must be respected at all times. You must ensure that all necessary'
          . ' permissions have been obtained before uploading or attempting to display images.';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     echo "You can associate images with a $entity_type in two different ways:";
-    html::ulist_start();
-    html::listitem( '<em>Upload</em> them if you have a copy on your own personal computer' );
-    html::listitem( '<em>Link</em> to them by typing in, or copying and pasting in, the URL of an image'
+    HTML::ulist_start();
+    HTML::listitem( '<em>Upload</em> them if you have a copy on your own personal computer' );
+    HTML::listitem( '<em>Link</em> to them by typing in, or copying and pasting in, the URL of an image'
                    . " on this or another repository's server." );
-    html::ulist_end();
+    HTML::ulist_end();
     echo 'In both cases, credits and licence details must be supplied before the image can be displayed to the public.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->offer_file_upload();
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Or:';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     $this->edit_images_by_url( $imgs );
   }
@@ -189,22 +189,22 @@ class Image extends Project {
 
   function offer_file_upload() {
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Upload image files from your own computer: ';
-    html::bold_end();
+    HTML::bold_end();
 
-    html::submit_button( 'upload_images_button', 'Upload' );
-    html::new_paragraph();
+    HTML::submit_button( 'upload_images_button', 'Upload' );
+    HTML::new_paragraph();
   }
   #----------------------------------------------------------------------------------
 
   function edit_images_by_url( $imgs ) {
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Enter or change links to images by typing in the URL:';
-    html::bold_end();
+    HTML::bold_end();
     $this->image_deletion_warning_script();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo 'After entering or changing the URL of the main image or optionally the thumbnail image,'
          . " press Tab or click elsewhere on the form, and a 'Check URL' link will appear.";
@@ -213,12 +213,12 @@ class Image extends Project {
     $total_imgs = count( $imgs );
 
     $this->add_image_by_url( $total_imgs );  # allow them to type the URL directly in.
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     foreach( $imgs as $one_img ) {
       $curr_img_no++;
       if( $curr_img_no > 1 ) {
-        html::new_paragraph();
+        HTML::new_paragraph();
       }
       $this->edit_existing_image( $one_img, $curr_img_no, $total_imgs );
     }
@@ -254,13 +254,13 @@ class Image extends Project {
     $image_fieldname     = 'image_filename[]';
     $thumbnail_fieldname = 'thumbnail[]';
 
-    html::hidden_field( 'image_id[]', $image_id );
+    HTML::hidden_field( 'image_id[]', $image_id );
 
     $input_instance = $image_id;  # used in generating unique field ID
     if( ! $input_instance ) $input_instance = 'new';
 
-    $image_field_id     = html::field_id_from_fieldname( $image_fieldname,     $input_instance );
-    $thumbnail_field_id = html::field_id_from_fieldname( $thumbnail_fieldname, $input_instance );
+    $image_field_id     = HTML::field_id_from_fieldname( $image_fieldname,     $input_instance );
+    $thumbnail_field_id = HTML::field_id_from_fieldname( $thumbnail_fieldname, $input_instance );
 
     $thumbnail_display_area = THUMBNAIL_DISPLAY_AREA . $input_instance;
 
@@ -273,7 +273,7 @@ class Image extends Project {
     $toggle_readonly_scriptname = $this->toggle_readonly_script( $image_field_id, $thumbnail_field_id ); 
 
     $current_image_anchor = 'image_no_' . $curr_img_no;
-    html::anchor( $current_image_anchor );
+    HTML::anchor( $current_image_anchor );
 
     if( $total_imgs > 0 && $curr_img_no < $total_imgs ) {
       $next_img_no = $curr_img_no + 1;
@@ -285,13 +285,13 @@ class Image extends Project {
       $prev_image_anchor = 'image_no_' . $prev_img_no;
     }
 
-    html::new_paragraph( 'class="rightaligned"' );
+    HTML::new_paragraph( 'class="rightaligned"' );
     if( $prev_image_anchor ) {
       if( $curr_img_no > 1 )
         $prev_img_txt = 'Previous image (no. ' . $prev_img_no . ' of ' . $total_imgs . ')';
       else
         $prev_img_txt = 'New image entry';
-      html::link( '#' . $prev_image_anchor, $prev_img_txt );
+      HTML::link( '#' . $prev_image_anchor, $prev_img_txt );
     }
 
     if( $prev_image_anchor && $next_image_anchor ) echo ' | ';
@@ -301,16 +301,16 @@ class Image extends Project {
         $next_img_txt = 'Next image (no. ' . $next_img_no . ' of ' . $total_imgs . ')';
       else
         $next_img_txt = 'Go to existing image(s)';
-      html::link( '#' . $next_image_anchor, $next_img_txt );
+      HTML::link( '#' . $next_image_anchor, $next_img_txt );
     }
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     #------------------------
     # Start 'image entry' div
     #------------------------
-    html::div_start( 'class="image_entry"' );
+    HTML::div_start( 'class="image_entry"' );
 
-    html::italic_start();
+    HTML::italic_start();
     if( $curr_img_no )
       echo 'Existing image no. ' . $curr_img_no . ' of ' . $total_imgs;
     else {
@@ -324,57 +324,57 @@ class Image extends Project {
       $this->set_default_credits();
       $this->set_default_licence();
     }
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     #----------------------------
     # Display any image thumbnail
     #----------------------------
-    html::div_start( 'class="image_entry_thumb"' );
-    html::div_start( 'id="' . $thumbnail_display_area . '"' );
+    HTML::div_start( 'class="image_entry_thumb"' );
+    HTML::div_start( 'id="' . $thumbnail_display_area . '"' );
 
     if( $image_filename ) {
       $broken = $this->proj_link_is_broken( $image_filename );
       if( ! $broken )
         echo $this->proj_make_image_link( $image_filename );
       else {
-        html::span_start( 'class="warning"' );
+        HTML::span_start( 'class="warning"' );
         echo '********** IMAGE NOT FOUND **********';
-        html::span_end();
+        HTML::span_end();
       }
     }
     if( $thumbnail ) {
       $broken = $this->proj_link_is_broken( $thumbnail );
       if( $broken ) {
-        html::span_start( 'class="warning"' );
+        HTML::span_start( 'class="warning"' );
         echo LINEBREAK . '********** THUMBNAIL NOT FOUND **********';
-        html::span_end();
+        HTML::span_end();
       }
     }
-    html::new_paragraph();
-    html::div_end(); # end thumbnail display area
+    HTML::new_paragraph();
+    HTML::div_end(); # end thumbnail display area
 
     # Write currently INVISIBLE link to allow them to check any changes they later make to the main image URL.
-    html::link( $href = $image_filename, $displayed_text = 'Check image URL', $title = 'Check the image URL is working', 
+    HTML::link( $href = $image_filename, $displayed_text = 'Check image URL', $title = 'Check the image URL is working', 
                 $target = '_blank', $accesskey = '', $tabindex = 1,
                 $extra_parms = 'id="' . $check_image_link . '" style="display: none"' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     # Write currently INVISIBLE link to allow them to check any changes they later make to the thumbnail URL.
-    html::link( $href = $thumbnail_filename, $displayed_text = 'Check thumbnail URL', 
+    HTML::link( $href = $thumbnail_filename, $displayed_text = 'Check thumbnail URL', 
                 $title = 'Check the thumbnail URL is working', 
                 $target = '_blank', $accesskey = '', $tabindex = 1,
                 $extra_parms = 'id="' . $check_thumbnail_link . '" style="display: none"' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_end(); # end "image entry THUMBNAIL" div
+    HTML::div_end(); # end "image entry THUMBNAIL" div
 
     #-------------------------------------------
     # Display and allow editing of the image URL 
     # and other fields such as licence details.
     #-------------------------------------------
-    html::div_start( 'class="image_entry_flds"' );
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="image_entry_flds"' );
+    HTML::div_start( 'class="workfield"' );
 
     $display_parms = NULL;
     if( $image_id ) {  # protect against accidental changes to the URL
@@ -386,7 +386,7 @@ class Image extends Project {
     #---------------
     $onchange_parms = ' onchange="' . $check_image_scriptname . '( this.value )"';
 
-    html::input_field( $fieldname = $image_fieldname, 
+    HTML::input_field( $fieldname = $image_fieldname, 
                        $label = 'URL for full-size image', 
                        $value = $image_filename, 
                        $in_table = FALSE, 
@@ -397,14 +397,14 @@ class Image extends Project {
                        $input_parms = $display_parms . $onchange_parms, 
                        $input_instance );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     #--------------
     # Thumbnail URL
     #--------------
     $onchange_parms = ' onchange="' . $check_thumbnail_scriptname . '( this.value )"';
 
-    html::input_field( $fieldname = $thumbnail_fieldname, 
+    HTML::input_field( $fieldname = $thumbnail_fieldname, 
                        $label = 'URL for thumbnail (if any)', 
                        $value = $thumbnail, 
                        $in_table = FALSE, 
@@ -414,62 +414,62 @@ class Image extends Project {
                        $data_parms = NULL, 
                        $input_parms = $display_parms . $onchange_parms, 
                        $input_instance );
-    html::new_paragraph();
-    html::div_end(); # end "workfield" div
+    HTML::new_paragraph();
+    HTML::div_end(); # end "workfield" div
 
     #----------------------------------------------
     # Toggle between readonly and writable for URLs
     #----------------------------------------------
     if( $image_id ) {
-      html::span_start( 'class="workfieldaligned"' );
+      HTML::span_start( 'class="workfieldaligned"' );
       $this->basic_checkbox( 'toggleReadOnly' . $image_id, 'Make URLs editable', FALSE, 1,
                              'onclick="' . $toggle_readonly_scriptname . '( this )"' );
-      html::span_end();
-      html::new_paragraph();
+      HTML::span_end();
+      HTML::new_paragraph();
     }
 
     #-------------
     # Licence etc.
     #-------------
-    html::div_start( 'class="workfield boldlabel"' );
+    HTML::div_start( 'class="workfield boldlabel"' );
 
     $this->credits_field( $input_instance );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->licence_details_field( $input_instance );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->licence_url_field( $input_instance );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_end(); # end "workfield boldlabel" div
+    HTML::div_end(); # end "workfield boldlabel" div
 
     $this->can_be_displayed_field( $input_instance );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->display_order_field( $input_instance );
-    html::new_paragraph();
-    html::div_end(); # end "workfield" div
+    HTML::new_paragraph();
+    HTML::div_end(); # end "workfield" div
 
     if( $this->image_id ) {
       $this->delete_image_checkbox( $input_instance );
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
-    html::submit_button( 'save_' . $input_instance . '_img', 'Save', $tabindex = 1, 'class="workfield_save_button"' );
-    html::new_paragraph();
-    html::div_end(); # end "image entry FIELDS" div
+    HTML::submit_button( 'save_' . $input_instance . '_img', 'Save', $tabindex = 1, 'class="workfield_save_button"' );
+    HTML::new_paragraph();
+    HTML::div_end(); # end "image entry FIELDS" div
 
-    html::linebreak( 'class="clearboth"' );
+    HTML::linebreak( 'class="clearboth"' );
 
-    html::div_end();  # end "image entry" div
+    HTML::div_end();  # end "image entry" div
   }
   #----------------------------------------------------------------------------------
 
   function credits_field( $input_instance ) {
 
-    html::input_field( $fieldname = 'credits[]', 
+    HTML::input_field( $fieldname = 'credits[]', 
                        $label = "Credits for 'front end' display*", 
                        $value = $this->credits, 
                        $in_table = FALSE, 
@@ -484,7 +484,7 @@ class Image extends Project {
 
   function licence_details_field( $input_instance ) {
 
-    html::textarea( 'licence_details[]', LICENCE_DETAILS_ROWS, LICENCE_DETAILS_COLS, 
+    HTML::textarea( 'licence_details[]', LICENCE_DETAILS_ROWS, LICENCE_DETAILS_COLS, 
                     $value = $this->licence_details, $label = 'Either: full text of licence*', 
                     NULL, NULL, $input_instance );
   }
@@ -492,7 +492,7 @@ class Image extends Project {
 
   function licence_url_field( $input_instance ) {
 
-    html::input_field( $fieldname = 'licence_url[]', 
+    HTML::input_field( $fieldname = 'licence_url[]', 
                        $label = "Or: licence URL*", 
                        $value = $this->licence_url, 
                        $in_table = FALSE, 
@@ -517,15 +517,15 @@ class Image extends Project {
     else
       $checked = FALSE;
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
     $this->basic_checkbox( 'can_be_displayed[]', 'Can be displayed to public', $checked, $value_when_checked );
-    html::span_end();
+    HTML::span_end();
 
-    html::span_start( 'class="narrowspaceonleft"' );
-    html::italic_start();
+    HTML::span_start( 'class="narrowspaceonleft"' );
+    HTML::italic_start();
     echo "(If this box is not ticked, the image will not be displayed in the 'front end'.)";
-    html::italic_end();
-    html::span_end();
+    HTML::italic_end();
+    HTML::span_end();
   }
   #----------------------------------------------------------------------------------
 
@@ -533,7 +533,7 @@ class Image extends Project {
 
     if( ! $this->display_order ) $this->display_order = 1;
 
-    html::input_field( $fieldname = 'display_order[]', 
+    HTML::input_field( $fieldname = 'display_order[]', 
                        $label = "Order for display in front end", 
                        $value = $this->display_order, 
                        $in_table = FALSE, 
@@ -544,20 +544,20 @@ class Image extends Project {
                        $input_parms = 'onchange="js_check_value_is_numeric( this )"',
                        $input_instance );
 
-    html::span_start( 'class="narrowspaceonleft"' );
-    html::italic_start();
+    HTML::span_start( 'class="narrowspaceonleft"' );
+    HTML::italic_start();
     echo "(Please enter a number greater than or equal to 1."
          . ' If multiple images have the same number, they will be ordered by filename.)';
-    html::italic_end();
-    html::span_end();
+    HTML::italic_end();
+    HTML::span_end();
   }
   #----------------------------------------------------------------------------------
     
   function delete_image_checkbox( $input_instance ) {
 
-    html::span_start( 'class="workfieldaligned"' );
+    HTML::span_start( 'class="workfieldaligned"' );
 
-    html::checkbox( $fieldname = 'delete_image[]', 
+    HTML::checkbox( $fieldname = 'delete_image[]', 
                     $label = 'Delete image from ' . $this->entity_type, 
                     $is_checked = FALSE, 
                     $value_when_checked = $this->image_id, 
@@ -566,13 +566,13 @@ class Image extends Project {
                     $input_instance, 
                     $parms = 'onclick="image_deletion_warning( this )"' );
 
-    html::span_end();
+    HTML::span_end();
 
-    html::span_start( 'class="narrowspaceonleft"' );
-    html::italic_start();
+    HTML::span_start( 'class="narrowspaceonleft"' );
+    HTML::italic_start();
     echo "(Tick then click Save to delete the connection between this $this->entity_type and this image.)";
-    html::italic_end();
-    html::span_end();
+    HTML::italic_end();
+    HTML::span_end();
   }
   #----------------------------------------------------------------------------------
 
@@ -589,7 +589,7 @@ class Image extends Project {
             . '    alert( "Image will not now be deleted from this ' . $this->entity_type . '." );'. NEWLINE
             . '  }'                                                                                . NEWLINE 
             . '}'                                                                                  . NEWLINE;
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     return $scriptname;
   }
@@ -621,7 +621,7 @@ class Image extends Project {
     $script .= '  }'                                                        . NEWLINE;
     $script .= '}'                                                          . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
     return $script_name;
   }
   #----------------------------------------------------------------------------------
@@ -654,7 +654,7 @@ class Image extends Project {
     $script .= '  }'                                                                           . NEWLINE;
     $script .= '}'                                                                             . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
     return $script_name;
   }
   #----------------------------------------------------------------------------------
@@ -665,7 +665,7 @@ class Image extends Project {
     $thumbwidth = IMAGE_THUMBNAIL_WIDTH_PX + ($borderwidth*2);
     $fldspos = WORK_FIELD_POS + $thumbwidth + ($borderwidth*2);
 
-    $background_colour = html::get_highlight2_colour();
+    $background_colour = HTML::get_highlight2_colour();
 
     echo '<style type="text/css">'                   . NEWLINE;
 
@@ -866,10 +866,10 @@ class Image extends Project {
         if( ! $val ) {
           $this->can_be_displayed = 'N';
 
-          html::div_start( 'class="warning"' );
+          HTML::div_start( 'class="warning"' );
           echo "$desc blank, so the image '" . $this->image_filename . "' will NOT be displayed to the public.";
-          html::div_end();
-          html::new_paragraph();
+          HTML::div_end();
+          HTML::new_paragraph();
         }
       }
     }
@@ -1022,9 +1022,9 @@ class Image extends Project {
     $this->work_id = $this->read_post_parm( 'work_id' );
     if( ! $this->work_id ) die( 'Invalid work details.' );
 
-    html::h3_start();
+    HTML::h3_start();
     echo 'Upload images of manifestation:';
-    html::h3_end();
+    HTML::h3_end();
 
     $funcname = $this->proj_database_function_name( 'decode_work', TRUE );
     $statement = "select $funcname( '$this->work_id' )";
@@ -1039,9 +1039,9 @@ class Image extends Project {
     $this->image_list = $this->db_select_one_value( $statement );
 
     $this->echo_safely( 'Work: ' . $work_desc );
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->echo_safely( 'Manifestation: ' . $manifestation_desc );
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #----------------------------------------------------------------------------------
 
@@ -1052,9 +1052,9 @@ class Image extends Project {
     $this->entity_id = $this->read_post_parm( $this->entity_id_fieldname );
     if( ! $this->entity_id ) die( "Invalid $entity_type details." );
 
-    html::h3_start();
+    HTML::h3_start();
     echo "Upload images of $this->entity_type:";
-    html::h3_end();
+    HTML::h3_end();
 
     $funcname = $this->proj_database_function_name( 'decode', $include_collection_code = TRUE );
     $statement = "select $funcname( '$this->entity_tablename', '$this->entity_id' )";
@@ -1065,7 +1065,7 @@ class Image extends Project {
     $this->image_list = $this->db_select_one_value( $statement );
 
     $this->echo_safely( ucfirst( $entity_type ) . ': ' . $decode );
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #----------------------------------------------------------------------------------
 
@@ -1079,18 +1079,18 @@ class Image extends Project {
       $this->read_and_display_any_entity( $entity_type );
 
     if( $this->image_list ) {
-      html::h4_start();
+      HTML::h4_start();
       echo 'Existing image file(s):';
-      html::h4_end();
+      HTML::h4_end();
       $this->echo_safely( $this->image_list );
-      html::new_paragraph();
+      HTML::new_paragraph();
 
-      html::h4_start();
+      HTML::h4_start();
       echo 'Upload new image file:';
-      html::h4_end();
+      HTML::h4_end();
     }
 
-    html::form_start( $class_name = 'image', 
+    HTML::form_start( $class_name = 'image', 
                       $method_name = 'process_uploaded_files', 
                       $form_name = NULL,  # use default
                       $form_target = '_self',
@@ -1099,23 +1099,23 @@ class Image extends Project {
                       $form_method='POST',
                       $parms = 'enctype="multipart/form-data"' );
 
-    html::hidden_field( 'entity_type', $entity_type );
+    HTML::hidden_field( 'entity_type', $entity_type );
 
     if( $entity_type == 'manifestation' ) {
-      html::hidden_field( 'work_id', $this->work_id );
-      html::hidden_field( 'manifestation_id', $this->manifestation_id );
+      HTML::hidden_field( 'work_id', $this->work_id );
+      HTML::hidden_field( 'manifestation_id', $this->manifestation_id );
     }
     else
-      html::hidden_field( $this->entity_id_fieldname, $this->entity_id );
+      HTML::hidden_field( $this->entity_id_fieldname, $this->entity_id );
 
-    html::file_upload_field( $fieldname = 'files_to_process', 
+    HTML::file_upload_field( $fieldname = 'files_to_process', 
                              $label = 'Choose a file', 
                              $value = NULL, 
                              $size = IMAGE_UPLOAD_FIELD_SIZE );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::submit_button( 'upload_button', 'Upload' );
-    html::form_end();
+    HTML::submit_button( 'upload_button', 'Upload' );
+    HTML::form_end();
   }
   #----------------------------------------------------------------------------------
 
@@ -1128,7 +1128,7 @@ class Image extends Project {
       $this->read_and_display_work_and_manif();
     else
       $this->read_and_display_any_entity( $entity_type );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $filecount = count( $_FILES );
     if( ! $filecount ) {
@@ -1201,7 +1201,7 @@ class Image extends Project {
     else 
       die( 'FAILED TO MOVE file to image directory.');
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     #-------------------------------------
     # Resize the file and make a thumbnail
@@ -1209,7 +1209,7 @@ class Image extends Project {
     $displayable = $this->proj_is_displayable_image_file( $extension );
     if( $displayable ) {
       echo 'Resizing file for web display...';
-      html::new_paragraph();
+      HTML::new_paragraph();
       flush();
 
       $statement = "mv $new_path $intermediate_path";
@@ -1222,7 +1222,7 @@ class Image extends Project {
       }
 
       echo 'Creating thumbnail file...';
-      html::new_paragraph();
+      HTML::new_paragraph();
       flush();
 
       $statement = "convert $new_path -resize " . IMAGE_THUMBNAIL_WIDTH_PX . " $thumbnail_path";
@@ -1291,7 +1291,7 @@ class Image extends Project {
 
     $anchor_name = 'imgs_anchor';
     $script = 'window.location.href = "' . $_SERVER['PHP_SELF'] . '" + "#' . $anchor_name . '"';
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
   }
   #----------------------------------------------------------------------------------

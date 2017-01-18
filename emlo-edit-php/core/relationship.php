@@ -582,9 +582,9 @@ class Relationship extends Project {
             echo LINEBREAK;
 
             $anchor_name = 'deleted' . $relationship_id . '_' . $old_id_value;
-            html::anchor( $anchor_name );
+            HTML::anchor( $anchor_name );
             $script = 'window.location.href = "' . $_SERVER['PHP_SELF'] . '" + "#' . $anchor_name . '"';
-            html::write_javascript_function( $script );
+            HTML::write_javascript_function( $script );
             flush();
           }
         }

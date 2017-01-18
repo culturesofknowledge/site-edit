@@ -76,10 +76,10 @@ class Selden_Work extends Editable_Work {
     $first = TRUE;
     foreach( $form_sections as $section => $display ) {
       if( ! $first ) echo ' | ';
-      html::link( '#' . $section . '_anchor', $display );
+      HTML::link( '#' . $section . '_anchor', $display );
       $first = FALSE;
     }
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -89,7 +89,7 @@ class Selden_Work extends Editable_Work {
 
     if( $curr_section ) {
       if( key_exists( $curr_section, $form_sections ))
-        html::anchor( $curr_section . '_anchor' );
+        HTML::anchor( $curr_section . '_anchor' );
       else
         echo 'Did not find anchor ' . $curr_section;
     }
@@ -105,26 +105,26 @@ class Selden_Work extends Editable_Work {
     $this->date_entity->write_date_entry_stylesheet();
     $this->write_display_change_script();
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'save_work', 
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'save_work', 
                                          NULL, NULL, $onsubmit_validation = TRUE );
 
     if( ! $new_record ) {
-      html::hidden_field( 'iwork_id', $this->iwork_id );
-      html::hidden_field( 'opening_method', $this->opening_method );
+      HTML::hidden_field( 'iwork_id', $this->iwork_id );
+      HTML::hidden_field( 'opening_method', $this->opening_method );
 
-      html::h3_start();
+      HTML::h3_start();
       echo $this->get_work_desc( $this->work_id );
-      html::h3_end();
+      HTML::h3_end();
 
       $focus_script = $this->proj_write_post_save_refresh_button( $just_saved, $this->opening_method );
     }
 
     $this->selden_end_fields();
 
-    html::form_end();
-    html::new_paragraph();
+    HTML::form_end();
+    HTML::new_paragraph();
 
-    if( $focus_script ) html::write_javascript_function( $focus_script );
+    if( $focus_script ) HTML::write_javascript_function( $focus_script );
   }
   #-----------------------------------------------------
 
@@ -138,22 +138,22 @@ class Selden_Work extends Editable_Work {
     if( $this->iwork_id > 1 ) {
       echo ' ';
       $this->write_prev_iwork_id_field();
-      html::submit_button( 'prev_button', 'Prev' );
+      HTML::submit_button( 'prev_button', 'Prev' );
     }
 
     if( $this->iwork_id < $max_iwork_id ) {
       echo ' ';
       $this->write_next_iwork_id_field();
-      html::submit_button( 'next_button', 'Next' );
+      HTML::submit_button( 'next_button', 'Next' );
     }
 
-    html::italic_start();
+    HTML::italic_start();
     echo ' (Next/Prev in order of card no.)';
-    html::italic_end();
+    HTML::italic_end();
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -167,7 +167,7 @@ class Selden_Work extends Editable_Work {
                . " where iwork_id > $this->iwork_id";
     $statement .= ' and ' . $this->exclude_index_cards_clause();
     $next_iwork_id = $this->db_select_one_value( $statement );
-    html::hidden_field( 'next_iwork_id', $next_iwork_id );
+    HTML::hidden_field( 'next_iwork_id', $next_iwork_id );
   }
   #-----------------------------------------------------
   function write_prev_iwork_id_field() {
@@ -176,23 +176,23 @@ class Selden_Work extends Editable_Work {
                . " where iwork_id < $this->iwork_id";
     $statement .= ' and ' . $this->exclude_index_cards_clause();
     $prev_iwork_id = $this->db_select_one_value( $statement );
-    html::hidden_field( 'prev_iwork_id', $prev_iwork_id );
+    HTML::hidden_field( 'prev_iwork_id', $prev_iwork_id );
   }
   #-----------------------------------------------------
 
   function selden_end_fields() {  # We only have one tab for Selden End
 
     if( $this->iwork_id ) {
-      html::new_paragraph();
-      html::italic_start();
+      HTML::new_paragraph();
+      HTML::italic_start();
       echo 'Card no. ' . $this->iwork_id;
       echo ' -- Last changed: ' . $this->postgres_date_to_words( $this->change_timestamp );
       echo ' by ' . strtolower( $this->change_user );
-      html::italic_end();
+      HTML::italic_end();
     }
 
     $this->form_section_links( 'editors_notes' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->editors_notes_field();
 
@@ -200,116 +200,116 @@ class Selden_Work extends Editable_Work {
 
     $this->display_image();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->form_section_links( 'document_details' );
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Document details:';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
     $this->manifest_obj->manifestation_type_field();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->manifest_obj->shelfmark_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->extra_save_button( 'manifestation' );
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->form_section_links( 'authors' );
     $this->author_sender_field();
-    html::new_paragraph();
-    html::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'author_sender' );
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
 
     $this->form_section_links( 'recipients' );
     $this->addressee_field();
-    html::new_paragraph();
-    html::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'addressee' );
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->form_section_links( 'date_of_work' );
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Date of work:';
-    html::new_paragraph();
-    html::bold_end();
+    HTML::new_paragraph();
+    HTML::bold_end();
 
     $this->date_fields();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'dates', $new_paragraph = FALSE );
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->form_section_links( 'origin' );
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
     $this->places_tab();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->form_section_links( 'language' );
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Language:';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
 
     $this->languages_field();
 
     $this->form_section_links( 'content' );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Content:';
-    html::bold_end();
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
 
     $this->abstract_field();
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
 
     $this->extra_save_button( 'abstract', $new_paragraph = FALSE , 
                               $parms='style="position: relative; left: ' . SELDEN_RIGHTHAND_SAVE_KEY_POS . 'px"'  );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->people_mentioned_field();
-    html::new_paragraph();
-    html::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'people_mentioned' );
-    html::div_end( 'workfield' );
-    html::new_paragraph();
+    HTML::div_end( 'workfield' );
+    HTML::new_paragraph();
 
     $this->form_section_links( 'notes_on_work' );
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
     $this->notes_on_work_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->extra_save_button( 'card_compilers_notes' );
 
-    #html::write_javascript_function( 'document.' . $this->form_name . '.editors_notes.focus()' );
+    #HTML::write_javascript_function( 'document.' . $this->form_name . '.editors_notes.focus()' );
   }
   #-----------------------------------------------------
 
   function display_image() {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->form_section_links( 'card_image', $start_with_linebreak = FALSE );
 
     $this->manifest_obj->display_fullsize_images();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
   function date_notes_field() {  # We won't have separate date notes for Selden End
@@ -449,9 +449,9 @@ class Selden_Work extends Editable_Work {
           $msg = 'Not known whether this record is relevant to Cultures of Knowledge';
         }
         else {
-          html::italic_start();
+          HTML::italic_start();
           echo 'Not relevant' . LINEBREAK;
-          html::italic_end();
+          HTML::italic_end();
         }
 
         if( $image_file && $msg ) {
@@ -495,27 +495,27 @@ class Selden_Work extends Editable_Work {
   function editors_notes_field() {
 
     $this->relevant_to_cofk_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
-    html::bold_start();
+    HTML::bold_start();
     echo "Editor's notes:";
-    html::bold_end();
+    HTML::bold_end();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->proj_textarea( 'editors_notes', FLD_SIZE_NOTES_ON_WORK_ROWS, FLD_SIZE_NOTES_ON_WORK_COLS, 
                           $value = $this->editors_notes, $label = NULL );
-    html::new_paragraph();
+    HTML::new_paragraph();
 
   }
   #-----------------------------------------------------
 
   function notes_on_work_field() {  
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Notes by card compiler:';
-    html::bold_end();
-    html::new_paragraph();
+    HTML::bold_end();
+    HTML::new_paragraph();
     parent::notes_on_work_field();
   }
   #-----------------------------------------------------
@@ -623,13 +623,13 @@ class Selden_Work extends Editable_Work {
       $first = FALSE;
     }
 
-    html::form_start( $this->app_get_class( $this ), 'display_images', NULL, $form_target = '_blank' );
+    HTML::form_start( $this->app_get_class( $this ), 'display_images', NULL, $form_target = '_blank' );
 
-    html::hidden_field( 'image_enlargement_ids', $image_enlargement_ids );
-    html::hidden_field( 'order_by', $this->order_by );
+    HTML::hidden_field( 'image_enlargement_ids', $image_enlargement_ids );
+    HTML::hidden_field( 'order_by', $this->order_by );
 
-    html::submit_button( 'display_images_button', 'Display images', $tabindex=1, 'class="pagelist"' );
-    html::form_end();
+    HTML::submit_button( 'display_images_button', 'Display images', $tabindex=1, 'class="pagelist"' );
+    HTML::form_end();
   }
   #-----------------------------------------------------
 

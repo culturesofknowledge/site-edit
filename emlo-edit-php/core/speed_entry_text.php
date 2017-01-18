@@ -86,29 +86,29 @@ class Speed_Entry_Text extends Lookup_Table {
 
   function write_object_type_dropdown( $selected_object_type = 'All' ) {
 
-    html::tabledata(); # empty cell
+    HTML::tabledata(); # empty cell
 
-    html::tabledata_start();
+    HTML::tabledata_start();
 
-    html::dropdown_start( $fieldname = 'object_type', $label = 'Relevant to' );
+    HTML::dropdown_start( $fieldname = 'object_type', $label = 'Relevant to' );
 
-    html::dropdown_option( $internal_value = 'All', $displayed_value = 'All', 
+    HTML::dropdown_option( $internal_value = 'All', $displayed_value = 'All', 
                            $selection = $selected_object_type );
 
-    html::dropdown_option( $internal_value = 'People', $displayed_value = 'People', 
+    HTML::dropdown_option( $internal_value = 'People', $displayed_value = 'People', 
                            $selection = $selected_object_type );
 
-    html::dropdown_option( $internal_value = 'Places', $displayed_value = 'Places', 
+    HTML::dropdown_option( $internal_value = 'Places', $displayed_value = 'Places', 
                            $selection = $selected_object_type );
 
-    html::dropdown_option( $internal_value = 'Repositories', $displayed_value = 'Repositories', 
+    HTML::dropdown_option( $internal_value = 'Repositories', $displayed_value = 'Repositories', 
                            $selection = $selected_object_type );
 
-    html::dropdown_option( $internal_value = 'Works', $displayed_value = 'Works', 
+    HTML::dropdown_option( $internal_value = 'Works', $displayed_value = 'Works', 
                            $selection = $selected_object_type );
-    html::dropdown_end();
-    html::tabledata_end();
-    html::new_tablerow();
+    HTML::dropdown_end();
+    HTML::tabledata_end();
+    HTML::new_tablerow();
   }
   #-----------------------------------------------------
 

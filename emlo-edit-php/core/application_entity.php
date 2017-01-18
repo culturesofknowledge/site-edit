@@ -85,14 +85,14 @@ class Application_Entity {
     if( $this->publicly_available_page )
       echo LINEBREAK;
     else {
-      html::bullet_point();
+      HTML::bullet_point();
       echo ' ';
     }
     echo 'Answers to Enquiries from Oxford Library Users and Staff '; 
     if( $this->publicly_available_page )
       echo LINEBREAK;
     else {
-      html::bullet_point();
+      HTML::bullet_point();
       echo ' ';
     }
     echo '&copy; Bodleian Libraries 2008-2013';
@@ -248,8 +248,8 @@ class Application_Entity {
     $table_name = $searchclass->get_public_search_table(); # If the class doesn't have this method, script will die.
 
     echo CMS_DEPLOYMENT_START_TAG . NEWLINE;
-    html::write_stylesheet( $this->publicly_available_page );
-    html::page_top_anchor();
+    HTML::write_stylesheet( $this->publicly_available_page );
+    HTML::page_top_anchor();
     echo LINEBREAK;
 
     $method_name = $searchclass->read_post_parm( 'method_name' );
@@ -263,8 +263,8 @@ class Application_Entity {
     }
 
     echo LINEBREAK;
-    html::horizontal_rule();
-    html::page_bottom_anchor();
+    HTML::horizontal_rule();
+    HTML::page_bottom_anchor();
     $this->aeolus_version_info();
     echo LINEBREAK;
 
@@ -290,19 +290,19 @@ class Application_Entity {
     $db_connection = new DBQuery ( HELP_DB_USERNAME );  # a readonly user
     $db_connection->debug = FALSE;
 
-    html::html_start();
-    html::html_head_start();
-    html::write_stylesheet( $for_cms_deployment = FALSE, $banner_only = TRUE );
-    html::html_head_end();
+    HTML::html_start();
+    HTML::html_head_start();
+    HTML::write_stylesheet( $for_cms_deployment = FALSE, $banner_only = TRUE );
+    HTML::html_head_end();
 
-    html::body_start();
+    HTML::body_start();
 
     $help_obj = new Help( $db_connection );
     $help_obj->debug = FALSE;
 
     $help_obj->display_help();
 
-    html::body_end();
+    HTML::body_end();
   }
   #-----------------------------------------------------
 
@@ -1316,12 +1316,12 @@ class Application_Entity {
   #-----------------------------------------------------
 
   function safe_output( $the_value ) {
-    return html::call_htmlentities( $the_value );
+    return HTML::call_htmlentities( $the_value );
   }
   #-----------------------------------------------------
 
   function echo_safely( $the_value ) {
-    echo html::call_htmlentities( $the_value );
+    echo HTML::call_htmlentities( $the_value );
   }
   #-----------------------------------------------------
 
@@ -1351,7 +1351,7 @@ class Application_Entity {
   function re_enable_tag( $the_value, $tag = NULL ) {
 
     if( ! $tag ) return $the_value;
-    $disabled_tag = html::call_htmlentities( $tag );
+    $disabled_tag = HTML::call_htmlentities( $tag );
     $the_value = str_replace( $disabled_tag, $tag, $the_value );
     return $the_value;
   }
@@ -1359,11 +1359,11 @@ class Application_Entity {
 
   function die_on_error( $err_msg = NULL ) {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->echo_safely( $err_msg );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $focus_form  = NULL;
     $focus_field = NULL;
@@ -1374,12 +1374,12 @@ class Application_Entity {
       $focus_field = $this->read_post_parm( 'focus_field' );
 
     if( $focus_form && $focus_field ) {  # avoid Javascript errors by providing a field for focus
-      html::form_start( $class_name=NULL, $method_name=NULL, $form_name=$focus_form );
-      html::input_field( $focus_field, NULL, NULL, NULL, 1 );
-      html::italic_start();
+      HTML::form_start( $class_name=NULL, $method_name=NULL, $form_name=$focus_form );
+      HTML::input_field( $focus_field, NULL, NULL, NULL, 1 );
+      HTML::italic_start();
       echo 'Hit Return to go back to the main menu.';
-      html::italic_end();
-      html::form_end();
+      HTML::italic_end();
+      HTML::form_end();
     }
 
     die();
@@ -1423,32 +1423,32 @@ class Application_Entity {
   function yes_no_dropdown_int( $fieldname, $label, $selected_value, $in_table = FALSE,
                                 $include_blank_row = FALSE ) {
 
-    html::dropdown_start( $fieldname, $label, $in_table );
-    if( $include_blank_row ) html::dropdown_option( 'null', '', $selected_value );
-    html::dropdown_option( 1, 'Yes', $selected_value );
-    html::dropdown_option( 0, 'No', $selected_value );
-    html::dropdown_end();
+    HTML::dropdown_start( $fieldname, $label, $in_table );
+    if( $include_blank_row ) HTML::dropdown_option( 'null', '', $selected_value );
+    HTML::dropdown_option( 1, 'Yes', $selected_value );
+    HTML::dropdown_option( 0, 'No', $selected_value );
+    HTML::dropdown_end();
   }
   #-----------------------------------------------------
 
   function yes_no_dropdown_char( $fieldname, $label, $selected_value = NULL, $in_table = FALSE, 
                                  $include_blank_row = FALSE ) {
 
-    html::dropdown_start( $fieldname, $label, $in_table );
-    if( $include_blank_row ) html::dropdown_option( '', '', $selected_value );
-    html::dropdown_option( 'Y', 'Yes', $selected_value );
-    html::dropdown_option( 'N', 'No', $selected_value );
-    html::dropdown_end();
+    HTML::dropdown_start( $fieldname, $label, $in_table );
+    if( $include_blank_row ) HTML::dropdown_option( '', '', $selected_value );
+    HTML::dropdown_option( 'Y', 'Yes', $selected_value );
+    HTML::dropdown_option( 'N', 'No', $selected_value );
+    HTML::dropdown_end();
   }
   #-----------------------------------------------------
 
   function display_errmsg( $parm_name, $errmsg = NULL ) {
 
     $this->failed_validation = TRUE;
-    html::div_start( 'class="errmsg"' );
+    HTML::div_start( 'class="errmsg"' );
     echo 'Error: field "' . ucfirst( str_replace( '_', ' ', $parm_name )) . '": ' . $errmsg;
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -1573,33 +1573,33 @@ class Application_Entity {
     if( $confirmation_msg ) {
 
       if( $success ) {
-        html::h3_start();
+        HTML::h3_start();
         echo 'Query results were emailed to you as a CSV attachment.';
-        html::h3_end();
-        html::new_paragraph();
+        HTML::h3_end();
+        HTML::new_paragraph();
         echo 'The file was sent to the following address:';
-        html::new_paragraph();
+        HTML::new_paragraph();
         echo $email_to ;
 
-        html::new_paragraph();
-        html::italic_start();
+        HTML::new_paragraph();
+        HTML::italic_start();
         echo '(You may now like to close the current tab/window and continue working in your original tab/window.)';
-        html::italic_end();
+        HTML::italic_end();
 
-        html::new_paragraph();
-        html::button( 'close_button', 'Close', $tabindex=1, 'onclick="self.close()"' );
+        HTML::new_paragraph();
+        HTML::button( 'close_button', 'Close', $tabindex=1, 'onclick="self.close()"' );
       }
 
       else {
         echo 'Sorry, query results could not be sent to you (email error).';
-        html::new_paragraph();
+        HTML::new_paragraph();
         echo 'Query results are instead being displayed below, so you can copy and paste them into another file...';
-        html::new_paragraph();
+        HTML::new_paragraph();
         $file_content = str_replace( CARRIAGE_RETURN, LINEBREAK, $file_content );
         echo $file_content;
       }
 
-      html::new_paragraph();
+      HTML::new_paragraph();
     }
 
 
@@ -1617,7 +1617,7 @@ class Application_Entity {
     $script .= "  searchPopup.focus();"                                                       . NEWLINE;
     $script .= "}"                                                                            . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
   }
   #-----------------------------------------------------
@@ -1638,7 +1638,7 @@ class Application_Entity {
     $script .= '  return true;'                                                   . NEWLINE;
     $script .= '}';
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
 
@@ -1652,7 +1652,7 @@ class Application_Entity {
     $script .= "    the_form.focus_field.value = '';"                               . NEWLINE;
     $script .= '}';
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
 
@@ -1690,12 +1690,12 @@ class Application_Entity {
     $script .= '  return goodval;'                                                         . NEWLINE;
     $script .= '}';
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
 
   function write_js_prompt_to_confirm_submission() {   # To make this work, you need to turn the form's
-                                                       # onsubmit property on. See html::form_start().
+                                                       # onsubmit property on. See HTML::form_start().
 
     if( ! is_array( $fieldlist )) $fieldlist = array();
 
@@ -1761,7 +1761,7 @@ class Application_Entity {
     $script .= '  return proceedWithSubmit;'                                  . NEWLINE;
     $script .= '}'                                                            . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
 
@@ -1771,7 +1771,7 @@ class Application_Entity {
     $script .= "  document.$this->form_name.cancel_submission.value=0;"    . NEWLINE;
     $script .= '}'                                                         . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
   }
   #-----------------------------------------------------
 
@@ -1787,16 +1787,16 @@ class Application_Entity {
     $function_body .= 'function ' . $function_name . ' {'      . NEWLINE;
     $function_body .= "  document.$this->form_name.$field_id.focus();"        . NEWLINE;
     $function_body .= '}' . NEWLINE;
-    html::write_javascript_function( $function_body );
+    HTML::write_javascript_function( $function_body );
 
     return $function_name;
   }
   #-----------------------------------------------------
   #############################################################################################################
   # N.B. This script MUST be run in conjunction with setting "onsubmit validation" parameter to TRUE
-  # in call to html::form_start(). Without this, no "onsubmit" validation will take place.
+  # in call to HTML::form_start(). Without this, no "onsubmit" validation will take place.
   #
-  # You also MUST set value of $this->form_name. You can do so by using the return value of html::form_start().
+  # You also MUST set value of $this->form_name. You can do so by using the return value of HTML::form_start().
   #############################################################################################################
 
   function get_js_to_check_value_is_numeric( $field_id ) {
@@ -1966,7 +1966,7 @@ class Application_Entity {
   #-----------------------------------------------------
 
   function close_self_button() {
-    html::button( 'close_self_button', 'Close', $tabindex=1, 'onclick="self.close()"' );
+    HTML::button( 'close_self_button', 'Close', $tabindex=1, 'onclick="self.close()"' );
   }
   #-----------------------------------------------------
 
@@ -1979,8 +1979,8 @@ class Application_Entity {
 
   function copy_opening_class_and_method() {
 
-    html::hidden_field( 'opening_class', $this->opening_class );
-    html::hidden_field( 'opening_method', $this->opening_method );
+    HTML::hidden_field( 'opening_class', $this->opening_class );
+    HTML::hidden_field( 'opening_method', $this->opening_method );
   }
   #-----------------------------------------------------
 
@@ -1989,13 +1989,13 @@ class Application_Entity {
     $this->read_opening_class_and_method();
     if(( ! $this->opening_class ) || ( ! $this->opening_method )) return;  # don't try to close the only tab
 
-    html::new_paragraph();
-    html::div_start( 'class="highlight2"' );
+    HTML::new_paragraph();
+    HTML::div_start( 'class="highlight2"' );
     echo $msg;
     if( $msg ) echo ' ';
     $this->close_self_button();
-    html::div_end( 'highlight2' );
-    html::new_paragraph();
+    HTML::div_end( 'highlight2' );
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
   #*****************************************************
@@ -2024,7 +2024,7 @@ class Application_Entity {
       $button_label = $this->app_popup_get_select_button_label();
     }
 
-    html::button( $calling_field . '_list_button', $button_label, $tabindex=1, $script );
+    HTML::button( $calling_field . '_list_button', $button_label, $tabindex=1, $script );
   }
   #-----------------------------------------------------
 
@@ -2047,7 +2047,7 @@ class Application_Entity {
 
     echo $option_desc;
 
-    html::button( $calling_field . '_add_button', $this->app_popup_get_create_button_label(), $tabindex=1, $script );
+    HTML::button( $calling_field . '_add_button', $this->app_popup_get_create_button_label(), $tabindex=1, $script );
   }
   #-----------------------------------------------------
 
@@ -2122,7 +2122,7 @@ class Application_Entity {
     }
     $script .= "}"                                                                                 . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
     # $call = ' onClick="' . $function_name . '()" ';
 
@@ -2174,7 +2174,7 @@ class Application_Entity {
     $this->script .= 'self.close();"';
 
     echo ' ';
-    html::button( 'select_button', 'OK', $tabindex = 1, $this->script );
+    HTML::button( 'select_button', 'OK', $tabindex = 1, $this->script );
   }
   #-----------------------------------------------------
 
@@ -2231,8 +2231,8 @@ class Application_Entity {
 
   function app_popup_write_calling_form_and_field() {
 
-    html::hidden_field( 'calling_form', $this->calling_form );
-    html::hidden_field( 'calling_field', $this->calling_field );
+    HTML::hidden_field( 'calling_form', $this->calling_form );
+    HTML::hidden_field( 'calling_field', $this->calling_field );
   }
   #-----------------------------------------------------
 
@@ -2326,9 +2326,9 @@ class Application_Entity {
 
     if( ! $title ) return;
 
-    html::h2_start();
+    HTML::h2_start();
     echo $title;
-    html::h2_end();
+    HTML::h2_end();
   }
   #-----------------------------------------------------
 

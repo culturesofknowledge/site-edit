@@ -76,25 +76,25 @@ class Report extends DBEntity {
 
         if( $report_group_title != $last_report_group_title ) {
           if( $last_report_group_title > '' ) {
-             html::table_end();
-             html::div_end();
+             HTML::table_end();
+             HTML::div_end();
           }
-          html::new_paragraph();
+          HTML::new_paragraph();
           if ( ! $report_group_code ) { # do a header for each group in the menu
-            html::h4_start();
+            HTML::h4_start();
             echo $report_group_title;
-            html::h4_end();
-            html::new_paragraph();
+            HTML::h4_end();
+            HTML::new_paragraph();
           }
-          html::div_start( ' class="reportsmenu" ' );
-          html::table_start( ' summary="' . $report_group_title . '" class="widelyspacepadded" ' ); 
+          HTML::div_start( ' class="reportsmenu" ' );
+          HTML::table_start( ' summary="' . $report_group_title . '" class="widelyspacepadded" ' ); 
         }
 
-        html::tablerow_start();
+        HTML::tablerow_start();
 
-        html::tabledata( $report_title, ' class="bold" ' );
+        HTML::tabledata( $report_title, ' class="bold" ' );
 
-        html::tabledata_start();
+        HTML::tabledata_start();
         $form_name = NULL;
 
         #-------------------------------
@@ -103,7 +103,7 @@ class Report extends DBEntity {
         if( $class_name && $method_name ) {
           $form_target = '_blank';
           if( $is_dummy_option ) $form_target = '_self';
-          $form_name = html::form_start( $class_name, $method_name, $class_name . '_' . $method_name, $form_target );
+          $form_name = HTML::form_start( $class_name, $method_name, $class_name . '_' . $method_name, $form_target );
 
           if( $parm_title_string && ! $prompt_for_parms ) echo $parm_title_string;
 
@@ -165,46 +165,46 @@ class Report extends DBEntity {
                 $parm_method = trim( $parm_method );
               }
 
-              html::new_paragraph();
+              HTML::new_paragraph();
               if( $parm_method ) # method has to be on the same class as the main report method
                 $parm_reader->$parm_method( $default_value );
               else
-                html::input_field( $parm_name, $parm_title, $default_value );
+                HTML::input_field( $parm_name, $parm_title, $default_value );
             }
 
             #-----------------------------------------------------
             # If "prompt for parms" false, write out hidden fields
             #-----------------------------------------------------
             else
-              html::hidden_field( $parm_name, $parm_value );
+              HTML::hidden_field( $parm_name, $parm_value );
 
             $parm_count++;
             $parm_name = strtok( ',;' );
             $parm_name = trim( $parm_name );
           }
 
-          if( $parm_list && $prompt_for_parms ) html::new_paragraph();
+          if( $parm_list && $prompt_for_parms ) HTML::new_paragraph();
 
-          html::hidden_field( 'menu_user_restriction', $this->menu_user_restriction );
+          HTML::hidden_field( 'menu_user_restriction', $this->menu_user_restriction );
 
           #-----------------------------------
           # Decide on printable vs. CSV output
           #-----------------------------------
           if( $is_dummy_option ) {
-            html::hidden_field( 'printable_output', '' );
-            html::hidden_field( 'csv_output', '' );
+            HTML::hidden_field( 'printable_output', '' );
+            HTML::hidden_field( 'csv_output', '' );
           }
 
           elseif( ! $has_csv_option ) {
-            html::hidden_field( 'printable_output', 'Y' );
-            html::hidden_field( 'csv_output', '' );
+            HTML::hidden_field( 'printable_output', 'Y' );
+            HTML::hidden_field( 'csv_output', '' );
           }
 
           else {  # allow choice between printable and CSV output
             echo 'Output style: ';
 
-            html::hidden_field( 'printable_output', 'Y' );
-            html::hidden_field( 'csv_output', '' );
+            HTML::hidden_field( 'printable_output', 'Y' );
+            HTML::hidden_field( 'csv_output', '' );
 
             for( $i = 0; $i <= 1; $i++ ) {
               if( $i == 0 ) {
@@ -233,7 +233,7 @@ class Report extends DBEntity {
               $script .= "  document.$form_name.${other_type}_output.value = 'Y';" . NEWLINE;
               $script .= '}' . '" ';
 
-              html::radio_button( $fieldname = $form_name . '_output_type', 
+              HTML::radio_button( $fieldname = $form_name . '_output_type', 
                                   $label = $label, 
                                   $value_when_checked='Y', 
                                   $current_value = $initial_value, 
@@ -243,47 +243,47 @@ class Report extends DBEntity {
             }
           }
 
-          html::submit_button();
-          html::form_end();
+          HTML::submit_button();
+          HTML::form_end();
         }
 
-        html::tabledata_end();
+        HTML::tabledata_end();
   
         if( $report_help ) {
-          html::tabledata_start();
+          HTML::tabledata_start();
           echo $report_help ; # doing a simple echo like this, rather than "echo safely" will enable HTML tags
-          html::tabledata_end();
+          HTML::tabledata_end();
         }
 
-        html::tablerow_end();
+        HTML::tablerow_end();
         $last_report_group_title = $report_group_title;
       }
-      html::table_end();
-      html::div_end();
+      HTML::table_end();
+      HTML::div_end();
     }
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'A report will be produced in a new window/tab when you click on the "OK" button. ';
     echo 'You can then print the report by clicking File/Print. If you wish to print the report in Landscape '
          . ' rather than Portrait, choose File/Print Preview first. In Print Preview, the Page Setup button which '
          . ' allows you to change the paper orientation can be found near the top lefthand corner of the window.';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Column headers CAN be printed at the top of every page when you print out a paper copy of these reports.';
-    html::bold_end();
-    html::italic_start();
+    HTML::bold_end();
+    HTML::italic_start();
     echo ' Please note, however, that Internet Explorer does not currently seem to print out headings on every page. ';
     echo ' In order to get headings printed on every page, you will need to use Mozilla Firefox as your browser.';
     echo ' Please note also that even in Mozilla Firefox, the headings are only repeated on every page '
          . ' when PRINTING or in PRINT PREVIEW. They do not appear when in normal browse mode.';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -294,29 +294,29 @@ class Report extends DBEntity {
     $statement = 'select count(*) from ' . $this->from_table . ' where ' . $this->db_get_fixed_where_clause();
     $queries_found = $this->db_select_one_value( $statement );
     if( $queries_found < 1 ) {
-      html::h3_start();
+      HTML::h3_start();
       echo 'No saved queries found.';
-      html::h3_end();
-      html::new_paragraph();
+      HTML::h3_end();
+      HTML::new_paragraph();
       echo 'To save your queries and the data presentation options that you chose at the time'
            . " when you first ran them, click the 'Save query' button which appears near the top"
            . ' of most search results screens.';
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo 'The details of any queries you save in this way will then appear here,'
            . ' and you will be able to re-run your queries, amend them and re-save them if you wish.';
       return;
     }
 
-    html::h3_start();
+    HTML::h3_start();
     echo "Click the 'Run' button beside a query to load that selection back into the search screen.";
-    html::h3_end();
-    html::new_paragraph();
+    HTML::h3_end();
+    HTML::new_paragraph();
 
     echo "You can change the query title to make it more meaningful if you wish. Click 'Edit' to change the title.";
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo "Click the 'Delete' button to remove a saved query from the list.";
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( ! $this->parm_found_in_post( 'order_by' )) {
       $this->write_post_parm( 'order_by', 'creation_timestamp' );
@@ -430,25 +430,25 @@ class Report extends DBEntity {
 
     extract( $this->current_row_of_data, EXTR_OVERWRITE );  # dbentity sets up $this->current_row_of_data
 
-    html::form_start( $query_class, $query_method, NULL, '_self' );
+    HTML::form_start( $query_class, $query_method, NULL, '_self' );
 
-    html::hidden_field( 'order_by',         $query_order_by );
-    html::hidden_field( 'sort_descending',  $query_sort_descending );
-    html::hidden_field( 'entries_per_page', $query_entries_per_page );
-    html::hidden_field( 'record_layout',    $query_record_layout );
+    HTML::hidden_field( 'order_by',         $query_order_by );
+    HTML::hidden_field( 'sort_descending',  $query_sort_descending );
+    HTML::hidden_field( 'entries_per_page', $query_entries_per_page );
+    HTML::hidden_field( 'record_layout',    $query_record_layout );
 
     $statement = 'select * from ' . $this->db_user_saved_query_selection_tablename()
                . ' where query_id = ' . $query_id;
     $criteria = $this->db_select_into_array( $statement );
     foreach( $criteria as $criterion ) {
       extract( $criterion, EXTR_OVERWRITE );
-      html::hidden_field( $column_name, $this->escape( $column_value ));
-      html::hidden_field( $column_name . '2', $this->escape( $column_value2 ));  # for queries on dates by range
-      html::hidden_field( $op_name, $op_value );
+      HTML::hidden_field( $column_name, $this->escape( $column_value ));
+      HTML::hidden_field( $column_name . '2', $this->escape( $column_value2 ));  # for queries on dates by range
+      HTML::hidden_field( $op_name, $op_value );
     }
 
-    html::submit_button( 'load_query_button', 'Run' );
-    html::form_end();
+    HTML::submit_button( 'load_query_button', 'Run' );
+    HTML::form_end();
   
   }
   #-----------------------------------------------------
@@ -456,35 +456,35 @@ class Report extends DBEntity {
   function write_delete_button( $query_id ) {
 
     echo LINEBREAK;
-    html::form_start( 'report', 'delete_saved_query' );
+    HTML::form_start( 'report', 'delete_saved_query' );
 
-    html::hidden_field( 'query_id', $query_id );
+    HTML::hidden_field( 'query_id', $query_id );
 
-    html::submit_button( 'delete_query_button', 'Delete' );
-    html::form_end();
+    HTML::submit_button( 'delete_query_button', 'Delete' );
+    HTML::form_end();
     echo LINEBREAK;
   }
   #-----------------------------------------------------
   function edit_saved_query() {
 
-    html::new_paragraph();
-    html::form_start( 'report', 'edit_saved_query2' );
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::form_start( 'report', 'edit_saved_query2' );
+    HTML::new_paragraph();
 
     $query_id = $this->read_post_parm( 'query_id' );
     if( ! $query_id ) $this->die_on_error( 'No query ID passed to "edit saved query"' );
 
-    html::hidden_field( 'query_id', $query_id );
+    HTML::hidden_field( 'query_id', $query_id );
 
     $query_title = $this->db_select_one_value( 'select query_title from ' . $this->db_user_saved_queries_tablename()
                                              . ' where query_id = ' . $query_id );
 
-    html::input_field( 'query_title', 'Query title', $query_title, $in_table = FALSE, $size = 100 );
-    html::new_paragraph();
-    html::submit_button( 'save_button', 'Save' );
-    html::submit_button( 'cancel_button', 'Cancel' );
+    HTML::input_field( 'query_title', 'Query title', $query_title, $in_table = FALSE, $size = 100 );
+    HTML::new_paragraph();
+    HTML::submit_button( 'save_button', 'Save' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -502,20 +502,20 @@ class Report extends DBEntity {
     else
       echo 'Change cancelled.';
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->saved_query_list();
   }
   #-----------------------------------------------------
   function delete_saved_query() {
 
-    html::new_paragraph();
-    html::form_start( 'report', 'delete_saved_query2' );
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::form_start( 'report', 'delete_saved_query2' );
+    HTML::new_paragraph();
 
     $query_id = $this->read_post_parm( 'query_id' );
     if( ! $query_id ) $this->die_on_error( 'No query ID passed to "delete saved query"' );
 
-    html::hidden_field( 'query_id', $query_id );
+    HTML::hidden_field( 'query_id', $query_id );
 
     $query_title = $this->db_select_one_value( 'select query_title from ' . $this->db_user_saved_queries_tablename()
                                              . ' where query_id = ' . $query_id );
@@ -523,11 +523,11 @@ class Report extends DBEntity {
     echo 'Query title: ';
     $this->echo_safely( $query_title );
 
-    html::new_paragraph();
-    html::submit_button( 'delete_button', 'Delete' );
-    html::submit_button( 'cancel_button', 'Cancel' );
+    HTML::new_paragraph();
+    HTML::submit_button( 'delete_button', 'Delete' );
+    HTML::submit_button( 'cancel_button', 'Cancel' );
 
-    html::form_end();
+    HTML::form_end();
   }
   #-----------------------------------------------------
 
@@ -553,7 +553,7 @@ class Report extends DBEntity {
     else
       echo 'Deletion cancelled.';
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->saved_query_list();
   }
   #-----------------------------------------------------
@@ -566,10 +566,10 @@ class Report extends DBEntity {
     $this->entries_per_page  = DEFAULT_ENTRIES_PER_BROWSE_PAGE;
     $this->record_layout     = DEFAULT_RECORD_LAYOUT;
 
-    html::hidden_field( 'order_by',         $this->order_by );
-    html::hidden_field( 'sort_descending',  $this->sort_descending );
-    html::hidden_field( 'entries_per_page', $this->entries_per_page );
-    html::hidden_field( 'record_layout',    $this->record_layout );
+    HTML::hidden_field( 'order_by',         $this->order_by );
+    HTML::hidden_field( 'sort_descending',  $this->sort_descending );
+    HTML::hidden_field( 'entries_per_page', $this->entries_per_page );
+    HTML::hidden_field( 'record_layout',    $this->record_layout );
   }
   #-----------------------------------------------------
   function db_write_printable_version_button() {}  # suppress

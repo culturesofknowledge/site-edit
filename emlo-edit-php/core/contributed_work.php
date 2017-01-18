@@ -64,7 +64,7 @@ class Contributed_Work extends Project {
   function db_browse_reformat_data( $column_name, $column_value ) {
   
     if( $column_name == 'uploader_email' && $column_value && ! $this->printable_output && ! $this->csv_output ) {
-      html::link( $href = "mailto:$column_value", 
+      HTML::link( $href = "mailto:$column_value", 
                   $displayed_text = 'Contact', 
                   $title = 'Contact the contributor', 
                   $target = '_blank' );
@@ -199,10 +199,10 @@ class Contributed_Work extends Project {
 
     echo 'You can use this screen to search for, or browse through, all the works uploaded from the offline data'
          . ' collection tool, whether accepted, rejected or still awaiting review.';
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     echo 'Simply click Search without entering a selection to browse through the whole list, page by page.';
-    html::new_paragraph();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 

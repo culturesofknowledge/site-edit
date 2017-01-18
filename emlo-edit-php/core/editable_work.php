@@ -64,7 +64,7 @@ class Editable_Work extends Work {
 
     $focus_script = $this->write_work_entry_form( $new_record, $just_saved );
 
-    if( $focus_script ) html::write_javascript_function( $focus_script );
+    if( $focus_script ) HTML::write_javascript_function( $focus_script );
   }
   #-----------------------------------------------------
 
@@ -85,24 +85,24 @@ class Editable_Work extends Work {
     $this->date_entity->write_date_entry_stylesheet();
     $this->write_display_change_script();
 
-    $this->form_name = html::form_start( $this->app_get_class( $this ), 'save_work', NULL, NULL, $onsubmit_validation = TRUE );
+    $this->form_name = HTML::form_start( $this->app_get_class( $this ), 'save_work', NULL, NULL, $onsubmit_validation = TRUE );
 
     $this->write_js_prompt_to_confirm_submission();  # prompt if they try to change tabs without saving
     $this->write_js_enable_form_submission();  # re-enable form submission after they have saved
 
     if( ! $new_record ) {
-      html::hidden_field( 'iwork_id', $this->iwork_id );
-      html::hidden_field( 'opening_method', $this->opening_method );
+      HTML::hidden_field( 'iwork_id', $this->iwork_id );
+      HTML::hidden_field( 'opening_method', $this->opening_method );
 
-      html::h3_start();
+      HTML::h3_start();
       echo $this->get_work_desc( $this->work_id );
-      html::h3_end();
+      HTML::h3_end();
 
-      html::italic_start();
+      HTML::italic_start();
       echo 'Work ID ' . $this->iwork_id 
          . '. Last change ' . $this->postgres_date_to_words($this->change_timestamp)
          . ' by ' . $this->change_user . LINEBREAK;
-      html::italic_end();
+      HTML::italic_end();
 
       # Get a script to put the focus on the 'Refresh' button (closes this tab and refreshes the opening one).
       $focus_script = $this->proj_write_post_save_refresh_button( $just_saved, $this->opening_method );
@@ -110,9 +110,9 @@ class Editable_Work extends Work {
 
     elseif( $this->parm_found_in_post( 'iwork_id' )) {  # came from 'Edit existing record' screen via 'New' button
       $this->unset_post_parm( 'iwork_id' ); # just in case, let's make sure we avoid any mix-ups!
-      html::h3_start();
+      HTML::h3_start();
       echo 'Create new record';
-      html::h3_end();
+      HTML::h3_end();
     }
 
     $this->button_area();
@@ -121,8 +121,8 @@ class Editable_Work extends Work {
 
     $this->tab_method();
 
-    html::form_end();
-    html::new_paragraph();
+    HTML::form_end();
+    HTML::new_paragraph();
 
     # If the user clicked a 'Save and continue' button, return them to the section of the form where they were working
     # rather than to the 'Refresh' button at the top of the form.
@@ -139,23 +139,23 @@ class Editable_Work extends Work {
   function date_fields() {
 
     $this->date_as_marked_field() ;
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->original_calendar_field() ;
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->date_as_marked_std_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $extra_anchor = 'date_notes';
-    html::anchor( $extra_anchor . '_anchor' );
+    HTML::anchor( $extra_anchor . '_anchor' );
     $this->extra_anchors[] = $extra_anchor;
 
     $this->date_flags();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->date_notes_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->app_get_class( $this ) != 'selden_work' )
       $this->extra_save_button( 'date_notes' );
@@ -164,20 +164,20 @@ class Editable_Work extends Work {
 
   function date_as_marked_field() {
 
-    html::span_start( 'class="workfield"' );
+    HTML::span_start( 'class="workfield"' );
 
-    html::input_field( 'date_of_work_as_marked',  $label = 'Date of work as marked', $this->date_of_work_as_marked, 
+    HTML::input_field( 'date_of_work_as_marked',  $label = 'Date of work as marked', $this->date_of_work_as_marked, 
                        FALSE, FLD_SIZE_DATE_AS_MARKED );
     
-    html::span_end( 'workfield' );
+    HTML::span_end( 'workfield' );
   }
   #-----------------------------------------------------
 
   function original_calendar_field() {
 
-    html::span_start( 'class="workfield"' );
-    html::label( 'Original calendar: ' );
-    html::span_end( 'workfield' );
+    HTML::span_start( 'class="workfield"' );
+    HTML::label( 'Original calendar: ' );
+    HTML::span_end( 'workfield' );
 
     $this->date_entity->calendar_selection_field( $fieldname='original_calendar', 
                                                   $selected_calendar = $this->original_calendar ); 
@@ -210,25 +210,25 @@ class Editable_Work extends Work {
 
   function date_flags() {
 
-    html::span_start( 'class="workfield"' );
-    html::label( 'Issues with date of work: ' );
-    html::span_end( 'workfield' );
+    HTML::span_start( 'class="workfield"' );
+    HTML::label( 'Issues with date of work: ' );
+    HTML::span_end( 'workfield' );
 
-    html::ulist_start( 'class="dateflags"' );
+    HTML::ulist_start( 'class="dateflags"' );
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_inferred_date_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_uncertain_date_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_approx_date_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::ulist_end();
+    HTML::ulist_end();
   }
   #-----------------------------------------------------
 
@@ -306,9 +306,9 @@ class Editable_Work extends Work {
 
   function author_sender_field( $horizontal_rule = TRUE, $heading = 'Authors/Senders:' ) { 
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     if( $horizontal_rule ) {
-      html::horizontal_rule();
+      HTML::horizontal_rule();
     }
 
     # Heading is now set in method 'proj_list_form_sections()'.
@@ -323,19 +323,19 @@ class Editable_Work extends Work {
 
     $this->authors_as_marked_field();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->author_flags();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->notes_on_authors_field();
   }
   #-----------------------------------------------------
 
   function addressee_field( $horizontal_rule = TRUE, $heading = 'Addressees:' ) {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     if( $horizontal_rule ) {
-      html::horizontal_rule();
+      HTML::horizontal_rule();
     }
 
     # Heading is now set in method 'proj_list_form_sections()'.
@@ -349,31 +349,31 @@ class Editable_Work extends Work {
 
     $this->addressees_as_marked_field();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->addressee_flags();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->notes_on_addressees_field();
   }
   #-----------------------------------------------------
 
   function author_flags( $label_part = 'Authors/senders' ) {
 
-    html::span_start( 'class="workfield"' );
-    html::label( 'Issues with ' . strtolower( $label_part ) . ': ' );
-    html::span_end( 'workfield' );
+    HTML::span_start( 'class="workfield"' );
+    HTML::label( 'Issues with ' . strtolower( $label_part ) . ': ' );
+    HTML::span_end( 'workfield' );
 
-    html::ulist_start( 'class="dateflags"' );
+    HTML::ulist_start( 'class="dateflags"' );
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_inferred_author_field( $label_part ) ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_uncertain_author_field( $label_part ) ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::ulist_end();
+    HTML::ulist_end();
   }
   #-----------------------------------------------------
 
@@ -410,21 +410,21 @@ class Editable_Work extends Work {
 
   function addressee_flags() {
 
-    html::span_start( 'class="workfield"' );
-    html::label( 'Issues with addressees: ' );
-    html::span_end( 'workfield' );
+    HTML::span_start( 'class="workfield"' );
+    HTML::label( 'Issues with addressees: ' );
+    HTML::span_end( 'workfield' );
 
-    html::ulist_start( 'class="dateflags"' );
+    HTML::ulist_start( 'class="dateflags"' );
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_inferred_addressee_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_uncertain_addressee_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::ulist_end();
+    HTML::ulist_end();
   }
   #-----------------------------------------------------
 
@@ -490,7 +490,7 @@ class Editable_Work extends Work {
 
   function earlier_work_answered_by_this_field() {
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
 
     # Heading is now set in method 'proj_list_form_sections()'.
     $this->proj_form_section_links( 'earlier_letters', $heading_level = 4 );
@@ -506,7 +506,7 @@ class Editable_Work extends Work {
 
   function later_work_answering_this_field() {
 
-    html::horizontal_rule();
+    HTML::horizontal_rule();
 
     # Heading is now set in method 'proj_list_form_sections()'.
     $this->proj_form_section_links( 'later_letters', $heading_level = 4 );
@@ -522,7 +522,7 @@ class Editable_Work extends Work {
 
     function matching_work() {
 
-        html::horizontal_rule();
+        HTML::horizontal_rule();
 
         # Heading is now set in method 'proj_list_form_sections()'.
         $this->proj_form_section_links( 'matching_letters', $heading_level = 4 );
@@ -585,13 +585,13 @@ class Editable_Work extends Work {
                            $decode_field_initial_value,
                            NULL, NULL, $calling_field_value ); 
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $parms = 'onclick="document.' . $this->form_name . '.' . $calling_field    . ".value='';"
                     . 'document.' . $this->form_name . '.' . $decode_fieldname . ".value='';" . '"';
-    html::button( 'clear_' . $fieldset_name . '_button', 'X', $tabindex=1, $parms );
+    HTML::button( 'clear_' . $fieldset_name . '_button', 'X', $tabindex=1, $parms );
     echo ' (Click to blank out standard-format ' . strtolower( $decode_field_label )
          . ' on screen, then Save to finalise.)';
-    html::div_end();
+    HTML::div_end();
   }
   #-----------------------------------------------------
 
@@ -616,26 +616,26 @@ class Editable_Work extends Work {
 
   function origin_as_marked_field() {
 
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
 
-    html::input_field( 'origin_as_marked', $label = $this->proj_get_field_label( 'origin_as_marked' ),
+    HTML::input_field( 'origin_as_marked', $label = $this->proj_get_field_label( 'origin_as_marked' ),
                        $this->origin_as_marked, 
                        FALSE, FLD_SIZE_PLACES_AS_MARKED );
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
   function destination_as_marked_field() {
 
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
 
-    html::input_field( 'destination_as_marked',  $label = 'Destination as marked', $this->destination_as_marked, 
+    HTML::input_field( 'destination_as_marked',  $label = 'Destination as marked', $this->destination_as_marked, 
                        FALSE, FLD_SIZE_PLACES_AS_MARKED );
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
@@ -669,15 +669,15 @@ class Editable_Work extends Work {
 
     $values = array( 'Y' => 'Yes', 'N' => 'No', '' => 'Unknown' );
 
-    html::bold_start();
+    HTML::bold_start();
     echo 'Relevant to Cultures of Knowledge? ';
-    html::bold_end();
+    HTML::bold_end();
 
     $i = 0;
     foreach( $values as $value => $label ) {
       $i++;
 
-      html::radio_button( $fieldname = 'relevant_to_cofk', 
+      HTML::radio_button( $fieldname = 'relevant_to_cofk', 
                           $label, 
                           $value_when_checked = $value, 
                           $current_value = $this->relevant_to_cofk, 
@@ -690,9 +690,9 @@ class Editable_Work extends Work {
 
   function patrons_field( $horizontal_rule = TRUE, $heading = 'Patrons' ) {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     if( $horizontal_rule ) {
-      html::horizontal_rule();
+      HTML::horizontal_rule();
     }
 
     # Heading is now set in method 'proj_list_form_sections()'.
@@ -703,16 +703,16 @@ class Editable_Work extends Work {
                                $decode_display   = 'patron',
                                $separate_section = FALSE );
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->notes_on_patron_field();
   }
   #-----------------------------------------------------
 
   function dedicatees_field( $horizontal_rule = TRUE, $heading = 'Dedicatees' ) {
 
-    html::new_paragraph();
+    HTML::new_paragraph();
     if( $horizontal_rule ) {
-      html::horizontal_rule();
+      HTML::horizontal_rule();
     }
 
     # Heading is now set in method 'proj_list_form_sections()'.
@@ -722,7 +722,7 @@ class Editable_Work extends Work {
                                $section_heading  = '',
                                $decode_display   = 'dedicatee',
                                $separate_section = FALSE );
-    html::new_paragraph();
+    HTML::new_paragraph();
     $this->notes_on_dedicatee_field();
   }
   #-----------------------------------------------------
@@ -1054,7 +1054,7 @@ class Editable_Work extends Work {
 
     $selected_tab = $this->read_post_parm( 'selected_tab' );
     if( ! $selected_tab ) $selected_tab = DEFAULT_WORK_EDIT_TAB;
-    html::hidden_field( 'selected_tab', $selected_tab );
+    HTML::hidden_field( 'selected_tab', $selected_tab );
 
     $script  = ' function select_tab( tab_name ) {'                            . NEWLINE;
     $script .= '   var proceed=js_prompt_to_confirm_submission();'             . NEWLINE;
@@ -1065,12 +1065,12 @@ class Editable_Work extends Work {
     $script .= '   }'                                                          . NEWLINE;
     $script .= ' }'                                                            . NEWLINE;
 
-    html::write_javascript_function( $script );
+    HTML::write_javascript_function( $script );
 
-    html::div_start( 'class="tabform"' );
-    html::new_paragraph();
-    html::div_start( 'class="tabrow"' );
-    //html::new_paragraph();
+    HTML::div_start( 'class="tabform"' );
+    HTML::new_paragraph();
+    HTML::div_start( 'class="tabrow"' );
+    //HTML::new_paragraph();
 
     foreach( $tabs as $tab => $tab_desc) {
       $parms = '';
@@ -1083,14 +1083,14 @@ class Editable_Work extends Work {
       }
       $parms .= ' onclick="select_tab( ' . "'" . $tab . "'" . ' )"';
 
-      html::submit_button( $tab, $tab_desc, $tabindex=1, $parms );
+      HTML::submit_button( $tab, $tab_desc, $tabindex=1, $parms );
     }
 
-    html::div_end( 'tabrow' );
+    HTML::div_end( 'tabrow' );
 
-    //html::new_paragraph( 'class="undertabs"' );
-    html::div_end( 'tabform' );
-    //html::new_paragraph();
+    //HTML::new_paragraph( 'class="undertabs"' );
+    HTML::div_end( 'tabform' );
+    //HTML::new_paragraph();
 
 
 
@@ -1101,7 +1101,7 @@ class Editable_Work extends Work {
 
   function button_area( $start_with_horizontal_rule = TRUE ) {
 
-    if( $start_with_horizontal_rule ) html::horizontal_rule();
+    if( $start_with_horizontal_rule ) HTML::horizontal_rule();
 
     $this->original_catalogue_field();
     echo ' ';
@@ -1112,23 +1112,23 @@ class Editable_Work extends Work {
     $this->work_deletion_field();
     echo ' ';
 
-    html::span_start( 'class="widespaceonleft"' );
+    HTML::span_start( 'class="widespaceonleft"' );
 
-    html::submit_button( 'save_button', 'Save', $tabindex=1, 'onclick="js_enable_form_submission()"' );
+    HTML::submit_button( 'save_button', 'Save', $tabindex=1, 'onclick="js_enable_form_submission()"' );
 
-    # html::italic_start();  -- No longer works in Firefox 3.6. Overridden by 'History' menu option.
+    # HTML::italic_start();  -- No longer works in Firefox 3.6. Overridden by 'History' menu option.
     # echo " (Shortcut key for 'Save' is S.) "; -- Also we need more space on form for catalogue fields.
-    # html::italic_end();
+    # HTML::italic_end();
 
-    html::submit_button( 'cancel_button', 'Search', $tabindex=1, 
+    HTML::submit_button( 'cancel_button', 'Search', $tabindex=1, 
                          $parms = $this->abandon_changes_button_parms());
 
     if( $this->iwork_id ) { # not already in 'Add New' option
-      html::submit_button( 'add_new_work_button', 'New work', $tabindex=1, 
+      HTML::submit_button( 'add_new_work_button', 'New work', $tabindex=1, 
                            $parms = $this->abandon_changes_button_parms());
     }
 
-    html::span_end();
+    HTML::span_end();
   }
   #-----------------------------------------------------
 
@@ -1200,18 +1200,18 @@ class Editable_Work extends Work {
               . "    theSpan.className = '$normal_class';"                      . NEWLINE
               . '  }'                                                           . NEWLINE 
               . '}'                                                             . NEWLINE;
-      html::write_javascript_function( $script );
+      HTML::write_javascript_function( $script );
 
-      html::span_start( 'class="' . $current_class . '" id="' . $span_id . '"' );
+      HTML::span_start( 'class="' . $current_class . '" id="' . $span_id . '"' );
       $parms = 'onclick="' . $change_display_scriptname . '( this )"';
              
-      html::checkbox( $fieldname, $label = 'Work marked for deletion', $is_checked = $this->work_to_be_deleted, 
+      HTML::checkbox( $fieldname, $label = 'Work marked for deletion', $is_checked = $this->work_to_be_deleted, 
                       $value_when_checked = 1, $in_table = FALSE,
                       $tabindex=1, 
                       $input_instance = NULL,  # there will only be one 'work deletion' checkbox
                       $parms );
 
-      html::span_end();
+      HTML::span_end();
     }
   }
   #----------------------------------------------------------------------------------
@@ -1264,10 +1264,10 @@ class Editable_Work extends Work {
 
   function return_to_search() {
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Edit has been cancelled.';
-    html::italic_end();
-    html::new_paragraph();
+    HTML::italic_end();
+    HTML::new_paragraph();
 
     $this->set_work_search_parms();
 
@@ -1284,12 +1284,12 @@ class Editable_Work extends Work {
 
   function tab_method() {
 
-	  html::div_start( 'class="tabArea"' );
+	  HTML::div_start( 'class="tabArea"' );
     $method_name = $this->selected_tab;
     $method_desc = $this->selected_tab_desc;
 
     if( ! method_exists( $this, $method_name )) {
-      html::new_paragraph();
+      HTML::new_paragraph();
       echo "'$method_desc' tab is not yet available.";
       return;
     }
@@ -1298,7 +1298,7 @@ class Editable_Work extends Work {
                                                       # and functions for creating relationships etc
 
     $this->$method_name();
-	  html::div_end( "tabArea" );
+	  HTML::div_end( "tabArea" );
   }
   #-----------------------------------------------------
 
@@ -1371,79 +1371,79 @@ class Editable_Work extends Work {
   function places_tab() {
 
     $extra_anchor = 'place_of_origin';
-    html::anchor( $extra_anchor . '_anchor' );
+    HTML::anchor( $extra_anchor . '_anchor' );
     $this->extra_anchors[] = $extra_anchor;
 
     $this->location_obj = new Popup_Location( $this->db_connection );
 
-    html::bold_start();
+    HTML::bold_start();
     echo $this->proj_get_field_label( 'origin' ) . ':';
-    html::bold_end();
+    HTML::bold_end();
 
     $this->origin_as_marked_field();
-	  html::linebreak();
+	  HTML::linebreak();
 
     $this->place_of_origin_field();
 
-    html::ulist_start( 'class="dateflags"' );
+    HTML::ulist_start( 'class="dateflags"' );
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_inferred_origin_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_uncertain_origin_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::ulist_end();
-    html::new_paragraph();
+    HTML::ulist_end();
+    HTML::new_paragraph();
 
-	  html::linebreak();
+	  HTML::linebreak();
 	  $this->notes_on_origin_field();
 
     if( $this->get_system_prefix() == IMPACT_SYS_PREFIX ) {
       $this->notes_on_place_of_composition_field();
     }
 
-	  html::linebreak();
+	  HTML::linebreak();
     $this->extra_save_button( 'place_of_origin' );
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
     #-----------
 
     $extra_anchor = 'destination';
-    html::anchor( $extra_anchor . '_anchor' );
+    HTML::anchor( $extra_anchor . '_anchor' );
     $this->extra_anchors[] = $extra_anchor;
 
-    html::bold_start();
+    HTML::bold_start();
     echo $this->proj_get_field_label( 'destination' ) . ':';
-    html::bold_end();
+    HTML::bold_end();
 
     $this->destination_as_marked_field();
-	  html::linebreak();
+	  HTML::linebreak();
 
     $this->destination_field();
 
-    html::ulist_start( 'class="dateflags"' );
+    HTML::ulist_start( 'class="dateflags"' );
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_inferred_destination_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::listitem_start();
+    HTML::listitem_start();
     $this->flag_uncertain_destination_field() ;
-    html::listitem_end();
+    HTML::listitem_end();
 
-    html::ulist_end();
-    html::new_paragraph();
+    HTML::ulist_end();
+    HTML::new_paragraph();
 
-	  html::linebreak();
+	  HTML::linebreak();
 	  $this->notes_on_destination_field();
 
-	  html::linebreak();
+	  HTML::linebreak();
     $this->extra_save_button( 'destination' );
   }
   #-----------------------------------------------------
@@ -1472,23 +1472,23 @@ class Editable_Work extends Work {
       $this->proj_form_section_links( 'editors_notes', $heading_level = 0 );
       $this->editors_notes_field();
 
-      html::new_paragraph();
-      html::horizontal_rule();
-      html::new_paragraph();
+      HTML::new_paragraph();
+      HTML::horizontal_rule();
+      HTML::new_paragraph();
 
       $this->proj_form_section_links( 'langs_used', $heading_level = 4 );
       $this->languages_field();
     }
 
     $this->proj_form_section_links( 'quotes_from_work', $heading_level = 4 );
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
 
     $this->incipit_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->excipit_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->ps_field();
     if( $this->get_system_prefix() == IMPACT_SYS_PREFIX )
@@ -1497,44 +1497,44 @@ class Editable_Work extends Work {
       $button_prefix = 'ps';
     $this->extra_save_button( $button_prefix );
 
-    html::new_paragraph();
-    html::horizontal_rule();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
     #---------------------------------------
 
     $this->proj_form_section_links( 'abstract_and_keywords', $heading_level = 4 );
 
     $this->abstract_field();
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     if( $this->get_system_prefix() != IMPACT_SYS_PREFIX ) {
-      html::div_end( 'workfield' );
+      HTML::div_end( 'workfield' );
       $this->work_subjects_field();
-      html::div_start( 'class="workfield"' );
-      html::new_paragraph();
+      HTML::div_start( 'class="workfield"' );
+      HTML::new_paragraph();
     }
 
     $this->keywords_field();
     $this->extra_save_button( 'abstract_and_keywords' );
 
-    html::new_paragraph();
-    html::horizontal_rule();
-    html::div_end( 'workfield' );
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::div_end( 'workfield' );
     #---------------------------------------
 
     $this->proj_form_section_links( 'people_mentioned', $heading_level = 4 );
 
     $this->people_mentioned_field();
     
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->notes_on_people_mentioned_field();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'people_mentioned' );
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
 
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
     #-----
 
@@ -1542,12 +1542,12 @@ class Editable_Work extends Work {
 
     $this->places_mentioned_field();
     
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'places_mentioned' );
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
 
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
     #-----
 
@@ -1555,12 +1555,12 @@ class Editable_Work extends Work {
 
     $this->works_mentioned_field();
     
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
     $this->extra_save_button( 'works_mentioned' );
-    html::div_end( 'workfield' );
+    HTML::div_end( 'workfield' );
 
-    html::horizontal_rule();
-    html::new_paragraph();
+    HTML::horizontal_rule();
+    HTML::new_paragraph();
 
     #-----
 
@@ -1568,7 +1568,7 @@ class Editable_Work extends Work {
 
     $this->notes_on_work_field();
 
-    html::new_paragraph();
+    HTML::new_paragraph();
 
     $this->extra_save_button( 'general_notes' );
   }
@@ -1592,44 +1592,44 @@ class Editable_Work extends Work {
 
   function authors_as_marked_field( $label_part = 'Authors/senders' ) {
 
-    html::span_start( 'class="workfieldaligned italiclabel"' );
-    html::label( $label_part . ' as marked (optional, e.g. may be relevant if an alias was used):' );
-    html::span_end();
-    html::new_paragraph();
+    HTML::span_start( 'class="workfieldaligned italiclabel"' );
+    HTML::label( $label_part . ' as marked (optional, e.g. may be relevant if an alias was used):' );
+    HTML::span_end();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield"' );
-    html::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
 
-    html::input_field( 'authors_as_marked',  $label = $label_part . ' as marked', $this->authors_as_marked, 
+    HTML::input_field( 'authors_as_marked',  $label = $label_part . ' as marked', $this->authors_as_marked, 
                        FALSE, FLD_SIZE_AUTHORS_AS_MARKED );
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
   function addressees_as_marked_field() {
 
-    html::span_start( 'class="workfieldaligned italiclabel"' );
-    html::label( 'Addressees as marked (optional, e.g. may be relevant if an alias was used):' );
-    html::span_end();
-    html::new_paragraph();
+    HTML::span_start( 'class="workfieldaligned italiclabel"' );
+    HTML::label( 'Addressees as marked (optional, e.g. may be relevant if an alias was used):' );
+    HTML::span_end();
+    HTML::new_paragraph();
 
-    html::div_start( 'class="workfield"' );
+    HTML::div_start( 'class="workfield"' );
 
-    html::input_field( 'addressees_as_marked',  $label = 'Addressees as marked', $this->addressees_as_marked, 
+    HTML::input_field( 'addressees_as_marked',  $label = 'Addressees as marked', $this->addressees_as_marked, 
                        FALSE, FLD_SIZE_AUTHORS_AS_MARKED );
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
   }
   #-----------------------------------------------------
 
   function accession_code_field() {
 
-    html::input_field( 'accession_code',  $label = 'Source of data', $this->accession_code, 
+    HTML::input_field( 'accession_code',  $label = 'Source of data', $this->accession_code, 
                        FALSE, FLD_SIZE_ACCESSION_CODE );
     echo ' (max. ' . MAX_SIZE_ACCESSION_CODE . ' characters)';
-    html::new_paragraph();
-    html::horizontal_rule();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
@@ -1708,11 +1708,11 @@ class Editable_Work extends Work {
 
   function echo_record_edited_by() {
 
-    html::italic_start();
+    HTML::italic_start();
     echo 'Source of record: ' . $this->accession_code;
-    html::italic_end();
-    html::new_paragraph();
-    html::horizontal_rule();
+    HTML::italic_end();
+    HTML::new_paragraph();
+    HTML::horizontal_rule();
   }
   #-----------------------------------------------------
 
@@ -2121,8 +2121,8 @@ class Editable_Work extends Work {
 
   function editors_notes_field() {
 
-    html::new_paragraph();
-    html::div_start( 'class="workfield"' );
+    HTML::new_paragraph();
+    HTML::div_start( 'class="workfield"' );
 
     echo '<style type="text/css">'                           . NEWLINE;
     echo '  textarea#editors_notes { vertical-align: top; }' . NEWLINE;
@@ -2131,8 +2131,8 @@ class Editable_Work extends Work {
     $this->proj_textarea( 'editors_notes', FLD_SIZE_NOTES_ON_WORK_ROWS, FLD_SIZE_NOTES_ON_WORK_COLS, 
                           $value = $this->editors_notes, $label = "Editors' notes" );
 
-    html::div_end();
-    html::new_paragraph();
+    HTML::div_end();
+    HTML::new_paragraph();
     $this->extra_save_button( 'editors_notes' );
   }
   #-----------------------------------------------------
