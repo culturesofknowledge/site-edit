@@ -18,12 +18,6 @@ $database_type_set = TRUE;
 define( 'CONSTANT_SOURCEDIR', '/var/www/html/core/' );
 $sourcedir_set = TRUE;
 
-include "database_access.php";
-if( !defined('SPECIAL_DATABASE_USERNAME') || !defined('SPECIAL_DATABASE_PASSWORD')) {
-    #<?php
-    # define( 'SPECIAL_DATABASE_USERNAME','<SOMETHING_HERE>');
-    # define( 'SPECIAL_DATABASE_PASSWORD','<SOMETHING_HERE>');
-    exit("Mat, you need to define the username and password for database access!");
-}
+echo "Database connection is: <b>" . strtoupper(CONSTANT_DATABASE_TYPE) . "</b>";
 
 require_once "union.php";
