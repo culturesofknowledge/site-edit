@@ -296,17 +296,17 @@ class Comment extends Project {
     else
       $fieldname = $this->new_comment_field;
    
-    if( strlen( $this->comment ) <= $this->get_comment_field_cols()
-    && ! $this->string_contains_substring( $this->comment, NEWLINE ) ) {
-      HTML::input_field( $fieldname, 
-                         $label = $this->label, 
-                         $value = $this->comment, 
-                         $in_table = FALSE, 
-                         $size = $this->get_comment_field_cols(), 
-                         $tabindex = 1, NULL, NULL, NULL, 
-                         $input_instance = $this->comment_id );
-    }
-    else {
+    //if( strlen( $this->comment ) <= $this->get_comment_field_cols()
+    //&& ! $this->string_contains_substring( $this->comment, NEWLINE ) ) {
+    //  HTML::input_field( $fieldname,
+    //                     $label = $this->label,
+    //                     $value = $this->comment,
+    //                     $in_table = FALSE,
+    //                     $size = $this->get_comment_field_cols(),
+    //                     $tabindex = 1, NULL, NULL, NULL,
+    //                     $input_instance = $this->comment_id );
+    //}
+    //else {
       $this->proj_textarea( $fieldname, 
                             $rows = $this->get_comment_field_rows(), 
                             $cols = $this->get_comment_field_cols(), 
@@ -314,7 +314,7 @@ class Comment extends Project {
                             $this->label,
                             NULL, NULL,
                             $input_instance = $this->comment_id );
-    }
+    //}
 
     HTML::div_end( 'workfield' );
 

@@ -559,6 +559,13 @@ class Editable_Work extends Work {
 		$this->proj_notes_field( RELTYPE_COMMENT_REFERS_TO_DESTINATION, 'Notes on destination:' );
 	}
 	#-------
+	
+	function notes_for_route_field() {
+
+		$this->proj_notes_field( RELTYPE_COMMENT_DEFINES_ROUTE, 'Route from origin to destination' );
+	}
+	#-------
+	
   function place_entry_field( $fieldset_name ) {
 
     $calling_field = $this->proj_new_id_fieldname_from_fieldset_name( $fieldset_name );
@@ -920,6 +927,7 @@ class Editable_Work extends Work {
 
 		  $reltypes[] = RELTYPE_COMMENT_REFERS_TO_ORIGIN;
 		  $reltypes[] = RELTYPE_COMMENT_REFERS_TO_DESTINATION;
+		  $reltypes[] = RELTYPE_COMMENT_DEFINES_ROUTE;
         break;
 
       case 'other_tab':           # general notes
@@ -1445,6 +1453,25 @@ class Editable_Work extends Work {
 
 	  HTML::linebreak();
     $this->extra_save_button( 'destination' );
+
+	  HTML::new_paragraph();
+	  HTML::horizontal_rule();
+	  HTML::new_paragraph();
+
+	  #-----------
+
+	  $extra_anchor = 'route';
+	  HTML::anchor( $extra_anchor . '_anchor' );
+	  $this->extra_anchors[] = $extra_anchor;
+
+	  HTML::bold_start();
+	  echo $this->proj_get_field_label( 'route' ) . ':';
+	  HTML::bold_end();
+
+	  $this->notes_for_route_field();
+
+	  HTML::linebreak();
+	  $this->extra_save_button( 'destination' );
   }
   #-----------------------------------------------------
 

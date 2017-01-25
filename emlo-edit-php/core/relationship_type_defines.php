@@ -86,6 +86,7 @@ define( 'RELTYPE_COMMENT_REFERS_TO_WORKS_MENTIONED_IN_WORK', 'refers_to_works_me
 
 define( 'RELTYPE_COMMENT_REFERS_TO_ORIGIN', 'refers_to_origin' );
 define( 'RELTYPE_COMMENT_REFERS_TO_DESTINATION', 'refers_to_destination' );
+define( 'RELTYPE_COMMENT_DEFINES_ROUTE', 'route' );
 
 
 
