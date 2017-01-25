@@ -788,6 +788,17 @@ class Work extends Project {
 
   function db_explain_how_to_query() {
 
+	  HTML::span_start( 'style="cursor:pointer;text-decoration:underline" onclick="(help_text.style.display===\'block\') ? help_text.style.display=\'none\' : help_text.style.display=\'block\'"');
+	  echo 'Show help';
+	  HTML::span_end();
+	  HTML::new_paragraph();
+
+	  HTML::div_start('id="help_text" style="display:none;width:1000px;margin-left:20px;"');
+
+	  echo "
+	  	<style>#help_text li { line-height: 1.5;}</style>
+	  ";
+
     echo 'Enter selection in one or more fields and click the Search button or press the Return key.'
          . ' Please note:';
     HTML::new_paragraph();
@@ -797,13 +808,20 @@ class Work extends Project {
     HTML::listitem_start();
     echo 'Most of the fields in this form are text fields: you make your selection by entering a word or phrase,';
     echo ' or part of a word, to be found anywhere within the relevant piece of text.';
-    #echo ' For example, if you entered ';
-    #HTML::bold_start();
-    #echo 'Bister';
-    #HTML::bold_end();
-    #echo " in the 'Sender or Recipient' field, you would find all works to or from BISTERFELD, JOHANN HEINRICH "; 
-    #echo ' and BISTERFELD, JOHN';
+
+	  HTML::ulist_start();
+	  HTML::listitem_start();
+
+    echo ' For example, if you entered ';
+    HTML::bold_start();
+    echo 'Bister';
+    HTML::bold_end();
+    echo " in the 'Sender or Recipient' field, you would find all works to or from BISTERFELD, JOHANN HEINRICH "; 
+    echo ' and BISTERFELD, JOHN';
     HTML::listitem_end();
+
+	  HTML::listitem_end();
+	  HTML::ulist_end();
 
     HTML::listitem_start();
     echo 'You do not have to match the case of text fields, e.g. ';
@@ -817,31 +835,39 @@ class Work extends Project {
     echo '.';
     HTML::listitem_end();
 
+
     HTML::listitem_start();
     echo ' You can use the wildcard ';
     HTML::bold_start();
     echo '%';
     HTML::bold_end();
     echo ' (percent sign) to represent any number of characters.';
+
+	  HTML::ulist_start();
+	  HTML::listitem_start();
+
     echo ' For example, if you entered ';
-    HTML::bold_start();
-    echo 'pelham%william';
-    HTML::bold_end();
+    HTML::bold_start() . 'pelham%william' . HTML::bold_end();
     echo " in the 'Sender or Recipient' field, you would find works to or from PELHAM, SIR WILLIAM ";
     echo ' as well as PELHAM, WILLIAM.';
+
+	  HTML::listitem_end();
+	  HTML::ulist_end();
 
     HTML::listitem_end();
 
     HTML::listitem( 'Fields marked with an asterisk are non-text fields (dates or numbers).'
-         #. To find records '
-         #. " with dates within a certain range, enter the start and/or the end of the period of interest"
-         #. ' in the From/To fields.'
-         #. ' To find records containing a certain number (work ID), enter the exact number you are interested in.' 
+         . ' To find records '
+         . " with dates within a certain range, enter the start and/or the end of the period of interest"
+         . ' in the From/To fields.'
+         . ' To find records containing a certain number (work ID), enter the exact number you are interested in.'
          );
 
     HTML::ulist_end();
 
     HTML::new_paragraph();
+
+	  HTML::div_end(NULL,"help_text");
   }
   #-----------------------------------------------------
 

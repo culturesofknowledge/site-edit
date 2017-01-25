@@ -562,13 +562,13 @@ class HTML extends Application_Entity {
 
     echo ' .searchablefields table {'                                                   . NEWLINE;
     echo '   border-style: solid;'                                                      . NEWLINE;
-    echo '   border-color: ' .  HTML::get_contrast1_colour( $for_cms_deployment ) . ';' . NEWLINE;
+    echo '   border-color: #a8bad0;' . NEWLINE;
     echo '   border-width: 1px;'                                                        . NEWLINE;
     echo '   border-collapse: collapse;'                                                . NEWLINE;
     echo ' }'                                                                           . NEWLINE;
 
     echo ' .searchablefields td {'                                  . NEWLINE;
-    echo '   padding: 5px;'                                         . NEWLINE;
+    echo '   padding: 6px;'                                         . NEWLINE;
     echo '   vertical-align:middle;'                                . NEWLINE;
     echo ' }'                                                       . NEWLINE;
 
@@ -1039,7 +1039,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function new_paragraph( $parms = NULL ) {
+  static function new_paragraph( $parms = NULL ) {
 
     echo NEWLINE . '<P ';
     if( $parms ) echo $parms;
@@ -1047,7 +1047,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function div_start( $parms = NULL ) {
+	static function div_start( $parms = NULL ) {
 
     echo NEWLINE . '<div ';
     if( $parms ) echo $parms;
@@ -1055,7 +1055,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function div_end( $div_class = NULL, $div_id = NULL ) {
+	static function div_end( $div_class = NULL, $div_id = NULL ) {
 
     echo NEWLINE . '</div>';
     echo NEWLINE;
@@ -1064,7 +1064,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function span_start( $parms = NULL ) {
+  static function span_start( $parms = NULL ) {
 
     echo NEWLINE . '<span ';
     if( $parms ) echo $parms;
@@ -1072,7 +1072,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function span_end( $parms = NULL ) {
+  static function span_end( $parms = NULL ) {
 
     echo NEWLINE . '</span>';
     echo NEWLINE;
@@ -1277,7 +1277,9 @@ class HTML extends Application_Entity {
     $label = trim( $label );
     echo $label;
     $last_char = substr( $label, -1 );
-    if( $label != '' && $last_char != ':' && $last_char != '.' && $last_char != '*' && $last_char != '£' ) echo ':';
+    if( $label != '' && $last_char != ':' && $last_char != '.' && $last_char != '*' && $last_char != '£' ) {
+		echo ':';
+	}
     echo ' </label>';
 
     if( $in_table ) {
@@ -1664,26 +1666,26 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function ulist_start( $parms = NULL ) {
+  static function ulist_start( $parms = NULL ) {
     echo NEWLINE . '<UL';
     if( $parms ) echo ' ' . $parms . ' ';
     echo '>' . NEWLINE;
   }
   #-----------------------------------------------------------------
 
-  function ulist_end() {
+  static function ulist_end() {
     echo NEWLINE . '</UL>' . NEWLINE;
   }
   #-----------------------------------------------------------------
 
-  function listitem_start( $parms = NULL ) {
+  static function listitem_start( $parms = NULL ) {
     echo NEWLINE . '<li';
     if( $parms ) echo ' ' . $parms . ' ';
     echo '>' . NEWLINE;
   }
   #-----------------------------------------------------------------
 
-  function listitem_end() {
+  static function listitem_end() {
     echo NEWLINE . '</li>' . NEWLINE;
   }
   #-----------------------------------------------------------------

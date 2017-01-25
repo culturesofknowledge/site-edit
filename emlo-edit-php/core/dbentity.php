@@ -503,7 +503,6 @@ class DBEntity extends Application_Entity {
       $comparison_heading = 'Comparison';
 
     HTML::new_paragraph();
-    HTML::horizontal_rule();
 
     $this->db_explain_how_to_query();
 
