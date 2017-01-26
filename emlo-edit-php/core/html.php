@@ -1423,7 +1423,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function dropdown_start( $fieldname, $label, $in_table = FALSE, $script = NULL, $tabindex=1, 
+  static function dropdown_start( $fieldname, $label, $in_table = FALSE, $script = NULL, $tabindex=1, 
                            $label_parms = NULL, $input_instance = 0 ) {
 
     echo NEWLINE;
@@ -1450,7 +1450,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function dropdown_option( $internal_value, $displayed_value, $selection = NULL, $parms = NULL ) {
+  static function dropdown_option( $internal_value, $displayed_value, $selection = NULL, $parms = NULL ) {
 
     echo '<option value="' . $internal_value . '" ';
     if( $selection == $internal_value ) echo ' selected';
@@ -1479,7 +1479,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function dropdown_end( $in_table = FALSE ) {
+  static function dropdown_end( $in_table = FALSE ) {
     echo NEWLINE;
     echo '</select>';
     if( $in_table ) echo '</td>';
