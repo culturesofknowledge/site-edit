@@ -139,19 +139,19 @@ class HTML extends Application_Entity {
 
   function write_stylesheet( $for_cms_deployment = FALSE, $banner_only = FALSE, $printable = FALSE ) {
 
-	// Mattt: I've moved these to css files...
+	// Mattt: I've moved these to css files... I;ve turned it off cause it does other stuff like printing...
 
-	  echo '<!-- link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css" media="screen" / -->';
+	 // echo '<!-- link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css" media="screen" / -->';
 
-	if( ! $for_cms_deployment ) {
-		echo '<link rel="stylesheet" type="text/css" href="base_style.css" media="screen" />';
-		echo '<link rel="stylesheet" type="text/css" href="base_style_print.css" media="print" />';
-	}
-  	else {
-		echo '<link rel="stylesheet" type="text/css" href="base_style_cms.css" media="screen" />';
-	}
+	//if( ! $for_cms_deployment ) {
+	//	echo '<link rel="stylesheet" type="text/css" href="base_style.css" media="screen" />';
+	//	echo '<link rel="stylesheet" type="text/css" href="base_style_print.css" media="print" />';
+	//}
+  	//else {
+	//	echo '<link rel="stylesheet" type="text/css" href="base_style_cms.css" media="screen" />';
+	//}
 
-	return;
+	//return;
 
     echo '<style type="text/css" p="2">' . NEWLINE;
 
@@ -159,6 +159,8 @@ class HTML extends Application_Entity {
     # Defaults
     #---------
     if( ! $for_cms_deployment ) {
+
+		echo 'html {background-color:#dfe4e8;margin:0;}';
 
       echo ' body {'                                                     . NEWLINE;
       echo "   font-family: georgia, 'times new roman', times, serif; "  . NEWLINE;
@@ -170,8 +172,10 @@ class HTML extends Application_Entity {
 
       if( ! $printable ) {
         echo ' body {'                                                       . NEWLINE;
-        echo '   margin-left: 10px;'                                         . NEWLINE;
-        echo '   margin-right: 10px;'                                        . NEWLINE;
+		  echo 'margin:0 auto;';
+		  echo 'max-width: 1200px;';
+       // echo '   margin-left: 10px;'                                         . NEWLINE;
+        //echo '   margin-right: 10px;'                                        . NEWLINE;
         echo ' }'                                                            . NEWLINE;
       }
 
@@ -179,8 +183,9 @@ class HTML extends Application_Entity {
         echo ' div.innerbody {' . NEWLINE;
         echo '   margin-left: 10px;'                                    . NEWLINE;
         echo '   margin-right: 10px;'                                   . NEWLINE;
-        echo '   margin-top: 5px;'                                      . NEWLINE;
+        echo '   margin-top: 10px;'                                      . NEWLINE;
         echo '   margin-bottom: 10px;'                                  . NEWLINE;
+		  echo 'padding-top:10px;';
         echo ' }'                                                       . NEWLINE;
       }
 
@@ -240,7 +245,7 @@ class HTML extends Application_Entity {
       echo ' }'                                                          . NEWLINE;
 
 		echo ' p, li, td {'                                                    . NEWLINE;
-		echo '   line-height:1.2;'                                      . NEWLINE;
+		echo '   line-height:1.4;'                                      . NEWLINE;
 		echo ' }'                                                       . NEWLINE;
 
 
