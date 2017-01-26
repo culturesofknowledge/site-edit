@@ -25,7 +25,7 @@ class Application_Entity {
   #------------
   # Properties 
   #------------
-  var $debug = FALSE;
+  var $debug = DEBUGGING;
 
   var $magic_quotes_gpc_on;
 
@@ -34,6 +34,7 @@ class Application_Entity {
   function Application_Entity() { 
 
     $this->magic_quotes_gpc_on = ini_get( 'magic_quotes_gpc' );
+	  
   }
   #-----------------------------------------------------
 
@@ -355,6 +356,9 @@ class Application_Entity {
     $the_value = $this->strip_all_slashes( $the_value );
 
     $the_value = addslashes( $the_value );
+	  
+	  # New version of Postgres escapes with '' (unless you tweak a setting)
+	  $the_value = str_replace( "\\'", "''", $the_value );
 
     return $the_value;
     

@@ -11,6 +11,8 @@ get -r1.1 /home/burgess/scripts/sccs/cofk/php/s.dev_union.php
 
 error_reporting(E_ALL & ~E_STRICT & ~E_WARNING);
 ini_set("display_errors", 1);
+define( "DEBUGGING", TRUE );
+
 
 define( 'CONSTANT_DATABASE_TYPE', 'docker' );
 $database_type_set = TRUE;
@@ -18,6 +20,8 @@ $database_type_set = TRUE;
 define( 'CONSTANT_SOURCEDIR', '/var/www/html/core/' );
 $sourcedir_set = TRUE;
 
+
 echo "Database connection is: <b>" . strtoupper(CONSTANT_DATABASE_TYPE) . "</b>";
+
 
 require_once "union.php";
