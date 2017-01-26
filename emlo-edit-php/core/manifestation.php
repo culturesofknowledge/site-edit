@@ -1141,6 +1141,10 @@ class Manifestation extends Project {
     $this->proj_form_section_links( 'paper_and_markings', $heading_level = 'bold' );
 
     HTML::div_start( 'class="workfield"' );
+
+	  $this->manifestation_opened_field();
+	  HTML::new_paragraph();
+
     $this->paper_size_field();
     HTML::new_paragraph();
 
@@ -1664,6 +1668,20 @@ class Manifestation extends Project {
                                                $field_label = 'Document type', 
                                                $selected_id = $this->manifestation_type );
   }
+
+	function manifestation_opened_field() {
+
+		HTML::dropdown_start( "opened", "Letter opened", $in_table=FALSE );
+
+		$opened_selected = $this->opened;
+		echo $opened_selected;
+
+		HTML::dropdown_option( "o", "Opened", $opened_selected );
+		HTML::dropdown_option( "p", "Partially opened", $opened_selected );
+		HTML::dropdown_option( "c", "Closed", $opened_selected );
+
+		HTML::dropdown_end( FALSE );
+	}
   #-----------------------------------------------------
 
   function printed_edition_field() {
@@ -2912,6 +2930,7 @@ class Manifestation extends Project {
 
       case 'manifestation_type':
       case 'manifestation_creation_calendar':
+		case 'opened':
         return $this->is_alphanumeric_or_blank( $this->parm_value );
 
       default:
