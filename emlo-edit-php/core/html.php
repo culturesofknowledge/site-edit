@@ -268,7 +268,7 @@ class HTML extends Application_Entity {
       echo ' hr { ' . NEWLINE;
       echo '   color:#f2f2f2;;'              . NEWLINE;  # apparently used by IE
       echo '   background-color: #f2f2f2;'   . NEWLINE;  # apparently used by Firefox
-      echo '   height: 1px;'  . NEWLINE;
+      echo '   height: 6px;'  . NEWLINE;
       echo '   border-style: none;'  . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
