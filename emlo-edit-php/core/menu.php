@@ -638,7 +638,7 @@ class Menu extends Project {
       HTML::link_end();
     }
 	  echo LINEBREAK;
-    echo '<hr style="border: 7px solid white;">';
+    echo '<hr style="height:13px;color:white;background-color:white;">';
 
     HTML::h2_start( "margin:13px 10px 0px 19px");
     if( $override_title )
