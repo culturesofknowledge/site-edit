@@ -193,6 +193,10 @@ class DatabaseTweaker:
 
 		return simple_results
 
+	def update_person(self, iperson_id, field_updates={}, print_sql=False ):
+
+		self._update( iperson_id, field_updates, "cofk_union_person", "iperson_id", "person", print_sql )
+
 
 	def update_work(self, iwork_id, field_updates={}, print_sql=False ):
 
@@ -473,6 +477,184 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()[0]
 
+
+	def create_person_or_organisation(
+			self,
+			primary_name,
+			synonyms=None,
+			aliases=None,
+			gender=None,
+			is_org=None,
+			org_type=None,
+			birth_year=None,
+			birth_month=None,
+			birth_day=None,
+			birth_inferred=0,
+			birth_uncertain=0,
+			birth_approx=0,
+			death_year=None,
+			death_month=None,
+			death_day=None,
+			death_inferred=0,
+			death_uncertain=0,
+			death_approx=0,
+			flourished_year_1=None,
+			flourished_year_2=None,
+			flourished_range=0,
+			editors_note=''
+		):
+
+		birth_year = self.get_int_value(birth_year)
+		birth_month = self.get_int_value(birth_month)
+		birth_day = self.get_int_value(birth_day)
+
+		birth_approx = self.get_int_value(birth_approx, 0)
+		birth_inferred = self.get_int_value(birth_inferred, 0)
+		birth_uncertain = self.get_int_value(birth_uncertain, 0)
+
+		death_year = self.get_int_value(death_year)
+		death_month = self.get_int_value(death_month)
+		death_day = self.get_int_value(death_day)
+
+		death_approx = self.get_int_value(death_approx, 0)
+		death_inferred = self.get_int_value(death_inferred, 0)
+		death_uncertain = self.get_int_value(death_uncertain, 0)
+
+		flourished_year_1 = self.get_int_value(flourished_year_1)
+		flourished_year_2 = self.get_int_value(flourished_year_2)
+		flourished_range = self.get_int_value(flourished_range, 0)
+
+		is_org = self.get_int_value(is_org, 0)
+		org_type = self.get_int_value(org_type)
+
+
+		date_of_birth = None
+		if birth_year or birth_month or birth_day :
+			date_of_birth = self.get_date_string(birth_year, birth_month, birth_day )
+
+		date_of_death = None
+		if death_year or death_month or death_day :
+			date_of_death = self.get_date_string(death_year, death_month, death_day )
+
+		flourished = None
+		if flourished_year_1 :
+			flourished = self.get_date_string( flourished_year_1 )
+		elif flourished_year_2 :
+			flourished = self.get_date_string( flourished_year_2 )
+
+
+		if synonyms :
+			synonyms = "; ".join( synonyms.split("\n") )
+
+		if aliases :
+			aliases = "; ".join( aliases.split("\n") )
+
+		self.check_database_connection()
+
+		# Get next available ID.
+		command = "select nextval('cofk_union_person_iperson_id_seq'::regclass);"
+		self.cursor.execute( command )
+		iperson_id = self.cursor.fetchone()[0]
+		person_id = "cofk_union_person-iperson_id:000" + str(iperson_id)
+
+		command = "INSERT INTO cofk_union_person" \
+			" (" \
+				"person_id,iperson_id,"\
+				"foaf_name,skos_altlabel,person_aliases," \
+				"date_of_birth_year,date_of_birth_month,date_of_birth_day," \
+				"date_of_birth_inferred,date_of_birth_uncertain,date_of_birth_approx," \
+				"date_of_birth," \
+				"date_of_death_year,date_of_death_month,date_of_death_day," \
+				"date_of_death_inferred,date_of_death_uncertain,date_of_death_approx," \
+				"date_of_death," \
+				"gender," \
+				"is_organisation,organisation_type," \
+				"flourished_year,flourished2_year,flourished_is_range," \
+				"flourished," \
+				"editors_notes," \
+				"creation_user,change_user" \
+			" )" \
+			" VALUES " \
+			" (" \
+				"%s,%s," \
+				"%s,%s,%s," \
+				"%s,%s,%s," \
+				"%s,%s,%s," \
+				"%s," \
+				"%s,%s,%s," \
+				"%s,%s,%s," \
+				"%s," \
+				"%s," \
+				"%s,%s," \
+				"%s,%s,%s," \
+				"%s," \
+				"%s," \
+				"%s,%s" \
+			")" \
+			" returning person_id"
+
+		command = self.cursor.mogrify( command, (
+			person_id,
+			iperson_id,
+			primary_name,
+			synonyms,
+			aliases,
+			birth_year,
+			birth_month,
+			birth_year,
+			birth_inferred,
+			birth_uncertain,
+			birth_approx,
+			date_of_birth,
+			death_year,
+			death_month,
+			death_year,
+			death_inferred,
+			death_uncertain,
+			death_approx,
+			date_of_death,
+			gender,
+			is_org,
+			org_type,
+			flourished_year_1,
+			flourished_year_2,
+			flourished_range,
+			flourished,
+			editors_note,
+			self.user,
+			self.user ) )
+
+		self._print_command( "INSERT person", command )
+		self._audit_insert( "person" )
+
+		self.cursor.execute( command )
+		return self.cursor.fetchone()[0]
+
+	def get_int_value( self, value, default=None ):
+		if value is not None and value != '' :
+			return int(value)
+
+		return default
+
+	def get_date_string( self, year=None, month=None, day=None ) :
+
+		year = year or 9999
+		month = month or 12
+		day = day or 31
+
+		year = str(year)
+
+		if month < 10 :
+			month = "0" + str(month)
+		else :
+			month = str(month)
+
+		if day < 10 :
+			day = "0" + str(day)
+		else :
+			day = str(day)
+
+		return year + "-" + month + "-" + day
 
 	def calendar_julian_to_calendar_gregorian(self, day, month, year ):
 		# day = 1 to max_length
