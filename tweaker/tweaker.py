@@ -549,6 +549,13 @@ class DatabaseTweaker:
 		if aliases :
 			aliases = "; ".join( aliases.split("\n") )
 
+		if gender == 'm' or gender == 'M' :
+			gender = 'M'
+		elif gender == 'f' or gender == 'F' :
+			gender = 'F'
+		else :
+			gender = ''
+
 		self.check_database_connection()
 
 		# Get next available ID.
