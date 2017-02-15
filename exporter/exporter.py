@@ -43,6 +43,26 @@ class Exporter:
 		self.csvs = []
 		self.limit_ouput = 10
 
+	def export_people(self, person_ids, output_folder_name ):
+
+		output_folder = "exports/" + output_folder_name
+		if not os.path.exists( output_folder ):
+			os.makedirs( output_folder )
+
+		person_ids = list( set(person_ids) )  # ensure unique
+		people = self._get_people( person_ids )
+
+		# Get comments associated with people
+		comments_relations = self._get_relationships( self.names['person'], person_ids, self.names['comment'] )
+		comment_ids = self._id_link_set_from_relationships(comments_relations)
+		comments = self._get_comments( comment_ids )
+
+		# Get resources associated with people
+		resource_relations_people = self._get_relationships( self.names['person'], person_ids, self.names['resource'] )
+		resource_ids = self._id_link_set_from_relationships(resource_relations_people)
+		resources_people = self._get_resources( resource_ids )
+
+		self._create_person_csv( people, comments, comments_relations, resources_people, resource_relations_people, output_folder )
 
 	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None, excel_output=None ):
 		"""
