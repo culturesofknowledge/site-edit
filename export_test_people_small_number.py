@@ -9,12 +9,12 @@ postgres_connection = "dbname='" + config["dbname"] + "'" \
 
 e = Exporter( postgres_connection, False, debug_on )
 
-folder = "Single Export"
-ipersonid = '914210'
+folder = "Small number Export"
+ipersonids = '914210,914211,914211,914213,914214'
 
-command = "select person_id from cofk_union_person where iperson_id=" + ipersonid
-person_ids = e.select_all( command )
-person_id = person_ids[0]['person_id']
+command = "select person_id from cofk_union_person where iperson_id in (" + ipersonids + ")"
+person_ids_response = e.select_all( command )
+person_ids = [pid['person_id'] for pid in person_ids_response]
 
-e.export_people( [person_id], folder )
+e.export_people( person_ids, folder )
 

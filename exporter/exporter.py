@@ -43,7 +43,7 @@ class Exporter:
 		self.csvs = []
 		self.limit_ouput = 10
 
-	def export_people(self, person_ids, output_folder_name ):
+	def export_people(self, person_ids, output_folder_name, excel_output=None ):
 
 		output_folder = "exports/" + output_folder_name
 		if not os.path.exists( output_folder ):
@@ -63,6 +63,22 @@ class Exporter:
 		resources_people = self._get_resources( resource_ids )
 
 		self._create_person_csv( people, comments, comments_relations, resources_people, resource_relations_people, output_folder )
+
+		self._create_resource_csv(resources_people, output_folder )
+
+		# Create Excel file of CSV files
+
+		ew = excel_writer.ExcelWriter()
+		settings = {
+			"sheets" : self.csvs,
+			"outputname" : output_folder + "/" + output_folder_name + ".xlsx"
+		}
+
+		if excel_output is not None:
+			settings["outputname"] = excel_output
+
+		ew.convert( settings )
+
 
 	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None, excel_output=None ):
 		"""
