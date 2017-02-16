@@ -510,6 +510,8 @@ class HTML extends Application_Entity {
       echo '    border-width: 1px;'                                   . NEWLINE;
       echo '    border-color: black;'                                 . NEWLINE;
       echo '    border-collapse: collapse;'                           . NEWLINE;
+      echo '    outline: white 10px solid;';
+      echo '    background-color: white;';
       echo ' }'                                                       . NEWLINE;
 
       echo ' .datatab td {'                                           . NEWLINE;
@@ -638,7 +640,7 @@ class HTML extends Application_Entity {
     echo ' .queryresults td {'                                      . NEWLINE;
     echo '    border-style: solid;'                                 . NEWLINE;
     echo '    border-width: 2px;'                                   . NEWLINE;
-    echo '    border-color: #f0f0f0;'                                 . NEWLINE;
+    echo '    border-color: #e3e3e3;'                                 . NEWLINE;
     echo '    padding: 13px 9px;'                                        . NEWLINE;
     echo '    vertical-align:top;'                                  . NEWLINE;
     echo ' }'                                                       . NEWLINE;
