@@ -433,7 +433,10 @@ class HTML extends Application_Entity {
                 list-style: none;
             }';
 
-      echo  '.mainmenu li:nth-child(3), .mainmenu li:nth-child(6), .mainmenu li:nth-child(9), .mainmenu li:nth-child(12), .mainmenu li:nth-child(13), .mainmenu li:nth-child(16), .mainmenu li:nth-child(18) {
+      echo  '.mainmenu li.item_16, .mainmenu li.item_25, 
+              .mainmenu li.item_39, .mainmenu li.item_76,
+              .mainmenu li.item_83, .mainmenu li.item_89,
+              .mainmenu li.item_106 {
                 padding-bottom: 12px;
                 border-bottom: 1px solid #eee;
                 margin-bottom: 8px;

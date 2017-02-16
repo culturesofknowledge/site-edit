@@ -288,7 +288,7 @@ class Menu extends Project {
 
       foreach( $this->menu_group as $row ) {
         if( is_array( $row )) {
-          HTML::listitem_start();  # <li>
+          HTML::listitem_start( 'class="item_' . $row['menu_item_id'] . '"');  # <li>
 
           $href = $_SERVER['PHP_SELF'] . '?menu_item_id=' . $row['menu_item_id'];
           $title = $row['menu_item_name'];
