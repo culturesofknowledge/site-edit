@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 import sys
+import csv
 
 import psycopg2
 import psycopg2.extras
 
-import csv_unicode
+#import csv_unicode
 
 
 class DatabaseTweaker:
@@ -62,17 +63,14 @@ class DatabaseTweaker:
 
 	@staticmethod
 	def get_csv_data( filename ):
-		csv_file = csv_unicode.UnicodeReader( open( filename, "rb" ) )
 
 		rows = []
-		names = None
 
-		for row in csv_file:
+		with open( filename ) as file :
+			csv_file = csv.DictReader( file, dialect=csv.excel )
 
-			if names is None:
-				names = [name.strip() for name in row]
-			else:
-				rows.append( dict( zip( names, [item.strip() for item in row] ) ) )
+			for row in csv_file:
+				rows.append( row )
 
 		return rows
 
@@ -379,6 +377,17 @@ class DatabaseTweaker:
 
 		self.cursor.execute( command )
 
+	def delete_comment_via_comment_id( self, comment_id ):
+
+		self.check_database_connection()
+
+		command = "DELETE FROM cofk_union_comment WHERE comment_id=%s"
+		command = self.cursor.mogrify( command, (comment_id,) )
+
+		self._print_command( "DELETE comment", command )
+		self._audit_delete("comment")
+
+		self.cursor.execute( command )
 
 	def create_resource(self, name, url, description="" ):
 
@@ -723,7 +732,7 @@ class DatabaseTweaker:
 	def print_audit(self, going_to_commit=True):
 		print( "Audit:" )
 
-		for deleting, number in self.audit["deletions"].iteritems() :
+		for deleting, number in iter( self.audit["deletions"].items() ) :
 			if going_to_commit :
 				print( "- Deleting " + str( number ) + " " + deleting + "(s)" )
 			else :
@@ -733,7 +742,7 @@ class DatabaseTweaker:
 			print ( "- Nothing to delete")
 
 
-		for inserting, number in self.audit["insertions"].iteritems() :
+		for inserting, number in iter( self.audit["insertions"].items() ) :
 			if going_to_commit :
 				print( "- Inserting " + str( number ) + " " + inserting + "(s)" )
 			else :
@@ -743,7 +752,7 @@ class DatabaseTweaker:
 			print ( "- Nothing to insert")
 
 
-		for updating, number in self.audit["updates"].iteritems() :
+		for updating, number in iter( self.audit["updates"].items() ) :
 			if going_to_commit :
 				print( "- Updating " + str( number ) + " " + updating + "(s)" )
 			else :
