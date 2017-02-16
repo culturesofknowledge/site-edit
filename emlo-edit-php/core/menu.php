@@ -298,7 +298,7 @@ class Menu extends Project {
           HTML::link_end();                   # </a>
 
           HTML::listitem_end();  # </li>
-          HTML::new_paragraph();
+          //HTML::new_paragraph();
         }
       }
 

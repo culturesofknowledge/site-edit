@@ -424,6 +424,31 @@ class HTML extends Application_Entity {
       echo '   font-weight: bold;'                                    . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
+      echo '.mainmenu ul {
+              margin-top: 0;
+              }';
+
+      echo '.mainmenu li {
+                padding: 3px 0;
+                list-style: none;
+            }';
+
+      echo  '.mainmenu li:nth-child(3), .mainmenu li:nth-child(6), .mainmenu li:nth-child(9), .mainmenu li:nth-child(12), .mainmenu li:nth-child(13), .mainmenu li:nth-child(16), .mainmenu li:nth-child(18) {
+                padding-bottom: 12px;
+                border-bottom: 1px solid #eee;
+                margin-bottom: 8px;
+            }';
+
+      echo '.mainmenu li a {
+              width: 100% !important;
+              display: block;
+              padding: 3px 5px;
+          }';
+
+      echo '.mainmenu li a:hover {
+                background-color: #f2dcdc;
+            }';
+
       #-------------
       # Reports menu
       #-------------
