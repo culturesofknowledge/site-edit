@@ -308,6 +308,9 @@ class Exporter:
 
 		self._print_report( duration )
 
+		self.reports = []
+		self.relationship_ids = None
+
 
 	def _create_resource_csv(self, resources, folder ):
 
@@ -511,7 +514,8 @@ class Exporter:
 
 				wanted[obj_id].append( {"i" : want_id, "r" : relation['relationship_type'] } )
 
-				self.relationship_ids.append( str(relation['relationship_id']) )
+				if self.relationship_ids is not None:
+					self.relationship_ids.append( str(relation['relationship_id']) )
 
 			#print( relations )
 
