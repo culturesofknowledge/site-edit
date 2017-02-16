@@ -25,6 +25,8 @@ class Menu extends Project {
   var $method_name   ;
 
   var $option_type;  # gets set to 'login', 'menu' or 'form'
+  var $called_as_popup;
+  var $printable_output;
 
   #------------------
   # Other properties

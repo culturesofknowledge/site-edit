@@ -1089,7 +1089,6 @@ class HTML extends Application_Entity {
                        $onsubmit_validation = FALSE, $form_destination='', $form_method='POST',
                        $parms = NULL ) {
 
-
     echo NEWLINE . '<FORM action="';
 
     if( $form_destination != '' ) 
@@ -1126,15 +1125,19 @@ class HTML extends Application_Entity {
     echo '  method="' . $form_method . '">';
     echo NEWLINE;
 
-    echo '<input type="hidden" name="class_name"  value="';
-    echo HTML::call_htmlentities( $class_name );
-    echo '" />' . NEWLINE;
+    if( $class_name ) {
+        echo '<input type="hidden" name="class_name"  value="';
+        echo HTML::call_htmlentities( $class_name );
+        echo '" />' . NEWLINE;
+    }
 
-    echo '<input type="hidden" name="method_name"  value="';
-    echo HTML::call_htmlentities( $method_name );
-    echo '" />' . NEWLINE;
+    if( $method_name ) {
+        echo '<input type="hidden" name="method_name"  value="';
+        echo HTML::call_htmlentities( $method_name );
+        echo '" />' . NEWLINE;
+    }
 
-    if( $_SESSION['session_token'] ) {
+    if( array_key_exists( 'session_token', $_SESSION ) && $_SESSION['session_token'] ) {
       echo '<input type="hidden" name="' . SESSION_TOKEN_FIELD . '"  value="';
       echo HTML::call_htmlentities( $_SESSION['session_token'] );
       echo '" />' . NEWLINE;
