@@ -716,6 +716,9 @@ class Application_Entity {
       case 'user_email':
         return $this->is_email_address( $this->parm_value );
 
+        //case 'uuid' :
+        //    return $this->is_uuid( $this->parm_value );
+
       default:
         return FALSE;
     }
@@ -943,6 +946,10 @@ class Application_Entity {
                                    $allow_all_whitespace = FALSE );
   }
   #-----------------------------------------------------
+
+    function is_uuid( $parm_value ) {
+      return TRUE;
+    }
 
   function is_array_of_html_id( $parm_value ) {
 

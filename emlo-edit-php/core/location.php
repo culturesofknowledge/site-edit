@@ -151,6 +151,7 @@ class Location extends Project {
       if( ! $this->entering_selection_criteria && ! $this->reading_selection_criteria ) {
         switch( $column_name ) {
           case 'change_user':
+          case 'uuid' :
             $skip_it = TRUE;
             break;
 
