@@ -141,6 +141,13 @@ class DatabaseTweaker:
 
 
 	def get_relationships(self, id_from, table_from=None, table_to=None ):
+		"""
+			Get relationships for the object "id_from".
+
+			Use "table_from" and "table_to" to limit the results.#
+
+			Use the returned "table_name" and "id_value" which represent the thing that is connected to the given id (id_from).
+		"""
 
 		self.check_database_connection()
 
