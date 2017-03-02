@@ -324,7 +324,7 @@ class DatabaseTweaker:
 		self.check_database_connection()
 
 		# Create a list with all the data in.
-		fields = field_updates.keys()
+		fields = list(field_updates.keys())
 		data = []
 
 		for field in fields :
