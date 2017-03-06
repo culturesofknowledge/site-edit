@@ -34,10 +34,10 @@ red = redis.Redis(db=1)
 
 prefixes = [
 	#"cofk_union_comment-",
-	"cofk_union_image-",
+	#"cofk_union_image-",
 	#"cofk_union_institution-",
 	#"cofk_union_location-",
-	#"cofk_union_manifestation-",
+	"cofk_union_manifestation-",
 	#"cofk_union_person-",
 	#"cofk_union_resource-",
 	#"cofk_union_work-"
@@ -51,20 +51,24 @@ for prefix in prefixes:
 
 	keys_string = []
 
-	if prefix != "cofk_union_comment-" :
+	if prefix not in [
+				"cofk_union_comment-"
+				"cofk_union_image-",
+				"cofk_union_institution-",
+				"cofk_union_location-"]:
 		keys_string = red.keys( selection ).decode("utf-8")
 
 	if len(keys_string) > 0 :
 
 		begin = 0
-		if prefix == "cofk_union_image-" :
-			begin = 41200 ##39450 ##37200
+		if prefix == "cofk_union_manifestation-" :
+			begin = 114000
 
-			table = 'cofk_union_image'
-			triggers = ["cofk_union_image_trg_audit_upd",
-			            "cofk_union_image_trg_audit_del",
-			            "cofk_union_image_trg_audit_ins",
-			            "cofk_union_image_trg_set_change_cols"]
+			table = 'cofk_union_manifestation'
+			triggers = ["cofk_union_manifestation_trg_audit_upd",
+			            "cofk_union_manifestation_trg_audit_del",
+			            "cofk_union_manifestation_trg_audit_ins",
+			            "cofk_union_manifestation_trg_set_change_cols"]
 
 
 		keys = keys_string.split(" ")
