@@ -30,13 +30,15 @@ class DatabaseTweaker:
 		if connection:
 			self.connect_to_postres(connection)  # e.g. "dbname='<HERE>' user='<HERE>' host='<HERE>' password='<HERE>'"
 
+		self._reset_audit()
+		self.user = "CokBot"
+
+	def _reset_audit(self):
 		self.audit = {
 			"deletions" : {},
 			"insertions" : {},
 			"updates" : {}
 		}
-
-		self.user = "CokBot"
 
 	def set_debug(self, debug):
 		self.debug = debug
@@ -198,129 +200,56 @@ class DatabaseTweaker:
 
 		return simple_results
 
-	def update_person(self, iperson_id, field_updates={}, print_sql=False ):
+	def update_person(self, person_id, field_updates={}, print_sql=False, anonymous=False ):
 
-		self._update( iperson_id, field_updates, "cofk_union_person", "iperson_id", "person", print_sql )
-
-
-	def update_work(self, iwork_id, field_updates={}, print_sql=False ):
-
-		self._update( iwork_id, field_updates, "cofk_union_work", "iwork_id", "work", print_sql )
-
-		# self.check_database_connection()
-		#
-		# # Create a list with all the data in.
-		# fields = field_updates.keys()
-		# data = []
-		#
-		# for field in fields :
-		# 	data.append( field_updates[field] )  # Ensuring order preserved.
-		#
-		# data.append( int(iwork_id) )
-		#
-		# # Create command
-		# command = "UPDATE cofk_union_work "
-		# command += "SET "
-		#
-		# count = 1
-		# for field in fields :
-		# 	command += field + "=%s"
-		# 	if count != len(fields) :
-		# 		command += ", "
-		# 	count += 1
-		#
-		# command += " WHERE iwork_id=%s"
-		#
-		# command = self.cursor.mogrify( command, data )
-		#
-		# if self.debug or print_sql:
-		# 	print( "* UPDATE work:", command )
-		#
-		# self.cursor.execute( command )
-		#
-		# self._audit_update("work")
+		self._update( person_id, field_updates, "cofk_union_person", "person_id", "person", print_sql, anonymous )
 
 
-	def update_manifestation(self, manifestation_id, field_updates={} ):
+	def update_person_from_iperson(self, iperson_id, field_updates={}, print_sql=False, anonymous=False ):
 
-		self._update( manifestation_id, field_updates, "cofk_union_manifestation", "manifestation_id", "manifestation")
-
-		# self.check_database_connection()
-		#
-		# # Create a list with all the data in.
-		# fields = field_updates.keys()
-		# data = []
-		#
-		# for field in fields :
-		# 	data.append( field_updates[field] )  # Ensuring order preserved.
-		#
-		# data.append( manifestation_id )
-		#
-		# # Create command
-		# command = "UPDATE cofk_union_manifestation "
-		# command += "SET "
-		#
-		# count = 1
-		# for field in fields :
-		# 	command += field + "=%s"
-		# 	if count != len(fields) :
-		# 		command += ", "
-		# 	count += 1
-		#
-		# command += " WHERE manifestation_id=%s"
-		#
-		# command = self.cursor.mogrify( command, data )
-		#
-		# if self.debug :
-		# 	print( "* UPDATE manifestation:", command )
-		#
-		# self.cursor.execute( command )
-		#
-		# self._audit_update("manifestation")
+		self._update( iperson_id, field_updates, "cofk_union_person", "iperson_id", "person", print_sql, anonymous )
 
 
-	def update_comment(self, comment_id, field_updates={} ):
+	def update_work(self, work_id, field_updates={}, print_sql=False, anonymous=False ):
 
-		self._update( comment_id, field_updates, "cofk_union_comment", "comment_id", "comment" )
+		self._update( work_id, field_updates, "cofk_union_work", "work_id", "work", print_sql, anonymous )
 
-		# self.check_database_connection()
-		#
-		# # Create a list with all the data in.
-		# fields = field_updates.keys()
-		# data = []
-		#
-		# for field in fields :
-		# 	data.append( field_updates[field] )  # Ensuring order preserved.
-		#
-		# data.append( comment_id )
-		#
-		# # Create command
-		# command = "UPDATE cofk_union_comment "
-		# command += "SET "
-		#
-		# count = 1
-		# for field in fields :
-		# 	command += field + "=%s"
-		# 	if count != len(fields) :
-		# 		command += ", "
-		# 	count += 1
-		#
-		# command += " WHERE comment_id=%s"
-		#
-		# command = self.cursor.mogrify( command, data )
-		#
-		# if self.debug :
-		# 	print( "* UPDATE comment:", command )
-		#
-		# self.cursor.execute( command )
-		#
-		# self._audit_update("comment")
 
-	def update_resource(self, resource_id, field_updates={} ):
+	def update_work_from_iwork(self, iwork_id, field_updates={}, print_sql=False, anonymous=False ):
 
-		self._update( resource_id, field_updates, "cofk_union_resource", "resource_id", "resource" )
+		self._update( iwork_id, field_updates, "cofk_union_work", "iwork_id", "work", print_sql, anonymous )
 
-	def _update( self, type_id, field_updates, update_table, where_field, type_name, print_sql=False ):
+	def update_manifestation(self, manifestation_id, field_updates={}, print_sql=False, anonymous=False ):
+
+		self._update( manifestation_id, field_updates, "cofk_union_manifestation", "manifestation_id", "manifestation", print_sql, anonymous)
+
+
+	def update_comment(self, comment_id, field_updates={}, print_sql=False, anonymous=False ):
+
+		self._update( comment_id, field_updates, "cofk_union_comment", "comment_id", "comment", print_sql, anonymous )
+
+
+	def update_resource(self, resource_id, field_updates={}, print_sql=False, anonymous=False ):
+
+		self._update( resource_id, field_updates, "cofk_union_resource", "resource_id", "resource", print_sql, anonymous )
+
+
+	def update_institution(self, institution_id, field_updates={}, print_sql=False, anonymous=False ):
+
+		self._update( institution_id, field_updates, "cofk_union_institution", "institution_id", "institution", print_sql, anonymous)
+
+
+	def update_image(self, image_id, field_updates={}, print_sql=False, anonymous=False ):
+
+		self._update( image_id, field_updates, "cofk_union_image", "image_id", "image", print_sql, anonymous)
+
+
+	def update_location(self, location_id, field_updates={}, print_sql=False, anonymous=False ):
+
+		self._update( location_id, field_updates, "cofk_union_location", "location_id", "location", print_sql, anonymous)
+
+
+	def _update( self, type_id, field_updates, update_table, where_field, type_name, print_sql=False, anonymous=False ):
 		self.check_database_connection()
 
 		# Create a list with all the data in.
@@ -330,7 +259,7 @@ class DatabaseTweaker:
 		for field in fields :
 			data.append( field_updates[field] )  # Ensuring order preserved.
 
-		if "change_user" not in fields :
+		if not anonymous and "change_user" not in fields :
 			fields.append( "change_user" )
 			data.append( self.user )
 
@@ -679,6 +608,38 @@ class DatabaseTweaker:
 
 		return year + "-" + month + "-" + day
 
+
+	def triggers_enable(self, table_name, triggers=[] ):
+
+		command = "ALTER TABLE " + table_name + " "
+
+		triggers_string = []
+		for trigger in triggers :
+			triggers_string.append( "ENABLE TRIGGER " + trigger )
+
+		command += ",".join( triggers_string )
+		command += ";"
+
+		command = self.cursor.mogrify( command, ( table_name, ) )
+		self._print_command( "ENABLE Triggers", command )
+		self.cursor.execute( command )
+
+	def triggers_disable(self, table_name, triggers=[] ):
+
+		command = "ALTER TABLE " + table_name + " "
+
+		triggers_string = []
+		for trigger in triggers :
+			triggers_string.append( "DISABLE TRIGGER " + trigger )
+
+		command += ",".join( triggers_string )
+		command += ";"
+
+		command = self.cursor.mogrify( command, ( table_name, ) )
+		self._print_command( "DISABLE Triggers", command )
+		self.cursor.execute( command )
+
+
 	def calendar_julian_to_calendar_gregorian(self, day, month, year ):
 		# day = 1 to max_length
 		# month = 1 to 12
@@ -716,21 +677,30 @@ class DatabaseTweaker:
 		}
 
 
-	def commit_changes( self, commit=False ):
+	def commit_changes( self, commit=False, quiet=False ):
 
 		self.check_database_connection()
 
 		if commit :
-			print( "Committing...", end="")
 			self.connection.commit()
-			print( "Done." )
 		else :
-			print( "Ordered NOT to commit anything")
+			self.connection.rollback()
+			self._reset_audit()
+
+		if not quiet :
+
+			if commit:
+				print( "Committing...", end="")
+				print( "Done." )
+			else :
+				print( "NOT commiting... ", end="")
+				print("Rolled back.")
 
 
 	def check_database_connection(self):
 		if not self.database_ok() :
 			raise psycopg2.DatabaseError("Database not connected")
+
 
 	def database_ok(self):
 		return self.connection and self.cursor
