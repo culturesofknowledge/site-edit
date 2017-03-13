@@ -25,6 +25,8 @@ class Menu extends Project {
   var $method_name   ;
 
   var $option_type;  # gets set to 'login', 'menu' or 'form'
+  var $called_as_popup;
+  var $printable_output;
 
   #------------------
   # Other properties
@@ -286,7 +288,7 @@ class Menu extends Project {
 
       foreach( $this->menu_group as $row ) {
         if( is_array( $row )) {
-          HTML::listitem_start();  # <li>
+          HTML::listitem_start( 'class="item_' . $row['menu_item_id'] . '"');  # <li>
 
           $href = $_SERVER['PHP_SELF'] . '?menu_item_id=' . $row['menu_item_id'];
           $title = $row['menu_item_name'];
@@ -296,7 +298,7 @@ class Menu extends Project {
           HTML::link_end();                   # </a>
 
           HTML::listitem_end();  # </li>
-          HTML::new_paragraph();
+          //HTML::new_paragraph();
         }
       }
 
@@ -638,7 +640,7 @@ class Menu extends Project {
       HTML::link_end();
     }
 	  echo LINEBREAK;
-    echo '<hr style="border: 7px solid white;">';
+    echo '<hr style="height:13px;color:white;background-color:white;">';
 
     HTML::h2_start( "margin:13px 10px 0px 19px");
     if( $override_title )

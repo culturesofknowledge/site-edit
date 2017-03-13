@@ -424,6 +424,34 @@ class HTML extends Application_Entity {
       echo '   font-weight: bold;'                                    . NEWLINE;
       echo ' }'                                                       . NEWLINE;
 
+      echo '.mainmenu ul {
+              margin-top: 0;
+              }';
+
+      echo '.mainmenu li {
+                padding: 3px 0;
+                list-style: none;
+            }';
+
+      echo  '.mainmenu li.item_16, .mainmenu li.item_25, 
+              .mainmenu li.item_39, .mainmenu li.item_76,
+              .mainmenu li.item_83, .mainmenu li.item_89,
+              .mainmenu li.item_106 {
+                padding-bottom: 12px;
+                border-bottom: 1px solid #eee;
+                margin-bottom: 8px;
+            }';
+
+      echo '.mainmenu li a {
+              width: 100% !important;
+              display: block;
+              padding: 3px 5px;
+          }';
+
+      echo '.mainmenu li a:hover {
+                background-color: #f2dcdc;
+            }';
+
       #-------------
       # Reports menu
       #-------------
@@ -482,6 +510,8 @@ class HTML extends Application_Entity {
       echo '    border-width: 1px;'                                   . NEWLINE;
       echo '    border-color: black;'                                 . NEWLINE;
       echo '    border-collapse: collapse;'                           . NEWLINE;
+      echo '    outline: white 10px solid;';
+      echo '    background-color: white;';
       echo ' }'                                                       . NEWLINE;
 
       echo ' .datatab td {'                                           . NEWLINE;
@@ -610,7 +640,7 @@ class HTML extends Application_Entity {
     echo ' .queryresults td {'                                      . NEWLINE;
     echo '    border-style: solid;'                                 . NEWLINE;
     echo '    border-width: 2px;'                                   . NEWLINE;
-    echo '    border-color: #f0f0f0;'                                 . NEWLINE;
+    echo '    border-color: #e3e3e3;'                                 . NEWLINE;
     echo '    padding: 13px 9px;'                                        . NEWLINE;
     echo '    vertical-align:top;'                                  . NEWLINE;
     echo ' }'                                                       . NEWLINE;
@@ -1089,7 +1119,6 @@ class HTML extends Application_Entity {
                        $onsubmit_validation = FALSE, $form_destination='', $form_method='POST',
                        $parms = NULL ) {
 
-
     echo NEWLINE . '<FORM action="';
 
     if( $form_destination != '' ) 
@@ -1126,15 +1155,19 @@ class HTML extends Application_Entity {
     echo '  method="' . $form_method . '">';
     echo NEWLINE;
 
-    echo '<input type="hidden" name="class_name"  value="';
-    echo HTML::call_htmlentities( $class_name );
-    echo '" />' . NEWLINE;
+    if( $class_name ) {
+        echo '<input type="hidden" name="class_name"  value="';
+        echo HTML::call_htmlentities( $class_name );
+        echo '" />' . NEWLINE;
+    }
 
-    echo '<input type="hidden" name="method_name"  value="';
-    echo HTML::call_htmlentities( $method_name );
-    echo '" />' . NEWLINE;
+    if( $method_name ) {
+        echo '<input type="hidden" name="method_name"  value="';
+        echo HTML::call_htmlentities( $method_name );
+        echo '" />' . NEWLINE;
+    }
 
-    if( $_SESSION['session_token'] ) {
+    if( array_key_exists( 'session_token', $_SESSION ) && $_SESSION['session_token'] ) {
       echo '<input type="hidden" name="' . SESSION_TOKEN_FIELD . '"  value="';
       echo HTML::call_htmlentities( $_SESSION['session_token'] );
       echo '" />' . NEWLINE;

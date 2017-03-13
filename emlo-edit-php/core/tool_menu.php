@@ -56,7 +56,6 @@ class Tool_Menu extends Project {
       echo 'Display contributions awaiting review';
       HTML::link_end();
       HTML::listitem_end();
-      HTML::new_paragraph();
     }
 
     if( $this->user_is_supervisor() ) {
@@ -71,7 +70,6 @@ class Tool_Menu extends Project {
       echo 'Browse or search contributed works';
       HTML::link_end();
       HTML::listitem_end();
-      HTML::new_paragraph();
 
       $statement = 'select menu_item_id from ' . $this->proj_menu_tablename()
                  . " where class_name = 'contributor' and method_name = 'db_search'";
@@ -84,7 +82,6 @@ class Tool_Menu extends Project {
       echo 'Browse or search contributors';
       HTML::link_end();
       HTML::listitem_end();
-      HTML::new_paragraph();
     }
 
       if( $this->user_is_supervisor() ) {
@@ -99,7 +96,6 @@ class Tool_Menu extends Project {
           echo 'Upload an Excel File';
           HTML::link_end();
           HTML::listitem_end();
-          HTML::new_paragraph();
       }
 
     HTML::listitem_start();

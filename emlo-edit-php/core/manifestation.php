@@ -2037,6 +2037,8 @@ class Manifestation extends Project {
         case 'creation_user':
         case 'change_timestamp':
         case 'change_user':
+        case 'uuid':
+
 
           $skip_it = TRUE;
           break;

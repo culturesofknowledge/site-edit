@@ -10,6 +10,7 @@ get -r1.1 /home/burgess/scripts/sccs/cofk/php/s.dev_union.php
  */
 
 error_reporting(E_ALL & ~E_STRICT & ~E_WARNING);
+//error_reporting(E_ALL & ~E_STRICT);
 ini_set("display_errors", 1);
 define( "DEBUGGING", TRUE );
 
