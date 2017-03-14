@@ -712,109 +712,167 @@ class Manifestation extends Project {
   }
   #----------------------------------------------------------------------------------
 
-  function echo_further_details() {
+	function echo_further_details() {
 
 		$routing_mark_stamp = null;
 		$routing_mark_ms_field = null;
+
 		$handling_instructions_field = null;
+		$stored_folded = null;
 
-    extract( $this->core, EXTR_OVERWRITE );
+		$postage_marks = null;
+		$postage_costs_as_marked = null;
 
-    if( $paper_size ) {
-      echo 'Paper size: ';
-      $this->echo_safely( $paper_size );
-      HTML::new_paragraph();
-    }
+		$non_delivery_reason = null;
+		$date_of_receipt_as_marked = null;
+		$paper_size = null;
+		$paper_type_or_watermark = null;
 
-    if( $paper_type_or_watermark ) {
-      echo 'Paper type, watermark: ';
-      $this->echo_safely( $paper_type_or_watermark );
-      HTML::new_paragraph();
-    }
 
-    if( $number_of_pages_of_document ) {
-      echo $this->db_get_default_column_label( 'number_of_pages_of_document' ) . ': ';
-      $this->echo_safely( $number_of_pages_of_document );
-      HTML::new_paragraph();
-    }
+		$number_of_pages_of_document = null;
+		$number_of_pages_of_text = null;
+		$postage_costs = null;
+		$seal = null;
+		$address = null;
+		$routing_mark_ms = null;
+		$handling_instructions = null;
+		$endorsements = null;
 
-    if( $number_of_pages_of_text ) {
-      echo $this->db_get_default_column_label( 'number_of_pages_of_text' ) . ': ';
-      $this->echo_safely( $number_of_pages_of_text );
-      HTML::new_paragraph();
-    }
 
-    if( $postage_marks ) {
-      echo 'Postage marks: ';
-      $this->echo_safely( $postage_marks );
-      HTML::new_paragraph();
-    }
+		$language_of_manifestation = null;
+		$manifestation_is_translation = null;
+		$manifestation_incipit = null;
+		$manifestation_excipit = null;
+		$manifestation_ps = null;
 
-    if( $seal ) {
-      echo 'Seal: ';
-      $this->echo_safely( $seal );
-      HTML::new_paragraph();
-    }
+		extract( $this->core, EXTR_OVERWRITE );
 
-    if( $address ) {
-      echo $this->db_get_default_column_label( 'address' ) . ': ';
-      $this->echo_safely( $address );
-      HTML::new_paragraph();
-    }
-	  if(  $routing_mark_stamp ) {
-		  echo $this->db_get_default_column_label( 'routing_mark_stamp' ) . ': ';
-		  $this->echo_safely( $address );
-		  HTML::new_paragraph();
-	  }
+		if( $paper_size ) {
+			echo 'Paper size: ';
+			$this->echo_safely( $paper_size );
+			HTML::new_paragraph();
+    	}
 
-	  if( $routing_mark_ms ) {
-		  echo $this->db_get_default_column_label( 'routing_mark_ms' ) . ': ';
-		  $this->echo_safely( $address );
-		  HTML::new_paragraph();
-	  }
+		if( $paper_type_or_watermark ) {
+			echo 'Paper type, watermark: ';
+			$this->echo_safely( $paper_type_or_watermark );
+			HTML::new_paragraph();
+		}
 
-	  if( $handling_instructions ) {
-		  echo $this->db_get_default_column_label( 'handling_instructions' ) . ': ';
-		  $this->echo_safely( $address );
-		  HTML::new_paragraph();
-	  }
+		if( $stored_folded ) {
+			echo $this->db_get_default_column_label( 'stored_folded' ) . ': ';
+			$this->echo_safely( $stored_folded );
+			HTML::new_paragraph();
+		}
 
-    if( $endorsements ) {
-      echo $this->db_get_default_column_label( 'endorsements' ) . ': ';
-      $this->echo_safely( $endorsements );
-      HTML::new_paragraph();
-    }
+		if ($number_of_pages_of_document) {
+			echo $this->db_get_default_column_label('number_of_pages_of_document') . ': ';
+			$this->echo_safely($number_of_pages_of_document);
+			HTML::new_paragraph();
+		}
 
-    if( $language_of_manifestation ) {
-      echo 'Language of this manifestation: ';
-      $this->echo_safely( $language_of_manifestation );
-      HTML::new_paragraph();
-    }
+		if ($number_of_pages_of_text) {
+			echo $this->db_get_default_column_label('number_of_pages_of_text') . ': ';
+			$this->echo_safely($number_of_pages_of_text);
+			HTML::new_paragraph();
+		}
 
-    if( $manifestation_is_translation ) {
-      echo 'Manifestation is translation.';
-      HTML::new_paragraph();
-    }
+		if ($postage_marks) {
+			echo 'Postage marks: ';
+			$this->echo_safely($postage_marks);
+			HTML::new_paragraph();
+		}
 
-    if( $manifestation_incipit ) {
-      echo 'Manifestation incipit: ';
-      $this->echo_safely( $manifestation_incipit );
-      HTML::new_paragraph();
-    }
+		if ($postage_costs_as_marked) {
+			echo $this->db_get_default_column_label('postage_costs_as_marked') . ': ';
+			$this->echo_safely($postage_costs_as_marked);
+			HTML::new_paragraph();
+		}
 
-    if( $manifestation_excipit ) {
-      echo $this->proj_get_field_label( 'manifestation_excipit' ) . ': ';
-      $this->echo_safely( $manifestation_excipit );
-      HTML::new_paragraph();
-    }
+		if ($postage_costs) {
+			echo $this->db_get_default_column_label('postage_costs') . ': ';
+			$this->echo_safely($postage_costs);
+			HTML::new_paragraph();
+		}
 
-    if( $manifestation_ps ) {
-      echo $this->proj_get_field_label( 'manifestation_ps' ) . ': ';
-      $this->echo_safely( $manifestation_ps );
-      HTML::new_paragraph();
-    }
-  }
-  #----------------------------------------------------------------------------------
+		if ($seal) {
+			echo 'Seal: ';
+			$this->echo_safely($seal);
+			HTML::new_paragraph();
+		}
+
+		if ($address) {
+			echo $this->db_get_default_column_label('address') . ': ';
+			$this->echo_safely($address);
+			HTML::new_paragraph();
+		}
+		if ($routing_mark_stamp) {
+			echo $this->db_get_default_column_label('routing_mark_stamp') . ': ';
+			$this->echo_safely($address);
+			HTML::new_paragraph();
+		}
+
+		if ($routing_mark_ms) {
+			echo $this->db_get_default_column_label('routing_mark_ms') . ': ';
+			$this->echo_safely($address);
+			HTML::new_paragraph();
+		}
+
+		if ($handling_instructions) {
+			echo $this->db_get_default_column_label('handling_instructions') . ': ';
+			$this->echo_safely($address);
+			HTML::new_paragraph();
+		}
+
+		if ($endorsements) {
+			echo $this->db_get_default_column_label('endorsements') . ': ';
+			$this->echo_safely($endorsements);
+			HTML::new_paragraph();
+		}
+
+		if ($non_delivery_reason) {
+			echo $this->db_get_default_column_label('non_delivery_reason') . ': ';
+			$this->echo_safely($non_delivery_reason);
+			HTML::new_paragraph();
+		}
+
+		if ($date_of_receipt_as_marked) {
+			echo $this->db_get_default_column_label('date_of_receipt_as_marked') . ': ';
+			$this->echo_safely($date_of_receipt_as_marked);
+			HTML::new_paragraph();
+		}
+
+		if ($language_of_manifestation) {
+			echo 'Language of this manifestation: ';
+			$this->echo_safely($language_of_manifestation);
+			HTML::new_paragraph();
+		}
+
+		if ($manifestation_is_translation) {
+			echo 'Manifestation is translation.';
+			HTML::new_paragraph();
+		}
+
+		if ($manifestation_incipit) {
+			echo 'Manifestation incipit: ';
+			$this->echo_safely($manifestation_incipit);
+			HTML::new_paragraph();
+		}
+
+		if ($manifestation_excipit) {
+			echo $this->proj_get_field_label('manifestation_excipit') . ': ';
+			$this->echo_safely($manifestation_excipit);
+			HTML::new_paragraph();
+		}
+
+		if ($manifestation_ps) {
+			echo $this->proj_get_field_label('manifestation_ps') . ': ';
+			$this->echo_safely($manifestation_ps);
+			HTML::new_paragraph();
+		}
+	}
+
+	#----------------------------------------------------------------------------------
 
   function add_new_manif_button( $editing_existing ) {
 
@@ -1170,6 +1228,9 @@ class Manifestation extends Project {
     $this->paper_size_field();
     HTML::new_paragraph();
 
+	  $this->stored_folded_field();
+	  HTML::new_paragraph();
+
     $this->paper_type_or_watermark_field();
     HTML::new_paragraph();
 
@@ -1181,6 +1242,11 @@ class Manifestation extends Project {
 
     $this->postage_marks_field();
     HTML::new_paragraph();
+
+	  $this->postage_costs_as_marked_field();
+	  HTML::new_paragraph();
+	  $this->postage_costs_field();
+	  HTML::new_paragraph();
 
     $this->address_field();
     HTML::new_paragraph();
@@ -1196,6 +1262,13 @@ class Manifestation extends Project {
 	  HTML::new_paragraph();
 
     $this->endorsements_field();
+	  HTML::new_paragraph();
+
+	  $this->non_delivery_reason_field();
+	  HTML::new_paragraph();
+
+	  $this->date_of_receipt_as_marked_field();
+	  HTML::new_paragraph();
 
     $this->extra_save_button( 'paper_and_markings' );
 
@@ -1743,6 +1816,39 @@ class Manifestation extends Project {
                        FLD_SIZE_PAPER_TYPE_OR_WATERMARK, $tabindex=1, NULL, NULL, NULL, 0, ' (up to 500 characters)' );
   }
   #-----------------------------------------------------
+
+	function stored_folded_field() {
+
+		HTML::input_field( 'stored_folded', 'Stored folded', $this->stored_folded, FALSE,
+			10, $tabindex=1, NULL, NULL, NULL, 0, ' ' );
+	}
+	#-----------------------------------------------------
+	function postage_costs_as_marked_field() {
+
+		HTML::input_field( 'postage_costs_as_marked', 'Postage costs as marked', $this->postage_costs_as_marked, FALSE,
+			60, $tabindex=1, NULL, NULL, NULL, 0, NULL );
+	}
+	#-----------------------------------------------------
+	function postage_costs_field() {
+
+		HTML::input_field( 'postage_costs', 'Postage cost(s)', $this->postage_costs, FALSE,
+			60, $tabindex=1, NULL, NULL, NULL, 0, NULL );
+	}
+	#-----------------------------------------------------
+	function non_delivery_reason_field() {
+
+		HTML::input_field( 'non_delivery_reason', 'Reason for non-delivery', $this->non_delivery_reason, FALSE,
+			60, $tabindex=1, NULL, NULL, NULL, 0, ' (up to 500 characters)' );
+	}
+	#-----------------------------------------------------
+	function date_of_receipt_as_marked_field() {
+
+		HTML::input_field( 'date_of_receipt_as_marked', 'Date of receipt as marked', $this->date_of_receipt_as_marked, FALSE,
+			60, $tabindex=1, NULL, NULL, NULL, 0, NULL );
+	}
+	#-----------------------------------------------------
+
+
 
   function number_of_pages_of_document_field() {
 
@@ -2583,15 +2689,20 @@ class Manifestation extends Project {
       'enclosed_in',                      # relationship to other work/manifestations
       'paper_size',
       'paper_type_or_watermark',
+		'stored_folded',
       'number_of_pages_of_document',
       'number_of_pages_of_text',
       'seal',
       'postage_marks',
+		'postage_costs_as_marked',
+		'postage_costs',
       'address',
 		'routing_mark_stamp',
 		'routing_mark_ms',
 		'handling_instructions',
       'endorsements',
+		'non_delivery_reason',
+		'date_of_receipt_as_marked',
 
       'manifestation_is_translation',
       'language_of_manifestation',
@@ -2947,9 +3058,6 @@ class Manifestation extends Project {
       case 'non_letter_enclosures':
       case 'language_of_manifestation':
       case 'address':
-		case 'routing_mark_stamp':
-		case 'routing_mark_ms':
-		case 'handling_instructions':
       case 'manifestation_incipit':
       case 'manifestation_excipit':
       case 'manifestation_ps':
@@ -2959,7 +3067,15 @@ class Manifestation extends Project {
       case 'bindings':
       case 'illustrations':
       case 'illuminations':
-        return $this->is_ok_free_text( $this->parm_value );
+		case 'routing_mark_stamp':
+		case 'routing_mark_ms':
+		case 'handling_instructions':
+		case 'stored_folded':
+		case 'postage_costs_as_marked':
+		case 'postage_costs':
+		case 'non_delivery_reason':
+		case 'date_of_receipt_as_marked':
+        	return $this->is_ok_free_text( $this->parm_value );
 
       case 'iwork_id':
       case 'relationship_id':
