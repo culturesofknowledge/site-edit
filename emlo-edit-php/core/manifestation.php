@@ -962,6 +962,8 @@ class Manifestation extends Project {
 
     $this->manif_paper_and_markings_fieldgroup();
 
+	  $this->receipt_date_fieldgroup();
+
     $this->manif_language_fieldgroup();
 
     $this->manif_incipit_and_excipit_fieldgroup();
@@ -1027,6 +1029,16 @@ class Manifestation extends Project {
     $this->date_fields();
   }
   #-----------------------------------------------------
+
+	function receipt_date_fieldgroup() {
+
+		$this->date_entity->write_date_entry_stylesheet();
+
+		$this->proj_form_section_links( 'receipt_date', $heading_level = 'bold' );
+
+		$this->date_receipt_fields();
+	}
+	#-----------------------------------------------------
 
   function manif_former_owners_fieldgroup() {
 
@@ -1267,9 +1279,6 @@ class Manifestation extends Project {
 	  $this->non_delivery_reason_field();
 	  HTML::new_paragraph();
 
-	  $this->date_of_receipt_as_marked_field();
-	  HTML::new_paragraph();
-
     $this->extra_save_button( 'paper_and_markings' );
 
     HTML::div_end();  # end div workfield
@@ -1489,6 +1498,111 @@ class Manifestation extends Project {
                            $this->manifestation_creation_date_approx );
   }
   #-----------------------------------------------------
+
+
+
+
+
+	function date_receipt_fields() {
+
+		$this->date_of_receipt_as_marked_field();
+		HTML::new_paragraph();
+
+		if( $this->manifestation_receipt_calendar == 'U' ) # Unknown
+			$this->manifestation_receipt_calendar = '';
+		$this->receipt_original_calendar_field() ;
+		HTML::new_paragraph();
+
+		$this->manifestation_receipt_date_field();
+		HTML::new_paragraph();
+
+		$this->receipt_date_flags();
+		HTML::new_paragraph();
+
+		HTML::div_start( 'class="workfield"' );
+		$this->extra_save_button( 'receipt_date' );
+		HTML::div_end( 'workfield' );
+
+		HTML::new_paragraph();
+		HTML::horizontal_rule();
+	}
+
+	#-----------------------------------------------------
+
+	function receipt_original_calendar_field() {
+
+		HTML::span_start( 'class="workfield"' );
+		HTML::label( 'Calendar used: ', NULL, NULL );
+		HTML::span_end( 'workfield' );
+
+		$this->date_entity->calendar_selection_field( $fieldname='manifestation_receipt_calendar',
+			$selected_calendar = $this->manifestation_receipt_calendar );
+	}
+	#-----------------------------------------------------
+
+	function manifestation_receipt_date_field() {
+
+		$date_range_help = array();
+		$date_range_help[] = 'The receipt cannot be precisely dated';
+
+		$this->date_entry_fieldset( $fields = array( 'manifestation_receipt_date',
+			'manifestation_receipt_date2' ),
+			$legend = $this->proj_get_field_label( 'receipt_date' ),
+			$extra_msg = NULL,
+			$calendar_fieldname = 'manifestation_receipt_calendar',
+			$date_range_help );
+	}
+	#-----------------------------------------------------
+
+	function receipt_date_flags() {
+
+		HTML::span_start( 'class="workfield"' );
+		HTML::label( 'Issues with receipt date: ' );
+		HTML::span_end( 'workfield' );
+
+		HTML::ulist_start( 'class="dateflags"' );
+
+		HTML::listitem_start();
+		$this->flag_inferred_receipt_date_field() ;
+		HTML::listitem_end();
+
+		HTML::listitem_start();
+		$this->flag_uncertain_receipt_date_field() ;
+		HTML::listitem_end();
+
+		HTML::listitem_start();
+		$this->flag_approx_receipt_date_field() ;
+		HTML::listitem_end();
+
+		HTML::ulist_end();
+	}
+	#-----------------------------------------------------
+
+	function flag_inferred_receipt_date_field() {
+
+		$this->basic_checkbox( 'manifestation_receipt_date_inferred', 'Date is inferred',
+			$this->manifestation_receipt_date_inferred );
+	}
+	#-----------------------------------------------------
+
+	function flag_uncertain_receipt_date_field() {
+
+		$this->basic_checkbox( 'manifestation_receipt_date_uncertain', 'Date is uncertain',
+			$this->manifestation_receipt_date_uncertain );
+	}
+	#-----------------------------------------------------
+
+	function flag_approx_receipt_date_field() {
+
+		$this->basic_checkbox( 'manifestation_receipt_date_approx', 'Date is approximate',
+			$this->manifestation_receipt_date_approx );
+	}
+	#-----------------------------------------------------
+
+
+
+
+
 
   function date_notes_field() {
 
@@ -2720,6 +2834,16 @@ class Manifestation extends Project {
       'manifestation_creation_date_uncertain',
       'manifestation_creation_date_approx',
 
+		'manifestation_receipt_calendar',
+		'manifestation_receipt_date',
+		'manifestation_receipt_date_gregorian',
+		'manifestation_receipt_date_year',
+		'manifestation_receipt_date_month',
+		'manifestation_receipt_date_day',
+		'manifestation_receipt_date_inferred',
+		'manifestation_receipt_date_uncertain',
+		'manifestation_receipt_date_approx',
+
       'manifestation_notes',              # relationship to comments
       'manifestation_images',             # relationship to images
       'scribe'                            # relationship to person
@@ -2955,6 +3079,7 @@ class Manifestation extends Project {
                             'enclosures'         =>  $this->proj_get_field_label( 'enclosures' ),
                             'enclosed_in'        =>  $this->proj_get_field_label( 'enclosing_section' ),
                             'paper_and_markings' =>  'Paper and markings',
+							'receipt_date'       =>  'Receipt date',
                             'manif_lang'         =>  'Language of manifestation',
                             'incipit_and_excipit'=>  'Incipit and explicit',
                             'manifestation_notes'=>  'Notes on manifestation',
@@ -3001,6 +3126,9 @@ class Manifestation extends Project {
 
       case 'manif_dates':
         return 'Date of manifestation in standard format';
+
+		case 'receipt_date' :
+			return 'Date of receipt';
 
       default:
         return parent::proj_get_field_label( $fieldname );
@@ -3083,12 +3211,19 @@ class Manifestation extends Project {
       case 'number_of_pages_of_document':
       case 'number_of_pages_of_text':
       case 'lines_per_page':
-      case 'manifestation_creation_date_year':
-      case 'manifestation_creation_date_month':
-      case 'manifestation_creation_date_day':
-      case 'manifestation_creation_date2_year':
-      case 'manifestation_creation_date2_month':
-      case 'manifestation_creation_date2_day':
+		case 'manifestation_creation_date_year':
+		case 'manifestation_creation_date_month':
+		case 'manifestation_creation_date_day':
+		case 'manifestation_creation_date2_year':
+		case 'manifestation_creation_date2_month':
+		case 'manifestation_creation_date2_day':
+
+		case 'manifestation_receipt_date_year':
+		case 'manifestation_receipt_date_month':
+		case 'manifestation_receipt_date_day':
+		case 'manifestation_receipt_date2_year':
+		case 'manifestation_receipt_date2_month':
+		case 'manifestation_receipt_date2_day':
         return $this->is_integer( $this->parm_value );
 
       case 'manifestation_creation_date_inferred':
@@ -3096,6 +3231,10 @@ class Manifestation extends Project {
       case 'manifestation_creation_date_approx':
       case 'manifestation_creation_date_is_range':
       case 'manifestation_is_translation':
+		case 'manifestation_receipt_date_inferred':
+		case 'manifestation_receipt_date_uncertain':
+		case 'manifestation_receipt_date_approx':
+		case 'manifestation_receipt_date_is_range':
         if( $this->reading_parms_for_update )
           return $this->is_integer( $this->parm_value );
         else
@@ -3103,11 +3242,15 @@ class Manifestation extends Project {
 
       case 'manifestation_creation_date':
       case 'manifestation_creation_date2':
-      case 'manifestation_creation_date_gregorian':
+		case 'manifestation_creation_date_gregorian':
+		case 'manifestation_receipt_date_gregorian':
+		case 'manifestation_receipt_date':
+		case 'manifestation_receipt_date2':
         return $this->is_postgres_timestamp( $this->parm_value );
 
       case 'manifestation_type':
-      case 'manifestation_creation_calendar':
+		case 'manifestation_creation_calendar':
+		case 'manifestation_receipt_calendar':
 		case 'opened':
         return $this->is_alphanumeric_or_blank( $this->parm_value );
 

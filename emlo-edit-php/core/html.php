@@ -1298,7 +1298,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function input_field( $fieldname, $label = '', $value = NULL, $in_table = FALSE, $size = NULL, $tabindex=1,
+  static function input_field( $fieldname, $label = '', $value = NULL, $in_table = FALSE, $size = NULL, $tabindex=1,
                         $label_parms = NULL, $data_parms = NULL, $input_parms = NULL, $input_instance = 0,
                         $trailing_text = NULL ) {
 
@@ -1691,7 +1691,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function label( $label_text, $label_id, $parms ) {  # free-standing label, not necessarily attached to field
+  static function label( $label_text, $label_id, $parms ) {  # free-standing label, not necessarily attached to field
 
     echo '<label ';
     if( $label_id ) echo ' id="' . $label_id . '" ';
