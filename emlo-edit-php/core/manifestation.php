@@ -30,6 +30,7 @@ define( 'FLD_SIZE_POSTAGE_MARKS', 60 );
 define( 'FLD_SIZE_ADDRESS_ROWS', 5 );
 define( 'FLD_SIZE_ADDRESS_COLS', 60 );
 
+
 define( 'FLD_SIZE_ENDORSE_ROWS', 3 );
 define( 'FLD_SIZE_ENDORSE_COLS', 60 );
 
@@ -713,6 +714,10 @@ class Manifestation extends Project {
 
   function echo_further_details() {
 
+		$routing_mark_stamp = null;
+		$routing_mark_ms_field = null;
+		$handling_instructions_field = null;
+
     extract( $this->core, EXTR_OVERWRITE );
 
     if( $paper_size ) {
@@ -756,6 +761,23 @@ class Manifestation extends Project {
       $this->echo_safely( $address );
       HTML::new_paragraph();
     }
+	  if(  $routing_mark_stamp ) {
+		  echo $this->db_get_default_column_label( 'routing_mark_stamp' ) . ': ';
+		  $this->echo_safely( $address );
+		  HTML::new_paragraph();
+	  }
+
+	  if( $routing_mark_ms ) {
+		  echo $this->db_get_default_column_label( 'routing_mark_ms' ) . ': ';
+		  $this->echo_safely( $address );
+		  HTML::new_paragraph();
+	  }
+
+	  if( $handling_instructions ) {
+		  echo $this->db_get_default_column_label( 'handling_instructions' ) . ': ';
+		  $this->echo_safely( $address );
+		  HTML::new_paragraph();
+	  }
 
     if( $endorsements ) {
       echo $this->db_get_default_column_label( 'endorsements' ) . ': ';
@@ -1162,6 +1184,16 @@ class Manifestation extends Project {
 
     $this->address_field();
     HTML::new_paragraph();
+
+
+	  $this->routing_mark_stamp_field();
+	  HTML::new_paragraph();
+
+	  $this->routing_mark_ms_field();
+	  HTML::new_paragraph();
+
+	  $this->handling_instructions_field();
+	  HTML::new_paragraph();
 
     $this->endorsements_field();
 
@@ -1737,12 +1769,34 @@ class Manifestation extends Project {
 
   function address_field() {
 
-    HTML::textarea( 'address', FLD_SIZE_ADDRESS_ROWS, FLD_SIZE_ADDRESS_COLS, $value = $this->address, 
+    HTML::textarea( 'address', FLD_SIZE_ADDRESS_ROWS, FLD_SIZE_ADDRESS_COLS, $value = $this->address,
                     $label = 'Address' );
   }
   #-----------------------------------------------------
 
-  function endorsements_field() {
+	function routing_mark_stamp_field() {
+
+		HTML::textarea( 'routing_mark_stamp', 3, 60, $value = $this->routing_mark_stamp,
+			$label = 'Routing Mark (stamp)' );
+	}
+	#-----------------------------------------------------
+
+	function routing_mark_ms_field() {
+
+		HTML::textarea( 'routing_mark_ms', 3, 60, $value = $this->routing_mark_ms,
+			$label = 'Routing Mark (MS)' );
+	}
+	#-----------------------------------------------------
+
+	function handling_instructions_field() {
+
+		HTML::textarea( 'handling_instructions', 3, 60, $value = $this->handling_instructions,
+			$label = 'Handling Instructions' );
+	}
+	#-----------------------------------------------------
+
+
+	function endorsements_field() {
 
    $label = $this->db_get_default_column_label( 'endorsements' );
    
@@ -2534,6 +2588,9 @@ class Manifestation extends Project {
       'seal',
       'postage_marks',
       'address',
+		'routing_mark_stamp',
+		'routing_mark_ms',
+		'handling_instructions',
       'endorsements',
 
       'manifestation_is_translation',
@@ -2890,6 +2947,9 @@ class Manifestation extends Project {
       case 'non_letter_enclosures':
       case 'language_of_manifestation':
       case 'address':
+		case 'routing_mark_stamp':
+		case 'routing_mark_ms':
+		case 'handling_instructions':
       case 'manifestation_incipit':
       case 'manifestation_excipit':
       case 'manifestation_ps':

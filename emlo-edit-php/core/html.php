@@ -1552,7 +1552,7 @@ class HTML extends Application_Entity {
   #-----------------------------------------------------------------
 
 
-  function textarea( $fieldname, $rows=3, $cols=50, $value=NULL, $label=NULL, $textarea_parms=NULL, $label_parms=NULL,
+  static function textarea( $fieldname, $rows=3, $cols=50, $value=NULL, $label=NULL, $textarea_parms=NULL, $label_parms=NULL,
                      $input_instance = NULL )
   {
 
