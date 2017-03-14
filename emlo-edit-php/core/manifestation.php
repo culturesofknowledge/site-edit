@@ -1710,7 +1710,7 @@ class Manifestation extends Project {
 
 		HTML::dropdown_option( "o", "Opened", $opened_selected );
 		HTML::dropdown_option( "p", "Partially opened", $opened_selected );
-		HTML::dropdown_option( "c", "Closed", $opened_selected );
+		HTML::dropdown_option( "u", "Unopened", $opened_selected );
 
 		HTML::dropdown_end( FALSE );
 	}
