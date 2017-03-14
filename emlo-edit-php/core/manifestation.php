@@ -2118,10 +2118,15 @@ class Manifestation extends Project {
 
     HTML::div_start( 'class="workfield"' );
 
-    HTML::textarea( 'non_letter_enclosures', FLD_SIZE_NON_LETTER_ENCLOSURE_ROWS, FLD_SIZE_NON_LETTER_ENCLOSURE_COLS, 
+    HTML::textarea( 'non_letter_enclosures', FLD_SIZE_NON_LETTER_ENCLOSURE_ROWS, FLD_SIZE_NON_LETTER_ENCLOSURE_COLS,
                     $value = $this->non_letter_enclosures, $label = 'Details of enclosures other than letters' );
 
-    HTML::div_end();  # end div workfield
+	  HTML::new_paragraph();
+	  HTML::textarea( 'accompaniments', FLD_SIZE_NON_LETTER_ENCLOSURE_ROWS, FLD_SIZE_NON_LETTER_ENCLOSURE_COLS,
+		  $value = $this->accompaniments, $label = 'Details of attached or accompanying materials' );
+
+
+	  HTML::div_end();  # end div workfield
   }
   #----------------------------------------------------------------------------------
 
@@ -2800,6 +2805,7 @@ class Manifestation extends Project {
 
       'enclosures',                       # relationship to other work/manifestations
       'non_letter_enclosures',
+		'accompaniments',
       'enclosed_in',                      # relationship to other work/manifestations
       'paper_size',
       'paper_type_or_watermark',
@@ -3184,6 +3190,7 @@ class Manifestation extends Project {
       case 'postage_marks':
       case 'endorsements':
       case 'non_letter_enclosures':
+		case 'accompaniments':
       case 'language_of_manifestation':
       case 'address':
       case 'manifestation_incipit':
