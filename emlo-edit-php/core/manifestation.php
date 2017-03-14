@@ -1543,7 +1543,7 @@ class Manifestation extends Project {
 	function manifestation_receipt_date_field() {
 
 		$date_range_help = array();
-		$date_range_help[] = 'The receipt cannot be precisely dated';
+		$date_range_help[] = 'Tick if the receipt cannot be precisely dated';
 
 		$this->date_entry_fieldset( $fields = array( 'manifestation_receipt_date',
 			'manifestation_receipt_date2' ),
