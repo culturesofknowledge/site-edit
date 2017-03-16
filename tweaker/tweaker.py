@@ -469,9 +469,14 @@ class DatabaseTweaker:
 		flourished_year_2 = self.get_int_value(flourished_year_2)
 		flourished_range = self.get_int_value(flourished_range, 0)
 
-		is_org = self.get_int_value(is_org, 0)
-		org_type = self.get_int_value(org_type)
+		## is_org = self.get_int_value(is_org, 0)
+		if is_org == 1 or is_org == '1' or is_org == 'Y' or is_org == 'y' :
+			is_org = 'Y'
+		else :
+			is_org = ''
 
+		if is_org == 'Y' :
+			org_type = self.get_int_value(org_type)
 
 		date_of_birth = None
 		if birth_year or birth_month or birth_day :
