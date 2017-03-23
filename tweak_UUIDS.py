@@ -40,8 +40,8 @@ prefixes = [
 	#"cofk_union_location-",  # Done
 	#"cofk_union_manifestation-",  # Done
 	#"cofk_union_person-",  # Done
-	"cofk_union_resource-",
-	#"cofk_union_work-"
+	#"cofk_union_resource-", # Done
+	"cofk_union_work-"
 ]
 
 for prefix in prefixes:
@@ -58,22 +58,26 @@ for prefix in prefixes:
 				"cofk_union_institution-",
 				"cofk_union_location-",
 				"cofk_union_manifestation-",
-				"cofk_union_person-"]:
+				"cofk_union_person-",
+				"cofk_union_resource-"]:
 		keys_string = red.keys( selection ).decode("utf-8")
 
 	if len(keys_string) > 0 :
 
 		begin = 0
-		if prefix == "cofk_union_resource-" :
+		if prefix == "cofk_union_work-" :
 
-			table = 'cofk_union_resource'
-			triggers = ['cofk_union_resource_trg_audit_del',
-						'cofk_union_resource_trg_audit_ins',
-						'cofk_union_resource_trg_audit_upd',
-						'cofk_union_resource_trg_cascade03_del',
-						'cofk_union_resource_trg_cascade03_ins',
-						'cofk_union_resource_trg_cascade03_upd',
-						'cofk_union_resource_trg_set_change_cols']
+			table = 'cofk_union_work'
+			triggers = ['cofk_union_work_trg_audit_del',
+			            'cofk_union_work_trg_audit_ins',
+			            'cofk_union_work_trg_audit_upd',
+			            'cofk_union_work_trg_cascade01_del',
+			            'cofk_union_work_trg_cascade01_ins',
+			            'cofk_union_work_trg_cascade01_upd',
+			            'cofk_union_work_trg_cascade03_del',
+			            'cofk_union_work_trg_cascade03_ins',
+			            'cofk_union_work_trg_cascade03_upd',
+			            'cofk_union_work_trg_set_change_cols']
 
 		keys = keys_string.split(" ")
 		#keys = keys[:10]
@@ -118,9 +122,9 @@ for prefix in prefixes:
 				#elif prefix == "cofk_union_person-":
 				#   tweaker.update_person( batch_key[prefix_length:], updater, anonymous=True )
 				#elif prefix == "cofk_union_resource-":
-				tweaker.update_resource( batch_key[prefix_length:], updater, anonymous=True )
+				#   tweaker.update_resource( batch_key[prefix_length:], updater, anonymous=True )
 				#elif prefix == "cofk_union_work-":
-				#	tweaker.update_work( batch_key[prefix_length:], updater, anonymous=True )
+				tweaker.update_work( batch_key[prefix_length:], updater, anonymous=True )
 
 
 			tweaker.triggers_enable( table, triggers )
