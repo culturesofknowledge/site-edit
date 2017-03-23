@@ -170,10 +170,15 @@ class HTML extends Application_Entity {
       echo '   width:  auto;'                                            . NEWLINE;
       echo ' }'                                                          . NEWLINE;
 
+	echo 'table {';
+	echo '  background-color:white;';
+	echo '}';
+	
+
       if( ! $printable ) {
         echo ' body {'                                                       . NEWLINE;
-		  echo 'margin:0 auto;';
-		  echo 'max-width: 1200px;';
+	  echo 'margin: 20px;';
+	  //echo 'max-width: 1200px;';
        // echo '   margin-left: 10px;'                                         . NEWLINE;
         //echo '   margin-right: 10px;'                                        . NEWLINE;
         echo ' }'                                                            . NEWLINE;
