@@ -478,6 +478,9 @@ class DatabaseTweaker:
 		if is_org == 'Y' :
 			org_type = self.get_int_value(org_type)
 
+		if org_type == '' :
+			org_type = None
+
 		date_of_birth = None
 		if birth_year or birth_month or birth_day :
 			date_of_birth = self.get_date_string(birth_year, birth_month, birth_day )
