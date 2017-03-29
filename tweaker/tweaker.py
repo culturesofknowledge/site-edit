@@ -590,6 +590,78 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()[0]
 
+	def create_location(self,
+						latitude=None,
+						longitude=None,
+						location_synonyms=None,
+						editors_note=None,
+						element_1_eg_room='',
+						element_2_eg_building='',
+						element_3_eg_parish='',
+						element_4_eg_city='',
+						element_5_eg_county='',
+						element_6_eg_country='',
+						element_7_eg_empire=''
+					):
+
+		location_list = []
+		for value in [element_1_eg_room,
+						element_2_eg_building,
+						element_3_eg_parish,
+						element_4_eg_city,
+						element_5_eg_county,
+						element_6_eg_country,
+						element_7_eg_empire	] :
+			if value is not None and value != '' :
+				location_list.append(value)
+
+		location_name = ", ".join(location_list)
+
+		command = "INSERT INTO cofk_union_location" \
+				" (" \
+					"location_name," \
+					"latitude,longitude," \
+					"location_synonyms," \
+					"element_1_eg_room,element_2_eg_building," \
+					"element_3_eg_parish,element_4_eg_city," \
+					"element_5_eg_county,element_6_eg_country," \
+					"element_7_eg_empire," \
+					"editors_notes," \
+					"creation_user,change_user" \
+				" )" \
+				" VALUES " \
+				" (" \
+					"%s," \
+					"%s,%s," \
+					"%s," \
+					"%s,%s," \
+					"%s,%s," \
+					"%s,%s," \
+					"%s," \
+					"%s," \
+					"%s,%s" \
+				")" \
+				" returning location_id"
+
+		command = self.cursor.mogrify( command, (
+			location_name,
+			latitude, longitude,
+			location_synonyms,
+			element_1_eg_room, element_2_eg_building,
+			element_3_eg_parish, element_4_eg_city,
+			element_5_eg_county, element_6_eg_country,
+			element_7_eg_empire,
+			editors_note,
+			self.user,
+			self.user ) )
+
+		self._print_command( "INSERT location", command )
+		self._audit_insert( "location" )
+
+		self.cursor.execute( command )
+		return self.cursor.fetchone()[0]
+
+
 	def get_int_value( self, value, default=None ):
 		if value is not None and value != '' :
 			return int(value)
