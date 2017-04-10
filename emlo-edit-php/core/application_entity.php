@@ -563,10 +563,12 @@ class Application_Entity {
 
     }
     elseif( $arrayname == '$_SESSION' ) {
-      if( isset( $_SESSION )) 
+      if( isset( $_SESSION ) /*&& array_key_exists( "$parm_name", $_SESSION )*/ ) {
         $this->parm_value = $_SESSION[ "$parm_name" ];
-      else
+      }
+      else {
         $this->parm_value = NULL;
+      }
     }
 
     else {
@@ -577,7 +579,7 @@ class Application_Entity {
     $valid_parm = $this->validate_parm( $parm_name );
 
     if( ! $valid_parm ) {
-      if( $this->continue_on_read_parm_err ) {
+      if( false && $this->continue_on_read_parm_err ) {
         #---------------------------------------------------------------------------------------
         # Even if we are allowing them to continue on data entry error (i.e. don't wipe out
         # their data entry because of an honest mistake like entering a date as "15/09/195"), 
@@ -713,6 +715,9 @@ class Application_Entity {
 
       case 'user_email':
         return $this->is_email_address( $this->parm_value );
+
+        //case 'uuid' :
+        //    return $this->is_uuid( $this->parm_value );
 
       default:
         return FALSE;
@@ -941,6 +946,10 @@ class Application_Entity {
                                    $allow_all_whitespace = FALSE );
   }
   #-----------------------------------------------------
+
+    function is_uuid( $parm_value ) {
+      return TRUE;
+    }
 
   function is_array_of_html_id( $parm_value ) {
 

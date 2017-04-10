@@ -1874,12 +1874,14 @@ class Upload extends Project {
         }
         $current_work++;
 
+
+        HTML::horizontal_rule( 'style="background-color:#303030;color:#303030;height:3px;"');
         HTML::new_paragraph();
         HTML::anchor( 'work' . $current_work );
 
-        HTML::h5_start();
+        HTML::h4_start();
         echo "Work $current_work of $num_works";
-        HTML::h5_end();
+        HTML::h4_end();
 
         HTML::span_start( 'class="widespaceonleft"' );
         if( $current_work > 1 ) {

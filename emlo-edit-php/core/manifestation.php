@@ -30,6 +30,7 @@ define( 'FLD_SIZE_POSTAGE_MARKS', 60 );
 define( 'FLD_SIZE_ADDRESS_ROWS', 5 );
 define( 'FLD_SIZE_ADDRESS_COLS', 60 );
 
+
 define( 'FLD_SIZE_ENDORSE_ROWS', 3 );
 define( 'FLD_SIZE_ENDORSE_COLS', 60 );
 
@@ -711,88 +712,167 @@ class Manifestation extends Project {
   }
   #----------------------------------------------------------------------------------
 
-  function echo_further_details() {
+	function echo_further_details() {
 
-    extract( $this->core, EXTR_OVERWRITE );
+		$routing_mark_stamp = null;
+		$routing_mark_ms_field = null;
 
-    if( $paper_size ) {
-      echo 'Paper size: ';
-      $this->echo_safely( $paper_size );
-      HTML::new_paragraph();
-    }
+		$handling_instructions_field = null;
+		$stored_folded = null;
 
-    if( $paper_type_or_watermark ) {
-      echo 'Paper type, watermark: ';
-      $this->echo_safely( $paper_type_or_watermark );
-      HTML::new_paragraph();
-    }
+		$postage_marks = null;
+		$postage_costs_as_marked = null;
 
-    if( $number_of_pages_of_document ) {
-      echo $this->db_get_default_column_label( 'number_of_pages_of_document' ) . ': ';
-      $this->echo_safely( $number_of_pages_of_document );
-      HTML::new_paragraph();
-    }
+		$non_delivery_reason = null;
+		$date_of_receipt_as_marked = null;
+		$paper_size = null;
+		$paper_type_or_watermark = null;
 
-    if( $number_of_pages_of_text ) {
-      echo $this->db_get_default_column_label( 'number_of_pages_of_text' ) . ': ';
-      $this->echo_safely( $number_of_pages_of_text );
-      HTML::new_paragraph();
-    }
 
-    if( $postage_marks ) {
-      echo 'Postage marks: ';
-      $this->echo_safely( $postage_marks );
-      HTML::new_paragraph();
-    }
+		$number_of_pages_of_document = null;
+		$number_of_pages_of_text = null;
+		$postage_costs = null;
+		$seal = null;
+		$address = null;
+		$routing_mark_ms = null;
+		$handling_instructions = null;
+		$endorsements = null;
 
-    if( $seal ) {
-      echo 'Seal: ';
-      $this->echo_safely( $seal );
-      HTML::new_paragraph();
-    }
 
-    if( $address ) {
-      echo $this->db_get_default_column_label( 'address' ) . ': ';
-      $this->echo_safely( $address );
-      HTML::new_paragraph();
-    }
+		$language_of_manifestation = null;
+		$manifestation_is_translation = null;
+		$manifestation_incipit = null;
+		$manifestation_excipit = null;
+		$manifestation_ps = null;
 
-    if( $endorsements ) {
-      echo $this->db_get_default_column_label( 'endorsements' ) . ': ';
-      $this->echo_safely( $endorsements );
-      HTML::new_paragraph();
-    }
+		extract( $this->core, EXTR_OVERWRITE );
 
-    if( $language_of_manifestation ) {
-      echo 'Language of this manifestation: ';
-      $this->echo_safely( $language_of_manifestation );
-      HTML::new_paragraph();
-    }
+		if( $paper_size ) {
+			echo 'Paper size: ';
+			$this->echo_safely( $paper_size );
+			HTML::new_paragraph();
+    	}
 
-    if( $manifestation_is_translation ) {
-      echo 'Manifestation is translation.';
-      HTML::new_paragraph();
-    }
+		if( $paper_type_or_watermark ) {
+			echo 'Paper type, watermark: ';
+			$this->echo_safely( $paper_type_or_watermark );
+			HTML::new_paragraph();
+		}
 
-    if( $manifestation_incipit ) {
-      echo 'Manifestation incipit: ';
-      $this->echo_safely( $manifestation_incipit );
-      HTML::new_paragraph();
-    }
+		if( $stored_folded ) {
+			echo $this->db_get_default_column_label( 'stored_folded' ) . ': ';
+			$this->echo_safely( $stored_folded );
+			HTML::new_paragraph();
+		}
 
-    if( $manifestation_excipit ) {
-      echo $this->proj_get_field_label( 'manifestation_excipit' ) . ': ';
-      $this->echo_safely( $manifestation_excipit );
-      HTML::new_paragraph();
-    }
+		if ($number_of_pages_of_document) {
+			echo $this->db_get_default_column_label('number_of_pages_of_document') . ': ';
+			$this->echo_safely($number_of_pages_of_document);
+			HTML::new_paragraph();
+		}
 
-    if( $manifestation_ps ) {
-      echo $this->proj_get_field_label( 'manifestation_ps' ) . ': ';
-      $this->echo_safely( $manifestation_ps );
-      HTML::new_paragraph();
-    }
-  }
-  #----------------------------------------------------------------------------------
+		if ($number_of_pages_of_text) {
+			echo $this->db_get_default_column_label('number_of_pages_of_text') . ': ';
+			$this->echo_safely($number_of_pages_of_text);
+			HTML::new_paragraph();
+		}
+
+		if ($postage_marks) {
+			echo 'Postage marks: ';
+			$this->echo_safely($postage_marks);
+			HTML::new_paragraph();
+		}
+
+		if ($postage_costs_as_marked) {
+			echo $this->db_get_default_column_label('postage_costs_as_marked') . ': ';
+			$this->echo_safely($postage_costs_as_marked);
+			HTML::new_paragraph();
+		}
+
+		if ($postage_costs) {
+			echo $this->db_get_default_column_label('postage_costs') . ': ';
+			$this->echo_safely($postage_costs);
+			HTML::new_paragraph();
+		}
+
+		if ($seal) {
+			echo 'Seal: ';
+			$this->echo_safely($seal);
+			HTML::new_paragraph();
+		}
+
+		if ($address) {
+			echo $this->db_get_default_column_label('address') . ': ';
+			$this->echo_safely($address);
+			HTML::new_paragraph();
+		}
+		if ($routing_mark_stamp) {
+			echo $this->db_get_default_column_label('routing_mark_stamp') . ': ';
+			$this->echo_safely($address);
+			HTML::new_paragraph();
+		}
+
+		if ($routing_mark_ms) {
+			echo $this->db_get_default_column_label('routing_mark_ms') . ': ';
+			$this->echo_safely($address);
+			HTML::new_paragraph();
+		}
+
+		if ($handling_instructions) {
+			echo $this->db_get_default_column_label('handling_instructions') . ': ';
+			$this->echo_safely($address);
+			HTML::new_paragraph();
+		}
+
+		if ($endorsements) {
+			echo $this->db_get_default_column_label('endorsements') . ': ';
+			$this->echo_safely($endorsements);
+			HTML::new_paragraph();
+		}
+
+		if ($non_delivery_reason) {
+			echo $this->db_get_default_column_label('non_delivery_reason') . ': ';
+			$this->echo_safely($non_delivery_reason);
+			HTML::new_paragraph();
+		}
+
+		if ($date_of_receipt_as_marked) {
+			echo $this->db_get_default_column_label('date_of_receipt_as_marked') . ': ';
+			$this->echo_safely($date_of_receipt_as_marked);
+			HTML::new_paragraph();
+		}
+
+		if ($language_of_manifestation) {
+			echo 'Language of this manifestation: ';
+			$this->echo_safely($language_of_manifestation);
+			HTML::new_paragraph();
+		}
+
+		if ($manifestation_is_translation) {
+			echo 'Manifestation is translation.';
+			HTML::new_paragraph();
+		}
+
+		if ($manifestation_incipit) {
+			echo 'Manifestation incipit: ';
+			$this->echo_safely($manifestation_incipit);
+			HTML::new_paragraph();
+		}
+
+		if ($manifestation_excipit) {
+			echo $this->proj_get_field_label('manifestation_excipit') . ': ';
+			$this->echo_safely($manifestation_excipit);
+			HTML::new_paragraph();
+		}
+
+		if ($manifestation_ps) {
+			echo $this->proj_get_field_label('manifestation_ps') . ': ';
+			$this->echo_safely($manifestation_ps);
+			HTML::new_paragraph();
+		}
+	}
+
+	#----------------------------------------------------------------------------------
 
   function add_new_manif_button( $editing_existing ) {
 
@@ -882,6 +962,8 @@ class Manifestation extends Project {
 
     $this->manif_paper_and_markings_fieldgroup();
 
+	  $this->receipt_date_fieldgroup();
+
     $this->manif_language_fieldgroup();
 
     $this->manif_incipit_and_excipit_fieldgroup();
@@ -947,6 +1029,16 @@ class Manifestation extends Project {
     $this->date_fields();
   }
   #-----------------------------------------------------
+
+	function receipt_date_fieldgroup() {
+
+		$this->date_entity->write_date_entry_stylesheet();
+
+		$this->proj_form_section_links( 'receipt_date', $heading_level = 'bold' );
+
+		$this->date_receipt_fields();
+	}
+	#-----------------------------------------------------
 
   function manif_former_owners_fieldgroup() {
 
@@ -1148,6 +1240,9 @@ class Manifestation extends Project {
     $this->paper_size_field();
     HTML::new_paragraph();
 
+	  $this->stored_folded_field();
+	  HTML::new_paragraph();
+
     $this->paper_type_or_watermark_field();
     HTML::new_paragraph();
 
@@ -1160,10 +1255,29 @@ class Manifestation extends Project {
     $this->postage_marks_field();
     HTML::new_paragraph();
 
+	  $this->postage_costs_as_marked_field();
+	  HTML::new_paragraph();
+	  $this->postage_costs_field();
+	  HTML::new_paragraph();
+
     $this->address_field();
     HTML::new_paragraph();
 
+
+	  $this->routing_mark_stamp_field();
+	  HTML::new_paragraph();
+
+	  $this->routing_mark_ms_field();
+	  HTML::new_paragraph();
+
+	  $this->handling_instructions_field();
+	  HTML::new_paragraph();
+
     $this->endorsements_field();
+	  HTML::new_paragraph();
+
+	  $this->non_delivery_reason_field();
+	  HTML::new_paragraph();
 
     $this->extra_save_button( 'paper_and_markings' );
 
@@ -1384,6 +1498,111 @@ class Manifestation extends Project {
                            $this->manifestation_creation_date_approx );
   }
   #-----------------------------------------------------
+
+
+
+
+
+	function date_receipt_fields() {
+
+		$this->date_of_receipt_as_marked_field();
+		HTML::new_paragraph();
+
+		if( $this->manifestation_receipt_calendar == 'U' ) # Unknown
+			$this->manifestation_receipt_calendar = '';
+		$this->receipt_original_calendar_field() ;
+		HTML::new_paragraph();
+
+		$this->manifestation_receipt_date_field();
+		HTML::new_paragraph();
+
+		$this->receipt_date_flags();
+		HTML::new_paragraph();
+
+		HTML::div_start( 'class="workfield"' );
+		$this->extra_save_button( 'receipt_date' );
+		HTML::div_end( 'workfield' );
+
+		HTML::new_paragraph();
+		HTML::horizontal_rule();
+	}
+
+	#-----------------------------------------------------
+
+	function receipt_original_calendar_field() {
+
+		HTML::span_start( 'class="workfield"' );
+		HTML::label( 'Calendar used: ', NULL, NULL );
+		HTML::span_end( 'workfield' );
+
+		$this->date_entity->calendar_selection_field( $fieldname='manifestation_receipt_calendar',
+			$selected_calendar = $this->manifestation_receipt_calendar );
+	}
+	#-----------------------------------------------------
+
+	function manifestation_receipt_date_field() {
+
+		$date_range_help = array();
+		$date_range_help[] = 'Tick if the receipt cannot be precisely dated';
+
+		$this->date_entry_fieldset( $fields = array( 'manifestation_receipt_date',
+			'manifestation_receipt_date2' ),
+			$legend = $this->proj_get_field_label( 'receipt_date' ),
+			$extra_msg = NULL,
+			$calendar_fieldname = 'manifestation_receipt_calendar',
+			$date_range_help );
+	}
+	#-----------------------------------------------------
+
+	function receipt_date_flags() {
+
+		HTML::span_start( 'class="workfield"' );
+		HTML::label( 'Issues with receipt date: ' );
+		HTML::span_end( 'workfield' );
+
+		HTML::ulist_start( 'class="dateflags"' );
+
+		HTML::listitem_start();
+		$this->flag_inferred_receipt_date_field() ;
+		HTML::listitem_end();
+
+		HTML::listitem_start();
+		$this->flag_uncertain_receipt_date_field() ;
+		HTML::listitem_end();
+
+		HTML::listitem_start();
+		$this->flag_approx_receipt_date_field() ;
+		HTML::listitem_end();
+
+		HTML::ulist_end();
+	}
+	#-----------------------------------------------------
+
+	function flag_inferred_receipt_date_field() {
+
+		$this->basic_checkbox( 'manifestation_receipt_date_inferred', 'Date is inferred',
+			$this->manifestation_receipt_date_inferred );
+	}
+	#-----------------------------------------------------
+
+	function flag_uncertain_receipt_date_field() {
+
+		$this->basic_checkbox( 'manifestation_receipt_date_uncertain', 'Date is uncertain',
+			$this->manifestation_receipt_date_uncertain );
+	}
+	#-----------------------------------------------------
+
+	function flag_approx_receipt_date_field() {
+
+		$this->basic_checkbox( 'manifestation_receipt_date_approx', 'Date is approximate',
+			$this->manifestation_receipt_date_approx );
+	}
+	#-----------------------------------------------------
+
+
+
+
+
 
   function date_notes_field() {
 
@@ -1678,7 +1897,7 @@ class Manifestation extends Project {
 
 		HTML::dropdown_option( "o", "Opened", $opened_selected );
 		HTML::dropdown_option( "p", "Partially opened", $opened_selected );
-		HTML::dropdown_option( "c", "Closed", $opened_selected );
+		HTML::dropdown_option( "u", "Unopened", $opened_selected );
 
 		HTML::dropdown_end( FALSE );
 	}
@@ -1712,6 +1931,39 @@ class Manifestation extends Project {
   }
   #-----------------------------------------------------
 
+	function stored_folded_field() {
+
+		HTML::input_field( 'stored_folded', 'Stored folded', $this->stored_folded, FALSE,
+			10, $tabindex=1, NULL, NULL, NULL, 0, ' ' );
+	}
+	#-----------------------------------------------------
+	function postage_costs_as_marked_field() {
+
+		HTML::input_field( 'postage_costs_as_marked', 'Postage costs as marked', $this->postage_costs_as_marked, FALSE,
+			60, $tabindex=1, NULL, NULL, NULL, 0, NULL );
+	}
+	#-----------------------------------------------------
+	function postage_costs_field() {
+
+		HTML::input_field( 'postage_costs', 'Postage cost(s)', $this->postage_costs, FALSE,
+			60, $tabindex=1, NULL, NULL, NULL, 0, NULL );
+	}
+	#-----------------------------------------------------
+	function non_delivery_reason_field() {
+
+		HTML::input_field( 'non_delivery_reason', 'Reason for non-delivery', $this->non_delivery_reason, FALSE,
+			60, $tabindex=1, NULL, NULL, NULL, 0, ' (up to 500 characters)' );
+	}
+	#-----------------------------------------------------
+	function date_of_receipt_as_marked_field() {
+
+		HTML::input_field( 'date_of_receipt_as_marked', 'Date of receipt as marked', $this->date_of_receipt_as_marked, FALSE,
+			60, $tabindex=1, NULL, NULL, NULL, 0, NULL );
+	}
+	#-----------------------------------------------------
+
+
+
   function number_of_pages_of_document_field() {
 
     HTML::input_field( 'number_of_pages_of_document', 
@@ -1737,12 +1989,34 @@ class Manifestation extends Project {
 
   function address_field() {
 
-    HTML::textarea( 'address', FLD_SIZE_ADDRESS_ROWS, FLD_SIZE_ADDRESS_COLS, $value = $this->address, 
+    HTML::textarea( 'address', FLD_SIZE_ADDRESS_ROWS, FLD_SIZE_ADDRESS_COLS, $value = $this->address,
                     $label = 'Address' );
   }
   #-----------------------------------------------------
 
-  function endorsements_field() {
+	function routing_mark_stamp_field() {
+
+		HTML::textarea( 'routing_mark_stamp', 3, 60, $value = $this->routing_mark_stamp,
+			$label = 'Routing Mark (stamp)' );
+	}
+	#-----------------------------------------------------
+
+	function routing_mark_ms_field() {
+
+		HTML::textarea( 'routing_mark_ms', 3, 60, $value = $this->routing_mark_ms,
+			$label = 'Routing Mark (MS)' );
+	}
+	#-----------------------------------------------------
+
+	function handling_instructions_field() {
+
+		HTML::textarea( 'handling_instructions', 3, 60, $value = $this->handling_instructions,
+			$label = 'Handling Instructions' );
+	}
+	#-----------------------------------------------------
+
+
+	function endorsements_field() {
 
    $label = $this->db_get_default_column_label( 'endorsements' );
    
@@ -1844,10 +2118,15 @@ class Manifestation extends Project {
 
     HTML::div_start( 'class="workfield"' );
 
-    HTML::textarea( 'non_letter_enclosures', FLD_SIZE_NON_LETTER_ENCLOSURE_ROWS, FLD_SIZE_NON_LETTER_ENCLOSURE_COLS, 
+    HTML::textarea( 'non_letter_enclosures', FLD_SIZE_NON_LETTER_ENCLOSURE_ROWS, FLD_SIZE_NON_LETTER_ENCLOSURE_COLS,
                     $value = $this->non_letter_enclosures, $label = 'Details of enclosures other than letters' );
 
-    HTML::div_end();  # end div workfield
+	  HTML::new_paragraph();
+	  HTML::textarea( 'accompaniments', FLD_SIZE_NON_LETTER_ENCLOSURE_ROWS, FLD_SIZE_NON_LETTER_ENCLOSURE_COLS,
+		  $value = $this->accompaniments, $label = 'Details of attached or accompanying materials' );
+
+
+	  HTML::div_end();  # end div workfield
   }
   #----------------------------------------------------------------------------------
 
@@ -2037,6 +2316,8 @@ class Manifestation extends Project {
         case 'creation_user':
         case 'change_timestamp':
         case 'change_user':
+        case 'uuid':
+
 
           $skip_it = TRUE;
           break;
@@ -2524,15 +2805,24 @@ class Manifestation extends Project {
 
       'enclosures',                       # relationship to other work/manifestations
       'non_letter_enclosures',
+		'accompaniments',
       'enclosed_in',                      # relationship to other work/manifestations
       'paper_size',
       'paper_type_or_watermark',
+		'stored_folded',
       'number_of_pages_of_document',
       'number_of_pages_of_text',
       'seal',
       'postage_marks',
+		'postage_costs_as_marked',
+		'postage_costs',
       'address',
+		'routing_mark_stamp',
+		'routing_mark_ms',
+		'handling_instructions',
       'endorsements',
+		'non_delivery_reason',
+		'date_of_receipt_as_marked',
 
       'manifestation_is_translation',
       'language_of_manifestation',
@@ -2549,6 +2839,16 @@ class Manifestation extends Project {
       'manifestation_creation_date_inferred',
       'manifestation_creation_date_uncertain',
       'manifestation_creation_date_approx',
+
+		'manifestation_receipt_calendar',
+		'manifestation_receipt_date',
+		'manifestation_receipt_date_gregorian',
+		'manifestation_receipt_date_year',
+		'manifestation_receipt_date_month',
+		'manifestation_receipt_date_day',
+		'manifestation_receipt_date_inferred',
+		'manifestation_receipt_date_uncertain',
+		'manifestation_receipt_date_approx',
 
       'manifestation_notes',              # relationship to comments
       'manifestation_images',             # relationship to images
@@ -2785,6 +3085,7 @@ class Manifestation extends Project {
                             'enclosures'         =>  $this->proj_get_field_label( 'enclosures' ),
                             'enclosed_in'        =>  $this->proj_get_field_label( 'enclosing_section' ),
                             'paper_and_markings' =>  'Paper and markings',
+							'receipt_date'       =>  'Receipt date',
                             'manif_lang'         =>  'Language of manifestation',
                             'incipit_and_excipit'=>  'Incipit and explicit',
                             'manifestation_notes'=>  'Notes on manifestation',
@@ -2831,6 +3132,9 @@ class Manifestation extends Project {
 
       case 'manif_dates':
         return 'Date of manifestation in standard format';
+
+		case 'receipt_date' :
+			return 'Date of receipt';
 
       default:
         return parent::proj_get_field_label( $fieldname );
@@ -2886,6 +3190,7 @@ class Manifestation extends Project {
       case 'postage_marks':
       case 'endorsements':
       case 'non_letter_enclosures':
+		case 'accompaniments':
       case 'language_of_manifestation':
       case 'address':
       case 'manifestation_incipit':
@@ -2897,7 +3202,15 @@ class Manifestation extends Project {
       case 'bindings':
       case 'illustrations':
       case 'illuminations':
-        return $this->is_ok_free_text( $this->parm_value );
+		case 'routing_mark_stamp':
+		case 'routing_mark_ms':
+		case 'handling_instructions':
+		case 'stored_folded':
+		case 'postage_costs_as_marked':
+		case 'postage_costs':
+		case 'non_delivery_reason':
+		case 'date_of_receipt_as_marked':
+        	return $this->is_ok_free_text( $this->parm_value );
 
       case 'iwork_id':
       case 'relationship_id':
@@ -2905,12 +3218,19 @@ class Manifestation extends Project {
       case 'number_of_pages_of_document':
       case 'number_of_pages_of_text':
       case 'lines_per_page':
-      case 'manifestation_creation_date_year':
-      case 'manifestation_creation_date_month':
-      case 'manifestation_creation_date_day':
-      case 'manifestation_creation_date2_year':
-      case 'manifestation_creation_date2_month':
-      case 'manifestation_creation_date2_day':
+		case 'manifestation_creation_date_year':
+		case 'manifestation_creation_date_month':
+		case 'manifestation_creation_date_day':
+		case 'manifestation_creation_date2_year':
+		case 'manifestation_creation_date2_month':
+		case 'manifestation_creation_date2_day':
+
+		case 'manifestation_receipt_date_year':
+		case 'manifestation_receipt_date_month':
+		case 'manifestation_receipt_date_day':
+		case 'manifestation_receipt_date2_year':
+		case 'manifestation_receipt_date2_month':
+		case 'manifestation_receipt_date2_day':
         return $this->is_integer( $this->parm_value );
 
       case 'manifestation_creation_date_inferred':
@@ -2918,6 +3238,10 @@ class Manifestation extends Project {
       case 'manifestation_creation_date_approx':
       case 'manifestation_creation_date_is_range':
       case 'manifestation_is_translation':
+		case 'manifestation_receipt_date_inferred':
+		case 'manifestation_receipt_date_uncertain':
+		case 'manifestation_receipt_date_approx':
+		case 'manifestation_receipt_date_is_range':
         if( $this->reading_parms_for_update )
           return $this->is_integer( $this->parm_value );
         else
@@ -2925,11 +3249,15 @@ class Manifestation extends Project {
 
       case 'manifestation_creation_date':
       case 'manifestation_creation_date2':
-      case 'manifestation_creation_date_gregorian':
+		case 'manifestation_creation_date_gregorian':
+		case 'manifestation_receipt_date_gregorian':
+		case 'manifestation_receipt_date':
+		case 'manifestation_receipt_date2':
         return $this->is_postgres_timestamp( $this->parm_value );
 
       case 'manifestation_type':
-      case 'manifestation_creation_calendar':
+		case 'manifestation_creation_calendar':
+		case 'manifestation_receipt_calendar':
 		case 'opened':
         return $this->is_alphanumeric_or_blank( $this->parm_value );
 

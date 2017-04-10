@@ -731,6 +731,7 @@ class Image extends Project {
         case 'change_user':
         case 'creation_timestamp':
         case 'creation_user':
+        case 'uuid' :
           $skip_it = TRUE;
           break;
       }
