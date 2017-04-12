@@ -2693,7 +2693,7 @@ class Person extends Project {
                                              $legend, 
                                              $extra_msg = '',
                                              $hide_sortable_dates = TRUE,
-                                             $include_uncertainty_flags = FALSE,
+                                             $include_uncertainty_flags = TRUE,
                                              $date_range_help = array( '(Tick this box if the person'
                                              . ' or organisation is known to have been active'
                                              . ' for more than one year.)' ),
@@ -3488,6 +3488,11 @@ class Person extends Project {
       case 'date_of_death_approx':
       case 'date_of_death_uncertain':
       case 'date_of_death_inferred':
+
+        case 'flourished_inferred':
+        case 'flourished_uncertain':
+        case 'flourished_approx':
+
       case 'date_of_birth_is_range':
       case 'date_of_death_is_range':
       case 'flourished_is_range':
