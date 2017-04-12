@@ -2095,6 +2095,9 @@ class Person extends Project {
       case 'date_of_death_approx':
       case 'date_of_death_uncertain':
       case 'date_of_death_inferred':
+        case 'flourished_inferred':
+        case 'flourished_uncertain':
+        case 'flourished_approx':
       case 'flourished_is_range':
         if( $column_value == '' ) $column_value = '0';
         break;
