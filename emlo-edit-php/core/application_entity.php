@@ -579,7 +579,7 @@ class Application_Entity {
     $valid_parm = $this->validate_parm( $parm_name );
 
     if( ! $valid_parm ) {
-      if( false && $this->continue_on_read_parm_err ) {
+      if( !DEBUGGING && $this->continue_on_read_parm_err ) {
         #---------------------------------------------------------------------------------------
         # Even if we are allowing them to continue on data entry error (i.e. don't wipe out
         # their data entry because of an honest mistake like entering a date as "15/09/195"), 
