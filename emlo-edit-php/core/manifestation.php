@@ -1893,7 +1893,7 @@ class Manifestation extends Project {
 		HTML::dropdown_start( "opened", "Letter opened", $in_table=FALSE );
 
 		$opened_selected = $this->opened;
-		echo $opened_selected;
+        if( ! $opened_selected ) $opened_selected = "o"; // This stops the page incorrectly popping up a message "has changed" when moving between manifestation and some other tab
 
 		HTML::dropdown_option( "o", "Opened", $opened_selected );
 		HTML::dropdown_option( "p", "Partially opened", $opened_selected );
