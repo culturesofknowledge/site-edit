@@ -581,7 +581,7 @@ class Review extends Project {
     $columns_to_skip = array( 'person_id', 'iperson_id', 
                               'change_timestamp', 'change_user',
                               'creation_timestamp', 'creation_user', 
-                              'other_details_summary', 'other_details_summary_searchable' );
+                              'other_details_summary', 'other_details_summary_searchable', 'uuid' );
     $i = 0;
     $statement = 'update ' . $this->proj_person_tablename() . ' set ';
 
@@ -876,7 +876,7 @@ echo "save_work_resources( )"  .  LINEBREAK;			//RG_DEBUG
   function save_person_to_work_relationships( $tab, $reltype, $work_side, $desc = NULL ) {
 echo "save_person_to_work_relationships( $tab, $reltype, $work_side, $desc )"  .  LINEBREAK;			//RG_DEBUG
 
-    $statement = "select p.person_id, p.primary_name from $tab x, " 
+    $statement = "select p.person_id, p.primary_name from $tab x, "
                . $this->proj_collect_person_tablename() . ' p, '
                . $this->proj_collect_work_tablename() . ' w '
                . " where x.upload_id = $this->upload_id"
