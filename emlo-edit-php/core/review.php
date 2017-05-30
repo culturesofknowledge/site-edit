@@ -272,7 +272,7 @@ class Review extends Project {
     #-------------------------------------------------------------------------------------------
     $tabs = $this->work_obj->list_tabs( $get_all_possible = TRUE );
     foreach( $tabs as $tab => $tab_title ) {
- echo 'tab: '. $tab .  LINEBREAK;			//RG_DEBUG
+
       if( $tab == 'manifestations_tab' ) continue;  # need to handle separately
       if( $tab == 'overview_tab' ) continue;  # no editable fields on overview tab
 
@@ -327,7 +327,6 @@ class Review extends Project {
     if( $saved_count ) {
       echo "Saved $saved_count new people/groups." . LINEBREAK;
     }
-    //echo 'RG reached here 1...' . LINEBREAK;    
 
     # See if we need to create any places
     $saved_count = 0;
@@ -366,30 +365,26 @@ class Review extends Project {
       }
     }
 
-    //echo 'RG reached here 2...' . LINEBREAK;    
     # See if we need to create any repositories
     $saved_count = 0;
     $statement = 'select repository_id from ' . $this->proj_collect_manifestation_tablename()
                . " where upload_id = $this->upload_id"
                . " and iwork_id = $openoffice_iwork_id";
-// echo 'statement: '. $statement .  LINEBREAK;			//RG_DEBUG
     $repositories = $this->db_select_into_array( $statement );
     $num_repos = count( $repositories );
-// echo 'num_repos: '. $num_repos .  LINEBREAK;			//RG_DEBUG
+
     if( $num_repos > 0 ) {
-// echo 'num_repos: '. $num_repos .  LINEBREAK;			//RG_DEBUG
-// print_r($repositories); //RG_DEBUG
+
       foreach( $repositories as $repos ) {
         $repository_id = $repos[ 'repository_id' ];
-// echo 'repository_id: '. $repository_id .  LINEBREAK;			//RG_DEBUG
+
         if( ! $repository_id ) continue;
 
         $statement = 'select union_institution_id from ' . $this->proj_collect_institution_tablename()
                    . " where upload_id = $this->upload_id and institution_id = $repository_id";
-// echo 'statement: '. $statement .  LINEBREAK;			//RG_DEBUG
+
         $union_institution_id = NULL;
         $union_institution_id = $this->db_select_one_value( $statement );
-// echo 'union_institution_id: '. $union_institution_id .  LINEBREAK;			//RG_DEBUG
 
         if( ! $union_institution_id ) {
           $this->save_one_institution( $repository_id );
@@ -403,7 +398,6 @@ class Review extends Project {
       }
     }
 
-    //echo 'RG reached here 3...' . LINEBREAK;    
     echo LINEBREAK;
 
     # See if we need to create any manifestations
@@ -417,7 +411,6 @@ class Review extends Project {
     if( $num_manifs > 0 ) {
       foreach( $manifs as $manif ) {
         $imanifestation_id = $manif[ 'manifestation_id' ];
-    echo "RG reached here 3b...$imanifestation_id" . LINEBREAK;    
         $this->save_one_manifestation( $imanifestation_id, $work_id, $union_iwork_id );
       }
     }
@@ -425,11 +418,9 @@ class Review extends Project {
     # Save languages as individual entries in the 'language of work' table
     $this->save_language_of_work( $work_id, $openoffice_iwork_id );
 
-    //echo 'RG reached here 4...' . LINEBREAK;    
     # Save authors, addressees etc.
     $this->save_work_relationships( $work_id, $union_iwork_id, $openoffice_iwork_id );
 
-    //echo 'RG reached here 5...' . LINEBREAK;    
     # Update the work status to 'Accepted'
     $statement = 'update ' . $this->proj_collect_work_tablename() . ' set upload_status = ' . CONTRIB_STATUS_ACCEPTED
                . " where upload_id = $this->upload_id and iwork_id = $openoffice_iwork_id";
@@ -581,7 +572,7 @@ class Review extends Project {
     $columns_to_skip = array( 'person_id', 'iperson_id', 
                               'change_timestamp', 'change_user',
                               'creation_timestamp', 'creation_user', 
-                              'other_details_summary', 'other_details_summary_searchable' );
+                              'other_details_summary', 'other_details_summary_searchable', 'uuid' );
     $i = 0;
     $statement = 'update ' . $this->proj_person_tablename() . ' set ';
 
@@ -838,29 +829,22 @@ class Review extends Project {
 
     $this->work_id = $work_id; 
     $this->union_iwork_id = $union_iwork_id;
-echo "save_work_relationships( $work_id, $union_iwork_id, $openoffice_iwork_id )"  .  LINEBREAK;			//RG_DEBUG
 
     $this->save_person_to_work_relationships( $this->proj_collect_author_of_work_tablename(),
                                               RELTYPE_PERSON_CREATOR_OF_WORK,
                                               $work_side = 'right', $desc = 'author' );
-echo "save_work_relationships( addressee )"  .  LINEBREAK;			//RG_DEBUG
 
     $this->save_person_to_work_relationships( $this->proj_collect_addressee_of_work_tablename(),
                                               RELTYPE_WORK_ADDRESSED_TO_PERSON,
                                               $work_side = 'left', $desc = 'addressee' );
-echo "save_work_relationships( person mentioned )"  .  LINEBREAK;			//RG_DEBUG
 
     $this->save_person_to_work_relationships( $this->proj_collect_person_mentioned_in_work_tablename(),
                                               RELTYPE_WORK_MENTIONS_PERSON,
                                               $work_side = 'left', $desc = 'person mentioned' );
-echo "save_work_to_place_relationships( )"  .  LINEBREAK;			//RG_DEBUG
 
     $this->save_work_to_place_relationships();
-echo "save_work_to_subject_relationships( )"  .  LINEBREAK;			//RG_DEBUG
-
     $this->save_work_to_subject_relationships();
 
-echo "save_comments_on_work( )"  .  LINEBREAK;			//RG_DEBUG
     $this->save_comments_on_work( 'notes_on_letter', RELTYPE_COMMENT_REFERS_TO_ENTITY );
     $this->save_comments_on_work( 'notes_on_date_of_work', RELTYPE_COMMENT_REFERS_TO_DATE, 'date of work' );
     $this->save_comments_on_work( 'notes_on_authors', RELTYPE_COMMENT_REFERS_TO_AUTHOR, 'author' );
@@ -868,15 +852,13 @@ echo "save_comments_on_work( )"  .  LINEBREAK;			//RG_DEBUG
     $this->save_comments_on_work( 'notes_on_people_mentioned', RELTYPE_COMMENT_REFERS_TO_PEOPLE_MENTIONED_IN_WORK, 
                                   'people mentioned' );
 
-echo "save_work_resources( )"  .  LINEBREAK;			//RG_DEBUG
     $this->save_work_resources( $work_id, $openoffice_iwork_id );
   }
   #-----------------------------------------------------
 
   function save_person_to_work_relationships( $tab, $reltype, $work_side, $desc = NULL ) {
-echo "save_person_to_work_relationships( $tab, $reltype, $work_side, $desc )"  .  LINEBREAK;			//RG_DEBUG
 
-    $statement = "select p.person_id, p.primary_name from $tab x, " 
+    $statement = "select p.person_id, p.primary_name from $tab x, "
                . $this->proj_collect_person_tablename() . ' p, '
                . $this->proj_collect_work_tablename() . ' w '
                . " where x.upload_id = $this->upload_id"
@@ -885,13 +867,10 @@ echo "save_person_to_work_relationships( $tab, $reltype, $work_side, $desc )"  .
                . ' and x.iperson_id = p.iperson_id'
                . ' and x.iwork_id = w.iwork_id'
                . " and w.work_id = '$this->work_id' and w.union_iwork_id = $this->union_iwork_id" ;
-// echo 'statement: '. $statement .  LINEBREAK;			//RG_DEBUG
+
     $results = $this->db_select_into_array( $statement );
     if( count( $results ) == 0 ) return;
 
-// echo 'results: '. $results .  LINEBREAK;			//RG_DEBUG
-print_r($results); //RG_DEBUG
-echo LINEBREAK; //RG_DEBUG
     foreach( $results as $result ) {
       extract( $result, EXTR_OVERWRITE );
 

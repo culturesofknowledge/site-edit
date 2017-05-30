@@ -239,6 +239,21 @@ then
   echo 'Copying CSV files to front end server.'
   scp ${CSVSOURCE}*.csv $COFK_CSV_DESTINATION
 
+  # New server data tranfers
+  remote_location_qa=bodl-emlo-svc@emlo-qa-site1.bodleian.ox.ac.uk:/data/emlo-docker-compose/data/
+  remote_location_prd=bodl-emlo-svc@emlo-prd-site1.bodleian.ox.ac.uk:/data/emlo-docker-compose/data/
+
+  for objects in comment image institution location person relationship resource work
+  do
+    csv_local_file=${CSVSOURCE}cofk_union_${objects}.csv
+
+    csv_remote_qa_file=${remote_location_qa}${objects}.csv
+    scp ${csv_local_file} ${csv_remote_qa_file}
+
+    csv_remote_prd_file=${remote_location_prd}${objects}.csv
+    scp ${csv_local_file} ${csv_remote_prd_file}
+  done
+
   ## -- I think we'll just link to images on the back-end server instead -- ${SCRIPTDIR}transfer_uploaded_images.sh
 else
   echo "The files in $CSVSOURCE will now need to be manually moved to the destination server."
