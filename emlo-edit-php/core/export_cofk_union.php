@@ -7,6 +7,8 @@ define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' )
 
 define( 'CONSTANT_DATABASE_TYPE', 'live' );
 
+defined( "DEBUGGING" ) or define( "DEBUGGING", FALSE );
+
 require_once "common_components.php";
 require_once "proj_components.php";
 
