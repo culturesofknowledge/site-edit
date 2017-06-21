@@ -42,6 +42,7 @@ def get_work_fields() :
 		"work_to_be_deleted",
 		"iwork_id",
 		"editors_notes",
+		"uuid"
 		#"edit_status",
 		#"relevant_to_cofk",
 		#"creation_timestamp",
@@ -118,7 +119,8 @@ def get_work_csv_converter() :
 		#{ "f" : "Related Resource URL", "d" : { "o" : "work", "f" : ""} },
 		{ "f" : u"Related Resource IDs [er = number for link to EMLO letter]", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
 		{ "f" : u"General notes for public display", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to"} },
-		{ "f" : u"Editors' working notes", "d" : { "o" : "work", "f" : "editors_notes"} }
+		{ "f" : u"Editors' working notes", "d" : { "o" : "work", "f" : "editors_notes"} },
+		{ "f" : u"UUID", "d" : { "o" : "work", "f" : "uuid" } },
 	]
 
 def get_person_fields() :
@@ -172,6 +174,7 @@ def get_person_fields() :
 		"flourished2_year",
 		"flourished2_month",
 		"flourished2_day",
+		"uuid"
 	]
 
 
@@ -196,6 +199,7 @@ def get_person_csv_converter() :
 		#{ "f" : "Related Resource Name(s)", "d" : { "o" : "person", "f" : "" } },
 		#{ "f" : "Related Resource URL(s)", "d" : { "o" : "person", "f" : "" } },
 		{ "f" : "Related Resource IDs", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
+		{ "f" : u"UUID", "d" : { "o" : "person", "f" : "uuid" } },
 	]
 
 
@@ -217,7 +221,8 @@ def get_location_fields() :
 		"element_4_eg_city",
 		"element_5_eg_county",
 		"element_6_eg_country",
-		"element_7_eg_empire"
+		"element_7_eg_empire",
+		"uuid"
 	]
 
 
@@ -240,7 +245,8 @@ def get_location_csv_converter() :
 		#{ "f" : "Related resource URL", "d" : { "o" : "location", "f" : "" } },
 		{ "f" : "Related Resource IDs", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
 		{ "f" : "General notes on place", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to" } },
-		{ "f" : "Editors' working notes", "d" : { "o" : "location", "f" : "editors_notes" } }
+		{ "f" : "Editors' working notes", "d" : { "o" : "location", "f" : "editors_notes" } },
+		{ "f" : "UUID", "d" : { "o" : "location", "f" : "uuid" } },
 
 	]
 
@@ -282,7 +288,8 @@ def get_manifestation_fields() :
 		"manifestation_creation_date2_month",
 		"manifestation_creation_date2_day",
 		"manifestation_creation_date_is_range",
-		"manifestation_creation_date_as_marked"
+		"manifestation_creation_date_as_marked",
+		"uuid"
 	]
 
 def get_manifestation_csv_converter() :
@@ -294,7 +301,8 @@ def get_manifestation_csv_converter() :
 		{ "f" : "Repository ID", "d" : { "o" : "institution", "f" : "institution_id", "r" : "stored_in" } },
 		{ "f" : "Shelfmark and pagination", "d" : { "o" : "manifestation", "f" : "id_number_or_shelfmark" } },
 		{ "f" : "Printed copy details", "d" : { "o" : "manifestation", "f" : "printed_edition_details" } },
-		{ "f" : "Notes on manifestation", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to" } }
+		{ "f" : "Notes on manifestation", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to" } },
+		{ "f" : u"UUID", "d" : { "o" : "manifestation", "f" : "uuid" } },
 	]
 
 def get_institution_fields() :
@@ -310,7 +318,8 @@ def get_institution_fields() :
 		#"creation_user",
 		#"change_timestamp",
 		#"change_user",
-		"editors_notes"
+		"editors_notes",
+		"uuid"
 	]
 
 def get_institution_csv_converter() :
@@ -321,7 +330,8 @@ def get_institution_csv_converter() :
 		{ "f" : "Repository Name", "d" : { "o" : "institution", "f" : "institution_name" } },
 		{ "f" : "Repository City", "d" : { "o" : "institution", "f" : "institution_city" } },
 		{ "f" : "Repository Country", "d" : { "o" : "institution", "f" : "institution_country" } },
-		{ "f" : "Related Resource IDs", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} }
+		{ "f" : "Related Resource IDs", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
+		{ "f" : u"UUID", "d" : { "o" : "institution", "f" : "uuid" } },
 	]
 
 def get_comment_fields() :
@@ -332,7 +342,8 @@ def get_comment_fields() :
 		#"creation_timestamp",
 		#"creation_user",
 		#"change_timestamp",
-		#"change_user"
+		#"change_user",
+		"uuid"
 	]
 
 
@@ -347,7 +358,8 @@ def get_resource_fields() :
 		#"creation_timestamp",
 		#"creation_user",
 		#"change_timestamp",
-		#"change_user"
+		#"change_user",
+		"uuid"
 	]
 
 def get_resource_csv_converter() :
@@ -355,5 +367,6 @@ def get_resource_csv_converter() :
 		{ "f" : "Resource ID", "d" : { "o" : "resource", "f" : "resource_id" } },
 		{ "f" : "Resource Name", "d" : { "o" : "resource", "f" : "resource_name" } },
 		{ "f" : "Resource Details", "d" : { "o" : "resource", "f" : "resource_details" } },
-		{ "f" : "Resource URL", "d" : { "o" : "resource", "f" : "resource_url" } }
+		{ "f" : "Resource URL", "d" : { "o" : "resource", "f" : "resource_url" } },
+		{ "f" : u"UUID", "d" : { "o" : "resource", "f" : "uuid" } },
 	]

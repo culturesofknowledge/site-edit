@@ -173,7 +173,8 @@ class Exporter:
 							"resource_id" : "er" + str(iwork_id),
 							"resource_name": "Early Modern Letters Online",
 							"resource_details" : "",
-							"resource_url" :    "http://emlo.bodleian.ox.ac.uk/profile?iwork_id=" + str(iwork_id)
+							"resource_url" :    "http://emlo.bodleian.ox.ac.uk/profile/work/" + work["uuid"],
+							"uuid" : work["uuid"]
 												#http://emlo.bodleian.ox.ac.uk/profile?iwork_id=30348
 						}
 						resources_works.append(new_resource)
