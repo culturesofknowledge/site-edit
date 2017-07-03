@@ -97,11 +97,15 @@ class Exporter:
 			if not os.path.exists( output_folder ):
 				os.makedirs( output_folder )
 
-			work_ids = list( set(work_ids) )  # ensure unique
+			#work_ids = list( set(work_ids) )  # ensure unique
+			work_ids = set(work_ids)  # ensure unique
 
 			# Get Works (sub works of works!)
 			# Disabling this, it
-			# work_ids = work_ids.union( self._get_relationships( self.names['work'], work_ids, self.names['work'] ) )
+			#work_ids = work_ids.union( self._get_relationships( self.names['work'], work_ids, self.names['work'] ) )
+			#work_ids_additional = self._get_relationships( self.names['work'], work_ids, self.names['work'] )
+
+			work_ids = list(work_ids)
 
 			# Works
 
@@ -480,7 +484,7 @@ class Exporter:
 		:param object_name: The objects we have
 		:param object_ids:  A array/set of the ID's of the objects we have
 		:param wanted_name: THe objects we want.
-		:return: A set of the object ids we wanted, Looking like this:   { obj_id : [ { i(id) : wanted_id, r(relation): relationship_type }, ] }
+		:return: A set of the object ids we wanted, Looking like this:   { obj_id : [ { i (i.e. "id") : wanted_id, r (i.e. "relation"): relationship_type }, ] }
 		"""
 
 		wanted = {}  #
