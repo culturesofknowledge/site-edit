@@ -43,7 +43,7 @@ class Exporter:
 		self.csvs = []
 		self.limit_ouput = 10
 
-	def export_people(self, person_ids, output_folder_name ):
+	def export_people(self, person_ids, output_folder_name, excel_output=None ):
 
 		output_folder = "exports/" + output_folder_name
 		if not os.path.exists( output_folder ):
@@ -63,6 +63,22 @@ class Exporter:
 		resources_people = self._get_resources( resource_ids )
 
 		self._create_person_csv( people, comments, comments_relations, resources_people, resource_relations_people, output_folder )
+
+		self._create_resource_csv(resources_people, output_folder )
+
+		# Create Excel file of CSV files
+
+		ew = excel_writer.ExcelWriter()
+		settings = {
+			"sheets" : self.csvs,
+			"outputname" : output_folder + "/" + output_folder_name + ".xlsx"
+		}
+
+		if excel_output is not None:
+			settings["outputname"] = excel_output
+
+		ew.convert( settings )
+
 
 	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None, excel_output=None ):
 		"""
@@ -161,7 +177,8 @@ class Exporter:
 							"resource_id" : "er" + str(iwork_id),
 							"resource_name": "Early Modern Letters Online",
 							"resource_details" : "",
-							"resource_url" :    "http://emlo.bodleian.ox.ac.uk/profile?iwork_id=" + str(iwork_id)
+							"resource_url" :    "http://emlo.bodleian.ox.ac.uk/profile/work/" + work["uuid"],
+							"uuid" : work["uuid"]
 												#http://emlo.bodleian.ox.ac.uk/profile?iwork_id=30348
 						}
 						resources_works.append(new_resource)
@@ -311,6 +328,9 @@ class Exporter:
 		duration = end - start
 
 		self._print_report( duration )
+
+		self.reports = []
+		self.relationship_ids = None
 
 
 	def _create_resource_csv(self, resources, folder ):
@@ -515,7 +535,8 @@ class Exporter:
 
 				wanted[obj_id].append( {"i" : want_id, "r" : relation['relationship_type'] } )
 
-				self.relationship_ids.append( str(relation['relationship_id']) )
+				if self.relationship_ids is not None:
+					self.relationship_ids.append( str(relation['relationship_id']) )
 
 			#print( relations )
 

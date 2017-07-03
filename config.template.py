@@ -1,6 +1,7 @@
 config = dict(
+	host="",
+	port="",
 	dbname="",
 	user="",
-	host="",
 	password=""
 )
