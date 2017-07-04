@@ -187,27 +187,27 @@ class Exporter:
 
 
 					# Add new resources so that exported data has links back to EMLO front end
-					for work in works :
+					# for work in works :
 
-						work_id = work["work_id"]
-						iwork_id = work["iwork_id"]  # Note this isn't "work_id" !
-						#related_resource = self._get_work_field( work, "iwork_id" )
+					# 	work_id = work["work_id"]
+					# 	iwork_id = work["iwork_id"]  # Note this isn't "work_id" !
+					# 	#related_resource = self._get_work_field( work, "iwork_id" )
 
-						new_resource = {
-							"resource_id" : "er" + str(iwork_id),
-							"resource_name": "Early Modern Letters Online",
-							"resource_details" : "",
-							"resource_url" :    "http://emlo.bodleian.ox.ac.uk/profile/work/" + work["uuid"],
-							"uuid" : ""
-												#http://emlo.bodleian.ox.ac.uk/profile?iwork_id=30348
-						}
-						resources_works.append(new_resource)
-						# { obj_id : [ { i(id) : wanted_id, r(relation): relationship_type }, ] }
+					# 	new_resource = {
+					# 		"resource_id" : "er" + str(iwork_id),
+					# 		"resource_name": "Early Modern Letters Online",
+					# 		"resource_details" : "",
+					# 		"resource_url" :    "http://emlo.bodleian.ox.ac.uk/profile/work/" + work["uuid"],
+					# 		"uuid" : ""
+					# 							#http://emlo.bodleian.ox.ac.uk/profile?iwork_id=30348
+					# 	}
+					# 	resources_works.append(new_resource)
+					# 	# { obj_id : [ { i(id) : wanted_id, r(relation): relationship_type }, ] }
 
-						if work_id not in resource_relations_works :
-							resource_relations_works[work_id] = []
+					# 	if work_id not in resource_relations_works :
+					# 		resource_relations_works[work_id] = []
 
-						resource_relations_works[work_id].append( { "i" : new_resource["resource_id"], "r" : "is_related_to" } )
+					# 	resource_relations_works[work_id].append( { "i" : new_resource["resource_id"], "r" : "is_related_to" } )
 
 				self._create_work_csv( works, works_rel, work_relations, people, people_relations, locations, locations_relations, comments, comments_relations, resources_works, resource_relations_works, output_folder )
 
@@ -539,9 +539,9 @@ class Exporter:
 
 		for row in rows :
 
+			if objs_type == self.names["work"] :
 
-
-			if objs_type == "work" :
+				self._create_url(objs_type, row)
 
 				# Update match ID
 				if row[field_match] != "" :
@@ -555,7 +555,28 @@ class Exporter:
 
 					row[field_match_id] = match_id
 
-				# Update EMLO URL
+			elif objs_type == self.names["location"] :
+
+				self._create_url(objs_type, row)
+
+			elif objs_type == self.names["person"] :
+
+				self._create_url(objs_type, row)
+
+			elif objs_type == self.names["institution"] :
+
+				self._create_url(objs_type, row)
+
+
+
+	def _create_url(self, obj_type, row):
+		field_UUID = "UUID"
+		field_URL = "EMLO URL"
+
+		url_type = obj_type
+
+		row[field_URL] = "http://emlo.bodleian.ox.ac.uk/profile/" + url_type + "/" + row[field_UUID]
+
 
 
 	def _get_relationships(self, object_name, object_ids, wanted_name ):

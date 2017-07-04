@@ -228,6 +228,7 @@ def get_person_csv_converter() :
 		#{ "f" : "Related Resource URL(s)", "d" : { "o" : "person", "f" : "" } },
 		{ "f" : "Related Resource IDs", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
 		{ "f" : u"UUID", "d" : { "o" : "person", "f" : "uuid" } },
+		{ "f" : u"EMLO URL",                        "d" : {} },
 	]
 
 
@@ -275,6 +276,7 @@ def get_location_csv_converter() :
 		{ "f" : "General notes on place", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to" } },
 		{ "f" : "Editors' working notes", "d" : { "o" : "location", "f" : "editors_notes" } },
 		{ "f" : "UUID", "d" : { "o" : "location", "f" : "uuid" } },
+		{ "f" : u"EMLO URL",                        "d" : {} },
 
 	]
 
@@ -360,6 +362,7 @@ def get_institution_csv_converter() :
 		{ "f" : "Repository Country",   "d" : { "o" : "institution", "f" : "institution_country" } },
 		{ "f" : "Related Resource IDs", "d" : { "o" : "resource",    "f" : "resource_id", "r" : "is_related_to"} },
 		{ "f" : "UUID",                 "d" : { "o" : "institution", "f" : "uuid" } },
+		{ "f" : u"EMLO URL",                        "d" : {} },
 	]
 
 def get_comment_fields() :
