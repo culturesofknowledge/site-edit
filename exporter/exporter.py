@@ -134,6 +134,21 @@ class Exporter:
 				works = self._get_works( work_ids )
 				works_rel = self._get_works( work_ids_related )
 
+				# Add a relation back to itself if we have multiple matching
+				matches = []
+
+				for work_id in work_relations:
+					relation_list = work_relations[work_id]
+
+					match = False
+					for relData in relation_list :
+						if relData["r"] == "matches" :
+							match = True
+							break
+
+					if match:
+						work_relations[work_id].append( {"i" : work_id, "r" : "matches"} )
+
 
 				# work - work relations
 				# TODO: We'll need to handle these links (but only for those between works we already have...)
@@ -457,12 +472,10 @@ class Exporter:
 				conv = converter["d"]
 
 				csv_value = ""
-				if conv["o"] != objs_type :
+
+				if "o" in conv and conv["o"] != objs_type :
 
 					conv_obj = conv["o"]
-
-					if conv_obj == 'workdummy' :
-						conv_obj = 'work'
 
 					# Find the matching objects
 					obj_id = obj[objs_type_id]
@@ -486,27 +499,64 @@ class Exporter:
 								obj_rel_id = str(obj_rel["i"])
 
 								for obj_search in relateds :
-									obj_search_id = obj_search[ conv_obj.replace("-rel","") + "_id"]
+									obj_search_id = obj_search[ conv_obj.replace("-rel", "") + "_id"]
 									if str(obj_search_id) == obj_rel_id :
 
-										if csv_value != "" and obj_search[conv_fie] != "" :
-											csv_value += "; "
+										if obj_search[conv_fie] != "" :
 
-										csv_value += str(obj_search[conv_fie])
+											if csv_value == "" :
+												list_values = [str(obj_search[conv_fie])]
+											else :
+												list_values = csv_value.split("; ")
+												list_values.append(str(obj_search[conv_fie]))
 
-				elif "f" not in conv:
+											list_values.sort()
 
-					pass
-				else :
+											csv_value = "; ".join(list_values)
+
+				elif "f" in conv:
 					csv_value = obj[conv["f"]]
 
 				csv_row[csv_field] = csv_value
 
 			csv_rows.append(csv_row)
 
+		self._additional( objs_type, csv_rows )
+
 		self._save_csv( csv_rows, csv_fields, filename )
 
 		#return work_csv
+
+	def _additional(self, objs_type, rows ):
+
+
+		field_work_id = "EMLO Letter ID Number"
+		field_match = "Matching letter(s) in alternative EMLO catalogue(s) (self reference also)"
+		field_match_id = "Match id number"
+
+		#field_UUID = "UUID"
+		#field_URL = "EMLO URL"
+
+		for row in rows :
+
+
+
+			if objs_type == "work" :
+
+				# Update match ID
+				if row[field_match] != "" :
+					splits = row[field_match].split("; ")
+
+					if str(row[field_work_id]) not in splits :
+						print ("ERROR MISSING ID MATCH" )  #pass
+						match_id = "MISSING"
+					else :
+						match_id = splits.index(str(row[field_work_id])) + 1
+
+					row[field_match_id] = match_id
+
+				# Update EMLO URL
+
 
 	def _get_relationships(self, object_name, object_ids, wanted_name ):
 		"""
