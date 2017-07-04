@@ -118,7 +118,8 @@ class Exporter:
 
 			# Get Works (sub works of works!)
 			work_relations = self._get_relationships( self.names['work'], work_ids, self.names['work'] )
-			work_ids = work_ids.union( self._id_link_set_from_relationships(work_relations) )
+			# work_ids = work_ids.union( self._id_link_set_from_relationships(work_relations) )
+			work_ids_related = self._id_link_set_from_relationships(work_relations)
 
 			# Get the relations between the new works we just added (backward links)
 			work_relations = self._get_relationships( self.names['work'], work_ids, self.names['work'] )
@@ -131,6 +132,8 @@ class Exporter:
 
 			if self.names["work"] in parts_csvs:
 				works = self._get_works( work_ids )
+				works_rel = self._get_works( work_ids_related )
+
 
 				# work - work relations
 				# TODO: We'll need to handle these links (but only for those between works we already have...)
@@ -191,7 +194,7 @@ class Exporter:
 
 						resource_relations_works[work_id].append( { "i" : new_resource["resource_id"], "r" : "is_related_to" } )
 
-				self._create_work_csv( works, work_relations, people, people_relations, locations, locations_relations, comments, comments_relations, resources_works, resource_relations_works, output_folder )
+				self._create_work_csv( works, works_rel, work_relations, people, people_relations, locations, locations_relations, comments, comments_relations, resources_works, resource_relations_works, output_folder )
 
 
 			# People
@@ -418,10 +421,10 @@ class Exporter:
 		})
 
 
-	def _create_work_csv(self, works, work_relations, people, people_relations, locations, locations_relations, comments, comments_relations, resources, resource_relations, folder ):
+	def _create_work_csv(self, works, works_rel, work_relations, people, people_relations, locations, locations_relations, comments, comments_relations, resources, resource_relations, folder ):
 
-		related = { self.names['work'] : works, self.names['person'] : people, self.names['location'] : locations, self.names['comment'] : comments, self.names['resource'] : resources }
-		related_relations = { self.names['work'] : work_relations, self.names['person'] : people_relations, self.names['location'] : locations_relations, self.names['comment'] : comments_relations, self.names['resource'] : resource_relations }
+		related = { self.names['work'] : works, "work-rel" : works_rel, self.names['person'] : people, self.names['location'] : locations, self.names['comment'] : comments, self.names['resource'] : resources }
+		related_relations = { self.names['work'] : work_relations, "work-rel" : work_relations, self.names['person'] : people_relations, self.names['location'] : locations_relations, self.names['comment'] : comments_relations, self.names['resource'] : resource_relations }
 
 		self._create_csv( objects.get_work_csv_converter(),
 								works,
@@ -483,7 +486,7 @@ class Exporter:
 								obj_rel_id = str(obj_rel["i"])
 
 								for obj_search in relateds :
-									obj_search_id = obj_search[ conv_obj + "_id"]
+									obj_search_id = obj_search[ conv_obj.replace("-rel","") + "_id"]
 									if str(obj_search_id) == obj_rel_id :
 
 										if csv_value != "" and obj_search[conv_fie] != "" :

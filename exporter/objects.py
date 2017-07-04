@@ -126,9 +126,9 @@ def get_work_csv_converter() :
 		{ "f" : u"Original Catalogue name",         "d" : { "o" : "work", "f" : "original_catalogue" } },
 
 		# Ignoring as would include other works (complicated work connections...)
-		# { "f" : "Letter in reply to", "d" : { "o" : "work", "f" : ""} },
-		# { "f" : "Letter answered by", "d" : { "o" : "work", "f" : ""} },
-		{ "f" : "Matching letter(s) in alternative EMLO catalogue(s)", "d" : { "o" : "workdummy", "f" : "iwork_id", "r" : "matches"} },
+		#{ "f" : "Letter in reply to", "d" : { "o" : "work-rel", "f" : "iwork_id", "r" : "" } },
+		#{ "f" : "Letter answered by", "d" : { "o" : "work-rel", "f" : "iwork_id", "r" : "is_reply_to" } },
+		{ "f" : "Matching letter(s) in alternative EMLO catalogue(s)", "d" : { "o" : "work-rel", "f" : "iwork_id", "r" : "matches" } },
 
 		# This will be a separate table... some how...
 		# { "f" : "Related Resource descriptor", "d" : { "o" : "work", "f" : ""} },
