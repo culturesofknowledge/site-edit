@@ -57,10 +57,6 @@ def get_work_csv_converter() :
 	return [
 		{ "f" : u"EMLO Letter ID Number",       "d" : { "o" : "work", "f" : "iwork_id" } },
 
-		{ "f" : "Matching letter(s) in alternative EMLO catalogue(s) (self reference also)", "d" : { "o" : "work-rel", "f" : "iwork_id", "r" : "matches" } },
-		{ "f" : "Match id number", "d" : {} },  # Dummy value to replace
-
-
 		{ "f" : u"Year date",                   "d" : { "o" : "work", "f" : "date_of_work_std_year"} },
 		{ "f" : u"Month date",                  "d" : { "o" : "work", "f" : "date_of_work_std_month"} },
 		{ "f" : u"Day date",                    "d" : { "o" : "work", "f" : "date_of_work_std_day"} },
@@ -134,8 +130,8 @@ def get_work_csv_converter() :
 		#{ "f" : "Letter in reply to", "d" : { "o" : "work-rel", "f" : "iwork_id", "r" : "" } },
 		#{ "f" : "Letter answered by", "d" : { "o" : "work-rel", "f" : "iwork_id", "r" : "is_reply_to" } },
 
-
-
+		{ "f" : "Matching letter(s) in alternative EMLO catalogue(s) (self reference also)", "d" : { "o" : "work-rel", "f" : "iwork_id", "r" : "matches" } },
+		{ "f" : "Match id number", "d" : {} },
 
 		# This will be a separate table... some how...
 		# { "f" : "Related Resource descriptor", "d" : { "o" : "work", "f" : ""} },
