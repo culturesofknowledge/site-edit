@@ -2216,7 +2216,7 @@ class Application_Entity {
 
   function app_popup_set_value_of_field_in_opener( $field_name, $field_value ) {  # used by popup windows
 
-    $this->script .= "opener.document.$this->calling_form.$field_name.value = '$field_value';" . NEWLINE;
+    $this->script .= "opener.document.$this->calling_form.$field_name.value = " . str_replace('\'', '\\\'', $field_value) . "';" . NEWLINE;
   }
   #-----------------------------------------------------
   function app_popup_highlight_field_in_opener( $field_name ) {  # used by popup windows
