@@ -113,11 +113,18 @@ class Exporter:
 			if not os.path.exists( output_folder ):
 				os.makedirs( output_folder )
 
-			work_ids = list( set(work_ids) )  # ensure unique
+			#work_ids = list( set(work_ids) )  # ensure unique
+			work_ids = set(work_ids)  # ensure unique
 
 			# Get Works (sub works of works!)
-			# Disabling this, it
-			# work_ids = work_ids.union( self._get_relationships( self.names['work'], work_ids, self.names['work'] ) )
+			work_relations = self._get_relationships( self.names['work'], work_ids, self.names['work'] )
+			# work_ids = work_ids.union( self._id_link_set_from_relationships(work_relations) )
+			work_ids_related = self._id_link_set_from_relationships(work_relations)
+
+			# Get the relations between the new works we just added (backward links)
+			work_relations = self._get_relationships( self.names['work'], work_ids, self.names['work'] )
+
+			work_ids = list(work_ids)
 
 			# Works
 
@@ -125,6 +132,23 @@ class Exporter:
 
 			if self.names["work"] in parts_csvs:
 				works = self._get_works( work_ids )
+				works_rel = self._get_works( work_ids_related )
+
+				# Add a relation back to itself if we have multiple matching
+				matches = []
+
+				for work_id in work_relations:
+					relation_list = work_relations[work_id]
+
+					match = False
+					for relData in relation_list :
+						if relData["r"] == "matches" :
+							match = True
+							break
+
+					if match:
+						work_relations[work_id].append( {"i" : work_id, "r" : "matches"} )
+
 
 				# work - work relations
 				# TODO: We'll need to handle these links (but only for those between works we already have...)
@@ -163,29 +187,29 @@ class Exporter:
 
 
 					# Add new resources so that exported data has links back to EMLO front end
-					for work in works :
+					# for work in works :
 
-						work_id = work["work_id"]
-						iwork_id = work["iwork_id"]  # Note this isn't "work_id" !
-						#related_resource = self._get_work_field( work, "iwork_id" )
+					# 	work_id = work["work_id"]
+					# 	iwork_id = work["iwork_id"]  # Note this isn't "work_id" !
+					# 	#related_resource = self._get_work_field( work, "iwork_id" )
 
-						new_resource = {
-							"resource_id" : "er" + str(iwork_id),
-							"resource_name": "Early Modern Letters Online",
-							"resource_details" : "",
-							"resource_url" :    "http://emlo.bodleian.ox.ac.uk/profile/work/" + work["uuid"],
-							"uuid" : work["uuid"]
-												#http://emlo.bodleian.ox.ac.uk/profile?iwork_id=30348
-						}
-						resources_works.append(new_resource)
-						# { obj_id : [ { i(id) : wanted_id, r(relation): relationship_type }, ] }
+					# 	new_resource = {
+					# 		"resource_id" : "er" + str(iwork_id),
+					# 		"resource_name": "Early Modern Letters Online",
+					# 		"resource_details" : "",
+					# 		"resource_url" :    "http://emlo.bodleian.ox.ac.uk/profile/work/" + work["uuid"],
+					# 		"uuid" : ""
+					# 							#http://emlo.bodleian.ox.ac.uk/profile?iwork_id=30348
+					# 	}
+					# 	resources_works.append(new_resource)
+					# 	# { obj_id : [ { i(id) : wanted_id, r(relation): relationship_type }, ] }
 
-						if work_id not in resource_relations_works :
-							resource_relations_works[work_id] = []
+					# 	if work_id not in resource_relations_works :
+					# 		resource_relations_works[work_id] = []
 
-						resource_relations_works[work_id].append( { "i" : new_resource["resource_id"], "r" : "is_related_to" } )
+					# 	resource_relations_works[work_id].append( { "i" : new_resource["resource_id"], "r" : "is_related_to" } )
 
-				self._create_work_csv( works, people, people_relations, locations, locations_relations, comments, comments_relations, resources_works, resource_relations_works, output_folder )
+				self._create_work_csv( works, works_rel, work_relations, people, people_relations, locations, locations_relations, comments, comments_relations, resources_works, resource_relations_works, output_folder )
 
 
 			# People
@@ -412,10 +436,10 @@ class Exporter:
 		})
 
 
-	def _create_work_csv(self, works, people, people_relations, locations, locations_relations, comments, comments_relations, resources, resource_relations, folder ):
+	def _create_work_csv(self, works, works_rel, work_relations, people, people_relations, locations, locations_relations, comments, comments_relations, resources, resource_relations, folder ):
 
-		related = { self.names['person'] : people, self.names['location'] : locations, self.names['comment'] : comments, self.names['resource'] : resources }
-		related_relations = { self.names['person'] : people_relations, self.names['location'] : locations_relations, self.names['comment'] : comments_relations, self.names['resource'] : resource_relations }
+		related = { self.names['work'] : works, "work-rel" : works_rel, self.names['person'] : people, self.names['location'] : locations, self.names['comment'] : comments, self.names['resource'] : resources }
+		related_relations = { self.names['work'] : work_relations, "work-rel" : work_relations, self.names['person'] : people_relations, self.names['location'] : locations_relations, self.names['comment'] : comments_relations, self.names['resource'] : resource_relations }
 
 		self._create_csv( objects.get_work_csv_converter(),
 								works,
@@ -448,7 +472,8 @@ class Exporter:
 				conv = converter["d"]
 
 				csv_value = ""
-				if conv["o"] != objs_type :
+
+				if "o" in conv and conv["o"] != objs_type :
 
 					conv_obj = conv["o"]
 
@@ -474,24 +499,85 @@ class Exporter:
 								obj_rel_id = str(obj_rel["i"])
 
 								for obj_search in relateds :
-									obj_search_id = obj_search[ conv_obj + "_id"]
+									obj_search_id = obj_search[ conv_obj.replace("-rel", "") + "_id"]
 									if str(obj_search_id) == obj_rel_id :
 
-										if csv_value != "" and obj_search[conv_fie] != "" :
-											csv_value += "; "
+										if obj_search[conv_fie] != "" :
 
-										csv_value += str(obj_search[conv_fie])
+											if csv_value == "" :
+												list_values = [str(obj_search[conv_fie])]
+											else :
+												list_values = csv_value.split("; ")
+												list_values.append(str(obj_search[conv_fie]))
 
-				else :
+											list_values.sort()
+
+											csv_value = "; ".join(list_values)
+
+				elif "f" in conv:
 					csv_value = obj[conv["f"]]
 
 				csv_row[csv_field] = csv_value
 
 			csv_rows.append(csv_row)
 
+		self._additional( objs_type, csv_rows )
+
 		self._save_csv( csv_rows, csv_fields, filename )
 
 		#return work_csv
+
+	def _additional(self, objs_type, rows ):
+
+
+		field_work_id = "EMLO Letter ID Number"
+		field_match = "Matching letter(s) in alternative EMLO catalogue(s) (self reference also)"
+		field_match_id = "Match id number"
+
+		#field_UUID = "UUID"
+		#field_URL = "EMLO URL"
+
+		for row in rows :
+
+			if objs_type == self.names["work"] :
+
+				self._create_url(objs_type, row)
+
+				# Update match ID
+				if row[field_match] != "" :
+					splits = row[field_match].split("; ")
+
+					if str(row[field_work_id]) not in splits :
+						print ("ERROR MISSING ID MATCH" )  #pass
+						match_id = "MISSING"
+					else :
+						match_id = splits.index(str(row[field_work_id])) + 1
+
+					row[field_match_id] = match_id
+
+			elif objs_type == self.names["location"] :
+
+				self._create_url(objs_type, row)
+
+			elif objs_type == self.names["person"] :
+
+				self._create_url(objs_type, row)
+
+			elif objs_type == self.names["institution"] :
+
+				self._create_url(objs_type, row)
+
+
+
+	def _create_url(self, obj_type, row):
+		field_UUID = "UUID"
+		field_URL = "EMLO URL"
+
+		url_type = obj_type
+
+		row[field_URL] = "http://emlo.bodleian.ox.ac.uk/profile/" + url_type + "/" + row[field_UUID]
+
+
 
 	def _get_relationships(self, object_name, object_ids, wanted_name ):
 		"""
@@ -500,7 +586,7 @@ class Exporter:
 		:param object_name: The objects we have
 		:param object_ids:  A array/set of the ID's of the objects we have
 		:param wanted_name: THe objects we want.
-		:return: A set of the object ids we wanted, Looking like this:   { obj_id : [ { i(id) : wanted_id, r(relation): relationship_type }, ] }
+		:return: A set of the object ids we wanted, Looking like this:   { obj_id : [ { i (i.e. "id") : wanted_id, r (i.e. "relation"): relationship_type }, ] }
 		"""
 
 		wanted = {}  #
@@ -530,6 +616,15 @@ class Exporter:
 					wanted[obj_id] = []
 
 				wanted[obj_id].append( {"i" : want_id, "r" : relation['relationship_type'] } )
+
+				if relation['left_table_name'] == wanted_table and relation['right_table_name'] == wanted_table :
+					# For relations between the SAME object type record both forward and back (mainly for "matches" between works)
+					obj_id, want_id = want_id, obj_id
+
+					if obj_id not in wanted :
+						wanted[obj_id] = []
+
+					wanted[obj_id].append( {"i" : want_id, "r" : relation['relationship_type'] } )
 
 				if self.relationship_ids is not None:
 					self.relationship_ids.append( str(relation['relationship_id']) )

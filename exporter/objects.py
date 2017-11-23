@@ -55,72 +55,96 @@ def get_work_fields() :
 def get_work_csv_converter() :
 
 	return [
-		{ "f" : u"EMLO Letter ID Number", "d" : { "o" : "work", "f" : "iwork_id" } },
-		{ "f" : u"Year date", "d" : { "o" : "work", "f" : "date_of_work_std_year"} },
-		{ "f" : u"Month date", "d" : { "o" : "work", "f" : "date_of_work_std_month"} },
-		{ "f" : u"Day date", "d" : { "o" : "work", "f" : "date_of_work_std_day"} },
-		{ "f" : u"Standard gregorian date", "d" : { "o" : "work", "f" : "date_of_work_std_gregorian"} },
+		{ "f" : u"EMLO Letter ID Number",       "d" : { "o" : "work", "f" : "iwork_id" } },
+
+		{ "f" : u"Year date",                   "d" : { "o" : "work", "f" : "date_of_work_std_year"} },
+		{ "f" : u"Month date",                  "d" : { "o" : "work", "f" : "date_of_work_std_month"} },
+		{ "f" : u"Day date",                    "d" : { "o" : "work", "f" : "date_of_work_std_day"} },
+		{ "f" : u"Standard gregorian date",     "d" : { "o" : "work", "f" : "date_of_work_std_gregorian"} },
 		{ "f" : u"Date is range (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "date_of_work_std_is_range"} },
-		{ "f" : u"Year 2nd date (range)", "d" : { "o" : "work", "f" : "date_of_work2_std_year"} },
-		{ "f" : u"Month 2nd date (range)", "d" : { "o" : "work", "f" : "date_of_work2_std_month"} },
-		{ "f" : u"Day 2nd date (range)", "d" : { "o" : "work", "f" : "date_of_work2_std_day"} },
-		{ "f" : u"Calendar of date provided to EMLO (G=Gregorian; JJ=Julian, year start 1 January; JM=Julian, year start March, U=Unknown)", "d" : { "o" : "work", "f" : "original_calendar"} },
-		{ "f" : u"Date as marked on letter", "d" : { "o" : "work", "f" : "date_of_work_as_marked"} },
-		{ "f" : u"Date uncertain (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "date_of_work_uncertain"} },
-		{ "f" : u"Date approximate (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "date_of_work_approx"} },
-		{ "f" : u"Date inferred (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "date_of_work_inferred"} },
-		{ "f" : u"Notes on date", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_date"} },
+		{ "f" : u"Year 2nd date (range)",       "d" : { "o" : "work", "f" : "date_of_work2_std_year"} },
+		{ "f" : u"Month 2nd date (range)",      "d" : { "o" : "work", "f" : "date_of_work2_std_month"} },
+		{ "f" : u"Day 2nd date (range)",        "d" : { "o" : "work", "f" : "date_of_work2_std_day"} },
+		{ "f" : u"Calendar of date provided "
+				u"to EMLO (G=Gregorian; "
+				u"JJ=Julian, year start 1 "
+				u"January; JM=Julian, year "
+				u"start March, U=Unknown)",         "d" : { "o" : "work", "f" : "original_calendar"} },
+		{ "f" : u"Date as marked on letter",        "d" : { "o" : "work", "f" : "date_of_work_as_marked"} },
+		{ "f" : u"Date uncertain (0=No; 1=Yes)",    "d" : { "o" : "work", "f" : "date_of_work_uncertain"} },
+		{ "f" : u"Date approximate (0=No; 1=Yes)",  "d" : { "o" : "work", "f" : "date_of_work_approx"} },
+		{ "f" : u"Date inferred (0=No; 1=Yes)",     "d" : { "o" : "work", "f" : "date_of_work_inferred"} },
+		{ "f" : u"Notes on date",                   "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_date"} },
 
-		{ "f" : u"Author", "d" :  { "o" : "person", "f" : "foaf_name", "r" : "created" } },
-		{ "f" : u"Author EMLO ID", "d" : { "o" : "person", "f" : "iperson_id", "r" : "created" } },
-		{ "f" : u"Author as marked in body/text of letter", "d" : { "o" : "work", "f" : "authors_as_marked"} },
-		{ "f" : u"Author inferred (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "authors_inferred"} },
-		{ "f" : u"Author uncertain (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "authors_uncertain"} },
-		{ "f" : u"Notes on Author in relation to letter", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_author"} },
-		{ "f" : u"Recipient", "d" : { "o" : "person", "f" : "foaf_name", "r" : "was_addressed_to" } },
-		{ "f" : u"Recipient EMLO ID", "d" : { "o" : "person", "f" : "iperson_id", "r" : "was_addressed_to" } },
-		{ "f" : u"Recipient as marked in body/text of letter", "d" : { "o" : "work", "f" : "addressees_as_marked"} },
-		{ "f" : u"Recipient inferred (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "addressees_inferred"} },
-		{ "f" : u"Recipient uncertain (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "addressees_uncertain"} },
-		{ "f" : u"Notes on Recipient in relation to letter", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_addressee"} },
+		{ "f" : u"Author",                          "d" :  { "o" : "person", "f" : "foaf_name", "r" : "created" } },
+		{ "f" : u"Author EMLO ID",                  "d" : { "o" : "person", "f" : "iperson_id", "r" : "created" } },
+		{ "f" : u"Author as marked in body/text "
+				u"of letter",                       "d" : { "o" : "work", "f" : "authors_as_marked"} },
+		{ "f" : u"Author inferred (0=No; 1=Yes)",   "d" : { "o" : "work", "f" : "authors_inferred"} },
+		{ "f" : u"Author uncertain (0=No; 1=Yes)",  "d" : { "o" : "work", "f" : "authors_uncertain"} },
+		{ "f" : u"Notes on Author in relation "
+				u"to letter",                       "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_author"} },
+		{ "f" : u"Recipient",                       "d" : { "o" : "person", "f" : "foaf_name", "r" : "was_addressed_to" } },
+		{ "f" : u"Recipient EMLO ID",               "d" : { "o" : "person", "f" : "iperson_id", "r" : "was_addressed_to" } },
+		{ "f" : u"Recipient as marked in body/text "
+				u"of letter",                       "d" : { "o" : "work", "f" : "addressees_as_marked"} },
+		{ "f" : u"Recipient inferred "
+				u"(0=No; 1=Yes)",                   "d" : { "o" : "work", "f" : "addressees_inferred"} },
+		{ "f" : u"Recipient uncertain "
+				u"(0=No; 1=Yes)",                   "d" : { "o" : "work", "f" : "addressees_uncertain"} },
+		{ "f" : u"Notes on Recipient in "
+				u"relation to letter",              "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_addressee"} },
 
-		{ "f" : u"Origin name", "d" : { "o" : "location", "f" : "location_name","r" : "was_sent_from" } },
-		{ "f" : u"Origin EMLO ID", "d" : { "o" : "location", "f" : "location_id","r" : "was_sent_from" } },
-		{ "f" : u"Origin as marked in body/text of letter", "d" : { "o" : "work", "f" : "origin_as_marked"} },
-		{ "f" : u"Origin inferred (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "origin_inferred"} },
-		{ "f" : u"Origin uncertain (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "origin_uncertain"} },
-		{ "f" : u"Notes on Origin in relation to letter", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_origin"} },
-		{ "f" : u"Destination name", "d" : { "o" : "location", "f" : "location_name","r" : "was_sent_to" } },
-		{ "f" : u"Destination EMLO ID", "d" : { "o" : "location", "f" : "location_id","r" : "was_sent_to" } },
-		{ "f" : u"Destination as marked in body/text of letter", "d" : { "o" : "work", "f" : "destination_as_marked"} },
-		{ "f" : u"Destination inferred (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "destination_inferred"} },
-		{ "f" : u"Destination uncertain (0=No; 1=Yes)", "d" : { "o" : "work", "f" : "destination_uncertain"} },
-		{ "f" : u"Notes on Destination in relation to letter", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_destination"} },
+		{ "f" : u"Origin name",                     "d" : { "o" : "location", "f" : "location_name", "r" : "was_sent_from" } },
+		{ "f" : u"Origin EMLO ID",                  "d" : { "o" : "location", "f" : "location_id", "r" : "was_sent_from" } },
+		{ "f" : u"Origin as marked in body/text "
+				u"of letter",                       "d" : { "o" : "work", "f" : "origin_as_marked"} },
+		{ "f" : u"Origin inferred (0=No; 1=Yes)",   "d" : { "o" : "work", "f" : "origin_inferred"} },
+		{ "f" : u"Origin uncertain (0=No; 1=Yes)",  "d" : { "o" : "work", "f" : "origin_uncertain"} },
+		{ "f" : u"Notes on Origin in relation "
+				u"to letter",                       "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_origin"} },
+		{ "f" : u"Destination name",                "d" : { "o" : "location", "f" : "location_name", "r" : "was_sent_to" } },
+		{ "f" : u"Destination EMLO ID",             "d" : { "o" : "location", "f" : "location_id", "r" : "was_sent_to" } },
+		{ "f" : u"Destination as marked in "
+				u"body/text of letter",             "d" : { "o" : "work", "f" : "destination_as_marked"} },
+		{ "f" : u"Destination inferred "
+				u"(0=No; 1=Yes)",                   "d" : { "o" : "work", "f" : "destination_inferred"} },
+		{ "f" : u"Destination uncertain "
+				u"(0=No; 1=Yes)",                   "d" : { "o" : "work", "f" : "destination_uncertain"} },
+		{ "f" : u"Notes on Destination in "
+				u"relation to letter",              "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_destination"} },
 
-		{ "f" : u"Abstract", "d" : { "o" : "work", "f" : "abstract"} },
-		{ "f" : u"Keywords", "d" : { "o" : "work", "f" : "keywords"} },
-		{ "f" : u"Language(s)", "d" : { "o" : "work", "f" : "language_of_work"} },
-		{ "f" : u"Incipit", "d" : { "o" : "work", "f" : "incipit"} },
-		{ "f" : u"Explicit", "d" : { "o" : "work", "f" : "explicit"} },
+		{ "f" : u"Abstract",                        "d" : { "o" : "work", "f" : "abstract"} },
+		{ "f" : u"Keywords",                        "d" : { "o" : "work", "f" : "keywords"} },
+		{ "f" : u"Language(s)",                     "d" : { "o" : "work", "f" : "language_of_work"} },
+		{ "f" : u"Incipit",                         "d" : { "o" : "work", "f" : "incipit"} },
+		{ "f" : u"Explicit",                        "d" : { "o" : "work", "f" : "explicit"} },
 
-		{ "f" : u"People mentioned", "d" : { "o" : "person", "f" : "foaf_name", "r" : "mentions" } },
-		{ "f" : u"EMLO IDs of people mentioned", "d" : { "o" : "person", "f" : "iperson_id", "r" : "mentions" } },
-		{ "f" : u"Notes on people mentioned", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_addressee"} },
+		{ "f" : u"People mentioned",                "d" : { "o" : "person", "f" : "foaf_name", "r" : "mentions" } },
+		{ "f" : u"EMLO IDs of people mentioned",    "d" : { "o" : "person", "f" : "iperson_id", "r" : "mentions" } },
+		{ "f" : u"Notes on people mentioned",       "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_addressee"} },
 
-		{ "f" : u"Original Catalogue name", "d" : { "o" : "work", "f" : "original_catalogue" } },
+		{ "f" : u"Original Catalogue name",         "d" : { "o" : "work", "f" : "original_catalogue" } },
 
 		# Ignoring as would include other works (complicated work connections...)
-		#{ "f" : "Letter in reply to", "d" : { "o" : "work", "f" : ""} },
-		#{ "f" : "Letter answered by", "d" : { "o" : "work", "f" : ""} },
-		#{ "f" : "Matching letter(s) in alternative EMLO catalogue(s)", "d" : { "o" : "work", "f" : ""} },
+		#{ "f" : "Letter in reply to", "d" : { "o" : "work-rel", "f" : "iwork_id", "r" : "" } },
+		#{ "f" : "Letter answered by", "d" : { "o" : "work-rel", "f" : "iwork_id", "r" : "is_reply_to" } },
+
+		{ "f" : "Matching letter(s) in alternative EMLO catalogue(s) (self reference also)", "d" : { "o" : "work-rel", "f" : "iwork_id", "r" : "matches" } },
+		{ "f" : "Match id number", "d" : {} },
 
 		# This will be a separate table... some how...
-		#{ "f" : "Related Resource descriptor", "d" : { "o" : "work", "f" : ""} },
-		#{ "f" : "Related Resource URL", "d" : { "o" : "work", "f" : ""} },
-		{ "f" : u"Related Resource IDs [er = number for link to EMLO letter]", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
-		{ "f" : u"General notes for public display", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to"} },
-		{ "f" : u"Editors' working notes", "d" : { "o" : "work", "f" : "editors_notes"} },
-		{ "f" : u"UUID", "d" : { "o" : "work", "f" : "uuid" } },
+		# { "f" : "Related Resource descriptor", "d" : { "o" : "work", "f" : ""} },
+		# { "f" : "Related Resource URL", "d" : { "o" : "work", "f" : ""} },
+
+		{ "f" : u"Related Resource IDs "
+				u"[er = number for link "
+				u"to EMLO letter]",                 "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
+		{ "f" : u"General notes for public "
+				u"display",                         "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to"} },
+		{ "f" : u"Editors' working notes",          "d" : { "o" : "work", "f" : "editors_notes"} },
+		{ "f" : u"UUID",                            "d" : { "o" : "work", "f" : "uuid" } },
+		{ "f" : u"EMLO URL",                        "d" : {} },
 	]
 
 def get_person_fields() :
@@ -200,6 +224,7 @@ def get_person_csv_converter() :
 		#{ "f" : "Related Resource URL(s)", "d" : { "o" : "person", "f" : "" } },
 		{ "f" : "Related Resource IDs", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
 		{ "f" : u"UUID", "d" : { "o" : "person", "f" : "uuid" } },
+		{ "f" : u"EMLO URL",                        "d" : {} },
 	]
 
 
@@ -247,6 +272,7 @@ def get_location_csv_converter() :
 		{ "f" : "General notes on place", "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to" } },
 		{ "f" : "Editors' working notes", "d" : { "o" : "location", "f" : "editors_notes" } },
 		{ "f" : "UUID", "d" : { "o" : "location", "f" : "uuid" } },
+		{ "f" : u"EMLO URL",                        "d" : {} },
 
 	]
 
@@ -324,14 +350,15 @@ def get_institution_fields() :
 
 def get_institution_csv_converter() :
 	return [
-		#{ "f" : "Manifestation ID", "d" : { "o" : "institution", "f" : "" } },
-		#{ "f" : "Work [Letter] ID", "d" : { "o" : "institution", "f" : "" } },
-		{ "f" : "Repository ID", "d" : { "o" : "institution", "f" : "institution_id" } },
-		{ "f" : "Repository Name", "d" : { "o" : "institution", "f" : "institution_name" } },
-		{ "f" : "Repository City", "d" : { "o" : "institution", "f" : "institution_city" } },
-		{ "f" : "Repository Country", "d" : { "o" : "institution", "f" : "institution_country" } },
-		{ "f" : "Related Resource IDs", "d" : { "o" : "resource", "f" : "resource_id", "r" : "is_related_to"} },
-		{ "f" : u"UUID", "d" : { "o" : "institution", "f" : "uuid" } },
+		#{ "f" : "Manifestation ID",   "d" : { "o" : "institution", "f" : "" } },
+		#{ "f" : "Work [Letter] ID",   "d" : { "o" : "institution", "f" : "" } },
+		{ "f" : "Repository ID",        "d" : { "o" : "institution", "f" : "institution_id" } },
+		{ "f" : "Repository Name",      "d" : { "o" : "institution", "f" : "institution_name" } },
+		{ "f" : "Repository City",      "d" : { "o" : "institution", "f" : "institution_city" } },
+		{ "f" : "Repository Country",   "d" : { "o" : "institution", "f" : "institution_country" } },
+		{ "f" : "Related Resource IDs", "d" : { "o" : "resource",    "f" : "resource_id", "r" : "is_related_to"} },
+		{ "f" : "UUID",                 "d" : { "o" : "institution", "f" : "uuid" } },
+		{ "f" : u"EMLO URL",                        "d" : {} },
 	]
 
 def get_comment_fields() :
@@ -368,5 +395,5 @@ def get_resource_csv_converter() :
 		{ "f" : "Resource Name", "d" : { "o" : "resource", "f" : "resource_name" } },
 		{ "f" : "Resource Details", "d" : { "o" : "resource", "f" : "resource_details" } },
 		{ "f" : "Resource URL", "d" : { "o" : "resource", "f" : "resource_url" } },
-		{ "f" : u"UUID", "d" : { "o" : "resource", "f" : "uuid" } },
+		{ "f" : "UUID", "d" : { "o" : "resource", "f" : "uuid" } },
 	]
