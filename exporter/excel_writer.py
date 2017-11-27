@@ -15,7 +15,7 @@ class ExcelWriter:
 				{
 					filelocation: <string csv filename>,
 					sheetname: <string sheet name>,
-					has_titles: <bool default:true>
+					has_titles: <bool default:true>,  # Use bold if there are titles.
 				}
 			]
 			outputname : <output xlsx name
@@ -98,7 +98,8 @@ class ExcelWriter:
 if __name__ == "__main__":
 
 	ew = ExcelWriter()
-	ew.convert( {
+
+	data = {
 		"sheets" : [
 			{
 				"filelocation" : "Test/work.csv",
@@ -116,5 +117,39 @@ if __name__ == "__main__":
 			}
 		],
 		"outputname" : "Test/test1.xlsx"
-	})
+	}
+
+	# filenames = [
+	# 	'archives',
+	# 	'correspondents',
+	# 	'letter',
+	# 	'msrefs',
+	# 	'mswitnesses',
+	# 	'namestrings',
+	# 	'peopleidx',
+	# 	'peoplementioned',
+	# 	'placenames',
+	# 	'places',
+	# 	'placesmentioned',
+	# 	'printrefs',
+	# 	'printwitnesses',
+	# 	'subjectidx',
+	# 	'subjects'
+	# ]
+	#
+	# location = '/home/matthew/Projects/emlo/bacon/bacon_'
+	#
+	# data = {
+	# 	"sheets" : [],
+	# 	"outputname" : location + "all.xlsx"
+	# }
+	#
+	# for name in filenames :
+	# 	data["sheets"].append( {
+	# 		"filelocation" : location + name + ".csv",
+	# 		"sheetname" : name
+	# 	} )
+
+
+	ew.convert( data )
 
