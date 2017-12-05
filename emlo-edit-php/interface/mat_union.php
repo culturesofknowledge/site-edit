@@ -12,7 +12,7 @@ get -r1.1 /home/burgess/scripts/sccs/cofk/php/s.dev_union.php
 define( 'CONSTANT_DATABASE_TYPE', 'docker' );
 $database_type_set = TRUE;
 
-define( 'CONSTANT_SOURCEDIR', '/var/www/html/core/' );
+define( 'CONSTANT_SOURCEDIR', '/var/www/core/' );
 $sourcedir_set = TRUE;
 
 //echo "<!-- Database connection is: <b>" . strtoupper(CONSTANT_DATABASE_TYPE) . "</b> -->";

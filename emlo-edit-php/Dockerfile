@@ -12,7 +12,7 @@ COPY config/php.ini /usr/local/etc/php/
 
 # Copy main PHP files, interface to html folder (root files), and core to core folder
 COPY interface /var/www/html/
-COPY core /var/www/html/core
+COPY core /var/www/core
 #VOLUME /var/www/html
 
 RUN apt-get update

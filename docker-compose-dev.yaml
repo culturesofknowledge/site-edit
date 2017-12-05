@@ -17,4 +17,5 @@ php:
     - postgres
 
   volumes:
-    - ./emlo-edit-php:/var/www/html
+    - ./emlo-edit-php/interface:/var/www/html
+    - ./emlo-edit-php/core:/var/www/core

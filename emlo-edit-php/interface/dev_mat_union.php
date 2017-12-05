@@ -18,7 +18,7 @@ define( "DEBUGGING", TRUE );
 define( 'CONSTANT_DATABASE_TYPE', 'docker' );
 $database_type_set = TRUE;
 
-define( 'CONSTANT_SOURCEDIR', '/var/www/html/core/' );
+define( 'CONSTANT_SOURCEDIR', '/var/www/core/' );
 $sourcedir_set = TRUE;
 
 
