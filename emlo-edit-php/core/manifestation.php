@@ -1519,6 +1519,9 @@ class Manifestation extends Project {
 		$this->receipt_date_flags();
 		HTML::new_paragraph();
 
+        $this->receipt_date_notes_field();
+        HTML::new_paragraph();
+
 		HTML::div_start( 'class="workfield"' );
 		$this->extra_save_button( 'receipt_date' );
 		HTML::div_end( 'workfield' );
@@ -1610,6 +1613,13 @@ class Manifestation extends Project {
                              'Bibliographic references and any other notes on date:' );
   }
   #-----------------------------------------------------
+
+    function receipt_date_notes_field() {
+
+        $this->proj_notes_field( RELTYPE_COMMENT_REFERS_TO_RECEIPT_DATE,
+            'Notes on receipt date:' );
+    }
+    #-----------------------------------------------------
 
   function copyist_notes_field() {
 
@@ -2947,6 +2957,7 @@ class Manifestation extends Project {
 
     $reltypes = array( RELTYPE_COMMENT_REFERS_TO_ENTITY,
                        RELTYPE_COMMENT_REFERS_TO_DATE,
+                       RELTYPE_COMMENT_REFERS_TO_RECEIPT_DATE,
                        RELTYPE_COMMENT_REFERS_TO_CODEX_OF_MANIF,
                        RELTYPE_COMMENT_REFERS_TO_CONTENTS_OF_MANIF,
                        RELTYPE_COMMENT_REFERS_TO_INCIPIT_OF_MANIF,

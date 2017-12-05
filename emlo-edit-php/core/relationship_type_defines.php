@@ -74,6 +74,7 @@ define( 'RELTYPE_COMMENT_REFERS_TO_ENTITY', 'refers_to' );
 define( 'RELTYPE_COMMENT_REFERS_TO_AUTHOR', 'refers_to_author' );
 define( 'RELTYPE_COMMENT_REFERS_TO_ADDRESSEE', 'refers_to_addressee' );
 define( 'RELTYPE_COMMENT_REFERS_TO_DATE', 'refers_to_date' );
+define( 'RELTYPE_COMMENT_REFERS_TO_RECEIPT_DATE', 'refers_to_receipt_date' );
 define( 'RELTYPE_COMMENT_REFERS_TO_PLACE_OF_COPYING', 'refers_to_place_of_copying' );
 define( 'RELTYPE_COMMENT_REFERS_TO_TITLE', 'refers_to_title' );
 define( 'RELTYPE_COMMENT_REFERS_TO_TYPE_OF_WORK', 'refers_to_type_of_work' );

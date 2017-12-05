@@ -7,6 +7,8 @@ define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' )
 
 define( 'CONSTANT_DATABASE_TYPE', 'live' );
 
+defined( "DEBUGGING" ) or define( "DEBUGGING", FALSE );
+
 require_once "common_components.php";
 require_once "proj_components.php";
 
@@ -37,6 +39,7 @@ function is_unknown_reltype( $relationship_type, $left_table_name, $right_table_
     case 'refers_to_addressee':
     case 'refers_to_author':
     case 'refers_to_date':
+    case 'refers_to_receipt_date':
     case 'refers_to_people_mentioned_in_work':
     case 'relative_of':
     case 'sibling_of':
