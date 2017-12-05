@@ -39,6 +39,7 @@ function is_unknown_reltype( $relationship_type, $left_table_name, $right_table_
     case 'refers_to_addressee':
     case 'refers_to_author':
     case 'refers_to_date':
+    case 'refers_to_receipt_date':
     case 'refers_to_people_mentioned_in_work':
     case 'relative_of':
     case 'sibling_of':
