@@ -1,0 +1,20 @@
+postgres:
+  image: postgres
+
+  ports:
+    - 45432:5432
+
+  volumes:
+    - ./volumes/postgres:/var/lib/postgresql/data
+
+php:
+  build: ./emlo-edit-php
+
+  ports:
+    - 80:80
+
+  links:
+    - postgres
+
+  volumes:
+    - ./emlo-edit-php:/var/www/html
