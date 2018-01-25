@@ -51,6 +51,9 @@ function is_unknown_reltype( $relationship_type, $left_table_name, $right_table_
     case 'was_in_location':
     case 'was_sent_from':
     case 'was_sent_to':
+    case 'refers_to_origin':
+    case 'refers_to_destination':
+    case 'route':
 
       $is_unknown = FALSE;
       break;
