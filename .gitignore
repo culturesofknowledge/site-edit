@@ -1,3 +1,5 @@
 core/database_access.php
 emlo-edit-php/interface/core/
 docker-postgres/database-dump/pg_dumpall.out.gz
+*/.directory
+/.idea/
