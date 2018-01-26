@@ -27,6 +27,10 @@ RUN pear install DB-1.7.14 mdb2 MDB2_Driver_pgsql pear/mdb2#pgsql
 RUN mkdir /var/backups/redo-logs && \
 	chown www-data:www-data /var/backups/redo-logs
 
+RUN mkdir -p /var/www/exporter/exports && \
+	mkdir -p /var/www/exporter/exporter_data && \
+	chown -R www-data:www-data /var/www/exporter
+
 # DEBUG: Add some helper apps (not needed but help when debugging the container build)
 #RUN apt-get install -y \
 #		vim \

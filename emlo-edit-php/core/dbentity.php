@@ -2693,7 +2693,7 @@ class DBEntity extends Application_Entity {
 	$rowcount = count( $rows );
 	$output_id = uniqid( rand(), TRUE );
 
-	$output_folder = '/home/cofkadmin/git/emlo-exporter/exporter_data/';
+	$output_folder = '/var/www/exporter/exporter_data/';
 	$output_file = $output_folder . $output_id . ".json";	
 
 	$fh = fopen($output_file, 'w') or die("ERROR: Can't open file to trigger export in " . $output_folder );; 
@@ -2719,7 +2719,7 @@ class DBEntity extends Application_Entity {
 		Launch the export command 
 	*/
 
-	$command = 'cd /home/cofkadmin/git/emlo-exporter;/usr/bin/python /home/cofkadmin/git/emlo-exporter/export_web_auto.py ' . $output_file . " > /dev/null &";
+	$command = 'ls';//'cd /home/cofkadmin/git/emlo-exporter;/usr/bin/python /home/cofkadmin/git/emlo-exporter/export_web_auto.py ' . $output_file . " > /dev/null &";
 	$output = exec($command);
 	echo $output;
 
