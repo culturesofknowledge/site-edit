@@ -31,6 +31,6 @@ exporter:
 
   volumes:
     -  ./docker-exporter/exporter/exports:/usr/src/app/exports
-    -  ./docker-exporter/exporter/exporter_data:/usr/src/app/exports/exporter_data
+    -  ./docker-exporter/exporter/exporter_data:/usr/src/app/exporter_data
 
     -  ./docker-exporter/exporter:/usr/src/app
