@@ -12,8 +12,24 @@ php:
   build: ./emlo-edit-php
   restart: always
 
+  ports:
+    - 80:80
+
   links:
     - postgres
 
-  ports:
-    - 80:80
+  volumes:
+    -  ./docker-exporter/exporter/exports:/var/www/html/exports
+    -  ./docker-exporter/exporter/exporter_data:/var/www/exporter/exporter_data
+
+exporter:
+  build: ./docker-exporter
+  restart: always
+
+  links:
+    - postgres
+
+  volumes:
+    -  ./docker-exporter/exporter/exports:/usr/src/app/exports
+    -  ./docker-exporter/exporter/exporter_data:/usr/src/app/exports/exporter_data
+
