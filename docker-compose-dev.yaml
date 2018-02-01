@@ -17,7 +17,7 @@ php:
     - postgres
 
   volumes:
-    -  ./docker-exporter/exporter/exports:/var/www/exporter/exports
+    -  ./docker-exporter/exporter/exports:/var/www/html/exports
     -  ./docker-exporter/exporter/exporter_data:/var/www/exporter/exporter_data
 
     - ./emlo-edit-php/interface:/var/www/html
@@ -30,6 +30,7 @@ exporter:
     - postgres
 
   volumes:
-    -  ./docker-exporter/exporter:/usr/src/app
     -  ./docker-exporter/exporter/exports:/usr/src/app/exports
     -  ./docker-exporter/exporter/exporter_data:/usr/src/app/exports/exporter_data
+
+    -  ./docker-exporter/exporter:/usr/src/app

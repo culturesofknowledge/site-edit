@@ -14,5 +14,5 @@ RUN pip install --no-cache-dir psycopg2 openpyxl
 
 COPY exporter /usr/src/app/
 
-CMD ["python","-c","import time;time.sleep(10000)"]
-# CMD [ "python", "./your-daemon-or-script.py" ]
+# CMD ["python","-c","import time;time.sleep(10000)"]
+CMD [ "python", "/usr/src/app/export_web_auto.py" ]
