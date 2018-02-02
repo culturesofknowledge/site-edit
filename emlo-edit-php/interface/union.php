@@ -16,11 +16,11 @@ define( 'CFG_SYSTEM_TITLE', 'Union Catalogue Editing Interface' );
 
 define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' );
 
-if( ! $database_type_set ) 
+if( ! $database_type_set )
   define( 'CONSTANT_DATABASE_TYPE', 'live' );
 
 if( ! $sourcedir_set )
-  define( 'CONSTANT_SOURCEDIR', '/var/apache2/cgi-bin/aeolus/aeolus2/cofk/' );
+  define( 'CONSTANT_SOURCEDIR', '/var/www/core/' );
 
 $include_file = CONSTANT_SOURCEDIR . 'common_components.php';
 require_once "$include_file";
