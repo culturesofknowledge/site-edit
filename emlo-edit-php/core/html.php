@@ -1944,6 +1944,17 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------
 
+    function jump_to_work( $tabindex = 1, $title = 'Jump to Work', $accesskey = '' ) {
+
+        echo NEWLINE;
+        echo '<input type="text" name="jump-to-work" id="jump-to-work" value="" placeholder="Work ID" style="border:1px solid #bbb;height:19px;"/><button onclick="jumpToWork()">Goto</button>';
+        echo '<script>function jumpToWork() {
+	            var workid = document.getElementById("jump-to-work").value.replace(/\D/g,\'\');
+                window.location = document.location.pathname + "?iwork_id=" + workid;
+              }</script>';
+    }
+    #-----------------------------------------------------
+
   function small_start() {
     echo '<small>';
   }

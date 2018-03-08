@@ -631,13 +631,17 @@ class Menu extends Project {
     if( ! $suppress_breadcrumbs ) {
       $breadcrumb_trail_printed = $this->breadcrumbs();
       if( $breadcrumb_trail_printed ) HTML::bullet_point();
-      HTML::link_to_page_bottom( $tabindex=1, $title='Bottom of Page' );
+
+        HTML::link_to_page_bottom( $tabindex=1, $title='Bottom of Page' );
 
       HTML::bullet_point();
       $href = $_SERVER['PHP_SELF'] . '?logout=1';
       HTML::link_start( $href, 'Log out of ' . CFG_SYSTEM_TITLE );
       echo 'Logout';
       HTML::link_end();
+
+        HTML::bullet_point();
+        HTML::jump_to_work( $tabindex=2 );
     }
 	  echo LINEBREAK;
     echo '<hr style="height:13px;color:white;background-color:white;">';
