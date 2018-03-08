@@ -369,7 +369,7 @@ class Manifestation extends Project {
             . '    alert( "Manifestation will be deleted when you click Save!" );' . NEWLINE
             . '  }'                                                                . NEWLINE 
             . '  else {'                                                           . NEWLINE
-            . '    alert( "Manifestation will not now be deleted." );'             . NEWLINE
+            . '    // alert( "Manifestation will not now be deleted." );'             . NEWLINE
             . '  }'                                                                . NEWLINE 
             . '}'                                                                  . NEWLINE;
     HTML::write_javascript_function( $script );
@@ -2514,6 +2514,9 @@ class Manifestation extends Project {
         $value = '';  # value may be a default value but non-blank
         continue;
       }
+      //else {
+      //    var_dump( $column_name, $value );
+      //}
 
       break;
     }
@@ -2573,6 +2576,13 @@ class Manifestation extends Project {
         return TRUE;
       }
     }
+
+      if( $column_name == 'opened' ) {
+
+          if( $value == 'o' ) {
+              return TRUE;
+          }
+      }
 
     return FALSE;
   }
