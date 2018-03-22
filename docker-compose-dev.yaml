@@ -1,5 +1,5 @@
 postgres:
-  image: postgres
+  image: postgres:9.6
 
   ports:
     - 45432:5432
