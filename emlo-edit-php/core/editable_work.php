@@ -954,7 +954,7 @@ class Editable_Work extends Work {
   }
   #-----------------------------------------------------
 
-  function save_resources( $selected_tab ) {
+  function save_resources( $selected_tab = NULL ) {
 
     if( ! $this->resource_obj ) $this->resource_obj = new Resource( $this->db_connection );
 

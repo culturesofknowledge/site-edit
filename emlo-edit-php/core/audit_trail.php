@@ -106,7 +106,7 @@ class Audit_Trail extends Project {
   }
   #-----------------------------------------------------
 
-  function db_search( $table_or_view, $class_name = NULL, $method_name = NULL ) {
+  function db_search( $table_or_view = NULL, $class_name = NULL, $method_name = NULL ) {
 
     $this->set_audit_trail_search_parms();
     parent::db_search( $this->from_table, $this->app_get_class( $this ), $this->results_method );

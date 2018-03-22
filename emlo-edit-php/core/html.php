@@ -1120,7 +1120,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function form_start( $class_name, $method_name, $form_name = '', $form_target = '',
+  function form_start( $class_name = NULL, $method_name = NULL, $form_name = '', $form_target = '',
                        $onsubmit_validation = FALSE, $form_destination='', $form_method='POST',
                        $parms = NULL ) {
 
@@ -1696,7 +1696,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  static function label( $label_text, $label_id, $parms ) {  # free-standing label, not necessarily attached to field
+  static function label( $label_text = NULL, $label_id = NULL, $parms = NULL ) {  # free-standing label, not necessarily attached to field
 
     echo '<label ';
     if( $label_id ) echo ' id="' . $label_id . '" ';

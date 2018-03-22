@@ -60,7 +60,7 @@ class Publication extends Project {
   }
   #-----------------------------------------------------
 
-  function db_search( $table_or_view, $class_name = NULL, $method_name = NULL ) {
+  function db_search( $table_or_view = NULL, $class_name = NULL, $method_name = NULL ) {
 
     $this->db_remember_presentation_style(); # If a saved presentation style is found, it is written to POST.
                                              # (On very first login ever, defaults will be used.)

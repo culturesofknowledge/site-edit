@@ -1363,13 +1363,13 @@ class Date_Entity extends Project {
   }
   #----------------------------------------------------------------------------------
 
-  function get_call_to_extra_onchange_script( $changed_fieldname ) { # a method that can be overridden by child classes 
+  function get_call_to_extra_onchange_script( $changed_fieldname = NULL ) { # a method that can be overridden by child classes
                                                                      # e.g. Islamic Date Entity
     return '';
   }
   #----------------------------------------------------------------------------------
 
-  function get_call_to_extra_onclick_script( $checkbox_id ) { # a method that can be overridden by child classes 
+  function get_call_to_extra_onclick_script( $checkbox_id = NULL ) { # a method that can be overridden by child classes
                                                               # e.g. Islamic Date Entity
     return '';
   }

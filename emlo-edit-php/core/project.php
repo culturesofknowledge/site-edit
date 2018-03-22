@@ -144,7 +144,7 @@ class Project extends DBEntity {
   }
   #-----------------------------------------------------
 
-  function get_collection_setting( $property ) {  # e.g. if you pass in 'work', you'll get back:
+  function get_collection_setting( $property = NULL ) {  # e.g. if you pass in 'work', you'll get back:
                                                   # - 'cofk_union_work' when in Cultures of Knowledge Union DB
                                                   # - 'impt_work' when in Impact DB (assuming they don't have sub-catgs)
     return $this->collection_prefix . '_' . $property;

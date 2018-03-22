@@ -287,7 +287,7 @@ class DBEntity extends Application_Entity {
   }
   #-----------------------------------------------------
 
-  function db_search( $table_or_view, $class_name = NULL, $method_name = NULL ) {
+  function db_search( $table_or_view = NULL, $class_name = NULL, $method_name = NULL ) {
 
     $this->entering_selection_criteria = TRUE;
     $this->reading_selection_criteria = FALSE;
@@ -2164,7 +2164,7 @@ class DBEntity extends Application_Entity {
   }
   #-----------------------------------------------------
 
-  function db_write_pagination_fields( $page_required ) {
+  function db_write_pagination_fields( $page_required = NULL ) {
 
     HTML::hidden_field( 'page_required', $page_required );
 
