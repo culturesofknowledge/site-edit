@@ -2,7 +2,8 @@
 #
 # docker run --name emlo-edit-php -d -p 80:80 -v $(pwd)/core:/var/www/html/core -v $(pwd)/interface:/var/www/html --link=emlo-edit-postgres:postgres emlo-edit-php:0.1.2
 #
-FROM bdlssorg/php-pgsql
+# FROM bdlssorg/php-pgsql
+FROM php-pgsql:7.1.5
 
 MAINTAINER matthew
 LABEL version="0.2.0"
