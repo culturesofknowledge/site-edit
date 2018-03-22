@@ -1,19 +1,25 @@
 <?php
 /*******
-get -r1.1 /home/burgess/scripts/sccs/cofk/php/s.dev_union.php
+get -r1.3 /home/burgess/scripts/sccs/cofk/php/s.union.php
 ********/
 /*
- * Union catalogue menu - DEVELOPMENT
- * /home/burgess/scripts/sccs/cofk/php/s.dev_union.php 1.1 2010/08/27 14:54:33
+ * Union catalogue menu
+ * /home/burgess/scripts/sccs/cofk/php/s.union.php 1.3 2011/01/14 10:42:36
  * Author: Sushila Burgess
  *
  */
 
-define( 'CONSTANT_DATABASE_TYPE', 'dev' );
-$database_type_set = TRUE;
+header('Location: union.php');
 
-define( 'CONSTANT_SOURCEDIR', '/home/cofkadmin/backend/php/' );
-$sourcedir_set = TRUE;
+error_reporting(E_ALL & ~E_STRICT & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
+//error_reporting(E_ALL & ~E_STRICT);
+ini_set("display_errors", 1);
+define( "DEBUGGING", TRUE );
+
+define( 'CONSTANT_DATABASE_TYPE', 'live' );
+define( 'CONSTANT_SOURCEDIR', '/var/www/core/' );
+
+echo "Database connection is: <b>" . strtoupper(CONSTANT_DATABASE_TYPE) . "</b>";
 
 require_once "union.php";
 
