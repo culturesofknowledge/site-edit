@@ -1288,7 +1288,7 @@ class Person extends Project {
 
     if( ! $new_record ) {
 #--  Added to enable link for prosopography editing
-      $href = '/interface/proform/activity_view.php'
+      $href = '/proform/activity_view.php'
             . '?person_id=' . rawurlencode( $iperson_id );
 
       HTML::link_start( $href, 'Edit Prosopography', '_blank' );
