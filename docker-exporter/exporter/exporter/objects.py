@@ -122,7 +122,7 @@ def get_work_csv_converter() :
 
 		{ "f" : u"People mentioned",                "d" : { "o" : "person", "f" : "foaf_name", "r" : "mentions" } },
 		{ "f" : u"EMLO IDs of people mentioned",    "d" : { "o" : "person", "f" : "iperson_id", "r" : "mentions" } },
-		{ "f" : u"Notes on people mentioned",       "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_addressee"} },
+		{ "f" : u"Notes on people mentioned",       "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_people_mentioned_in_work"} },
 
 		{ "f" : u"Original Catalogue name",         "d" : { "o" : "work", "f" : "original_catalogue" } },
 
