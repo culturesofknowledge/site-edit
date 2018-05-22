@@ -21,7 +21,8 @@ RUN apt-get update
 # TRYING TO FIX MISSING EXTENSION ERROR.
 RUN apt-get install -y \
 	libpq-dev \
-	postgresql-client
+	postgresql-client \
+	rsync
 
 
 # Copy and run php packages to install
