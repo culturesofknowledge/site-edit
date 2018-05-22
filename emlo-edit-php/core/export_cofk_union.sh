@@ -231,19 +231,25 @@ echo 'Export to CSV files now complete.'
 echo 'Copying CSV files to front end server.'
 
 # New server data tranfers
-remote_location_qa=bodl-emlo-svc@emlo-qa-site1.bodleian.ox.ac.uk:/data/emlo-docker-compose/data/
-remote_location_prd=bodl-emlo-svc@emlo-prd-site1.bodleian.ox.ac.uk:/data/emlo-docker-compose/data/
+folder_location=/data/emlo-docker-compose/data/
+remote_location_qa=bodl-emlo-svc@emlo-qa-site1.bodleian.ox.ac.uk:${folder_location}
+remote_location_prd=bodl-emlo-svc@emlo-prd-site1.bodleian.ox.ac.uk:${folder_location}
 
-for objects in comment image institution location person relationship resource work
+for objects in manifestation comment image institution location person relationship resource work
 do
     csv_local_file=${CSVSOURCE}cofk_union_${objects}.csv
 
     csv_remote_qa_file=${remote_location_qa}${objects}.csv
-    scp ${csv_local_file} ${csv_remote_qa_file}
+    echo "QA Export to $csv_remote_qa_file"
+    rsync -zqt ${csv_local_file} ${csv_remote_qa_file}
 
     csv_remote_prd_file=${remote_location_prd}${objects}.csv
-    scp ${csv_local_file} ${csv_remote_prd_file}
+    echo "PRD Export to $csv_remote_prd_file"
+    rsync -zqt ${csv_local_file} ${csv_remote_prd_file}
 done
+
+ssh bodl-emlo-svc@emlo-qa-site1.bodleian.ox.ac.uk 'echo 1 > '${folder_location}'need_index'
+ssh bodl-emlo-svc@emlo-prd-site1.bodleian.ox.ac.uk 'echo 1 > '${folder_location}'need_index'
 
 ## -- I think we'll just link to images on the back-end server instead -- ${SCRIPTDIR}transfer_uploaded_images.sh
 
