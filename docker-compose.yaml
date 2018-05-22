@@ -22,6 +22,8 @@ php:
     -  ./docker-exporter/exporter/exports:/var/www/html/exports
     -  ./docker-exporter/exporter/exporter_data:/var/www/exporter/exporter_data
 
+    - ./volumes/csv:/csv
+
 exporter:
   build: ./docker-exporter
   restart: always

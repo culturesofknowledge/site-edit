@@ -20,7 +20,9 @@ RUN apt-get update
 
 # TRYING TO FIX MISSING EXTENSION ERROR.
 RUN apt-get install -y \
-	libpq-dev
+	libpq-dev \
+	postgresql-client
+
 
 # Copy and run php packages to install
 RUN pear install DB-1.7.14 mdb2 MDB2_Driver_pgsql pear/mdb2#pgsql
