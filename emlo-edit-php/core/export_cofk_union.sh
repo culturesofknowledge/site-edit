@@ -45,6 +45,16 @@ function cleanup() {
     \rm rowcount.txt
   fi
 
+  if [ -f get_nextid.sql ]
+  then
+    \rm get_nextid.sql
+  fi
+
+  if [ -f nextid.txt ]
+  then
+    \rm nextid.txt
+  fi
+
   for tabroot in \
     comment \
     image \
