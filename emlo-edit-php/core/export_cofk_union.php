@@ -469,10 +469,14 @@ if( $table ) {
 
     if( ! $skip_row ) {
       $i++;
-      if( $i % 100 == 0 ) echo $table . ' ' . $i . NEWLINE;
+
       $header = '';
       $data = '';
       extract( $row, EXTR_OVERWRITE );
+
+	    if( $i % 100 == 0 ) {
+		    echo $table . ' id:' . $row[$id] . ' count:' . $i . NEWLINE;
+	    }
 
       if( $i == 1 && $header_required ) {  # write out header row
         $firstcol = TRUE;
