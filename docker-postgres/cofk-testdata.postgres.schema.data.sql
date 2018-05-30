@@ -12997,7 +12997,7 @@ SELECT pg_catalog.setval('public.cofk_roles_role_id_seq', 1, false);
 --
 
 COPY public.cofk_sessions (session_id, session_timestamp, session_code, username) FROM stdin;
-3	2018-05-30 16:46:24.576816	acf87d91b14b4bbec9b0e098fd654f68	cofka
+3	2018-05-30 17:11:03.055867	acf87d91b14b4bbec9b0e098fd654f68	cofka
 1	2018-05-30 14:51:42.858818	0be2658210c049a6e7545a15802c0cb1	cofka
 2	2018-05-30 15:00:17.542677	25c7c045d78d117badd0af4143531648	cofka
 \.
@@ -13014,7 +13014,7 @@ SELECT pg_catalog.setval('public.cofk_sessions_session_id_seq', 3, true);
 -- Name: cofk_union_audit_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cofk_union_audit_id_seq', 391, true);
+SELECT pg_catalog.setval('public.cofk_union_audit_id_seq', 417, true);
 
 
 --
@@ -13365,6 +13365,7 @@ COPY public.cofk_union_audit_literal (audit_id, change_timestamp, change_user, c
 366	2018-05-30 16:40:31.561364	cofka	New	cofk_union_work	cofk_union_work-iwork_id:000000010	10	\N	relevant_to_cofk	Y	\N
 367	2018-05-30 16:40:31.561364	cofka	Chg	cofk_union_work	cofk_union_work-iwork_id:000000010	10	Unknown date: unknown author/sender to unknown addressee	description	Unknown date: unknown author/sender to unknown addressee	\N
 369	2018-05-30 16:40:31.561364	cofka	New	cofk_union_person	cofk_union_person-iperson_id:000000001	8	Matthew Wilcoxson, b.1987	Relationship: Created	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxxUnknown date: unknown author/sender to unknown addresseexxxCofkLinkEndxxx	\N
+401	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_creation_date_month	0	\N
 370	2018-05-30 16:40:31.561364	cofka	New	cofk_union_work	cofk_union_work-iwork_id:000000010	8	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxxUnknown date: unknown author/sender to unknown addresseexxxCofkLinkEndxxx	Relationship: Was created by	Matthew Wilcoxson, b.1987	\N
 371	2018-05-30 16:40:31.561364	cofka	Chg	cofk_union_work	cofk_union_work-iwork_id:000000010	10	Unknown date: Matthew Wilcoxson, b.1987 to unknown addressee	description	Unknown date: Matthew Wilcoxson, b.1987 to unknown addressee	Unknown date: unknown author/sender to unknown addressee
 373	2018-05-30 16:40:31.561364	cofka	New	cofk_union_work	cofk_union_work-iwork_id:000000010	9	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxxUnknown date: Matthew Wilcoxson, b.1987 to unknown addresseexxxCofkLinkEndxxx	Relationship: Was addressed to	Lucy Benyon	\N
@@ -13384,6 +13385,28 @@ COPY public.cofk_union_audit_literal (audit_id, change_timestamp, change_user, c
 389	2018-05-30 16:46:19.626658	cofka	New	cofk_union_work	cofk_union_work-iwork_id:000000007	11	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=7xxxCofkHrefEndxxxUnknown date: Matthew Wilcoxson, b.1987 to unknown addresseexxxCofkLinkEndxxx	Relationship: Was sent from	Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom	\N
 390	2018-05-30 16:46:19.626658	cofka	New	cofk_union_location	2	11	Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom	Relationship: Was source of	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=7xxxCofkHrefEndxxxUnknown date: Matthew Wilcoxson, b.1987 to unknown addresseexxxCofkLinkEndxxx	\N
 391	2018-05-30 16:46:19.626658	cofka	Chg	cofk_union_work	cofk_union_work-iwork_id:000000007	7	Unknown date: Matthew Wilcoxson, b.1987 (Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom) to unknown addressee	description	Unknown date: Matthew Wilcoxson, b.1987 (Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom) to unknown addressee	Unknown date: Matthew Wilcoxson, b.1987 to unknown addressee
+392	2018-05-30 16:53:29.946255	cofka	New	cofk_union_institution	1	1	London Institute, London,England	institution_name	London Institute	\N
+393	2018-05-30 16:53:29.946255	cofka	New	cofk_union_institution	1	1	London Institute, London,England	institution_city	London	\N
+394	2018-05-30 16:53:29.946255	cofka	New	cofk_union_institution	1	1	London Institute, London,England	institution_country	England	\N
+395	2018-05-30 16:53:29.946255	cofka	New	cofk_union_institution	1	1	London Institute, London,England	institution_country_synonyms	United Kingdom	\N
+397	2018-05-30 17:05:23.045038	cofka	New	cofk_union_work	cofk_union_work-iwork_id:000000010	12	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxx30 Jun 2017: Matthew Wilcoxson, b.1987 to Lucy BenyonxxxCofkLinkEndxxx	Relationship: Is reply to	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=9xxxCofkHrefEndxxx29 Jun 2017: Lucy Benyon (Bedroom, 13 East Street, Didcot, Oxfordshire, England, United Kingdom) to Matthew Wilcoxson, b.1987 (Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom)xxxCofkLinkEndxxx	\N
+398	2018-05-30 17:05:23.045038	cofka	New	cofk_union_work	cofk_union_work-iwork_id:000000009	12	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=9xxxCofkHrefEndxxx29 Jun 2017: Lucy Benyon (Bedroom, 13 East Street, Didcot, Oxfordshire, England, United Kingdom) to Matthew Wilcoxson, b.1987 (Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom)xxxCofkLinkEndxxx	Relationship: Is answered by	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxx30 Jun 2017: Matthew Wilcoxson, b.1987 to Lucy BenyonxxxCofkLinkEndxxx	\N
+399	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	\N	THX1138	id_number_or_shelfmark	THX1138	\N
+400	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_creation_calendar	U	\N
+402	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_creation_date_day	0	\N
+403	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_creation_date_inferred	0	\N
+404	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_creation_date_uncertain	0	\N
+405	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_creation_date_approx	0	\N
+406	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_is_translation	0	\N
+408	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	13	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxxTHX1138xxxCofkLinkEndxxx	Relationship: Is manifestation of	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxx30 Jun 2017: Matthew Wilcoxson, b.1987 to Lucy BenyonxxxCofkLinkEndxxx	\N
+409	2018-05-30 17:05:58.908832	cofka	New	cofk_union_work	cofk_union_work-iwork_id:000000010	13	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxx30 Jun 2017: Matthew Wilcoxson, b.1987 to Lucy BenyonxxxCofkLinkEndxxx	Relationship: Has manifestation	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxxTHX1138xxxCofkLinkEndxxx	\N
+411	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	14	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxxTHX1138xxxCofkLinkEndxxx	Relationship: Is in repository	London Institute	\N
+412	2018-05-30 17:05:58.908832	cofka	New	cofk_union_institution	1	14	London Institute	Relationship: Has contents	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxxTHX1138xxxCofkLinkEndxxx	\N
+413	2018-05-30 17:06:55.949509	cofka	Chg	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_creation_calendar		U
+414	2018-05-30 17:06:55.949509	cofka	Chg	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_creation_date_month	\N	0
+415	2018-05-30 17:06:55.949509	cofka	Chg	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_creation_date_day	\N	0
+416	2018-05-30 17:06:55.949509	cofka	Chg	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_incipit	Love	\N
+417	2018-05-30 17:06:55.949509	cofka	Chg	cofk_union_manifestation	W10-a	\N	THX1138	manifestation_excipit	You	\N
 \.
 
 
@@ -13400,6 +13423,9 @@ COPY public.cofk_union_audit_relationship (audit_id, change_timestamp, change_us
 372	2018-05-30 16:40:31.561364	cofka	New	cofk_union_work	cofk_union_work-iwork_id:000000010	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxxUnknown date: Matthew Wilcoxson, b.1987 to unknown addresseexxxCofkLinkEndxxx			was_addressed_to	Was addressed to	Was addressee of	cofk_union_person	cofk_union_person-iperson_id:000000002	Lucy Benyon		
 384	2018-05-30 16:45:27.900289	cofka	New	cofk_union_person	cofk_union_person-iperson_id:000000001	Matthew Wilcoxson, b.1987			created	Created	Was created by	cofk_union_work	cofk_union_work-iwork_id:000000007	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=7xxxCofkHrefEndxxxUnknown date: unknown author/sender to unknown addresseexxxCofkLinkEndxxx		
 388	2018-05-30 16:46:19.626658	cofka	New	cofk_union_work	cofk_union_work-iwork_id:000000007	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=7xxxCofkHrefEndxxxUnknown date: Matthew Wilcoxson, b.1987 to unknown addresseexxxCofkLinkEndxxx			was_sent_from	Was sent from	Was source of	cofk_union_location	2	Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom		
+396	2018-05-30 17:05:23.045038	cofka	New	cofk_union_work	cofk_union_work-iwork_id:000000010	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxx30 Jun 2017: Matthew Wilcoxson, b.1987 to Lucy BenyonxxxCofkLinkEndxxx			is_reply_to	Is reply to	Is answered by	cofk_union_work	cofk_union_work-iwork_id:000000009	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=9xxxCofkHrefEndxxx29 Jun 2017: Lucy Benyon (Bedroom, 13 East Street, Didcot, Oxfordshire, England, United Kingdom) to Matthew Wilcoxson, b.1987 (Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom)xxxCofkLinkEndxxx		
+407	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxxTHX1138xxxCofkLinkEndxxx			is_manifestation_of	Is manifestation of	Has manifestation	cofk_union_work	cofk_union_work-iwork_id:000000010	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxx30 Jun 2017: Matthew Wilcoxson, b.1987 to Lucy BenyonxxxCofkLinkEndxxx		
+410	2018-05-30 17:05:58.908832	cofka	New	cofk_union_manifestation	W10-a	xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxxTHX1138xxxCofkLinkEndxxx			stored_in	Is in repository	Has contents	cofk_union_institution	1	London Institute		
 \.
 
 
@@ -13423,6 +13449,7 @@ SELECT pg_catalog.setval('public.cofk_union_comment_id_seq', 1, false);
 --
 
 COPY public.cofk_union_favourite_language (language_code) FROM stdin;
+eng
 \.
 
 
@@ -13446,6 +13473,7 @@ SELECT pg_catalog.setval('public.cofk_union_image_id_seq', 1, false);
 --
 
 COPY public.cofk_union_institution (institution_id, institution_name, institution_synonyms, institution_city, institution_city_synonyms, institution_country, institution_country_synonyms, creation_timestamp, creation_user, change_timestamp, change_user, editors_notes, uuid) FROM stdin;
+1	London Institute		London		England	United Kingdom	2018-05-30 16:53:29.946255	cofka	2018-05-30 16:53:29.946255	cofka		61f9405b-4e3e-4838-8d5c-d0b20ced066a
 \.
 
 
@@ -13453,7 +13481,7 @@ COPY public.cofk_union_institution (institution_id, institution_name, institutio
 -- Name: cofk_union_institution_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cofk_union_institution_id_seq', 1, false);
+SELECT pg_catalog.setval('public.cofk_union_institution_id_seq', 1, true);
 
 
 --
@@ -13494,6 +13522,7 @@ SELECT pg_catalog.setval('public.cofk_union_location_id_seq', 2, true);
 --
 
 COPY public.cofk_union_manifestation (manifestation_id, manifestation_type, id_number_or_shelfmark, printed_edition_details, paper_size, paper_type_or_watermark, number_of_pages_of_document, number_of_pages_of_text, seal, postage_marks, endorsements, non_letter_enclosures, manifestation_creation_calendar, manifestation_creation_date, manifestation_creation_date_gregorian, manifestation_creation_date_year, manifestation_creation_date_month, manifestation_creation_date_day, manifestation_creation_date_inferred, manifestation_creation_date_uncertain, manifestation_creation_date_approx, manifestation_is_translation, language_of_manifestation, address, manifestation_incipit, manifestation_excipit, manifestation_ps, creation_timestamp, creation_user, change_timestamp, change_user, manifestation_creation_date2_year, manifestation_creation_date2_month, manifestation_creation_date2_day, manifestation_creation_date_is_range, manifestation_creation_date_as_marked, opened, uuid, routing_mark_stamp, routing_mark_ms, handling_instructions, stored_folded, postage_costs_as_marked, postage_costs, non_delivery_reason, date_of_receipt_as_marked, manifestation_receipt_calendar, manifestation_receipt_date, manifestation_receipt_date_gregorian, manifestation_receipt_date_year, manifestation_receipt_date_month, manifestation_receipt_date_day, manifestation_receipt_date_inferred, manifestation_receipt_date_uncertain, manifestation_receipt_date_approx, manifestation_receipt_date2_year, manifestation_receipt_date2_month, manifestation_receipt_date2_day, manifestation_receipt_date_is_range, accompaniments) FROM stdin;
+W10-a		THX1138				\N	\N						\N	\N	\N	\N	\N	0	0	0	0	\N		Love	You	\N	2018-05-30 17:05:58.908832	cofka	2018-05-30 17:06:55.949509	cofka	\N	\N	\N	0		o	3a311661-a8e6-4ec8-a221-2c154fde99a8										\N	\N	\N	0	0	0	0	0	\N	\N	\N	0	
 \.
 
 
@@ -13574,9 +13603,9 @@ SELECT pg_catalog.setval('public.cofk_union_publication_id_seq', 1, false);
 --
 
 COPY public.cofk_union_queryable_work (iwork_id, work_id, description, date_of_work_std, date_of_work_std_year, date_of_work_std_month, date_of_work_std_day, date_of_work_as_marked, date_of_work_inferred, date_of_work_uncertain, date_of_work_approx, creators_searchable, creators_for_display, authors_as_marked, notes_on_authors, authors_inferred, authors_uncertain, addressees_searchable, addressees_for_display, addressees_as_marked, addressees_inferred, addressees_uncertain, places_from_searchable, places_from_for_display, origin_as_marked, origin_inferred, origin_uncertain, places_to_searchable, places_to_for_display, destination_as_marked, destination_inferred, destination_uncertain, manifestations_searchable, manifestations_for_display, abstract, keywords, people_mentioned, images, related_resources, language_of_work, work_is_translation, flags, edit_status, general_notes, original_catalogue, accession_code, work_to_be_deleted, change_timestamp, change_user, drawer, editors_notes, manifestation_type, original_notes, relevant_to_cofk, subjects) FROM stdin;
-10	cofk_union_work-iwork_id:000000010	30 Jun 2017: Matthew Wilcoxson, b.1987 to Lucy Benyon	2017-06-30	2017	6	30		0	0	1	Matthew Wilcoxson, b.1987, also known as: Mat Wilcoxson	Matthew Wilcoxson, b.1987	M		0	0	Lucy Benyon	Lucy Benyon	L	0	0			\N	0	0			\N	0	0			\N	\N				\N	0	Date of work APPROXIMATE. 				Admin Administrator 30 May 2018 16:40	0	2018-05-30 16:41:02.529606	cofka	\N	\N	\N	\N	Y	
 7	cofk_union_work-iwork_id:000000007	Unknown date: Matthew Wilcoxson, b.1987 (Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom) to unknown addressee	9999-12-31	\N	\N	\N	\N	0	0	0	Matthew Wilcoxson, b.1987, also known as: Mat Wilcoxson	Matthew Wilcoxson, b.1987			0	0				0	0	Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom	Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom	\N	0	0			\N	0	0			\N	\N				\N	0	\N				Admin Administrator 30 May 2018 15:40	0	2018-05-30 16:46:19.626658	cofka	\N	\N	\N	\N	Y	
-9	cofk_union_work-iwork_id:000000009	29 Jun 2017: Lucy Benyon (Bedroom, 13 East Street, Didcot, Oxfordshire, England, United Kingdom) to Matthew Wilcoxson, b.1987 (Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom)	2017-06-29	2017	6	29		0	0	0	Lucy Benyon	Lucy Benyon	Luc		0	0	Matthew Wilcoxson, b.1987, also known as: Mat Wilcoxson	Matthew Wilcoxson, b.1987	Mat	0	0	Bedroom, 13 East Street, Didcot, Oxfordshire, England, United Kingdom	Bedroom, 13 East Street, Didcot, Oxfordshire, England, United Kingdom	Didcot	0	0	Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom	Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom		0	0			\N	\N				\N	0	\N				Admin Administrator 30 May 2018 16:24	0	2018-05-30 16:39:42.953113	cofka	\N	\N	\N	\N	Y	
+10	cofk_union_work-iwork_id:000000010	30 Jun 2017: Matthew Wilcoxson, b.1987 to Lucy Benyon	2017-06-30	2017	6	30		0	0	1	Matthew Wilcoxson, b.1987, also known as: Mat Wilcoxson	Matthew Wilcoxson, b.1987	M		0	0	Lucy Benyon	Lucy Benyon	L	0	0			\N	0	0			\N	0	0	London Institute: THX1138	London Institute: THX1138	\N	\N			Reply to: xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=9xxxCofkHrefEndxxx29 Jun 2017: Lucy Benyon (Bedroom, 13 East Street, Didcot, Oxfordshire, England, United Kingdom) to Matthew Wilcoxson, b.1987 (Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom)xxxCofkLinkEndxxx	\N	0	Date of work APPROXIMATE. 				Admin Administrator 30 May 2018 16:40	0	2018-05-30 17:06:55.949509	cofka	\N	\N	\N	\N	Y	
+9	cofk_union_work-iwork_id:000000009	29 Jun 2017: Lucy Benyon (Bedroom, 13 East Street, Didcot, Oxfordshire, England, United Kingdom) to Matthew Wilcoxson, b.1987 (Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom)	2017-06-29	2017	6	29		0	0	0	Lucy Benyon	Lucy Benyon	Luc		0	0	Matthew Wilcoxson, b.1987, also known as: Mat Wilcoxson	Matthew Wilcoxson, b.1987	Mat	0	0	Bedroom, 13 East Street, Didcot, Oxfordshire, England, United Kingdom	Bedroom, 13 East Street, Didcot, Oxfordshire, England, United Kingdom	Didcot	0	0	Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom	Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom		0	0			\N	\N			Answered by: xxxCofkLinkStartxxxxxxCofkHrefStartxxxhttps://emlo-edit.bodleian.ox.ac.uk/interface/union.php?iwork_id=10xxxCofkHrefEndxxx30 Jun 2017: Matthew Wilcoxson, b.1987 to Lucy BenyonxxxCofkLinkEndxxx	\N	0	\N				Admin Administrator 30 May 2018 16:24	0	2018-05-30 17:06:55.949509	cofka	\N	\N	\N	\N	Y	
 \.
 
 
@@ -13593,6 +13622,9 @@ COPY public.cofk_union_relationship (relationship_id, left_table_name, left_id_v
 9	cofk_union_work	cofk_union_work-iwork_id:000000010	was_addressed_to	cofk_union_person	cofk_union_person-iperson_id:000000002	\N	\N	2018-05-30 16:40:31.561364	cofka	2018-05-30 16:40:31.561364	cofka
 10	cofk_union_person	cofk_union_person-iperson_id:000000001	created	cofk_union_work	cofk_union_work-iwork_id:000000007	\N	\N	2018-05-30 16:45:27.900289	cofka	2018-05-30 16:45:27.900289	cofka
 11	cofk_union_work	cofk_union_work-iwork_id:000000007	was_sent_from	cofk_union_location	2	\N	\N	2018-05-30 16:46:19.626658	cofka	2018-05-30 16:46:19.626658	cofka
+12	cofk_union_work	cofk_union_work-iwork_id:000000010	is_reply_to	cofk_union_work	cofk_union_work-iwork_id:000000009	\N	\N	2018-05-30 17:05:23.045038	cofka	2018-05-30 17:05:23.045038	cofka
+13	cofk_union_manifestation	W10-a	is_manifestation_of	cofk_union_work	cofk_union_work-iwork_id:000000010	\N	\N	2018-05-30 17:05:58.908832	cofka	2018-05-30 17:05:58.908832	cofka
+14	cofk_union_manifestation	W10-a	stored_in	cofk_union_institution	1	\N	\N	2018-05-30 17:05:58.908832	cofka	2018-05-30 17:05:58.908832	cofka
 \.
 
 
@@ -13600,7 +13632,7 @@ COPY public.cofk_union_relationship (relationship_id, left_table_name, left_id_v
 -- Name: cofk_union_relationship_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cofk_union_relationship_id_seq', 11, true);
+SELECT pg_catalog.setval('public.cofk_union_relationship_id_seq', 14, true);
 
 
 --
@@ -13785,8 +13817,8 @@ SELECT pg_catalog.setval('public.cofk_union_subject_id_seq', 1, false);
 
 COPY public.cofk_union_work (work_id, description, date_of_work_as_marked, original_calendar, date_of_work_std, date_of_work_std_gregorian, date_of_work_std_year, date_of_work_std_month, date_of_work_std_day, date_of_work2_std_year, date_of_work2_std_month, date_of_work2_std_day, date_of_work_std_is_range, date_of_work_inferred, date_of_work_uncertain, date_of_work_approx, authors_as_marked, addressees_as_marked, authors_inferred, authors_uncertain, addressees_inferred, addressees_uncertain, destination_as_marked, origin_as_marked, destination_inferred, destination_uncertain, origin_inferred, origin_uncertain, abstract, keywords, language_of_work, work_is_translation, incipit, explicit, ps, original_catalogue, accession_code, work_to_be_deleted, iwork_id, editors_notes, edit_status, relevant_to_cofk, creation_timestamp, creation_user, change_timestamp, change_user, uuid) FROM stdin;
 cofk_union_work-iwork_id:000000007	Unknown date: Matthew Wilcoxson, b.1987 (Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom) to unknown addressee	\N		9999-12-31	9999-12-31	\N	\N	\N	\N	\N	\N	0	0	0	0			0	0	0	0	\N	\N	0	0	0	0	\N	\N	\N	0	\N	\N	\N		Admin Administrator 30 May 2018 15:40	0	7	\N		Y	2018-05-30 15:40:24.980566	cofka	2018-05-30 16:46:19.626658	cofka	82bb32a0-fca6-4955-86d7-af468fe2366c
+cofk_union_work-iwork_id:000000010	30 Jun 2017: Matthew Wilcoxson, b.1987 to Lucy Benyon		G	2017-06-30	2017-06-30	2017	6	30	\N	\N	\N	0	0	0	1	M	L	0	0	0	0	\N	\N	0	0	0	0	\N	\N	\N	0	\N	\N	\N		Admin Administrator 30 May 2018 16:40	0	10	\N		Y	2018-05-30 16:40:31.561364	cofka	2018-05-30 17:06:55.949509	cofka	254deca7-637b-4568-bb66-4f9b4c231407
 cofk_union_work-iwork_id:000000009	29 Jun 2017: Lucy Benyon (Bedroom, 13 East Street, Didcot, Oxfordshire, England, United Kingdom) to Matthew Wilcoxson, b.1987 (Kitchen, 75 Nottingham Road, Alfreton, Derbyshire, England, United Kingdom)		G	2017-06-29	2017-06-29	2017	6	29	\N	\N	\N	0	0	0	0	Luc	Mat	0	0	0	0		Didcot	0	0	0	0	\N	\N	\N	0	\N	\N	\N		Admin Administrator 30 May 2018 16:24	0	9	\N		Y	2018-05-30 16:24:45.954082	cofka	2018-05-30 16:39:42.953113	cofka	1e40635f-63bd-46e4-ad37-41e1a0178cda
-cofk_union_work-iwork_id:000000010	30 Jun 2017: Matthew Wilcoxson, b.1987 to Lucy Benyon		G	2017-06-30	2017-06-30	2017	6	30	\N	\N	\N	0	0	0	1	M	L	0	0	0	0	\N	\N	0	0	0	0	\N	\N	\N	0	\N	\N	\N		Admin Administrator 30 May 2018 16:40	0	10	\N		Y	2018-05-30 16:40:31.561364	cofka	2018-05-30 16:41:02.529606	cofka	254deca7-637b-4568-bb66-4f9b4c231407
 \.
 
 
@@ -13813,6 +13845,7 @@ cofka	-1
 
 COPY public.cofk_user_saved_queries (query_id, username, query_class, query_method, query_title, query_order_by, query_sort_descending, query_entries_per_page, query_record_layout, query_menu_item_name, creation_timestamp) FROM stdin;
 -1	cofka	editable_work	db_search	Data presentation options for latest query	date_of_work_std	0	100	across_page	Search works (compact view)	2018-05-30 12:23:29.235773
+-2	cofka	language	db_search	Data presentation options for latest query	language_name	0	20	across_page	Select languages for use in project	2018-05-30 17:10:51.025241
 \.
 
 
@@ -13820,7 +13853,7 @@ COPY public.cofk_user_saved_queries (query_id, username, query_class, query_meth
 -- Name: cofk_user_saved_queries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cofk_user_saved_queries_id_seq', 1, true);
+SELECT pg_catalog.setval('public.cofk_user_saved_queries_id_seq', 2, true);
 
 
 --
