@@ -4,6 +4,8 @@
 export SCRIPTDIR=/var/www/core/
 export CSVSOURCE=/csv/
 
+export DATABASE=ouls
+
 echo "Output directory will be $CSVSOURCE"
 
 #---------------------------------------------------------
@@ -98,9 +100,9 @@ do
   echo "select max( $tab_id ) from $tab" > get_max_id.sql
   echo "select count( $tab_id ) from $tab" > get_rowcount.sql
 
-  psql ouls -h postgres -U postgres -q  -t < get_min_id.sql > min_id.txt
-  psql ouls -h postgres -U postgres -q  -t < get_max_id.sql > max_id.txt
-  psql ouls -h postgres -U postgres -q  -t < get_rowcount.sql > rowcount.txt
+  psql ${DATABASE} -h postgres -U postgres -q  -t < get_min_id.sql > min_id.txt
+  psql ${DATABASE} -h postgres -U postgres -q  -t < get_max_id.sql > max_id.txt
+  psql ${DATABASE} -h postgres -U postgres -q  -t < get_rowcount.sql > rowcount.txt
 
   first_id=$(cat min_id.txt)
   first_id=$(( $first_id )) # evaluate as integer
@@ -138,7 +140,7 @@ do
     fi
 
     echo "select $tab_id from $tab where $tab_id > $COFK_LAST_ID_IN_TABLE order by $tab_id limit 1" > get_nextid.sql
-    psql ouls -h postgres -U postgres -q  -t < get_nextid.sql > nextid.txt
+    psql ${DATABASE} -h postgres -U postgres -q  -t < get_nextid.sql > nextid.txt
     next_id=$(cat nextid.txt)
     next_id=$(( next_id )) # evaluate as integer
 
@@ -190,8 +192,8 @@ tab_id=relationship_code
 echo "select min( $tab_id ) from $tab" > get_min_id.sql
 echo "select max( $tab_id ) from $tab" > get_max_id.sql
 
-psql ouls -h postgres -U postgres -q  -t < get_min_id.sql > min_id.txt
-psql ouls -h postgres -U postgres -q  -t < get_max_id.sql > max_id.txt
+psql ${DATABASE} -h postgres -U postgres -q  -t < get_min_id.sql > min_id.txt
+psql ${DATABASE} -h postgres -U postgres -q  -t < get_max_id.sql > max_id.txt
 
 first_id=$(cat min_id.txt)
 last_id=$(cat max_id.txt)
@@ -230,13 +232,13 @@ ${SCRIPTDIR}reinstate_accents_selden_end.sh y
 
 #---------------------------------------------------------------------------------------
 
-psql ouls -h postgres -U cofkadmin -c "\\copy pro_activity to ${CSVSOURCE}pro_activity.csv csv header"
-psql ouls -h postgres -U cofkadmin -c "\\copy pro_assertion to ${CSVSOURCE}pro_assertion.csv csv header"
-psql ouls -h postgres -U cofkadmin -c "\\copy pro_location to ${CSVSOURCE}pro_location.csv csv header"
-psql ouls -h postgres -U cofkadmin -c "\\copy pro_primary_person to ${CSVSOURCE}pro_primary_person.csv csv header"
-psql ouls -h postgres -U cofkadmin -c "\\copy pro_relationship to ${CSVSOURCE}pro_relationship.csv csv header"
-psql ouls -h postgres -U cofkadmin -c "\\copy pro_role_in_activity to ${CSVSOURCE}pro_role_in_activity.csv csv header"
-psql ouls -h postgres -U cofkadmin -c "\\copy pro_textual_source to ${CSVSOURCE}pro_textual_source.csv csv header"
+psql ${DATABASE} -h postgres -U cofkadmin -c "\\copy pro_activity to ${CSVSOURCE}pro_activity.csv csv header"
+psql ${DATABASE} -h postgres -U cofkadmin -c "\\copy pro_assertion to ${CSVSOURCE}pro_assertion.csv csv header"
+psql ${DATABASE} -h postgres -U cofkadmin -c "\\copy pro_location to ${CSVSOURCE}pro_location.csv csv header"
+psql ${DATABASE} -h postgres -U cofkadmin -c "\\copy pro_primary_person to ${CSVSOURCE}pro_primary_person.csv csv header"
+psql ${DATABASE} -h postgres -U cofkadmin -c "\\copy pro_relationship to ${CSVSOURCE}pro_relationship.csv csv header"
+psql ${DATABASE} -h postgres -U cofkadmin -c "\\copy pro_role_in_activity to ${CSVSOURCE}pro_role_in_activity.csv csv header"
+psql ${DATABASE} -h postgres -U cofkadmin -c "\\copy pro_textual_source to ${CSVSOURCE}pro_textual_source.csv csv header"
 
 echo 'Export to CSV files now complete.'
 
