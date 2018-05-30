@@ -608,13 +608,13 @@ class Application_Entity {
   }
   #-----------------------------------------------------
 
-  function write_post_parm( $parm_name, $parm_value ) {
+  function write_post_parm( $parm_name, $parm_value=NULL ) {
 
     $this->write_parm( $parm_name, $parm_value, '$_POST' );
   }
   #-----------------------------------------------------
 
-  function write_get_parm( $parm_name, $parm_value ) {
+  function write_get_parm( $parm_name, $parm_value=NULL ) {
 
     $this->write_parm( $parm_name, $parm_value, '$_GET' );
   }
