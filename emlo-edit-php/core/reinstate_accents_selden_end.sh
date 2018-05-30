@@ -31,8 +31,8 @@ for csvfile in cofk_union_comment.csv \
                cofk_union_work.csv
 do
   echo "Starting to process $csvfile"
-  csvfile=$CSVSOURCE/$csvfile
-  ls -l $csvfile
+  csvfile=$CSVSOURCE$csvfile
+  # ls -l $csvfile
   export COFK_CSV_FILE=$csvfile
 
   php -q ${SCRIPTDIR}reinstate_accents_union.php
@@ -40,7 +40,7 @@ do
   cd $CSVSOURCE
   echo "Cleaning up old file: will move ${csvfile}_new to $csvfile..."
   \mv ${csvfile}_new $csvfile
-  ls -l $csvfile
+  # ls -l $csvfile
   cd - 
 
   echo ''

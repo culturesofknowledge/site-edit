@@ -5,7 +5,7 @@ define( 'CFG_PREFIX', 'cofk' );
 define( 'CFG_SYSTEM_TITLE', 'Reformat Selden End material for front end website' );
 define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' );
 
-define( 'CONSTANT_DATABASE_TYPE', 'test' ); # database type is irrelevant as we are working from a file
+define( 'CONSTANT_DATABASE_TYPE', 'live' ); # database type is irrelevant as we are working from a file
 define( 'MAX_LINE_LENGTH', 1000000 );
 
 require_once "common_components.php";
