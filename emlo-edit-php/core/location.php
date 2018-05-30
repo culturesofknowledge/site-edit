@@ -947,16 +947,23 @@ class Location extends Project {
 
     if( $this->location_id ) # for a new record you've only got the one section of core fields
       $this->proj_form_section_links( 'core_fields' );
-
+	  echo '<section>';
     $this->editors_notes_field();
+	  echo '</section>';
 
+	  echo '<section>';
     $this->location_element_fields();
+	  echo '</section>';
 
+	  echo '<section>';
     $this->location_synonyms_field();
+	  echo '</section>';
 
+    echo '<section>';
     $this->latitude_field();
-
     $this->longitude_field();
+    echo '<p><span class="workfieldaligned">This website may be of help: <a href="https://www.latlong.net/" target="_blank" rel="nofollow">https://www.latlong.net/</a></span></p>';
+    echo '</section>';
 
     if( $this->app_get_class( $this ) != 'popup_location' ) {  # popup screen has its own 'Save' buttons
       $this->proj_extra_save_button( $prefix = 'core_fields', $new_paragraph = FALSE, 'class ="workfield_save_button"' );

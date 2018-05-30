@@ -139,7 +139,8 @@ class HTML extends Application_Entity {
 
   function write_stylesheet( $for_cms_deployment = FALSE, $banner_only = FALSE, $printable = FALSE ) {
 
-	// Mattt: I've moved these to css files... I;ve turned it off cause it does other stuff like printing...
+	// Mattt: I've moved these to css files...
+     // Matt: I've turned it back on cause it does other stuff like printing...
 
 	 // echo '<!-- link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css" media="screen" / -->';
 
@@ -153,7 +154,7 @@ class HTML extends Application_Entity {
 
 	//return;
 
-    echo '<style type="text/css" p="2">' . NEWLINE;
+    echo '<style type="text/css">' . NEWLINE;
 
     #---------
     # Defaults
@@ -234,6 +235,8 @@ class HTML extends Application_Entity {
 		echo '   padding:5px;'                                      . NEWLINE;
 		echo '   line-height:1.2;'                                      . NEWLINE;
       echo ' }'                                                       . NEWLINE;
+
+      echo 'section { margin: 40px 0;}';
 
       echo ' fieldset {'                                                      . NEWLINE;
       echo '   background-color: ' .  HTML::header_background_colour() . ';'  . NEWLINE;
