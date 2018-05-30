@@ -12708,6 +12708,7 @@ SELECT pg_catalog.setval('public.cofk_help_pages_page_id_seq', 1, false);
 --
 
 COPY public.cofk_lookup_catalogue (catalogue_id, catalogue_code, catalogue_name, is_in_union, publish_status) FROM stdin;
+1		no catalogue specified	1	0
 \.
 
 
@@ -12715,7 +12716,7 @@ COPY public.cofk_lookup_catalogue (catalogue_id, catalogue_code, catalogue_name,
 -- Name: cofk_lookup_catalogue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cofk_lookup_catalogue_id_seq', 1, false);
+SELECT pg_catalog.setval('public.cofk_lookup_catalogue_id_seq', 1, true);
 
 
 --
@@ -13011,7 +13012,7 @@ SELECT pg_catalog.setval('public.cofk_sessions_session_id_seq', 1, true);
 -- Name: cofk_union_audit_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cofk_union_audit_id_seq', 1, false);
+SELECT pg_catalog.setval('public.cofk_union_audit_id_seq', 216, true);
 
 
 --
@@ -13019,6 +13020,222 @@ SELECT pg_catalog.setval('public.cofk_union_audit_id_seq', 1, false);
 --
 
 COPY public.cofk_union_audit_literal (audit_id, change_timestamp, change_user, change_type, table_name, key_value_text, key_value_integer, key_decode, column_name, new_column_value, old_column_value) FROM stdin;
+1	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_involved_in	\N	Was involved in	desc_left_to_right	Was involved in	\N
+2	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_involved_in	\N	Was involved in	desc_right_to_left	Affected	\N
+3	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	created	\N	Created	desc_left_to_right	Created	\N
+4	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	created	\N	Created	desc_right_to_left	Was created by	\N
+5	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	handwrote	\N	handwrote	desc_left_to_right	handwrote	\N
+6	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	handwrote	\N	handwrote	desc_right_to_left	in hand of	\N
+7	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	partly_handwrote	\N	partly handwrote	desc_left_to_right	partly handwrote	\N
+8	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	partly_handwrote	\N	partly handwrote	desc_right_to_left	partly in hand of	\N
+9	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_rightsholder_of	\N	Is rightsholder of	desc_left_to_right	Is rightsholder of	\N
+10	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_rightsholder_of	\N	Is rightsholder of	desc_right_to_left	Is copyright of	\N
+11	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	sent	\N	Sent	desc_left_to_right	Sent	\N
+12	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	sent	\N	Sent	desc_right_to_left	Was sent by	\N
+13	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	signed	\N	Was signatory of	desc_left_to_right	Was signatory of	\N
+14	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	signed	\N	Was signatory of	desc_right_to_left	Was signed by	\N
+15	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	member_of	\N	Member of	desc_left_to_right	Member of	\N
+16	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	member_of	\N	Member of	desc_right_to_left	Includes	\N
+17	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_addressed_to	\N	Was addressed to	desc_left_to_right	Was addressed to	\N
+18	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_addressed_to	\N	Was addressed to	desc_right_to_left	Was addressee of	\N
+19	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_sent_from	\N	Was sent from	desc_left_to_right	Was sent from	\N
+20	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_sent_from	\N	Was sent from	desc_right_to_left	Was source of	\N
+21	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_sent_to	\N	Was sent to	desc_left_to_right	Was sent to	\N
+22	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_sent_to	\N	Was sent to	desc_right_to_left	Was destination of	\N
+23	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	enclosed_in	\N	Was enclosed in	desc_left_to_right	Was enclosed in	\N
+24	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	enclosed_in	\N	Was enclosed in	desc_right_to_left	Had enclosure	\N
+25	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	paper_reused_for	\N	Paper was re-used for later work	desc_left_to_right	Paper was re-used for later work	\N
+26	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	paper_reused_for	\N	Paper was re-used for later work	desc_right_to_left	Re-used paper from earlier work	\N
+27	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	copied	\N	Copied	desc_left_to_right	Copied	\N
+28	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	copied	\N	Copied	desc_right_to_left	Was copied by	\N
+29	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	transcribed	\N	Transcribed	desc_left_to_right	Transcribed	\N
+30	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	transcribed	\N	Transcribed	desc_right_to_left	Was transcribed by	\N
+31	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	edited	\N	Edited	desc_left_to_right	Edited	\N
+32	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	edited	\N	Edited	desc_right_to_left	Was edited by	\N
+33	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to	\N	Refers to	desc_left_to_right	Refers to	\N
+34	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to	\N	Refers to	desc_right_to_left	Has note	\N
+35	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_manifestation_of	\N	Is manifestation of	desc_left_to_right	Is manifestation of	\N
+36	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_manifestation_of	\N	Is manifestation of	desc_right_to_left	Has manifestation	\N
+37	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_reply_to	\N	Is reply to	desc_left_to_right	Is reply to	\N
+38	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_reply_to	\N	Is reply to	desc_right_to_left	Is answered by	\N
+39	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_related_to	\N	Is related to	desc_left_to_right	Is related to	\N
+40	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_related_to	\N	Is related to	desc_right_to_left	Is related to	\N
+41	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_translation_of	\N	Is translation of	desc_left_to_right	Is translation of	\N
+42	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_translation_of	\N	Is translation of	desc_right_to_left	Is translated by	\N
+43	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_transcription_of	\N	Is transcription of	desc_left_to_right	Is transcription of	\N
+44	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_transcription_of	\N	Is transcription of	desc_right_to_left	Is transcribed in	\N
+45	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_finding_aid_for	\N	Is finding aid for	desc_left_to_right	Is finding aid for	\N
+46	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_finding_aid_for	\N	Is finding aid for	desc_right_to_left	Has finding aid	\N
+47	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	quotes_from	\N	Is quote from	desc_left_to_right	Is quote from	\N
+48	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	quotes_from	\N	Is quote from	desc_right_to_left	Is quoted in	\N
+49	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	image_of	\N	Is image of	desc_left_to_right	Is image of	\N
+50	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	image_of	\N	Is image of	desc_right_to_left	Has image	\N
+51	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	mentions	\N	Mentions	desc_left_to_right	Mentions	\N
+52	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	mentions	\N	Mentions	desc_right_to_left	Is mentioned in	\N
+53	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_in_or_near	\N	Is in the area of	desc_left_to_right	Is in the area of	\N
+54	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_in_or_near	\N	Is in the area of	desc_right_to_left	Includes	\N
+55	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	stored_in	\N	Is in repository	desc_left_to_right	Is in repository	\N
+56	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	stored_in	\N	Is in repository	desc_right_to_left	Has contents	\N
+57	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	has_flag	\N	Has problem flagged	desc_left_to_right	Has problem flagged	\N
+58	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	has_flag	\N	Has problem flagged	desc_right_to_left	Flags problem in	\N
+59	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	formerly_owned	\N	was former owner of	desc_left_to_right	was former owner of	\N
+60	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	formerly_owned	\N	was former owner of	desc_right_to_left	was formerly owned by	\N
+61	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_author	\N	refers to author of work	desc_left_to_right	refers to author of work	\N
+62	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_author	\N	refers to author of work	desc_right_to_left	has comment on author	\N
+63	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_addressee	\N	refers to addressee of work	desc_left_to_right	refers to addressee of work	\N
+64	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_addressee	\N	refers to addressee of work	desc_right_to_left	has comment on addressee	\N
+65	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	intended_for	\N	was intended for	desc_left_to_right	was intended for	\N
+66	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	intended_for	\N	was intended for	desc_right_to_left	was supposed to receive	\N
+67	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_date	\N	refers to date of	desc_left_to_right	refers to date of	\N
+68	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_date	\N	refers to date of	desc_right_to_left	has note on date	\N
+69	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	forms_part_of_catg	\N	forms part of catalogue	desc_left_to_right	forms part of catalogue	\N
+70	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	forms_part_of_catg	\N	forms part of catalogue	desc_right_to_left	has catalogue entry	\N
+71	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	mentions_work	\N	mentions	desc_left_to_right	mentions	\N
+72	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	mentions_work	\N	mentions	desc_right_to_left	is mentioned by	\N
+73	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	mentions_place	\N	mentions	desc_left_to_right	mentions	\N
+74	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	mentions_place	\N	mentions	desc_right_to_left	is mentioned by	\N
+75	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_people_mentioned_in_work	\N	refers to people mentioned in	desc_left_to_right	refers to people mentioned in	\N
+76	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_people_mentioned_in_work	\N	refers to people mentioned in	desc_right_to_left	has comment on people mentioned	\N
+77	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_in_location	\N	was based in or visited	desc_left_to_right	was based in or visited	\N
+78	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_in_location	\N	was based in or visited	desc_right_to_left	had inhabitant or visitor	\N
+79	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	parent_of	\N	was the parent of	desc_left_to_right	was the parent of	\N
+80	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	parent_of	\N	was the parent of	desc_right_to_left	was the child of	\N
+81	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	spouse_of	\N	was married to	desc_left_to_right	was married to	\N
+82	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	spouse_of	\N	was married to	desc_right_to_left	was married to	\N
+83	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	sibling_of	\N	was a sibling of	desc_left_to_right	was a sibling of	\N
+84	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	sibling_of	\N	was a sibling of	desc_right_to_left	was a sibling of	\N
+85	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	relative_of	\N	was a relative of	desc_left_to_right	was a relative of	\N
+86	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	relative_of	\N	was a relative of	desc_right_to_left	was a relative of	\N
+87	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	friend_of	\N	was a friend of	desc_left_to_right	was a friend of	\N
+88	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	friend_of	\N	was a friend of	desc_right_to_left	was a friend of	\N
+89	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	colleague_of	\N	was a colleague of	desc_left_to_right	was a colleague of	\N
+90	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	colleague_of	\N	was a colleague of	desc_right_to_left	was a colleague of	\N
+91	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	collaborated_with	\N	collaborated with	desc_left_to_right	collaborated with	\N
+92	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	collaborated_with	\N	collaborated with	desc_right_to_left	collaborated with	\N
+93	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_a_business_associate_of	\N	was a business associate of	desc_left_to_right	was a business associate of	\N
+94	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_a_business_associate_of	\N	was a business associate of	desc_right_to_left	was a business associate of	\N
+95	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	taught	\N	taught	desc_left_to_right	taught	\N
+96	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	taught	\N	taught	desc_right_to_left	studied under	\N
+97	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	employed	\N	employed	desc_left_to_right	employed	\N
+98	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	employed	\N	employed	desc_right_to_left	worked for	\N
+99	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_born_in_location	\N	was born in	desc_left_to_right	was born in	\N
+100	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_born_in_location	\N	was born in	desc_right_to_left	was birthplace of	\N
+101	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	died_at_location	\N	died in	desc_left_to_right	died in	\N
+102	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	died_at_location	\N	died in	desc_right_to_left	was place of death of	\N
+103	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	acquaintance_of	\N	was an acquaintance of	desc_left_to_right	was an acquaintance of	\N
+104	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	acquaintance_of	\N	was an acquaintance of	desc_right_to_left	was an acquaintance of	\N
+105	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	unspecified_relationship_with	\N	unspecified relationship with	desc_left_to_right	unspecified relationship with	\N
+106	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	unspecified_relationship_with	\N	unspecified relationship with	desc_right_to_left	unspecified relationship with	\N
+107	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_author_of_work	\N	was author of	desc_left_to_right	was author of	\N
+108	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_author_of_work	\N	was author of	desc_right_to_left	was written by	\N
+109	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_copyist_of_work	\N	was copyist of	desc_left_to_right	was copyist of	\N
+110	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_copyist_of_work	\N	was copyist of	desc_right_to_left	had copyist	\N
+111	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_commentator_on_work	\N	was commentator on	desc_left_to_right	was commentator on	\N
+112	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_commentator_on_work	\N	was commentator on	desc_right_to_left	had commentator	\N
+113	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_translator_of_work	\N	was translator of	desc_left_to_right	was translator of	\N
+114	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_translator_of_work	\N	was translator of	desc_right_to_left	had translator	\N
+115	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_glossist_of_work	\N	was glossist of	desc_left_to_right	was glossist of	\N
+116	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_glossist_of_work	\N	was glossist of	desc_right_to_left	had glossist	\N
+117	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_commentary_on	\N	is commentary on	desc_left_to_right	is commentary on	\N
+118	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_commentary_on	\N	is commentary on	desc_right_to_left	has commentary	\N
+119	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_summary_of	\N	is summary of	desc_left_to_right	is summary of	\N
+120	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_summary_of	\N	is summary of	desc_right_to_left	is summarised by	\N
+121	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_continuation_of	\N	is continuation of	desc_left_to_right	is continuation of	\N
+122	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_continuation_of	\N	is continuation of	desc_right_to_left	is continued by	\N
+123	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	deals_with	\N	deals with	desc_left_to_right	deals with	\N
+124	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	deals_with	\N	deals with	desc_right_to_left	is discussed by	\N
+125	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	copied_at_place	\N	was copied at	desc_left_to_right	was copied at	\N
+126	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	copied_at_place	\N	was copied at	desc_right_to_left	was place of copying of	\N
+127	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	matches	\N	matches	desc_left_to_right	matches	\N
+128	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	matches	\N	matches	desc_right_to_left	matches	\N
+129	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_place_of_copying	\N	refers to place of_copying of	desc_left_to_right	refers to place of_copying of	\N
+130	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_place_of_copying	\N	refers to place of_copying of	desc_right_to_left	has comment on place of copying	\N
+131	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_title	\N	refers to title	desc_left_to_right	refers to title	\N
+132	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_title	\N	refers to title	desc_right_to_left	has comment on title	\N
+133	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_type_of_work	\N	refers to type of work	desc_left_to_right	refers to type of work	\N
+134	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_type_of_work	\N	refers to type of work	desc_right_to_left	has comment on type of work	\N
+135	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_place_of_composition	\N	refers to place of composition	desc_left_to_right	refers to place of composition	\N
+136	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_place_of_composition	\N	refers to place of composition	desc_right_to_left	has comment on place of composition	\N
+137	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_incipit	\N	refers to incipit	desc_left_to_right	refers to incipit	\N
+138	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_incipit	\N	refers to incipit	desc_right_to_left	has comment on incipit	\N
+139	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_excipit	\N	refers to excipit	desc_left_to_right	refers to excipit	\N
+140	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_excipit	\N	refers to excipit	desc_right_to_left	has comment on excipit	\N
+141	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_colophon	\N	refers to colophon	desc_left_to_right	refers to colophon	\N
+142	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_colophon	\N	refers to colophon	desc_right_to_left	has comment on colophon	\N
+143	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_dedicatees	\N	refers to dedicatees	desc_left_to_right	refers to dedicatees	\N
+144	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_dedicatees	\N	refers to dedicatees	desc_right_to_left	has comment on dedicatees	\N
+145	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_patrons	\N	refers to patrons	desc_left_to_right	refers to patrons	\N
+146	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_patrons	\N	refers to patrons	desc_right_to_left	has comment on patrons	\N
+147	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_bibliography	\N	refers to bibliography	desc_left_to_right	refers to bibliography	\N
+148	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_bibliography	\N	refers to bibliography	desc_right_to_left	has comment on bibliography	\N
+149	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_dedicatee_of	\N	was dedicatee of	desc_left_to_right	was dedicatee of	\N
+150	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_dedicatee_of	\N	was dedicatee of	desc_right_to_left	was dedicated to	\N
+151	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_patron_of	\N	was patron of	desc_left_to_right	was patron of	\N
+152	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_patron_of	\N	was patron of	desc_right_to_left	had patron	\N
+153	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_copyist	\N	refers to copyist	desc_left_to_right	refers to copyist	\N
+154	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_copyist	\N	refers to copyist	desc_right_to_left	has comment on copyist	\N
+155	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_endower_of	\N	was endower of	desc_left_to_right	was endower of	\N
+156	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_endower_of	\N	was endower of	desc_right_to_left	had endower	\N
+157	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_endowee_of	\N	was endowee of	desc_left_to_right	was endowee of	\N
+158	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_endowee_of	\N	was endowee of	desc_right_to_left	had endowee	\N
+159	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_codex	\N	refers to codex	desc_left_to_right	refers to codex	\N
+160	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_codex	\N	refers to codex	desc_right_to_left	has comment on codex	\N
+161	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	asked_for_copying_of	\N	asked for copying of	desc_left_to_right	asked for copying of	\N
+162	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	asked_for_copying_of	\N	asked for copying of	desc_right_to_left	was copied on request from	\N
+163	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	taught_text	\N	taught	desc_left_to_right	taught	\N
+164	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	taught_text	\N	taught	desc_right_to_left	taught by	\N
+165	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_teacher_of	\N	refers to teacher of	desc_left_to_right	refers to teacher of	\N
+166	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_teacher_of	\N	refers to teacher of	desc_right_to_left	has comment on teacher of	\N
+167	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	studied_text	\N	studied	desc_left_to_right	studied	\N
+168	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	studied_text	\N	studied	desc_right_to_left	studied by	\N
+169	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_student_of	\N	refers to student of	desc_left_to_right	refers to student of	\N
+170	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_student_of	\N	refers to student of	desc_right_to_left	has comment on student of	\N
+171	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_studied_in_place	\N	was studied in	desc_left_to_right	was studied in	\N
+172	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	was_studied_in_place	\N	was studied in	desc_right_to_left	had students in	\N
+173	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_place_studied	\N	refers to place of study of	desc_left_to_right	refers to place of study of	\N
+174	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_place_studied	\N	refers to place of study of	desc_right_to_left	has comment on place of study of	\N
+175	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_locations_of	\N	refers to locations of	desc_left_to_right	refers to locations of	\N
+176	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_locations_of	\N	refers to locations of	desc_right_to_left	has comment on locations of	\N
+177	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_relationships_of	\N	refers to relationships of	desc_left_to_right	refers to relationships of	\N
+178	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_relationships_of	\N	refers to relationships of	desc_right_to_left	has comment on relationships of	\N
+179	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	annotated	\N	annotated	desc_left_to_right	annotated	\N
+180	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	annotated	\N	annotated	desc_right_to_left	had annotation by	\N
+181	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_annotator	\N	refers to annotator of	desc_left_to_right	refers to annotator of	\N
+182	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_annotator	\N	refers to annotator of	desc_right_to_left	has comment on annotator	\N
+183	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_basis_texts_of	\N	refers to basis texts of	desc_left_to_right	refers to basis texts of	\N
+184	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_basis_texts_of	\N	refers to basis texts of	desc_right_to_left	has note on basis texts	\N
+185	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_commentaries_on	\N	refers to commentaries on	desc_left_to_right	refers to commentaries on	\N
+186	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_commentaries_on	\N	refers to commentaries on	desc_right_to_left	has note on commentaries	\N
+187	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_places_mentioned_in_work	\N	refers to places mentioned	desc_left_to_right	refers to places mentioned	\N
+188	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_places_mentioned_in_work	\N	refers to places mentioned	desc_right_to_left	has note on places mentioned	\N
+189	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_works_mentioned_in_work	\N	refers to works mentioned	desc_left_to_right	refers to works mentioned	\N
+190	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_works_mentioned_in_work	\N	refers to works mentioned	desc_right_to_left	has note on works mentioned	\N
+191	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_contents	\N	refers to contents of codex	desc_left_to_right	refers to contents of codex	\N
+192	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_contents	\N	refers to contents of codex	desc_right_to_left	has notes on contents of codex	\N
+193	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_former_owners	\N	refers to former owners	desc_left_to_right	refers to former owners	\N
+194	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_former_owners	\N	refers to former owners	desc_right_to_left	has note on former owners	\N
+195	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_endowers	\N	refers to endowers	desc_left_to_right	refers to endowers	\N
+196	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_endowers	\N	refers to endowers	desc_right_to_left	has comment on endowers	\N
+197	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_endowees	\N	refers to endowees	desc_left_to_right	refers to endowees	\N
+198	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_endowees	\N	refers to endowees	desc_right_to_left	has comment on endowees	\N
+199	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_gloss_on	\N	is gloss on	desc_left_to_right	is gloss on	\N
+200	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_gloss_on	\N	is gloss on	desc_right_to_left	has gloss	\N
+201	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_ijaza_for	\N	is ijaza for	desc_left_to_right	is ijaza for	\N
+202	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_ijaza_for	\N	is ijaza for	desc_right_to_left	has ijaza	\N
+203	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_versification_of	\N	is versification of	desc_left_to_right	is versification of	\N
+204	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	is_versification_of	\N	is versification of	desc_right_to_left	has versification	\N
+205	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_affiliations_of	\N	refers to affiliations of	desc_left_to_right	refers to affiliations of	\N
+206	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_affiliations_of	\N	refers to affiliations of	desc_right_to_left	has note on affiliations	\N
+207	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_members_of	\N	refers to members of	desc_left_to_right	refers to members of	\N
+208	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_members_of	\N	refers to members of	desc_right_to_left	has note on members	\N
+209	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_origin	\N	refers to place of origin	desc_left_to_right	refers to place of origin	\N
+210	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_origin	\N	refers to place of origin	desc_right_to_left	has comment on origin	\N
+211	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_destination	\N	refers to place of destination	desc_left_to_right	refers to place of destination	\N
+212	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_destination	\N	refers to place of destination	desc_right_to_left	has comment on destination	\N
+213	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	route	\N	route taken	desc_left_to_right	route taken	\N
+214	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	route	\N	route taken	desc_right_to_left	route taken by	\N
+215	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_receipt_date	\N	refers to receipt date of	desc_left_to_right	refers to receipt date of	\N
+216	2018-05-30 16:24:13.199301	postgres	New	cofk_union_relationship_type	refers_to_receipt_date	\N	refers to receipt date of	desc_right_to_left	has note on receipt date	\N
 \.
 
 
@@ -13218,6 +13435,114 @@ SELECT pg_catalog.setval('public.cofk_union_relationship_id_seq', 1, false);
 --
 
 COPY public.cofk_union_relationship_type (relationship_code, desc_left_to_right, desc_right_to_left, creation_timestamp, creation_user, change_timestamp, change_user) FROM stdin;
+was_involved_in	Was involved in	Affected	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+created	Created	Was created by	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+handwrote	handwrote	in hand of	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+partly_handwrote	partly handwrote	partly in hand of	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+is_rightsholder_of	Is rightsholder of	Is copyright of	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+sent	Sent	Was sent by	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+signed	Was signatory of	Was signed by	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+member_of	Member of	Includes	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+was_addressed_to	Was addressed to	Was addressee of	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+was_sent_from	Was sent from	Was source of	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+was_sent_to	Was sent to	Was destination of	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+enclosed_in	Was enclosed in	Had enclosure	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+paper_reused_for	Paper was re-used for later work	Re-used paper from earlier work	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+copied	Copied	Was copied by	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+transcribed	Transcribed	Was transcribed by	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+edited	Edited	Was edited by	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+refers_to	Refers to	Has note	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+is_manifestation_of	Is manifestation of	Has manifestation	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+is_reply_to	Is reply to	Is answered by	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+is_related_to	Is related to	Is related to	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+is_translation_of	Is translation of	Is translated by	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+is_transcription_of	Is transcription of	Is transcribed in	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+is_finding_aid_for	Is finding aid for	Has finding aid	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+quotes_from	Is quote from	Is quoted in	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+image_of	Is image of	Has image	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+mentions	Mentions	Is mentioned in	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+is_in_or_near	Is in the area of	Includes	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+stored_in	Is in repository	Has contents	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+has_flag	Has problem flagged	Flags problem in	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+formerly_owned	was former owner of	was formerly owned by	2018-05-30 16:23:23.016033	Initial import	2018-05-30 16:23:23.016033	Initial import
+refers_to_author	refers to author of work	has comment on author	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_addressee	refers to addressee of work	has comment on addressee	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+intended_for	was intended for	was supposed to receive	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_date	refers to date of	has note on date	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+forms_part_of_catg	forms part of catalogue	has catalogue entry	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+mentions_work	mentions	is mentioned by	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+mentions_place	mentions	is mentioned by	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_people_mentioned_in_work	refers to people mentioned in	has comment on people mentioned	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_in_location	was based in or visited	had inhabitant or visitor	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+parent_of	was the parent of	was the child of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+spouse_of	was married to	was married to	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+sibling_of	was a sibling of	was a sibling of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+relative_of	was a relative of	was a relative of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+friend_of	was a friend of	was a friend of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+colleague_of	was a colleague of	was a colleague of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+collaborated_with	collaborated with	collaborated with	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_a_business_associate_of	was a business associate of	was a business associate of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+taught	taught	studied under	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+employed	employed	worked for	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_born_in_location	was born in	was birthplace of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+died_at_location	died in	was place of death of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+acquaintance_of	was an acquaintance of	was an acquaintance of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+unspecified_relationship_with	unspecified relationship with	unspecified relationship with	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_author_of_work	was author of	was written by	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_copyist_of_work	was copyist of	had copyist	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_commentator_on_work	was commentator on	had commentator	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_translator_of_work	was translator of	had translator	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_glossist_of_work	was glossist of	had glossist	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+is_commentary_on	is commentary on	has commentary	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+is_summary_of	is summary of	is summarised by	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+is_continuation_of	is continuation of	is continued by	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+deals_with	deals with	is discussed by	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+copied_at_place	was copied at	was place of copying of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+matches	matches	matches	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_place_of_copying	refers to place of_copying of	has comment on place of copying	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_title	refers to title	has comment on title	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_type_of_work	refers to type of work	has comment on type of work	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_place_of_composition	refers to place of composition	has comment on place of composition	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_incipit	refers to incipit	has comment on incipit	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_excipit	refers to excipit	has comment on excipit	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_colophon	refers to colophon	has comment on colophon	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_dedicatees	refers to dedicatees	has comment on dedicatees	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_patrons	refers to patrons	has comment on patrons	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_bibliography	refers to bibliography	has comment on bibliography	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_dedicatee_of	was dedicatee of	was dedicated to	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_patron_of	was patron of	had patron	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_copyist	refers to copyist	has comment on copyist	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_endower_of	was endower of	had endower	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_endowee_of	was endowee of	had endowee	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_codex	refers to codex	has comment on codex	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+asked_for_copying_of	asked for copying of	was copied on request from	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+taught_text	taught	taught by	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_teacher_of	refers to teacher of	has comment on teacher of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+studied_text	studied	studied by	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_student_of	refers to student of	has comment on student of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+was_studied_in_place	was studied in	had students in	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_place_studied	refers to place of study of	has comment on place of study of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_locations_of	refers to locations of	has comment on locations of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_relationships_of	refers to relationships of	has comment on relationships of	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+annotated	annotated	had annotation by	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_annotator	refers to annotator of	has comment on annotator	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_basis_texts_of	refers to basis texts of	has note on basis texts	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_commentaries_on	refers to commentaries on	has note on commentaries	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_places_mentioned_in_work	refers to places mentioned	has note on places mentioned	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_works_mentioned_in_work	refers to works mentioned	has note on works mentioned	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_contents	refers to contents of codex	has notes on contents of codex	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_former_owners	refers to former owners	has note on former owners	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_endowers	refers to endowers	has comment on endowers	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_endowees	refers to endowees	has comment on endowees	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+is_gloss_on	is gloss on	has gloss	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+is_ijaza_for	is ijaza for	has ijaza	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+is_versification_of	is versification of	has versification	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_affiliations_of	refers to affiliations of	has note on affiliations	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_members_of	refers to members of	has note on members	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_origin	refers to place of origin	has comment on origin	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_destination	refers to place of destination	has comment on destination	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+route	route taken	route taken by	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
+refers_to_receipt_date	refers to receipt date of	has note on receipt date	2018-05-30 16:23:23.016033	postgres	2018-05-30 16:23:23.016033	postgres
 \.
 
 
