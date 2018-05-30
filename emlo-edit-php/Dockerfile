@@ -11,7 +11,8 @@ LABEL version="0.2.0"
 RUN apt-get update && apt-get install -y \
 	libpq-dev \
 	postgresql-client \
-	rsync
+	rsync \
+	ssh
 
 # Copy and run php packages to install
 RUN pear install DB-1.7.14 mdb2 MDB2_Driver_pgsql pear/mdb2#pgsql
