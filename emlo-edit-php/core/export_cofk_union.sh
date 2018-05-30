@@ -60,8 +60,10 @@ function cleanup() {
     image \
     institution \
     location \
+    manifestation \
     person \
     relationship \
+    relationship_type \
     resource \
     work 
   do
