@@ -5,6 +5,7 @@ export SCRIPTDIR=/var/www/core/
 export CSVSOURCE=/csv/
 
 export DATABASE=ouls
+# export DATABASE=oulstestdata
 
 echo "Output directory will be $CSVSOURCE"
 
@@ -12,66 +13,30 @@ echo "Output directory will be $CSVSOURCE"
 
 function cleanup() {
 
-  if [ -f manifestation_batches.txt ]
-  then
-    \rm manifestation_batches.txt
-  fi
-
-  if [ -f get_min_id.sql ]
-  then
-    \rm get_min_id.sql
-  fi
-
-  if [ -f get_max_id.sql ]
-  then
-    \rm get_max_id.sql
-  fi
-
-  if [ -f get_rowcount.sql ]
-  then
-    \rm get_rowcount.sql
-  fi
-
-  if [ -f min_id.txt ]
-  then
-    \rm min_id.txt
-  fi
-
-  if [ -f max_id.txt ]
-  then
-    \rm max_id.txt
-  fi
-
-  if [ -f rowcount.txt ]
-  then
-    \rm rowcount.txt
-  fi
-
-  if [ -f get_nextid.sql ]
-  then
-    \rm get_nextid.sql
-  fi
-
-  if [ -f nextid.txt ]
-  then
-    \rm nextid.txt
-  fi
-
-  for tabroot in \
-    comment \
-    image \
-    institution \
-    location \
-    manifestation \
-    person \
-    relationship \
-    relationship_type \
-    resource \
-    work 
+  for tempfile in \
+    manifestation_batches.txt \
+    get_min_id.sql \
+    get_nextid.sql \
+    rowcount.txt \
+    max_id.txt \
+    min_id.txt \
+    get_rowcount.sql \
+    get_max_id.sql \
+    nextid.txt \
+    export_cofk_union_comment.log \
+    export_cofk_union_image.log \
+    export_cofk_union_institution.log \
+    export_cofk_union_location.log \
+    export_cofk_union_manifestation.log \
+    export_cofk_union_person.log \
+    export_cofk_union_relationship.log \
+    export_cofk_union_relationship_type.log \
+    export_cofk_union_resource.log \
+    export_cofk_union_work.log
   do
-    if [ -f export_cofk_union_$tabroot.log ]
+    if [ -f ${tempfile} ]
     then
-      \rm export_cofk_union_$tabroot.log
+      \rm ${tempfile}
     fi
   done
 }
@@ -81,9 +46,7 @@ cleanup
 
 batch_size=$(( 5000 )) # evaluate as integer
 
-#for tabroot in comment institution location person work 
-#for tabroot in work
-for tabroot in comment image institution location person relationship resource work
+for tabroot in comment #image institution location person relationship resource work
 do
   tab=cofk_union_$tabroot
   echo "Starting $tab"
@@ -246,24 +209,18 @@ echo 'Copying CSV files to front end server.'
 
 # New server data tranfers
 folder_location=/data/emlo-docker-compose/data/
-remote_location_qa=bodl-emlo-svc@emlo-qa-site1.bodleian.ox.ac.uk:${folder_location}
-remote_location_prd=bodl-emlo-svc@emlo-prd-site1.bodleian.ox.ac.uk:${folder_location}
+remote_location=${PUBLISH_SERVER_ACCESS}:${folder_location}
 
 for objects in manifestation comment image institution location person relationship resource work
 do
     csv_local_file=${CSVSOURCE}cofk_union_${objects}.csv
 
-    csv_remote_qa_file=${remote_location_qa}${objects}.csv
-    echo "QA Export to $csv_remote_qa_file"
-    rsync -zqt ${csv_local_file} ${csv_remote_qa_file}
-
-    csv_remote_prd_file=${remote_location_prd}${objects}.csv
-    echo "PRD Export to $csv_remote_prd_file"
-    rsync -zqt ${csv_local_file} ${csv_remote_prd_file}
+    csv_remote_file=${remote_location}${objects}.csv
+    echo "Export to $csv_remote_file"
+    rsync -zqt ${csv_local_file} ${csv_remote_file}
 done
 
-ssh bodl-emlo-svc@emlo-qa-site1.bodleian.ox.ac.uk 'echo 1 > '${folder_location}'need_index'
-ssh bodl-emlo-svc@emlo-prd-site1.bodleian.ox.ac.uk 'echo 1 > '${folder_location}'need_index'
+ssh ${PUBLISH_SERVER_ACCESS} 'echo 1 > '${folder_location}'need_index'
 
 ## -- I think we'll just link to images on the back-end server instead -- ${SCRIPTDIR}transfer_uploaded_images.sh
 
