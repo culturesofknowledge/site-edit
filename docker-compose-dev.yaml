@@ -16,6 +16,9 @@ php:
   links:
     - postgres
 
+  env_file:
+    - docker-compose.php.env
+
   volumes:
     -  ./docker-exporter/exporter/exports:/var/www/html/exports
     -  ./docker-exporter/exporter/exporter_data:/var/www/exporter/exporter_data
