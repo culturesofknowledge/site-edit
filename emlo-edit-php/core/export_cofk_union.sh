@@ -46,7 +46,7 @@ cleanup
 
 batch_size=$(( 5000 )) # evaluate as integer
 
-for tabroot in comment #image institution location person relationship resource work
+for tabroot in comment image institution location person relationship resource work
 do
   tab=cofk_union_$tabroot
   echo "Starting $tab"
@@ -59,58 +59,63 @@ do
     tab_id=i$tab_id
   fi
 
-  echo "select min( $tab_id ) from $tab" > get_min_id.sql
-  echo "select max( $tab_id ) from $tab" > get_max_id.sql
-  echo "select count( $tab_id ) from $tab" > get_rowcount.sql
-
-  psql ${DATABASE} -h postgres -U postgres -q  -t < get_min_id.sql > min_id.txt
-  psql ${DATABASE} -h postgres -U postgres -q  -t < get_max_id.sql > max_id.txt
-  psql ${DATABASE} -h postgres -U postgres -q  -t < get_rowcount.sql > rowcount.txt
-
+  sql_min="select min( $tab_id ) from $tab"
+  psql ${DATABASE} -h postgres -U postgres -q  -t -c "${sql_min}" > min_id.txt
   first_id=$(cat min_id.txt)
   first_id=$(( $first_id )) # evaluate as integer
-  last_id=$(cat max_id.txt)
-  last_id=$(( $last_id )) # evaluate as integer
-  rowcount=$(cat rowcount.txt)
 
-  echo "First ID in $tab is $first_id"
-  echo "Last ID in $tab is $last_id"
-  echo "Rows in $tab = $rowcount"
+  if [ $first_id != "0" ]
+  then
 
-  export COFK_FIRST_ID_IN_TABLE=$(( $first_id ))
-  export COFK_LAST_ID_IN_TABLE=$(( $first_id ))
-  export COFK_WRITE_CSV_HEADER=1
-  
-  while [ $COFK_LAST_ID_IN_TABLE -lt $last_id ]
-  do
-    if [ $rowcount -gt $batch_size ]
-    then
-      export COFK_LAST_ID_IN_TABLE=$(( COFK_FIRST_ID_IN_TABLE + $batch_size ))
-    else
-      export COFK_LAST_ID_IN_TABLE=$last_id
-    fi
+	  sql_max="select max( $tab_id ) from $tab"
+	  sql_count="select count( $tab_id ) from $tab"
 
-    echo "Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
+	  psql ${DATABASE} -h postgres -U postgres -q  -t -c "${sql_max}" > max_id.txt
+	  psql ${DATABASE} -h postgres -U postgres -q  -t -c "${sql_count}" > rowcount.txt
 
-    php -q ${SCRIPTDIR}export_cofk_union.php | tee export_$tab.log
+	  last_id=$(cat max_id.txt)
+	  last_id=$(( $last_id )) # evaluate as integer
+	  rowcount=$(cat rowcount.txt)
 
-    result=$(tail export_$tab.log)
-    success=$(echo $result|grep Finished)
-    if [ "$success" = "" ]
-    then
-      echo "Failed to complete $tab"
-      exit
-    fi
+	  echo "First ID in $tab is $first_id"
+	  echo "Last ID in $tab is $last_id"
+	  echo "Rows in $tab = $rowcount"
 
-    echo "select $tab_id from $tab where $tab_id > $COFK_LAST_ID_IN_TABLE order by $tab_id limit 1" > get_nextid.sql
-    psql ${DATABASE} -h postgres -U postgres -q  -t < get_nextid.sql > nextid.txt
-    next_id=$(cat nextid.txt)
-    next_id=$(( next_id )) # evaluate as integer
+	  export COFK_FIRST_ID_IN_TABLE=$(( $first_id ))
+	  export COFK_LAST_ID_IN_TABLE=$(( $last_id - 1 )) # Go into while the first time!
+	  export COFK_WRITE_CSV_HEADER=1
 
-    export COFK_FIRST_ID_IN_TABLE=$(( next_id ))
-    echo "Next id: ". ${COFK_FIRST_ID_IN_TABLE}
-    export COFK_WRITE_CSV_HEADER=0
-  done
+	  while [ $COFK_LAST_ID_IN_TABLE -lt $last_id ]
+	  do
+	    if [ $rowcount -gt $batch_size ]
+	    then
+	      export COFK_LAST_ID_IN_TABLE=$(( COFK_FIRST_ID_IN_TABLE + $batch_size ))
+	    else
+	      export COFK_LAST_ID_IN_TABLE=$last_id
+	    fi
+
+	    echo "Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
+
+	    php -q ${SCRIPTDIR}export_cofk_union.php | tee export_$tab.log
+
+	    result=$(tail export_$tab.log)
+	    success=$(echo $result|grep Finished)
+	    if [ "$success" = "" ]
+	    then
+	      echo "Failed to complete $tab"
+	      exit
+	    fi
+
+	    sql_next="select $tab_id from $tab where $tab_id > $COFK_LAST_ID_IN_TABLE order by $tab_id limit 1"
+	    psql ${DATABASE} -h postgres -U postgres -q  -t -c "${sql_next}" > nextid.txt
+	    next_id=$(cat nextid.txt)
+	    next_id=$(( next_id )) # evaluate as integer
+
+	    export COFK_FIRST_ID_IN_TABLE=$(( next_id ))
+	    echo "Next id: ${COFK_FIRST_ID_IN_TABLE}"
+	    export COFK_WRITE_CSV_HEADER=0
+	  done
+  fi
 done
 echo Done.
 
