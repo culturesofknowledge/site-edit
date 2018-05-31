@@ -23,6 +23,7 @@ php:
     -  ./docker-exporter/exporter/exporter_data:/var/www/exporter/exporter_data
 
     - ./volumes/csv:/csv
+    - ./volumes/ssh:/root/.ssh
 
 exporter:
   build: ./docker-exporter

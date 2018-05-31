@@ -21,6 +21,7 @@ php:
     -  ./docker-exporter/exporter/exporter_data:/var/www/exporter/exporter_data
 
     - ./volumes/csv:/csv
+    - ./volumes/ssh:/root/.ssh
 
     # Dev only
     - ./emlo-edit-php/interface:/var/www/html
