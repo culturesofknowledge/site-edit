@@ -49,6 +49,7 @@ batch_size=$(( 5000 )) # evaluate as integer
 for tabroot in comment image institution location person relationship resource work
 do
   tab=cofk_union_$tabroot
+  echo
   echo "Starting $tab"
   date
   export COFK_TABLE_TO_EXPORT=$tab
@@ -77,9 +78,9 @@ do
 	  last_id=$(( $last_id )) # evaluate as integer
 	  rowcount=$(cat rowcount.txt)
 
-	  echo "First ID in $tab is $first_id"
-	  echo "Last ID in $tab is $last_id"
-	  echo "Rows in $tab = $rowcount"
+	  echo "First ID in $tab:   $first_id"
+	  echo "Last ID in $tab:    $last_id"
+	  echo "Rows count in $tab: $rowcount"
 
 	  export COFK_FIRST_ID_IN_TABLE=$(( $first_id ))
 	  export COFK_LAST_ID_IN_TABLE=$(( $last_id - 1 )) # Go into while the first time!
@@ -94,11 +95,10 @@ do
 	      export COFK_LAST_ID_IN_TABLE=$last_id
 	    fi
 
-	    echo "Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
+	    echo
+	    php -f ${SCRIPTDIR}export_cofk_union.php | tee export_$tab.log
 
-	    php -q ${SCRIPTDIR}export_cofk_union.php | tee export_$tab.log
-
-	    result=$(tail export_$tab.log)
+	    result=$(tail -n 1 export_$tab.log)
 	    success=$(echo $result|grep Finished)
 	    if [ "$success" = "" ]
 	    then
@@ -112,11 +112,12 @@ do
 	    next_id=$(( next_id )) # evaluate as integer
 
 	    export COFK_FIRST_ID_IN_TABLE=$(( next_id ))
-	    echo "Next id: ${COFK_FIRST_ID_IN_TABLE}"
 	    export COFK_WRITE_CSV_HEADER=0
 	  done
   fi
 done
+
+echo
 echo Done.
 
 #---------------------------------------------------------------------------------------
@@ -138,7 +139,7 @@ do
 
   php -q ${SCRIPTDIR}export_cofk_union.php | tee export_$tab.log
 
-  result=$(tail export_$tab.log)
+  result=$(tail -n 1 export_$tab.log)
   success=$(echo $result|grep Finished)
   if [ "$success" = "" ]
   then
@@ -152,41 +153,41 @@ done < manifestation_batches.txt
 #---------------------------------------------------------------------------------------
 
 # Special handing for tables with character key columns
-tab=cofk_union_relationship_type
-echo "Starting $tab"
-date
-tab_id=relationship_code
-
-echo "select min( $tab_id ) from $tab" > get_min_id.sql
-echo "select max( $tab_id ) from $tab" > get_max_id.sql
-
-psql ${DATABASE} -h postgres -U postgres -q  -t < get_min_id.sql > min_id.txt
-psql ${DATABASE} -h postgres -U postgres -q  -t < get_max_id.sql > max_id.txt
-
-first_id=$(cat min_id.txt)
-last_id=$(cat max_id.txt)
-
-echo "First ID in $tab is $first_id"
-echo "Last ID in $tab is $last_id"
-
-export COFK_TABLE_TO_EXPORT=$tab
-export COFK_FIRST_ID_IN_TABLE=$first_id
-export COFK_LAST_ID_IN_TABLE=$last_id
-export COFK_WRITE_CSV_HEADER=1
-
-echo "Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
-
-php -q ${SCRIPTDIR}export_cofk_union.php | tee export_$tab.log
-
-result=$(tail export_$tab.log)
-success=$(echo $result|grep Finished)
-if [ "$success" = "" ]
-then
-  echo "Failed to complete $tab"
-  exit
-fi
-
-echo Done.
+#tab=cofk_union_relationship_type
+#echo "Starting $tab"
+#date
+#tab_id=relationship_code
+#
+#echo "select min( $tab_id ) from $tab" > get_min_id.sql
+#echo "select max( $tab_id ) from $tab" > get_max_id.sql
+#
+#psql ${DATABASE} -h postgres -U postgres -q  -t < get_min_id.sql > min_id.txt
+#psql ${DATABASE} -h postgres -U postgres -q  -t < get_max_id.sql > max_id.txt
+#
+#first_id=$(cat min_id.txt)
+#last_id=$(cat max_id.txt)
+#
+#echo "First ID in $tab is $first_id"
+#echo "Last ID in $tab is $last_id"
+#
+#export COFK_TABLE_TO_EXPORT=$tab
+#export COFK_FIRST_ID_IN_TABLE=$first_id
+#export COFK_LAST_ID_IN_TABLE=$last_id
+#export COFK_WRITE_CSV_HEADER=1
+#
+#echo "Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
+#
+#php -q ${SCRIPTDIR}export_cofk_union.php | tee export_$tab.log
+#
+#result=$(tail export_$tab.log)
+#success=$(echo $result|grep Finished)
+#if [ "$success" = "" ]
+#then
+#  echo "Failed to complete $tab"
+#  exit
+#fi
+#
+#echo Done.
 
 #---------------------------------------------------------------------------------------
 echo ''
