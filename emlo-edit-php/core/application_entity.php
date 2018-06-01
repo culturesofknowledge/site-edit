@@ -1672,10 +1672,7 @@ class Application_Entity {
   function write_js_check_value_is_numeric() {
 
     $script  = 'function js_check_value_is_numeric( the_element ) {'                       . NEWLINE;
-    $script .= '  var one_char;'                                                           . NEWLINE;
-    $script .= '  var goodval=true;'                                                       . NEWLINE;
-    $script .= '  var decimalpoints=0;'                                                    . NEWLINE;
-    $script .= '  var the_form;'                                                           . NEWLINE;
+    $script .= '  var one_char,goodval=true,decimalpoints=0,the_form,i;'                     . NEWLINE;
     $script .= '  fieldval = the_element.value;'                                           . NEWLINE;
     $script .= '  the_form = the_element.form;'                                            . NEWLINE;
     $script .= '  the_form.requires_validation.value = 1;'                                 . NEWLINE;

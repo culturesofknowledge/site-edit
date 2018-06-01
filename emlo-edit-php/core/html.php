@@ -9,7 +9,7 @@
 
 define( 'NEWLINE', "\n" );
 define( 'CARRIAGE_RETURN', "\r" );
-define( 'LINEBREAK', "<br />\n" );
+define( 'LINEBREAK', "<br/>" );
 define( 'SPACE', ' &nbsp; ' );
 define( 'AMPERSAND', ' &amp; ' );
 
@@ -1044,25 +1044,22 @@ class HTML extends Application_Entity {
     echo '<strong>';
   }
   #-----------------------------------------------------------------
-  function bold_end() {
+  static function bold_end() {
     echo '</strong>';
   }
   #-----------------------------------------------------------------
-  function italic_start() {
+  static function italic_start() {
     echo '<em>';
   }
   #-----------------------------------------------------------------
-  function italic_end() {
+  static function italic_end() {
     echo '</em>';
   }
   #-----------------------------------------------------------------
 
   function linebreak( $parms = NULL ) {
 
-    echo '<br ';
-    echo $parms;
-    echo '/>';
-    echo NEWLINE;
+    echo '<br ',$parms, '/>';
   }
 
   #-----------------------------------------------------------------
@@ -1084,9 +1081,7 @@ class HTML extends Application_Entity {
 
   static function new_paragraph( $parms = NULL ) {
 
-    echo NEWLINE . '<P ';
-    if( $parms ) echo $parms;
-    echo '/>' . NEWLINE;
+    echo '<p ', $parms, '/>';
   }
   #-----------------------------------------------------------------
 
@@ -1123,11 +1118,11 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function form_start( $class_name = NULL, $method_name = NULL, $form_name = '', $form_target = '',
+  static function form_start( $class_name = NULL, $method_name = NULL, $form_name = '', $form_target = '',
                        $onsubmit_validation = FALSE, $form_destination='', $form_method='POST',
                        $parms = NULL ) {
 
-    echo NEWLINE . '<FORM action="';
+    echo '<form action="';
 
     if( $form_destination != '' ) 
       echo $form_destination;
@@ -1166,63 +1161,58 @@ class HTML extends Application_Entity {
     if( $class_name ) {
         echo '<input type="hidden" name="class_name"  value="';
         echo HTML::call_htmlentities( $class_name );
-        echo '" />' . NEWLINE;
+        echo '" />';
     }
 
     if( $method_name ) {
         echo '<input type="hidden" name="method_name"  value="';
         echo HTML::call_htmlentities( $method_name );
-        echo '" />' . NEWLINE;
+        echo '" />';
     }
 
     if( array_key_exists( 'session_token', $_SESSION ) && $_SESSION['session_token'] ) {
       echo '<input type="hidden" name="' . SESSION_TOKEN_FIELD . '"  value="';
       echo HTML::call_htmlentities( $_SESSION['session_token'] );
-      echo '" />' . NEWLINE;
+      echo '" />';
     }
 
-    echo '<input type="hidden" name="requires_validation" id="requires_validation" value="0" >' . NEWLINE;
-    echo '<input type="hidden" name="validation_err" id="validation_err" value="0" >' . NEWLINE;
-    echo '<input type="hidden" name="cancel_submission" id="cancel_submission" value="0" >' . NEWLINE;
+    echo '<input type="hidden" name="requires_validation" id="requires_validation" value="0">';
+    echo '<input type="hidden" name="validation_err" id="validation_err" value="0">';
+    echo '<input type="hidden" name="cancel_submission" id="cancel_submission" value="0">';
 
     return $form_name;
   }
   #-----------------------------------------------------------------
 
-  function form_end() {
-    echo NEWLINE . '</FORM>';
-    echo NEWLINE;
+	static function form_end() {
+    echo '</form>';
   }
   #-----------------------------------------------------------------
 
   function link( $href, $displayed_text, $title = '', $target = '_self', $accesskey = '', $tabindex = 1,
                  $extra_parms = NULL ) {
 
-    echo NEWLINE;
+    echo '<a href="', $href, '" ';
 
-    echo '<A href="' . $href . '" ';
+    if( $title != '' )     echo ' title="', $title, '" ';
+    if( $target != '' )    echo ' target="', $target, '" ';
+    if( $accesskey != '' ) echo ' accesskey="', $accesskey, '" ';
+    if( $tabindex > 0 )    echo ' tabindex="', $tabindex, '" ';
 
-    if( $title != '' )     echo ' title="' . $title . '" ';
-    if( $target != '' )    echo ' target="' . $target . '" ';
-    if( $accesskey != '' ) echo ' accesskey="' . $accesskey . '" ';
-    if( $tabindex > 0 )    echo ' tabindex="' . $tabindex . '" ';
+    if( $extra_parms ) echo ' ', $extra_parms, ' ';
 
-    if( $extra_parms ) echo ' ' . $extra_parms . ' ';
-
-    echo '>' . NEWLINE;
+    echo '>';
 
     echo $displayed_text;
 
-    echo NEWLINE . '</A>' . NEWLINE;
+    echo '</a>';
   }
   #-----------------------------------------------------------------
 
   function return_link( $href, $displayed_text, $title = '', $target = '_self', $accesskey = '', $tabindex = 1,
                         $extra_parms = NULL ) {
 
-    $linkval = NEWLINE;
-
-    $linkval = $linkval . '<A href="' . $href . '" ';
+    $linkval = '<a href="' . $href . '" ';
 
     if( $title != '' )     $linkval = $linkval . ' title="' . $title . '" ';
     if( $target != '' )    $linkval = $linkval . ' target="' . $target . '" ';
@@ -1231,11 +1221,11 @@ class HTML extends Application_Entity {
 
     if( $extra_parms ) echo ' ' . $extra_parms . ' ';
 
-    $linkval = $linkval . '>' . NEWLINE;
+    $linkval = $linkval . '>';
 
     $linkval = $linkval . $displayed_text;
 
-    $linkval = $linkval . NEWLINE . '</A>' . NEWLINE;
+    $linkval = $linkval . '</a>';
     return $linkval;
   }
   #-----------------------------------------------------------------
@@ -1243,9 +1233,7 @@ class HTML extends Application_Entity {
   function link_start( $href, $title = '', $target = '_self', $accesskey = '', $tabindex = 1,
                        $extra_parms = NULL ) {
 
-    echo NEWLINE;
-
-    echo '<A href="' . $href;
+    echo '<a href="' . $href;
 
     # Add session token to all links which take you to another page.
     #if( ! strstr( $href, '#' )) { # not a local link within the same page
@@ -1268,15 +1256,14 @@ class HTML extends Application_Entity {
   #-----------------------------------------------------------------
 
   function link_end() {
-    echo NEWLINE . '</A>' . NEWLINE;
+    echo '</a>';
   }
   #-----------------------------------------------------------------
 
   function anchor( $anchor_name = NULL ) {
 
     if( $anchor_name != NULL ) {
-      echo NEWLINE . '<A name="' . $anchor_name . '" id="' . $anchor_name . '" >';
-      echo '</A>' . NEWLINE;
+      echo '<a name="' . $anchor_name . '" id="' . $anchor_name . '" ></a>';
     }
   }
   #-----------------------------------------------------------------
@@ -1293,7 +1280,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function hidden_field( $fieldname, $value = NULL, $input_instance = 0 ) {
+	static function hidden_field( $fieldname, $value = NULL, $input_instance = 0 ) {
 
     echo NEWLINE;
 
@@ -1588,7 +1575,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function submit_button( $button_name = 'ok_button', $value = 'OK', $tabindex = 1, $other_parms = NULL ) {
+	static function submit_button( $button_name = 'ok_button', $value = 'OK', $tabindex = 1, $other_parms = NULL ) {
 
     echo NEWLINE;
 
@@ -1713,80 +1700,59 @@ class HTML extends Application_Entity {
   #-----------------------------------------------------------------
 
   static function ulist_start( $parms = NULL ) {
-    echo NEWLINE . '<UL';
-    if( $parms ) echo ' ' . $parms . ' ';
-    echo '>' . NEWLINE;
+    echo '<ul ',$parms, '>';
   }
   #-----------------------------------------------------------------
 
   static function ulist_end() {
-    echo NEWLINE . '</UL>' . NEWLINE;
+    echo '</ul>';
   }
   #-----------------------------------------------------------------
 
   static function listitem_start( $parms = NULL ) {
-    echo NEWLINE . '<li';
-    if( $parms ) echo ' ' . $parms . ' ';
-    echo '>' . NEWLINE;
+    echo '<li ', $parms, '>';
   }
   #-----------------------------------------------------------------
 
   static function listitem_end() {
-    echo NEWLINE . '</li>' . NEWLINE;
+    echo '</li>';
   }
   #-----------------------------------------------------------------
 
   function listitem( $the_value = NULL, $parms = NULL ) {
-    echo NEWLINE . '<li';
-    if( $parms ) echo ' ' . $parms . ' ';
-    echo '>' . NEWLINE;
-    echo $the_value;
-    echo NEWLINE . '</li>' . NEWLINE;
+    echo '<li ', $parms, '>', $the_value, '</li>';
   }
   #-----------------------------------------------------------------
 
   static function horizontal_rule( $parms = NULL ) {
 
-    echo NEWLINE . '<hr ';
-    if( $parms ) echo $parms;
-    echo '/>' . NEWLINE;
+    echo NEWLINE, '<hr ', $parms, '/>', NEWLINE;
     echo LINEBREAK;
   }
   #-----------------------------------------------------------------
 
   function bullet_point() {
-
     echo ' &bull; ';
   }
   #-----------------------------------------------------------------
 
   function return_bullet_point() {
-
     return ' &bull; ';
   }
   #-----------------------------------------------------------------
 
-  function table_start( $parms = NULL ) {
-    echo NEWLINE;
-    echo '<table ';
-    echo $parms;
-    echo '>';
-    echo NEWLINE;
+	static function table_start( $parms = NULL ) {
+    echo '<table ', $parms, '>';
   }
   #-----------------------------------------------------------------
 
-  function table_end() {
-    echo NEWLINE;
+	static function table_end() {
     echo '</table>';
-    echo NEWLINE;
   }
   #-----------------------------------------------------------------
 
   function table_caption( $caption = NULL, $attribs = NULL, $style = 'italic' ) {
-    echo NEWLINE;
-    echo '<caption';
-    if( $attribs ) echo ' ' . $attribs . ' ' ;
-    echo '>';
+    echo '<caption ', $attribs, '>';
 
     if( $style == 'italic' )
       echo '<i>';
@@ -1801,121 +1767,85 @@ class HTML extends Application_Entity {
       echo '</b>';
 
     echo '</caption>';
-    echo NEWLINE;
   }
   #-----------------------------------------------------------------
 
-  function tablerow_start( $parms = NULL ) {
-    echo NEWLINE;
-    echo '<tr ';
-    echo $parms;
-    echo '>';
-    echo NEWLINE;
+  static function tablerow_start( $parms = NULL ) {
+    echo '<tr ', $parms, '>';
   }
   #-----------------------------------------------------------------
 
-  function tablerow_end() {
-    echo NEWLINE;
+  static function tablerow_end() {
     echo '</tr>';
-    echo NEWLINE;
   }
   #-----------------------------------------------------------------
 
   function new_tablerow( $parms = NULL ) {  # end current table row and start a new one
 
-    echo NEWLINE;
-    echo '</tr>';
-    echo NEWLINE;
-    echo '<tr ';
-    echo $parms;
-    echo '>';
-    echo NEWLINE;
+    echo '</tr><tr ',$parms,'>';
   }
   #-----------------------------------------------------------------
 
-  function tabledata_start( $parms = NULL ) {
-    echo NEWLINE;
-    echo '<td ';
-    echo $parms;
-    echo '>';
-    echo NEWLINE;
+  static function tabledata_start( $parms = NULL ) {
+    echo '<td ', $parms, '>';
   }
   #-----------------------------------------------------------------
 
-  function tabledata_end() {
-    echo NEWLINE;
+  static function tabledata_end() {
     echo '</td>';
-    echo NEWLINE;
   }
   #-----------------------------------------------------------------
 
-  function tabledata( $the_data = NULL, $parms = NULL ) {
-    echo NEWLINE;
-    echo '<td';
-    if( $parms ) echo ' ' . $parms . ' ';
-    echo '>';
-    echo NEWLINE;
+  static function tabledata( $the_data = NULL, $parms = NULL ) {
+    echo '<td ', $parms, '>';
     echo $the_data;
     if( "$the_data" == "" ) echo SPACE;
-    echo NEWLINE;
     echo '</td>';
-    echo NEWLINE;
   }
   #-----------------------------------------------------------------
 
-  function table_head_start( $parms = NULL ) {
-
+	static function table_head_start( $parms = NULL ) {
     echo '<thead';
-    if ( $parms ) echo ' ' . $parms . ' ';
+    if ( $parms ) echo ' ' . $parms;
     echo '>';
   }
   #-----------------------------------------------------------------
 
-  function table_head_end() {
-
+  static function table_head_end() {
     echo '</thead>';
   }
   #-----------------------------------------------------------------
 
-  function table_body_start( $parms = NULL ) {
-
-    echo '<tbody';
-    if ( $parms ) echo ' ' . $parms . ' ';
-    echo '>';
+  static function table_body_start( $parms = NULL ) {
+    echo '<tbody ', $parms, '>';
   }
   #-----------------------------------------------------------------
 
-  function table_body_end() {
-
+  static function table_body_end() {
     echo '</tbody>';
   }
   #-----------------------------------------------------------------
 
-  function column_header( $label = NULL, $parms = NULL ) {
-    echo NEWLINE;
-    echo '<th';
-    if( $parms ) echo ' ' . $parms . ' ';
-    echo '>';
-    echo NEWLINE;
+  static function column_header( $label = NULL, $parms = NULL ) {
+
+    echo '<th ', $parms, '>';
+
     echo $label;
     if( "$label" == "" ) echo SPACE;
-    echo NEWLINE;
+
     echo '</th>';
-    echo NEWLINE;
   }
   #-----------------------------------------------------------------
 
   function page_top_anchor() {
 
-    echo NEWLINE . '<A name="' . PAGE_TOP . '" >';
-    echo '</A>' . NEWLINE;
+    echo '<a name="', PAGE_TOP, '" ></a>';
   }
   #-----------------------------------------------------------------
 
   function page_bottom_anchor() {
 
-    echo NEWLINE . '<A name="' . PAGE_BOTTOM . '" >';
-    echo '</A>' . NEWLINE;
+    echo '<a name="', PAGE_BOTTOM, '" ></a>';
   }
   #-----------------------------------------------------------------
 
