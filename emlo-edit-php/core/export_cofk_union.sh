@@ -52,7 +52,7 @@ do
   echo
   echo "Starting $tab"
   date
-  export COFK_TABLE_TO_EXPORT=$tab
+  COFK_TABLE_TO_EXPORT=$tab
 
   tab_id=${tabroot}_id
   if [ "$tabroot" = "person" -o "$tabroot" = "work" ]
@@ -64,6 +64,8 @@ do
   psql ${DATABASE} -h postgres -U postgres -q  -t -c "${sql_min}" > min_id.txt
   first_id=$(cat min_id.txt)
   first_id=$(( $first_id )) # evaluate as integer
+
+  echo "First ID in $tab:   $first_id"
 
   if [ $first_id != "0" ]
   then
@@ -78,25 +80,24 @@ do
 	  last_id=$(( $last_id )) # evaluate as integer
 	  rowcount=$(cat rowcount.txt)
 
-	  echo "First ID in $tab:   $first_id"
 	  echo "Last ID in $tab:    $last_id"
 	  echo "Rows count in $tab: $rowcount"
 
-	  export COFK_FIRST_ID_IN_TABLE=$(( $first_id ))
-	  export COFK_LAST_ID_IN_TABLE=$(( $last_id - 1 )) # Go into while the first time!
-	  export COFK_WRITE_CSV_HEADER=1
+	  COFK_FIRST_ID_IN_TABLE=$(( $first_id ))
+	  COFK_LAST_ID_IN_TABLE=$(( $last_id - 1 )) # Go into while the first time!
+	  COFK_WRITE_CSV_HEADER=1
 
 	  while [ $COFK_LAST_ID_IN_TABLE -lt $last_id ]
 	  do
 	    if [ $rowcount -gt $batch_size ]
 	    then
-	      export COFK_LAST_ID_IN_TABLE=$(( COFK_FIRST_ID_IN_TABLE + $batch_size ))
+	      COFK_LAST_ID_IN_TABLE=$(( COFK_FIRST_ID_IN_TABLE + $batch_size ))
 	    else
-	      export COFK_LAST_ID_IN_TABLE=$last_id
+	      COFK_LAST_ID_IN_TABLE=$last_id
 	    fi
 
 	    echo
-	    php -f ${SCRIPTDIR}export_cofk_union.php | tee export_$tab.log
+	    php -f ${SCRIPTDIR}export_cofk_union.php ${tab} ${COFK_WRITE_CSV_HEADER} ${COFK_FIRST_ID_IN_TABLE} ${COFK_LAST_ID_IN_TABLE} | tee export_$tab.log
 
 	    result=$(tail -n 1 export_$tab.log)
 	    success=$(echo $result|grep Finished)
@@ -111,8 +112,8 @@ do
 	    next_id=$(cat nextid.txt)
 	    next_id=$(( next_id )) # evaluate as integer
 
-	    export COFK_FIRST_ID_IN_TABLE=$(( next_id ))
-	    export COFK_WRITE_CSV_HEADER=0
+	    COFK_FIRST_ID_IN_TABLE=$(( next_id ))
+	    COFK_WRITE_CSV_HEADER=0
 	  done
   fi
 done

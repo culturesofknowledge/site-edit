@@ -14,6 +14,13 @@ require_once "common_components.php";
 require_once "proj_components.php";
 require_once "export_cofk_union_funcs.php";
 
+# php -f ${SCRIPTDIR}export_cofk_union.php ${tab} ${COFK_WRITE_CSV_HEADER} ${COFK_FIRST_ID_IN_TABLE} ${COFK_LAST_ID_IN_TABLE}
+# echo 0,':',$argv[0]; // file
+# echo 1,':',$argv[1]; // table
+# echo 2,':',$argv[2]; // output headers
+# echo 3,':',$argv[3]; // start id
+# echo 4,':',$argv[4]; // end id
+
 $db_connection = new DBQuery ( 'postgres' );
 $cofk = new Project( $db_connection );
 $db = new DBEntity( $db_connection );
@@ -35,8 +42,8 @@ foreach( $us as $u ) {
 $users[ 'postgres' ] = 'SysAdmin';
 
 
-$table = getenv( 'COFK_TABLE_TO_EXPORT' );
-$header_required = getenv( 'COFK_WRITE_CSV_HEADER' );
+$table = $argv[1]; //getenv( 'COFK_TABLE_TO_EXPORT' );
+$header_required = $argv[2]; //getenv( 'COFK_WRITE_CSV_HEADER' );
 
 if( $table ) {
 
@@ -52,8 +59,8 @@ if( $table ) {
   if( $table == 'cofk_union_work' ||  $table == 'cofk_union_person' ) 
     $id = 'i' . $id;
 
-  $next_id = getenv( 'COFK_FIRST_ID_IN_TABLE' );
-  $last_id = getenv( 'COFK_LAST_ID_IN_TABLE' );
+  $next_id = $argv[3]; //getenv( 'COFK_FIRST_ID_IN_TABLE' );
+  $last_id = $argv[4]; //getenv( 'COFK_LAST_ID_IN_TABLE' );
 
   $next_id = trim( $next_id );
   $last_id = trim( $last_id );
