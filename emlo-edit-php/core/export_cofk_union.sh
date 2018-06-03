@@ -46,7 +46,7 @@ cleanup
 
 batch_size=$(( 5000 )) # evaluate as integer
 
-for tabroot in comment image institution location person relationship resource work
+for tabroot in institution location resource person comment image work relationship
 do
   tab=cofk_union_$tabroot
   echo
@@ -128,17 +128,16 @@ tab=cofk_union_manifestation
 
 php -q ${SCRIPTDIR}batch_manifestations_union.php
 
-export COFK_TABLE_TO_EXPORT=$tab
-export COFK_WRITE_CSV_HEADER=1
+COFK_TABLE_TO_EXPORT=$tab
+COFK_WRITE_CSV_HEADER=1
 
 while read first_id last_id
 do
-  export COFK_FIRST_ID_IN_TABLE=$first_id
-  export COFK_LAST_ID_IN_TABLE=$last_id
+  COFK_FIRST_ID_IN_TABLE=$first_id
+  COFK_LAST_ID_IN_TABLE=$last_id
   
-  echo "Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
-
-  php -q ${SCRIPTDIR}export_cofk_union.php | tee export_$tab.log
+  echo #"Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
+  php -q ${SCRIPTDIR}export_cofk_union.php ${tab} ${COFK_WRITE_CSV_HEADER} ${COFK_FIRST_ID_IN_TABLE} ${COFK_LAST_ID_IN_TABLE} | tee export_$tab.log
 
   result=$(tail -n 1 export_$tab.log)
   success=$(echo $result|grep Finished)
@@ -147,7 +146,7 @@ do
     echo "Failed to complete $tab"
     exit
   fi
-  export COFK_WRITE_CSV_HEADER=0
+  COFK_WRITE_CSV_HEADER=0
 
 done < manifestation_batches.txt
 
@@ -171,14 +170,14 @@ done < manifestation_batches.txt
 #echo "First ID in $tab is $first_id"
 #echo "Last ID in $tab is $last_id"
 #
-#export COFK_TABLE_TO_EXPORT=$tab
-#export COFK_FIRST_ID_IN_TABLE=$first_id
-#export COFK_LAST_ID_IN_TABLE=$last_id
-#export COFK_WRITE_CSV_HEADER=1
+#COFK_TABLE_TO_EXPORT=$tab
+#COFK_FIRST_ID_IN_TABLE=$first_id
+#COFK_LAST_ID_IN_TABLE=$last_id
+#COFK_WRITE_CSV_HEADER=1
 #
-#echo "Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
+#echo #"Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
 #
-#php -q ${SCRIPTDIR}export_cofk_union.php | tee export_$tab.log
+#php -q ${SCRIPTDIR}export_cofk_union.php ${tab} ${COFK_WRITE_CSV_HEADER} ${COFK_FIRST_ID_IN_TABLE} ${COFK_LAST_ID_IN_TABLE} | tee export_$tab.log
 #
 #result=$(tail export_$tab.log)
 #success=$(echo $result|grep Finished)
