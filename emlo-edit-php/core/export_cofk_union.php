@@ -93,7 +93,12 @@ if( $table ) {
 
   $filename = $table . '.csv';
 
-  $handle = fopen( $filename, 'a' );
+  if( $header_required ) {
+	  $handle = fopen($filename, 'w');
+  }
+  else {
+	  $handle = fopen($filename, 'a');
+  }
 
   #-------------------------------------------------------------------------
 
@@ -184,7 +189,7 @@ if( $table ) {
       $row = $result[ 0 ];
 
       if( $table == 'cofk_union_relationship' ) {
-        $relationship_type= NULL; $left_table_name = NULL; $right_table_name = NULL;
+        $relationship_type = NULL; $left_table_name = NULL; $right_table_name = NULL;
         extract( $row, EXTR_OVERWRITE );
 
         $skip_row = is_unknown_reltype( $relationship_type,  # some types not set up in front end yet
@@ -509,7 +514,8 @@ if( $table ) {
 
     if( $skip_row ) {
       // MATTT: This outputs way to much information...
-      // echo NEWLINE . 'Skipping row ' . $next_id . ' from table ' . $table  . ": $reason" . NEWLINE;
+      //if( $reason != 'work marked for deletion or hidden' )
+      //  echo 'Skipping row ' . $next_id . ' from table ' . $table  . ": $reason" . NEWLINE;
     }
     else
       fwrite( $handle, $data );
