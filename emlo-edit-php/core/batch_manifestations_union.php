@@ -6,7 +6,7 @@ define( 'CFG_SYSTEM_TITLE', 'Make Manifestation Batches: Union database' );
 define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' );
 
 define( 'CONSTANT_DATABASE_TYPE', 'live' );
-define( 'BATCH_SIZE', 500 );
+define( 'BATCH_SIZE', 5000 );
 
 require_once "common_components.php";
 require_once "proj_components.php";
@@ -33,10 +33,9 @@ while( $next_id ) {
   $next_id = $cofk->db_select_one_value( $statement );
   if( $next_id ) {
     $i++;
-    if( $i == BATCH_SIZE ) {
-      $i = 0;
+    if( $i % BATCH_SIZE == 0 ) {
       $data = "$first_id $last_id" . NEWLINE;
-      echo $data;
+      #echo $data;
       fwrite( $handle, $data );
       $first_id = $next_id;
     }
@@ -44,15 +43,9 @@ while( $next_id ) {
   }
 }
 $data = "$first_id $last_id" . NEWLINE;
-echo $data;
+#echo $data;
 fwrite( $handle, $data );
 
-#-------------------------------------------------------------------------
-
 fclose( $handle );
-echo NEWLINE;
-
-echo "Finished batching up manifestations" .  NEWLINE;
-
-?>
+echo "Finished batching up $i manifestations" .  NEWLINE;
 
