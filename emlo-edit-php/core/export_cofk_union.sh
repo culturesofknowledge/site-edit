@@ -211,22 +211,11 @@ psql ${DATABASE} -h postgres -U cofkadmin -c "\\copy pro_textual_source to ${CSV
 
 echo 'Export to CSV files now complete.'
 
+
+# Transfer new files to front server
+${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE}
 echo 'Copying CSV files to front end server.'
 
-# New server data tranfers
-folder_location=/data/emlo-docker-compose/data/
-remote_location=${PUBLISH_SERVER_ACCESS}:${folder_location}
-
-for objects in manifestation comment image institution location person relationship resource work
-do
-    csv_local_file=${CSVSOURCE}cofk_union_${objects}.csv
-
-    csv_remote_file=${remote_location}${objects}.csv
-    echo "Export to $csv_remote_file"
-    rsync -zqt ${csv_local_file} ${csv_remote_file}
-done
-
-ssh ${PUBLISH_SERVER_ACCESS} 'echo 1 > '${folder_location}'need_index'
 
 ## -- I think we'll just link to images on the back-end server instead -- ${SCRIPTDIR}transfer_uploaded_images.sh
 
