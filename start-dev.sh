@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 docker-compose --file docker-compose-dev.yaml up -d --build
-sleep 3
+sleep 5
 docker-compose --file docker-compose-dev.yaml logs --tail="10"
 
 echo
