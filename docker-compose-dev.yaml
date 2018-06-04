@@ -7,11 +7,12 @@ postgres:
   volumes:
     - ./volumes/postgres:/var/lib/postgresql/data
 
+
 php:
   build: ./emlo-edit-php
 
   ports:
-    - 80:80
+    - 8080:80
 
   links:
     - postgres
@@ -30,6 +31,7 @@ php:
     - ./emlo-edit-php/interface:/var/www/html
     - ./emlo-edit-php/core:/var/www/core
 
+
 exporter:
   build: ./docker-exporter
 
@@ -41,3 +43,13 @@ exporter:
     -  ./docker-exporter/exporter/exporter_data:/usr/src/app/exporter_data
 
     -  ./docker-exporter/exporter:/usr/src/app
+
+
+nginx:
+  build: ./nginx
+
+  links:
+    - php
+
+  ports:
+    - 80:80

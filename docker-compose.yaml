@@ -13,7 +13,7 @@ php:
   restart: always
 
   ports:
-    - 80:80
+    - 8080:80
 
   links:
     - postgres
@@ -39,3 +39,12 @@ exporter:
     -  ./docker-exporter/exporter/exports:/usr/src/app/exports
     -  ./docker-exporter/exporter/exporter_data:/usr/src/app/exporter_data
 
+nginx:
+  build: ./nginx
+  restart: always
+
+  links:
+    - php
+
+  ports:
+    - 80:80
