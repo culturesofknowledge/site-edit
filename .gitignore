@@ -4,6 +4,9 @@ emlo-edit-php/interface/core/
 docker-postgres/database-dump/pg_dumpall.out.gz
 docker-compose.php.env
 
+nginx/ssl/ssl.crt
+nginx/ssl/ssl.key
+
 # Others
 */.directory
 /.idea/
