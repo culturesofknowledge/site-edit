@@ -8,6 +8,8 @@
 
 if( CONSTANT_DATABASE_TYPE == 'live' ) {     # set by initial file called from Apache document root
   define( 'CONSTANT_DATABASE_NAME', 'ouls' );
+  # define( 'CONSTANT_DATABASE_NAME', 'oulstestdata' );
+
   define( 'DATABASE_HOST','postgres' );
 }
 else
