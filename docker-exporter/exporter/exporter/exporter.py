@@ -7,7 +7,7 @@ import datetime
 import psycopg2
 import psycopg2.extras
 
-if( sys.version_info > (3,0) ):
+if sys.version_info > (3,0) :
 	from exporter import objects
 	from exporter import excel_writer
 else :
@@ -42,6 +42,43 @@ class Exporter:
 		self.reports = []
 		self.csvs = []
 		self.limit_ouput = 10
+
+
+	def export_places(self, place_ids, output_folder_name, excel_output=None):
+
+		output_folder = "exports/" + output_folder_name
+		if not os.path.exists( output_folder ):
+			os.makedirs( output_folder )
+
+		place_ids = list( set(place_ids) )
+		places = self._get_locations( place_ids )
+
+		# Get comments associated with people
+		comments_relations = self._get_relationships( self.names['location'], place_ids, self.names['comment'] )
+		comment_ids = self._id_link_set_from_relationships(comments_relations)
+		comments = self._get_comments( comment_ids )
+
+		# Get resources associated with people
+		resource_relations_places = self._get_relationships( self.names['location'], place_ids, self.names['resource'] )
+		resource_ids = self._id_link_set_from_relationships(resource_relations_places)
+		resources_places = self._get_resources( resource_ids )
+
+		self._create_location_csv( places, comments, comments_relations, resources_places, resource_relations_places, output_folder )
+
+		self._create_resource_csv(resources_places, output_folder )
+
+		# Create Excel file of CSV files
+
+		ew = excel_writer.ExcelWriter()
+		settings = {
+			"sheets" : self.csvs,
+			"outputname" : output_folder + "/" + output_folder_name + ".xlsx"
+		}
+
+		if excel_output is not None:
+			settings["outputname"] = excel_output
+
+		ew.convert( settings )
 
 	def export_people(self, person_ids, output_folder_name, excel_output=None ):
 
@@ -798,4 +835,5 @@ class Exporter:
 	def _output_commands( self, *args ):
 		if self.output_commands:
 			print( " ".join( [ str(item) for item in args]) )
+
 
