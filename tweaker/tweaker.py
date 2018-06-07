@@ -115,6 +115,19 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()
 
+	def get_institution_from_institution_id( self, institution_id ):
+
+		self.check_database_connection()
+
+		command = "SELECT * FROM cofk_union_institution WHERE institution_id=%s"
+		command = self.cursor.mogrify( command, (institution_id,) )
+
+		if self.debug :
+			print( "* SELECT institution:", command )
+
+		self.cursor.execute( command )
+		return self.cursor.fetchone()
+
 	def get_location_from_location_id( self, location_id ):
 
 		self.check_database_connection()
