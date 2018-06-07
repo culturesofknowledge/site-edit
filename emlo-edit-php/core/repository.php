@@ -1550,6 +1550,8 @@ class Repository extends Project {
     switch( $parm_name ) {
 
       case 'institution_id':
+      case 'latitude' :
+      case 'longitude' :
         if( $this->parm_value == 'null' )
           return TRUE;
         else
@@ -1564,6 +1566,7 @@ class Repository extends Project {
       case 'related_resources':
       case 'editors_notes':
       case 'images':
+      case 'address' :
 
         return $this->is_ok_free_text( $this->parm_value );
 

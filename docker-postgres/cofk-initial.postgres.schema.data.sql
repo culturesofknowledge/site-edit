@@ -10926,7 +10926,10 @@ CREATE TABLE public.cofk_union_institution (
     change_timestamp timestamp without time zone DEFAULT now(),
     change_user character varying(50) DEFAULT "current_user"() NOT NULL,
     editors_notes text,
-    uuid uuid DEFAULT public.uuid_generate_v4()
+    uuid uuid DEFAULT public.uuid_generate_v4(),
+    address                      TEXT,
+    latitude                     VARCHAR(20),
+    longitude                    VARCHAR(20)
 );
 
 
