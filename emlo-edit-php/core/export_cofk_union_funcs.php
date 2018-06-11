@@ -2,6 +2,9 @@
 
 function is_unknown_reltype( $relationship_type, $left_table_name, $right_table_name ) {
 
+	return false; // The front should know everything.
+
+
   $is_unknown = TRUE;
 
   switch( $relationship_type ) {
