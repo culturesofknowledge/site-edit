@@ -6,8 +6,8 @@ define( 'CFG_PREFIX', 'cofk' );
 define( 'CFG_SYSTEM_TITLE', 'Export Union database' );
 define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' );
 
-define( 'CONSTANT_DATABASE_TYPE', 'live' );
-# define( 'CONSTANT_DATABASE_TYPE', 'test' );
+# define( 'CONSTANT_DATABASE_TYPE', 'live' );
+define( 'CONSTANT_DATABASE_TYPE', 'test' );
 
 defined( "DEBUGGING" ) or define( "DEBUGGING", FALSE );
 
@@ -142,303 +142,305 @@ if( $table ) {
 					. " and left_id_value = '$next_id' "
 					. " and relationship_type = 'image_of' "
 					. " and right_table_name = 'cofk_union_manifestation'";
-		$manifestation_id = $cofk->db_select_one_value( $statement );
 
-		$invalid_work = '';
+			$manifestation_id = $cofk->db_select_one_value( $statement );
 
-		$statement = 'select w.work_id from cofk_union_relationship r, cofk_union_work w '
-				. " where r.left_table_name = 'cofk_union_manifestation' "
-				. " and r.left_id_value = '$manifestation_id'"
-				. " and r.relationship_type = 'is_manifestation_of' "
-				. " and r.right_table_name = 'cofk_union_work' "
-				. " and r.right_id_value = w.work_id "
-				. " and (w.work_to_be_deleted = 1  "
-				. " or w.original_catalogue not in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)"
-				. " )";
+			$invalid_work = '';
 
-		$invalid_work = $cofk->db_select_one_value( $statement );
-		if( $invalid_work ) {
-			$skip_row = TRUE;
-			$reason = 'work marked for deletion or hidden';
-		}
-	}
+			$statement = 'select w.work_id from cofk_union_relationship r, cofk_union_work w '
+					. " where r.left_table_name = 'cofk_union_manifestation' "
+					. " and r.left_id_value = '$manifestation_id'"
+					. " and r.relationship_type = 'is_manifestation_of' "
+					. " and r.right_table_name = 'cofk_union_work' "
+					. " and r.right_id_value = w.work_id "
+					. " and (w.work_to_be_deleted = 1  "
+					. " or w.original_catalogue not in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)"
+					. " )";
 
-	# Similarly I suppose we should exclude comments that are no longer attached to a valid work
-	if( !$skip_row && $table == 'cofk_union_comment') {
-		$invalid_work = '';
-
-		$statement = 'select w.work_id from cofk_union_relationship r, cofk_union_work w '
-				. " where left_table_name = 'cofk_union_comment' "
-				. " and left_id_value = '$next_id' "
-				. " and r.relationship_type like 'refers_to%' "
-				. " and r.right_table_name = 'cofk_union_work' "
-				. " and r.right_id_value = w.work_id "
-				. " and (w.work_to_be_deleted = 1  "
-				. " or w.original_catalogue not in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)"
-				. " )";
-
-		$invalid_work = $cofk->db_select_one_value( $statement );
-		if( $invalid_work ) {
-			$skip_row = TRUE;
-			$reason = 'work marked for deletion or hidden';
-		}
-	}
-
-	$row = NULL;
-	if( !$skip_row ) {
-		$row = $result[ 0 ];
-
-		if( $table == 'cofk_union_relationship' ) {
-			$relationship_type = $left_table_name = $right_table_name = NULL;
-			extract( $row, EXTR_OVERWRITE );
-
-			$skip_row = is_unknown_reltype( $relationship_type,  # some types not set up in front end yet
-					$left_table_name,
-					$right_table_name );
-
-			if( $skip_row ) {
-				$reason = "Unknown combination: $left_table_name $relationship_type $right_table_name" . NEWLINE;
+			$invalid_work = $cofk->db_select_one_value( $statement );
+			if( $invalid_work ) {
+				$skip_row = TRUE;
+				$reason = 'work marked for deletion or hidden';
 			}
+		}
 
-			if( !$skip_row ) {
-				$sides = array( 'left_table_name'  => 'left_id_value',
-						'right_table_name' => 'right_id_value' );
+		# Similarly I suppose we should exclude comments that are no longer attached to a valid work
+		if( !$skip_row && $table == 'cofk_union_comment') {
+			$invalid_work = '';
 
-				foreach( $sides as $rel_table => $rel_id ) {
+			$statement = 'select w.work_id from cofk_union_relationship r, cofk_union_work w '
+					. " where left_table_name = 'cofk_union_comment' "
+					. " and left_id_value = '$next_id' "
+					. " and r.relationship_type like 'refers_to%' "
+					. " and r.right_table_name = 'cofk_union_work' "
+					. " and r.right_id_value = w.work_id "
+					. " and (w.work_to_be_deleted = 1  "
+					. " or w.original_catalogue not in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)"
+					. " )";
 
-					if( $$rel_table == 'cofk_union_image' ) {
-						$selection = 'image_filename';
-						$keycol_in_rel_table = 'image_id';
-					}
-					elseif( $$rel_table == 'cofk_union_work' ) {
-						$selection = 'iwork_id';
-						$keycol_in_rel_table = 'work_id';
-					}
-					elseif( $$rel_table == 'cofk_union_manifestation' ) {
-						$selection = 'manifestation_id';
-						$keycol_in_rel_table = 'manifestation_id';
-					}
-					elseif( $$rel_table == 'cofk_union_resource' ) {
-						$selection = 'resource_url';
-						$keycol_in_rel_table = 'resource_id';
-					}
-					else {
-						continue;
-					}
+			$invalid_work = $cofk->db_select_one_value( $statement );
+			if( $invalid_work ) {
+				$skip_row = TRUE;
+				$reason = 'work marked for deletion or hidden';
+			}
+		}
 
-					$statement = "select $selection from " . $$rel_table . " where $keycol_in_rel_table::varchar = ";
-					$statement .= "( select $rel_id from cofk_union_relationship ";
-					$statement .= "  where relationship_id = $next_id ) ";
+		$row = NULL;
+		if( !$skip_row ) {
+			$row = $result[ 0 ];
 
-					if( $$rel_table == 'cofk_union_work' ) {
-						$statement .= get_work_exclusion_clause();
-						$reason = 'Work marked for deletion: ID ' . $$rel_id;
-					}
-					elseif( $$rel_table == 'cofk_union_image' ) {
-						$statement .= get_image_exclusion_clause();
-						$reason = 'Non-displayable image e.g. non-Bodleian Lister image: ID ' . $$rel_id;
-					}
-					elseif( $$rel_table == 'cofk_union_manifestation' ) {
-						$statement .= get_manifestation_exclusion_clause( $$rel_id );
-						$reason = 'Manifestation of work marked for deletion or hidden: ID ' . $$rel_id;
-					}
+			if( $table == 'cofk_union_relationship' ) {
+				$relationship_type = $left_table_name = $right_table_name = NULL;
+				extract( $row, EXTR_OVERWRITE );
 
-					$selected = $cofk->db_select_one_value( $statement );
+				$skip_row = is_unknown_reltype( $relationship_type,  # some types not set up in front end yet
+						$left_table_name,
+						$right_table_name );
 
-					if( $$rel_table == 'cofk_union_image' && $selected ) {
-						if( ! $cofk->string_starts_with( $selected, 'http' )) {
-							$selected = IMAGE_URL_START . $selected;
+				if( $skip_row ) {
+					$reason = "Unknown combination: $left_table_name $relationship_type $right_table_name" . NEWLINE;
+				}
+
+				if( !$skip_row ) {
+					$sides = array( 'left_table_name'  => 'left_id_value',
+							'right_table_name' => 'right_id_value' );
+
+					foreach( $sides as $rel_table => $rel_id ) {
+
+						if( $$rel_table == 'cofk_union_image' ) {
+							$selection = 'image_filename';
+							$keycol_in_rel_table = 'image_id';
 						}
-						if( $cofk->proj_link_is_broken( $selected )) {
-							$skip_row = TRUE;
-							$reason = 'Link to file ' . $selected . ' is broken.';
-							break;
+						elseif( $$rel_table == 'cofk_union_work' ) {
+							$selection = 'iwork_id';
+							$keycol_in_rel_table = 'work_id';
 						}
-					}
+						elseif( $$rel_table == 'cofk_union_manifestation' ) {
+							$selection = 'manifestation_id';
+							$keycol_in_rel_table = 'manifestation_id';
+						}
+						elseif( $$rel_table == 'cofk_union_resource' ) {
+							$selection = 'resource_url';
+							$keycol_in_rel_table = 'resource_id';
+						}
+						else {
+							continue;
+						}
 
-					elseif( $$rel_table == 'cofk_union_resource' && $selected ) {
-						if( $cofk->string_starts_with( $selected, 'http' )) {
+						$statement = "select $selection from " . $$rel_table . " where $keycol_in_rel_table::varchar = ";
+						$statement .= "( select $rel_id from cofk_union_relationship ";
+						$statement .= "  where relationship_id = $next_id ) ";
+
+						if( $$rel_table == 'cofk_union_work' ) {
+							$statement .= get_work_exclusion_clause();
+							$reason = 'Work marked for deletion: ID ' . $$rel_id;
+						}
+						elseif( $$rel_table == 'cofk_union_image' ) {
+							$statement .= get_image_exclusion_clause();
+							$reason = 'Non-displayable image e.g. non-Bodleian Lister image: ID ' . $$rel_id;
+						}
+						elseif( $$rel_table == 'cofk_union_manifestation' ) {
+							$statement .= get_manifestation_exclusion_clause( $$rel_id );
+							$reason = 'Manifestation of work marked for deletion or hidden: ID ' . $$rel_id;
+						}
+
+						$selected = $cofk->db_select_one_value( $statement );
+
+						if( $$rel_table == 'cofk_union_image' && $selected ) {
+							if( ! $cofk->string_starts_with( $selected, 'http' )) {
+								$selected = IMAGE_URL_START . $selected;
+							}
 							if( $cofk->proj_link_is_broken( $selected )) {
-							  $skip_row = TRUE;
-							  $reason = 'Link to file ' . $selected . ' is broken.';
-							  break;
+								$skip_row = TRUE;
+								$reason = 'Link to file ' . $selected . ' is broken.';
+								break;
 							}
 						}
-					}
 
-					if( ! $selected ) {
-						if( $$rel_table != 'cofk_union_resource' ) {
-							# this could be a resource without a link, e.g. just page nos.
-							$skip_row = TRUE;
+						elseif( $$rel_table == 'cofk_union_resource' && $selected ) {
+							if( $cofk->string_starts_with( $selected, 'http' )) {
+								if( $cofk->proj_link_is_broken( $selected )) {
+								  $skip_row = TRUE;
+								  $reason = 'Link to file ' . $selected . ' is broken.';
+								  break;
+								}
+							}
 						}
 
-						break;
+						if( ! $selected ) {
+							if( $$rel_table != 'cofk_union_resource' ) {
+								# this could be a resource without a link, e.g. just page nos.
+								$skip_row = TRUE;
+							}
+
+							break;
+						}
 					}
 				}
 			}
 		}
-	}
 
-	if( ! $skip_row ) {
-		$i++;
+		if( ! $skip_row ) {
+			$i++;
 
-		$header = '';
-		$data = '';
-		extract( $row, EXTR_OVERWRITE );
+			$header = '';
+			$data = '';
+			extract( $row, EXTR_OVERWRITE );
 
-		#if( $i % 100 == 0 ) {
-		#	echo $table . ' id:' . $row[$id] . ' count:' . $i . NEWLINE;
-		#}
+			#if( $i % 100 == 0 ) {
+			#	echo $table . ' id:' . $row[$id] . ' count:' . $i . NEWLINE;
+			#}
 
-		if( $i == 1 && $header_required ) {  # write out header row
+			if( $i == 1 && $header_required ) {  # write out header row
+
+				$firstcol = TRUE;
+				foreach( $row as $colname => $colvalue ) {
+
+					if( ! $firstcol ) {
+						$header .= ',';
+					}
+					$firstcol = FALSE;
+					$header .= $cofk->csv_field( $colname );
+				}
+
+				if( $table == 'cofk_union_person' or $table == 'cofk_union_location' ) {
+					$header .= ',' . $cofk->csv_field( 'sent_count' );
+					$header .= ',' . $cofk->csv_field( 'recd_count' );
+					$header .= ',' . $cofk->csv_field( 'mentioned_count' );
+				}
+				elseif( $table == 'cofk_union_institution' ) {
+					$header .= ',' . $cofk->csv_field( 'document_count' );
+				}
+
+				$header .= ',' . $cofk->csv_field( "published" );
+
+				$header .= CARRIAGE_RETURN . NEWLINE;
+				fwrite( $handle, $header );
+			}
 
 			$firstcol = TRUE;
 			foreach( $row as $colname => $colvalue ) {
 
 				if( ! $firstcol ) {
-					$header .= ',';
+					$data .= ',';
 				}
 				$firstcol = FALSE;
-				$header .= $cofk->csv_field( $colname );
-			}
 
-			if( $table == 'cofk_union_person' or $table == 'cofk_union_location' ) {
-				$header .= ',' . $cofk->csv_field( 'sent_count' );
-				$header .= ',' . $cofk->csv_field( 'recd_count' );
-				$header .= ',' . $cofk->csv_field( 'mentioned_count' );
-			}
-			elseif( $table == 'cofk_union_institution' ) {
-				$header .= ',' . $cofk->csv_field( 'document_count' );
-			}
-
-			$header .= ',' . $cofk->csv_field( "published" );
-
-			$header .= CARRIAGE_RETURN . NEWLINE;
-			fwrite( $handle, $header );
-		}
-
-		$firstcol = TRUE;
-		foreach( $row as $colname => $colvalue ) {
-
-			if( ! $firstcol ) {
-				$data .= ',';
-			}
-			$firstcol = FALSE;
-
-			$is_numeric = FALSE;
-			$is_date = FALSE;
-			foreach( $colinfo as $crow ) {
-				if( $crow[ 'column_name' ] == $colname ) {
-					$is_numeric = $crow[ 'is_numeric' ];
-					$is_date = $crow[ 'is_date' ];
-					break;
-				}
-			}
-
-			if( $colname == $export_id ) {
-				$colvalue = $table . '-' . $colvalue;
-			}
-
-			elseif( $table == 'cofk_union_relationship' ) {
-				if( $colname == 'left_id_value' ) {
-					$colvalue = $left_table_name . '-' . $colvalue;
-				}
-				elseif( $colname == 'right_id_value' ){
-					$colvalue = $right_table_name . '-' . $colvalue;
-				}
-				elseif( $colname == 'relationship_type' ){
-					$colvalue = 'cofk_union_relationship_type-' . $colvalue;
-				}
-			}
-
-			elseif( $table == 'cofk_union_image' && $colname == 'image_filename' ) {
-				if( ! $cofk->string_starts_with( $colvalue, 'http' )) {
-					$colvalue = IMAGE_URL_START . $colvalue;
-				}
-				if( $cofk->proj_link_is_broken( $colvalue )) {
-					$skip_row = TRUE;
-					$reason = 'Link to file ' . $colvalue . ' is broken.';
-				}
-				if( $cofk->string_starts_with( $colvalue, IMAGE_URL_START  )) {
-					# Having checked link isn't broken, now convert back to a relative path so that the front end can manipulate it.
-					# Except I think we may as well link to uploaded images in situ on back end.
-					if( ! $cofk->string_contains_substring( $colvalue, '/uploaded/' )) {
-						$colvalue = substr( $colvalue, strlen( IMAGE_URL_START ) - 1 );
-						# Keep trailing slash from IMAGE_URL_START as front end wants something like /lhwyd/xxx.jpg or /aubrey/yyy.jpg
+				$is_numeric = FALSE;
+				$is_date = FALSE;
+				foreach( $colinfo as $crow ) {
+					if( $crow[ 'column_name' ] == $colname ) {
+						$is_numeric = $crow[ 'is_numeric' ];
+						$is_date = $crow[ 'is_date' ];
+						break;
 					}
 				}
-			}
 
-			elseif( $table == 'cofk_union_image' && $colname == 'thumbnail' ) {
-				if( $cofk->string_starts_with( $colvalue, IMAGE_URL_START  )) {
-					if( ! $cofk->string_contains_substring( $colvalue, '/uploaded/' )) {
-						$colvalue = substr( $colvalue, strlen( IMAGE_URL_START ) - 1 );
+				if( $colname == $export_id ) {
+					$colvalue = $table . '-' . $colvalue;
+				}
+
+				elseif( $table == 'cofk_union_relationship' ) {
+					if( $colname == 'left_id_value' ) {
+						$colvalue = $left_table_name . '-' . $colvalue;
+					}
+					elseif( $colname == 'right_id_value' ){
+						$colvalue = $right_table_name . '-' . $colvalue;
+					}
+					elseif( $colname == 'relationship_type' ){
+						$colvalue = 'cofk_union_relationship_type-' . $colvalue;
 					}
 				}
-			}
 
-			elseif( $table == 'cofk_union_image' && $colname == 'display_order' ) {
-				# Concatenate display order number and filename, in case there is a duplicate display order.
-				$colvalue = str_pad( $colvalue, 4, '0', STR_PAD_LEFT ) . ' ' . $row[ 'image_filename' ];
-			}
-
-			elseif( $table == 'cofk_union_resource' && $colname == 'resource_url' ) {
-				if( $cofk->string_starts_with( $colvalue, 'http' )) {
+				elseif( $table == 'cofk_union_image' && $colname == 'image_filename' ) {
+					if( ! $cofk->string_starts_with( $colvalue, 'http' )) {
+						$colvalue = IMAGE_URL_START . $colvalue;
+					}
 					if( $cofk->proj_link_is_broken( $colvalue )) {
 						$skip_row = TRUE;
 						$reason = 'Link to file ' . $colvalue . ' is broken.';
 					}
-				}
-			}
-
-			elseif( $table == 'cofk_union_resource' && $colname == 'resource_name' ) {
-				if( $colvalue == 'Selden End card' ) {
-					$colvalue = 'Bodleian card catalogue';
-				}
-			}
-
-			elseif( $table == 'cofk_union_work' && $colname == 'accession_code' ) {
-				if( $cofk->string_starts_with( $colvalue, 'Selden End EAD import' )) {
-					$colvalue = str_replace( 'Selden End EAD import', 'Bodleian card catalogue bulk import', $colvalue );
-				}
-			}
-
-			elseif( $table == 'cofk_union_manifestation' ) {
-				if( $colname == 'manifestation_type' ) {
-					$statement = 'select document_type_desc from cofk_lookup_document_type'
-							." where document_type_code = '$colvalue'";
-					$colvalue = $cofk->db_select_one_value( $statement );
-				}
-				elseif( $colname == 'manifestation_creation_calendar' ) {
-					$colvalue = decode_calendar( $colvalue );
-				}
-			}
-
-			elseif( $table == 'cofk_union_work' ) {
-				if( $colname == 'original_calendar' ) {
-					$colvalue = decode_calendar( $colvalue );
-				}
-				elseif( $colname == 'date_of_work_std_gregorian' ) {  # sometimes have added 11 days to a Dec 9999 date
-					if( $cofk->string_starts_with( $colvalue, '10000-' )) {
-						$colvalue = str_replace( '10000-', '9999-', $colvalue );
+					if( $cofk->string_starts_with( $colvalue, IMAGE_URL_START  )) {
+						# Having checked link isn't broken, now convert back to a relative path so that the front end can manipulate it.
+						# Except I think we may as well link to uploaded images in situ on back end.
+						if( ! $cofk->string_contains_substring( $colvalue, '/uploaded/' )) {
+							$colvalue = substr( $colvalue, strlen( IMAGE_URL_START ) - 1 );
+							# Keep trailing slash from IMAGE_URL_START as front end wants something like /lhwyd/xxx.jpg or /aubrey/yyy.jpg
+						}
 					}
 				}
-				elseif( $colname == 'original_catalogue' ) {
-					if( trim( $colvalue ) == '' ) {
-						$colvalue = 'unspecified';
+
+				elseif( $table == 'cofk_union_image' && $colname == 'thumbnail' ) {
+					if( $cofk->string_starts_with( $colvalue, IMAGE_URL_START  )) {
+						if( ! $cofk->string_contains_substring( $colvalue, '/uploaded/' )) {
+							$colvalue = substr( $colvalue, strlen( IMAGE_URL_START ) - 1 );
+						}
 					}
-					$colvalue = decode_catalogue( $colvalue, $cats );
 				}
-			}
 
-			elseif( $table == 'cofk_union_person' ) {
-				if( $colname == 'foaf_name' ) {  # add dates to name
-					$colvalue = $person_obj->get_person_desc_from_id( $next_id, $using_integer_id = TRUE );
+				elseif( $table == 'cofk_union_image' && $colname == 'display_order' ) {
+					# Concatenate display order number and filename, in case there is a duplicate display order.
+					$colvalue = str_pad( $colvalue, 4, '0', STR_PAD_LEFT ) . ' ' . $row[ 'image_filename' ];
 				}
-			}
 
-			if( $colname == 'creation_user' || $colname == 'change_user' )
-				$colvalue = decode_user( $colvalue, $users );
+				elseif( $table == 'cofk_union_resource' && $colname == 'resource_url' ) {
+					if( $cofk->string_starts_with( $colvalue, 'http' )) {
+						if( $cofk->proj_link_is_broken( $colvalue )) {
+							$skip_row = TRUE;
+							$reason = 'Link to file ' . $colvalue . ' is broken.';
+						}
+					}
+				}
+
+				elseif( $table == 'cofk_union_resource' && $colname == 'resource_name' ) {
+					if( $colvalue == 'Selden End card' ) {
+						$colvalue = 'Bodleian card catalogue';
+					}
+				}
+
+				elseif( $table == 'cofk_union_work' && $colname == 'accession_code' ) {
+					if( $cofk->string_starts_with( $colvalue, 'Selden End EAD import' )) {
+						$colvalue = str_replace( 'Selden End EAD import', 'Bodleian card catalogue bulk import', $colvalue );
+					}
+				}
+
+				elseif( $table == 'cofk_union_manifestation' ) {
+					if( $colname == 'manifestation_type' ) {
+						$statement = 'select document_type_desc from cofk_lookup_document_type'
+								." where document_type_code = '$colvalue'";
+						$colvalue = $cofk->db_select_one_value( $statement );
+					}
+					elseif( $colname == 'manifestation_creation_calendar' ) {
+						$colvalue = decode_calendar( $colvalue );
+					}
+				}
+
+				elseif( $table == 'cofk_union_work' ) {
+					if( $colname == 'original_calendar' ) {
+						$colvalue = decode_calendar( $colvalue );
+					}
+					elseif( $colname == 'date_of_work_std_gregorian' ) {  # sometimes have added 11 days to a Dec 9999 date
+						if( $cofk->string_starts_with( $colvalue, '10000-' )) {
+							$colvalue = str_replace( '10000-', '9999-', $colvalue );
+						}
+					}
+					elseif( $colname == 'original_catalogue' ) {
+						if( trim( $colvalue ) == '' ) {
+							$colvalue = 'unspecified';
+						}
+						$colvalue = decode_catalogue( $colvalue, $cats );
+					}
+				}
+
+				elseif( $table == 'cofk_union_person' ) {
+					if( $colname == 'foaf_name' ) {  # add dates to name
+						$colvalue = $person_obj->get_person_desc_from_id( $next_id, $using_integer_id = TRUE );
+					}
+				}
+
+				if( $colname == 'creation_user' || $colname == 'change_user' ) {
+					$colvalue = decode_user($colvalue, $users);
+				}
 
 				#--------------------------------------------------
 				# Write one field's worth of data into the CSV file
