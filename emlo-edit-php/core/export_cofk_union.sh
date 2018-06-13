@@ -5,7 +5,7 @@ SCRIPTDIR=/var/www/core/
 CSVSOURCE=/csv/
 
 DATABASE=ouls
-DATABASE=oulstestdata
+# DATABASE=oulstestdata
 
 echo "Output directory will be $CSVSOURCE"
 
