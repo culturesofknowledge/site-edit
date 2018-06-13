@@ -158,7 +158,7 @@ class Selden_Work extends Editable_Work {
   #-----------------------------------------------------
 
   function exclude_index_cards_clause() {
-    return " date_of_work_std != '1900-01-01' ";
+    return "  ";
   }
   #-----------------------------------------------------
   function write_next_iwork_id_field() {

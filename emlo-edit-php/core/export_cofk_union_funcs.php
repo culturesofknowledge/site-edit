@@ -105,7 +105,7 @@ function decode_calendar( $calendar_code ) {
 function get_work_exclusion_clause() {
   $where_clause  = " and work_to_be_deleted != 1 ";
   $where_clause .= " and original_catalogue in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)";
-  $where_clause .= " and date_of_work_std != '1900-01-01'"; # the editors "hide" irrelevant cards by setting date to this
+
   return $where_clause;
 }
 #-------------------------------------------------------------------------
@@ -127,7 +127,7 @@ function get_manifestation_exclusion_clause( $manifestation_id ) {
                  . " and right_id_value = w.work_id "
                  . " and ( w.work_to_be_deleted = 1 "
                  . " or w.original_catalogue not in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)"
-                 . " or w.date_of_work_std = '1900-01-01' ))"; # editors "hide" irrelevant cards by setting date to this
+                 . " ))";
 
   return $where_clause;
 }

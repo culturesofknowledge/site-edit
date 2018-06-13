@@ -14,82 +14,75 @@ require_once "common_components.php";
 require_once "proj_components.php";
 require_once "export_cofk_union_funcs.php";
 
-# php -f ${SCRIPTDIR}export_cofk_union.php ${tab} ${COFK_WRITE_CSV_HEADER} ${COFK_FIRST_ID_IN_TABLE} ${COFK_LAST_ID_IN_TABLE}
-# echo 0,':',$argv[0]; // file
-# echo 1,':',$argv[1]; // table
-# echo 2,':',$argv[2]; // output headers
-# echo 3,':',$argv[3]; // start id
-# echo 4,':',$argv[4]; // end id
-
-$db_connection = new DBQuery ( 'postgres' );
-$cofk = new Project( $db_connection );
-$db = new DBEntity( $db_connection );
-
-$users = array();
-
-$statement = 'select username, forename, surname from cofk_users';
-$us = $cofk->db_select_into_array( $statement );
-foreach( $us as $u ) {
-  $username = NULL; $forename = NULL; $surname = NULL;
-  extract( $u, EXTR_OVERWRITE );
-
-  if( $username == 'cofksuper' )
-    $person_name = 'SysAdmin';
-  else
-    $person_name = trim( $forename ) . ' ' . trim( $surname );
-  $users[ "$username" ] = $person_name;
-}
-$users[ 'postgres' ] = 'SysAdmin';
-
-
-$table = $argv[1]; //getenv( 'COFK_TABLE_TO_EXPORT' );
-$header_required = $argv[2]; //getenv( 'COFK_WRITE_CSV_HEADER' );
+# $php_file = $argv[0]; // file
+$table              = trim($argv[1]); // table
 
 if( $table ) {
 
-  if( $table == 'cofk_union_person' )
-    $person_obj = new Person( $db_connection );
+	$header_required    = trim($argv[2]); // output headers
+	$next_id            = trim($argv[3]); // start id
+	$last_id            = trim($argv[4]); // end id
 
-  $colinfo = $db->db_list_columns( $table );
+	if( ! $next_id ) die( 'Invalid first ID' );
+	if( ! $last_id ) die( 'Invalid last ID' );
 
-  $id = str_replace( 'cofk_union_', '', $table );
-  $id .= '_id';
-  if( $table == 'cofk_union_relationship_type' ) $id = 'relationship_code';
-  $export_id = $id;
-  if( $table == 'cofk_union_work' ||  $table == 'cofk_union_person' ) 
-    $id = 'i' . $id;
+	echo "Starting to process $table from $next_id to $last_id...";
 
-  $next_id = $argv[3]; //getenv( 'COFK_FIRST_ID_IN_TABLE' );
-  $last_id = $argv[4]; //getenv( 'COFK_LAST_ID_IN_TABLE' );
 
-  $next_id = trim( $next_id );
-  $last_id = trim( $last_id );
+	$db_connection = new DBQuery ( 'postgres' );
+	$cofk = new Project( $db_connection );
+	$db = new DBEntity( $db_connection );
 
-  if( ! $next_id ) die( 'Invalid first ID' );
-  if( ! $last_id ) die( 'Invalid last ID' );
+	$users = array();
 
-  echo "Starting to process $table from $next_id to $last_id...";
+	$statement = 'select username, forename, surname from cofk_users';
+	$us = $cofk->db_select_into_array( $statement );
+	foreach( $us as $u ) {
+		$username = NULL; $forename = NULL; $surname = NULL;
+		extract( $u, EXTR_OVERWRITE );
 
-  $where_clause = '';
-  if( $table == 'cofk_union_work' ) {
-    $where_clause = get_work_exclusion_clause();
-    $reason = 'work marked for deletion or hidden';
+		if( $username == 'cofksuper' ) {
+			$person_name = 'SysAdmin';
+		}
+		else {
+			$person_name = trim($forename) . ' ' . trim($surname);
+		}
+		$users[ "$username" ] = $person_name;
+	}
+	$users[ 'postgres' ] = 'SysAdmin';
 
-    $cats = array();
-    $statement = 'select * from cofk_lookup_catalogue';
-    $catalogues = $cofk->db_select_into_array( $statement );
-    foreach( $catalogues as $row ) {
-      $catcode = $row[ 'catalogue_code' ];
-      $catname = $row[ 'catalogue_name' ];
-      $cats[ "$catcode" ] = $catname;
-    }
-    $cats[ 'unspecified' ] = 'No catalogue specified';
 
-  }
-  elseif( $table == 'cofk_union_image' ) {
-    $where_clause = get_image_exclusion_clause();
-    $reason = 'image flagged as non-displayable (e.g. non-Bodleian Lister image)';
-  }
+	if( $table == 'cofk_union_person' ) {
+		$person_obj = new Person($db_connection);
+	}
+
+	$colinfo = $db->db_list_columns( $table );
+
+	$export_id = $id = str_replace( 'cofk_union_', '', $table ) . '_id';
+	if( $table == 'cofk_union_work' ||  $table == 'cofk_union_person' ) {
+		$id = 'i' . $id;
+	}
+
+
+	$where_clause = '';
+	if( $table == 'cofk_union_work' ) {
+		$where_clause = get_work_exclusion_clause();
+		$reason = 'work marked for deletion or hidden';
+
+		$cats = array();
+		$statement = 'select * from cofk_lookup_catalogue';
+		$catalogues = $cofk->db_select_into_array( $statement );
+		foreach( $catalogues as $row ) {
+			$catcode = $row[ 'catalogue_code' ];
+			$catname = $row[ 'catalogue_name' ];
+			$cats[ "$catcode" ] = $catname;
+		}
+		$cats[ 'unspecified' ] = 'No catalogue specified';
+	}
+	elseif( $table == 'cofk_union_image' ) {
+		$where_clause = get_image_exclusion_clause();
+		$reason = 'image flagged as non-displayable (e.g. non-Bodleian Lister image)';
+	}
 
   $filename = $table . '.csv';
 
@@ -154,7 +147,7 @@ if( $table ) {
       . " and r.right_id_value = w.work_id "
       . " and (w.work_to_be_deleted = 1  "
       . " or w.original_catalogue not in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)"
-      . " or w.date_of_work_std = '1900-01-01')";
+      . " )";
 
       $invalid_work = $cofk->db_select_one_value( $statement );
       if( $invalid_work ) {
@@ -175,7 +168,7 @@ if( $table ) {
                  . " and r.right_id_value = w.work_id "
                  . " and (w.work_to_be_deleted = 1  "
                  . " or w.original_catalogue not in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)"
-                 . " or w.date_of_work_std = '1900-01-01')";
+                 . " )";
 
       $invalid_work = $cofk->db_select_one_value( $statement );
       if( $invalid_work ) {
@@ -497,7 +490,7 @@ if( $table ) {
                      . " and right_id_value = w.work_id "
                      . " and ( w.work_to_be_deleted = 1 "
                      . " or w.original_catalogue not in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)"
-                     . " or w.date_of_work_std = '1900-01-01' )"; # editors "hide" cards by setting date to this
+                     . " )"; # editors "hide" cards by setting date to this
           $invalid_work = $cofk->db_select_one_value( $statement );
 
           if( ! $invalid_work )
