@@ -1,11 +1,10 @@
-#! /bin/bash
-# /home/burgess/scripts/sccs/cofk/sh/s.export_cofk_union.sh 1.6 2011/09/28 15:07:19 
+#!/bin/bash
 
 SCRIPTDIR=/var/www/core/
 CSVSOURCE=/csv/
 
-DATABASE=ouls
-# DATABASE=oulstestdata
+# DATABASE=ouls
+DATABASE=oulstestdata
 
 echo "Output directory will be $CSVSOURCE"
 
@@ -48,16 +47,16 @@ batch_size=$(( 5000 )) # evaluate as integer
 
 for tabroot in institution location resource person comment image work relationship
 do
-  tab=cofk_union_$tabroot
+  tab=cofk_union_${tabroot}
+
   echo
-  echo "Starting $tab"
-  date
-  COFK_TABLE_TO_EXPORT=$tab
+  echo "Starting $tab" $(date)
+  COFK_TABLE_TO_EXPORT=${tab}
 
   tab_id=${tabroot}_id
   if [ "$tabroot" = "person" -o "$tabroot" = "work" ]
   then
-    tab_id=i$tab_id
+    tab_id=i${tab_id}
   fi
 
   sql_min="select min( $tab_id ) from $tab"
@@ -67,7 +66,7 @@ do
 
   echo "First ID in $tab:   $first_id"
 
-  if [ $first_id != "0" ]
+  if [ ${first_id} != "0" ]
   then
 
 	  sql_max="select max( $tab_id ) from $tab"
@@ -87,21 +86,21 @@ do
 	  COFK_LAST_ID_IN_TABLE=$(( $last_id - 1 )) # Go into while the first time!
 	  COFK_WRITE_CSV_HEADER=1
 
-	  while [ $COFK_LAST_ID_IN_TABLE -lt $last_id ]
+	  while [ ${COFK_LAST_ID_IN_TABLE} -lt ${last_id} ]
 	  do
 
-	    if [ $rowcount -gt $batch_size ]
+	    if [ ${rowcount} -gt ${batch_size} ]
 	    then
 	      COFK_LAST_ID_IN_TABLE=$(( COFK_FIRST_ID_IN_TABLE + $batch_size ))
 	    else
-	      COFK_LAST_ID_IN_TABLE=$last_id
+	      COFK_LAST_ID_IN_TABLE=${last_id}
 	    fi
 
 	    echo
-	    php -f ${SCRIPTDIR}export_cofk_union.php ${tab} ${COFK_WRITE_CSV_HEADER} ${COFK_FIRST_ID_IN_TABLE} ${COFK_LAST_ID_IN_TABLE} | tee export_$tab.log
+	    php -f ${SCRIPTDIR}export_cofk_union.php ${tab} ${COFK_WRITE_CSV_HEADER} ${COFK_FIRST_ID_IN_TABLE} ${COFK_LAST_ID_IN_TABLE} | tee export_${tab}.log
 
-	    result=$(tail -n 1 export_$tab.log)
-	    success=$(echo $result|grep Finished)
+	    result=$(tail -n 1 export_${tab}.log)
+	    success=$(echo ${result} | grep Finished)
 	    if [ "$success" = "" ]
 	    then
 	      echo "Failed to complete $tab"
@@ -129,19 +128,19 @@ tab=cofk_union_manifestation
 
 php -q ${SCRIPTDIR}batch_manifestations_union.php
 
-COFK_TABLE_TO_EXPORT=$tab
+COFK_TABLE_TO_EXPORT=${tab}
 COFK_WRITE_CSV_HEADER=1
 
 while read first_id last_id
 do
-  COFK_FIRST_ID_IN_TABLE=$first_id
-  COFK_LAST_ID_IN_TABLE=$last_id
+  COFK_FIRST_ID_IN_TABLE=${first_id}
+  COFK_LAST_ID_IN_TABLE=${last_id}
   
   echo #"Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
-  php -q ${SCRIPTDIR}export_cofk_union.php ${tab} ${COFK_WRITE_CSV_HEADER} ${COFK_FIRST_ID_IN_TABLE} ${COFK_LAST_ID_IN_TABLE} | tee export_$tab.log
+  php -q ${SCRIPTDIR}export_cofk_union.php ${tab} ${COFK_WRITE_CSV_HEADER} ${COFK_FIRST_ID_IN_TABLE} ${COFK_LAST_ID_IN_TABLE} | tee export_${tab}.log
 
-  result=$(tail -n 1 export_$tab.log)
-  success=$(echo $result|grep Finished)
+  result=$(tail -n 1 export_${tab}.log)
+  success=$(echo ${result} | grep Finished)
   if [ "$success" = "" ]
   then
     echo "Failed to complete $tab"
@@ -158,7 +157,7 @@ echo 'Finished writing out first version of CSV files'
 echo ''
 echo ''
 echo 'Reinstating foreign characters etc in Selden End data'
-\mv cofk_union*.csv $CSVSOURCE
+\mv cofk_union*.csv ${CSVSOURCE}
 ${SCRIPTDIR}reinstate_accents_selden_end.sh y
 
 #---------------------------------------------------------------------------------------
