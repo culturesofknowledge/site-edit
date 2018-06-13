@@ -135,6 +135,9 @@ function get_manifestation_exclusion_clause( $manifestation_id ) {
 
 function omit_col( $table_name, $colname ) { # Some extra columns have been added to the database, so we must omit
                                              # these until the front end ingest procedure has been updated to match
+
+	return FALSE;
+
   $skip_col = FALSE;
 
   if( $table_name == 'cofk_union_person' ) {
