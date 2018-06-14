@@ -3,8 +3,8 @@
 SCRIPTDIR=/var/www/core/
 CSVSOURCE=/csv/
 
-# DATABASE=ouls
-DATABASE=oulstestdata
+DATABASE=ouls
+# DATABASE=oulstestdata
 
 echo "Output directory will be $CSVSOURCE"
 
@@ -174,8 +174,8 @@ echo 'Export to CSV files now complete.'
 
 
 # Transfer new files to front server
-${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE}
 echo 'Copying CSV files to front end server.'
+${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE}
 
 
 ## -- I think we'll just link to images on the back-end server instead -- ${SCRIPTDIR}transfer_uploaded_images.sh

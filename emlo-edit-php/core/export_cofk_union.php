@@ -6,8 +6,8 @@ define( 'CFG_PREFIX', 'cofk' );
 define( 'CFG_SYSTEM_TITLE', 'Export Union database' );
 define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' );
 
-# define( 'CONSTANT_DATABASE_TYPE', 'live' );
-define( 'CONSTANT_DATABASE_TYPE', 'test' );
+define( 'CONSTANT_DATABASE_TYPE', 'live' );
+# define( 'CONSTANT_DATABASE_TYPE', 'test' );
 
 defined( "DEBUGGING" ) or define( "DEBUGGING", FALSE );
 
@@ -16,7 +16,7 @@ require_once "proj_components.php";
 require_once "export_cofk_union_funcs.php";
 
 # $php_file = $argv[0]; // file
-$table              = trim($argv[1]); // table
+$table = trim($argv[1]); // table
 
 if( $table ) {
 
@@ -24,8 +24,8 @@ if( $table ) {
 	$next_id            = trim($argv[3]); // start id
 	$last_id            = trim($argv[4]); // end id
 
-	if( ! $next_id ) die( 'Invalid first ID' );
-	if( ! $last_id ) die( 'Invalid last ID' );
+	if( !$next_id ) die( 'Invalid first ID' );
+	if( !$last_id ) die( 'Invalid last ID' );
 
 	echo "Starting to process $table from $next_id to $last_id...";
 
@@ -75,8 +75,7 @@ if( $table ) {
 		$catalogues = $cofk->db_select_into_array( $statement );
 		foreach( $catalogues as $row ) {
 			$catcode = $row[ 'catalogue_code' ];
-			$catname = $row[ 'catalogue_name' ];
-			$cats[ "$catcode" ] = $catname;
+			$cats[ "$catcode" ] = $row[ 'catalogue_name' ];
 		}
 		$cats[ 'unspecified' ] = 'No catalogue specified';
 	}
@@ -99,7 +98,7 @@ if( $table ) {
 	$i = 0;
 	while( $next_id ) {
 
-		$skip_row = FALSE;
+		$unpublished = FALSE;
 
 		$statement = "select * from $table where $id = '$next_id'";
 
@@ -113,20 +112,26 @@ if( $table ) {
 		elseif( $table == 'cofk_union_image' ) {
 			$reason = 'image flagged as non-displayable (e.g. non-Bodleian Lister image)';
 		}
-		else{
+		else {
 			$reason = '';
 		}
 
-		$statement .= $where_clause;
-		$result = $cofk->db_select_into_array( $statement );
+		$statement_with_exclude = $statement . $where_clause;
+		$result = $cofk->db_select_into_array( $statement_with_exclude );
 
-		if( count( $result ) != 1 ) {
+		if( count( $result ) == 0 ) {
+			// Not published (or possilble missing ID for some reason)
 
-			$skip_row = TRUE;
+			$unpublished = TRUE;
+
+			// Get the record again... but without exclusion. (This could likely be done better with a clever sql statement...)
+			$result = $cofk->db_select_into_array( $statement );
+
 			if( $table == 'cofk_union_image' ) {
-				$statement = "select image_filename from cofk_union_image where image_id = $next_id";
-				$rejected_image = $cofk->db_select_one_value( $statement );
-				$reason = "Non-displayable image, e.g. non-Bodleian Lister image: $rejected_image" . NEWLINE;
+				// $statement = "select image_filename from cofk_union_image where image_id = $next_id";
+				// $rejected_image = $cofk->db_select_one_value( $statement );
+				// $reason = "Non-displayable image, e.g. non-Bodleian Lister image: $rejected_image" . NEWLINE;
+				$reason = "Non-displayable image, e.g. non-Bodleian Lister image: " . $result['image_filename'] . NEWLINE;
 			}
 
 			if( !$reason ) {
@@ -136,7 +141,7 @@ if( $table ) {
 
 		# For images we now need to check that it is not an image of a work marked for deletion or hidden.
 		# We don't need to re-check this for relationships because the 'manifestation' side of the check should deal with it.
-		if( !$skip_row && $table == 'cofk_union_image' ) {
+		if( $table == 'cofk_union_image' ) {
 			$statement = 'select right_id_value from cofk_union_relationship'
 					. " where left_table_name = 'cofk_union_image' "
 					. " and left_id_value = '$next_id' "
@@ -159,13 +164,13 @@ if( $table ) {
 
 			$invalid_work = $cofk->db_select_one_value( $statement );
 			if( $invalid_work ) {
-				$skip_row = TRUE;
+				$unpublished = TRUE;
 				$reason = 'work marked for deletion or hidden';
 			}
 		}
 
 		# Similarly I suppose we should exclude comments that are no longer attached to a valid work
-		if( !$skip_row && $table == 'cofk_union_comment') {
+		if( $table == 'cofk_union_comment') {
 			$invalid_work = '';
 
 			$statement = 'select w.work_id from cofk_union_relationship r, cofk_union_work w '
@@ -180,28 +185,28 @@ if( $table ) {
 
 			$invalid_work = $cofk->db_select_one_value( $statement );
 			if( $invalid_work ) {
-				$skip_row = TRUE;
+				$unpublished = TRUE;
 				$reason = 'work marked for deletion or hidden';
 			}
 		}
 
 		$row = NULL;
-		if( !$skip_row ) {
+		if( true ) { // !$skip_row ) {
 			$row = $result[ 0 ];
 
 			if( $table == 'cofk_union_relationship' ) {
 				$relationship_type = $left_table_name = $right_table_name = NULL;
 				extract( $row, EXTR_OVERWRITE );
 
-				$skip_row = is_unknown_reltype( $relationship_type,  # some types not set up in front end yet
+				$unpublished = is_unknown_reltype( $relationship_type,  # some types not set up in front end yet
 						$left_table_name,
 						$right_table_name );
 
-				if( $skip_row ) {
+				//if( $skip_row ) {
 					$reason = "Unknown combination: $left_table_name $relationship_type $right_table_name" . NEWLINE;
-				}
+				//}
 
-				if( !$skip_row ) {
+				if( true ) {//!$skip_row ) {
 					$sides = array( 'left_table_name'  => 'left_id_value',
 							'right_table_name' => 'right_id_value' );
 
@@ -251,7 +256,7 @@ if( $table ) {
 								$selected = IMAGE_URL_START . $selected;
 							}
 							if( $cofk->proj_link_is_broken( $selected )) {
-								$skip_row = TRUE;
+								$unpublished = TRUE;
 								$reason = 'Link to file ' . $selected . ' is broken.';
 								break;
 							}
@@ -260,7 +265,7 @@ if( $table ) {
 						elseif( $$rel_table == 'cofk_union_resource' && $selected ) {
 							if( $cofk->string_starts_with( $selected, 'http' )) {
 								if( $cofk->proj_link_is_broken( $selected )) {
-								  $skip_row = TRUE;
+								  $unpublished = TRUE;
 								  $reason = 'Link to file ' . $selected . ' is broken.';
 								  break;
 								}
@@ -270,7 +275,7 @@ if( $table ) {
 						if( ! $selected ) {
 							if( $$rel_table != 'cofk_union_resource' ) {
 								# this could be a resource without a link, e.g. just page nos.
-								$skip_row = TRUE;
+								$unpublished = TRUE;
 							}
 
 							break;
@@ -280,7 +285,7 @@ if( $table ) {
 			}
 		}
 
-		if( ! $skip_row ) {
+		if( true ) {
 			$i++;
 
 			$header = '';
@@ -357,7 +362,7 @@ if( $table ) {
 						$colvalue = IMAGE_URL_START . $colvalue;
 					}
 					if( $cofk->proj_link_is_broken( $colvalue )) {
-						$skip_row = TRUE;
+						$unpublished = TRUE;
 						$reason = 'Link to file ' . $colvalue . ' is broken.';
 					}
 					if( $cofk->string_starts_with( $colvalue, IMAGE_URL_START  )) {
@@ -386,7 +391,7 @@ if( $table ) {
 				elseif( $table == 'cofk_union_resource' && $colname == 'resource_url' ) {
 					if( $cofk->string_starts_with( $colvalue, 'http' )) {
 						if( $cofk->proj_link_is_broken( $colvalue )) {
-							$skip_row = TRUE;
+							$unpublished = TRUE;
 							$reason = 'Link to file ' . $colvalue . ' is broken.';
 						}
 					}
@@ -520,7 +525,7 @@ if( $table ) {
 			}
 
 			// published column.
-			if( $skip_row ) {
+			if( $unpublished ) {
 				$data .= ',' . '0';
 			}
 			else {
@@ -530,10 +535,11 @@ if( $table ) {
 			$data .= CARRIAGE_RETURN . NEWLINE;
 		}
 
-		if( $skip_row ) {
+		if( $reason ) {
 			// MATTT: This outputs way to much information...
-			//if( $reason != 'work marked for deletion or hidden' )
-			//  echo 'Skipping row ' . $next_id . ' from table ' . $table  . ": $reason" . NEWLINE;
+			#if( $reason != 'work marked for deletion or hidden' ) {
+			#	echo 'Skipping row ' . $next_id . ' from table ' . $table . ": $reason" . NEWLINE;
+			#}
 		}
 		else {
 			fwrite( $handle, $data );
