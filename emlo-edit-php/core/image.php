@@ -4,12 +4,12 @@
 #====================================================================================
 
 if( Application_Entity::get_system_prefix() == IMPACT_SYS_PREFIX ) {
-  define( 'IMAGE_URL_START', 'http://impact.bodleian.ox.ac.uk/public/images/' );
-  define( 'IMAGE_DIR_FOR_UPLOADS', '/srv/data/public/images/uploaded/' );
+	define( 'IMAGE_URL_START', 'http://impact.bodleian.ox.ac.uk/public/images/' );
+	define( 'IMAGE_DIR_FOR_UPLOADS', '/srv/data/public/images/uploaded/' );
 }
 else {
-  define( 'IMAGE_URL_START', 'http://emlo-edit.bodleian.ox.ac.uk/culturesofknowledge/images/' );
-  define( 'IMAGE_DIR_FOR_UPLOADS', '/srv/data/culturesofknowledge/images/uploaded/' );
+	define( 'IMAGE_URL_START', 'http://emlo-edit.bodleian.ox.ac.uk/culturesofknowledge/images/' );
+	define( 'IMAGE_DIR_FOR_UPLOADS', '/srv/data/culturesofknowledge/images/uploaded/' );
 }
 
 define( 'UPLOADED_IMAGE_WIDTH_PX', 2000 );
@@ -28,11 +28,23 @@ define( 'LICENCE_DETAILS_ROWS', 4 );
 define( 'IMAGE_UPLOAD_FIELD_SIZE', 60 );
 
 define( 'CULTURES_OF_KNOWLEDGE_DEFAULT_LICENCE_URL',
-        'http://cofk2.bodleian.ox.ac.uk/culturesofknowledge/licence/terms_of_use.html' );
+			'http://cofk2.bodleian.ox.ac.uk/culturesofknowledge/licence/terms_of_use.html' );
 
+/**
+ * @property
+ * @property  image_id
+ */
 class Image extends Project {
 
-  #----------------------------------------------------------------------------------
+	#----------------------------------------------------------------------------------
+	private $image_id;
+	private $entity_id_fieldname;
+	private $entity_images;
+	private $entity_type;
+	private $entity_classname;
+	private $entity_tablename;
+
+	#----------------------------------------------------------------------------------
 
   function Image( &$db_connection ) {
 
@@ -768,8 +780,9 @@ class Image extends Project {
     $this->entity_id = $entity_id;
 
     # Values are read from POST into arrays.
-    $relevant_parms = $this->read_image_details_from_post();
+	  $relevant_parms = $this->read_image_details_from_post();
 
+    echo var_dump($relevant_parms);
     $total_images = count( $this->image_id_array );
 
     #----------------------------------------------------
@@ -891,6 +904,7 @@ class Image extends Project {
         case 'change_user':
         case 'creation_timestamp':
         case 'creation_user':
+		  case 'uuid':
           $skip_it = TRUE;
           break;
       }
