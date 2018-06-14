@@ -1040,7 +1040,7 @@ class HTML extends Application_Entity {
     echo '</h5>';
   }
   #-----------------------------------------------------------------
-  function bold_start() {
+  static function bold_start() {
     echo '<strong>';
   }
   #-----------------------------------------------------------------
@@ -1189,7 +1189,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function link( $href, $displayed_text, $title = '', $target = '_self', $accesskey = '', $tabindex = 1,
+  static function link( $href, $displayed_text, $title = '', $target = '_self', $accesskey = '', $tabindex = 1,
                  $extra_parms = NULL ) {
 
     echo '<a href="', $href, '" ';
@@ -1260,7 +1260,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function anchor( $anchor_name = NULL ) {
+  static function anchor( $anchor_name = NULL ) {
 
     if( $anchor_name != NULL ) {
       echo '<a name="' . $anchor_name . '" id="' . $anchor_name . '" ></a>';
@@ -1268,7 +1268,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function field_id_from_fieldname( $fieldname, $input_instance = 0 ) {
+  static function field_id_from_fieldname( $fieldname, $input_instance = 0 ) {
 
     $field_id = $fieldname;
     if( $input_instance ) {
@@ -1719,7 +1719,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function listitem( $the_value = NULL, $parms = NULL ) {
+  static function listitem( $the_value = NULL, $parms = NULL ) {
     echo '<li ', $parms, '>', $the_value, '</li>';
   }
   #-----------------------------------------------------------------
