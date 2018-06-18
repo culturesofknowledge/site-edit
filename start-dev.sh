@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+echo
+echo "Setting up DEVELOPMENT copy of EMLO-EDIT..."
+echo
+echo
+
 # Start (and build if necessary)
 docker-compose --file docker-compose-dev.yaml up -d --build
 sleep 5
