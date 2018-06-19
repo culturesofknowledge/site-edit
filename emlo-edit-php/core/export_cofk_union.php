@@ -120,7 +120,7 @@ if( $table ) {
 		$result = $cofk->db_select_into_array( $statement_with_exclude );
 
 		if( count( $result ) == 0 ) {
-			// Not published (or possilble missing ID for some reason)
+			// Not published (or possible missing ID for some reason)
 
 			$unpublished = TRUE;
 
@@ -160,7 +160,7 @@ if( $table ) {
 					. " and r.right_id_value = w.work_id "
 					. " and (w.work_to_be_deleted = 1  "
 					. " or w.original_catalogue not in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)"
-					. " )";
+					. " or w.date_of_work_std = '1900-01-01')";
 
 			$invalid_work = $cofk->db_select_one_value( $statement );
 			if( $invalid_work ) {
@@ -171,42 +171,46 @@ if( $table ) {
 
 		# Similarly I suppose we should exclude comments that are no longer attached to a valid work
 		if( $table == 'cofk_union_comment') {
-			$invalid_work = '';
+			if( !$unpublished ) {
+					$invalid_work = '';
 
-			$statement = 'select w.work_id from cofk_union_relationship r, cofk_union_work w '
-					. " where left_table_name = 'cofk_union_comment' "
-					. " and left_id_value = '$next_id' "
-					. " and r.relationship_type like 'refers_to%' "
-					. " and r.right_table_name = 'cofk_union_work' "
-					. " and r.right_id_value = w.work_id "
-					. " and (w.work_to_be_deleted = 1  "
-					. " or w.original_catalogue not in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)"
-					. " )";
+					$statement = 'select w.work_id from cofk_union_relationship r, cofk_union_work w '
+						. " where left_table_name = 'cofk_union_comment' "
+						. " and left_id_value = '$next_id' "
+						. " and r.relationship_type like 'refers_to%' "
+						. " and r.right_table_name = 'cofk_union_work' "
+						. " and r.right_id_value = w.work_id "
+						. " and (w.work_to_be_deleted = 1  "
+						. " or w.original_catalogue not in (SELECT catalogue_code FROM cofk_lookup_catalogue WHERE publish_status = 1)"
+						. " or w.date_of_work_std = '1900-01-01')";
 
-			$invalid_work = $cofk->db_select_one_value( $statement );
-			if( $invalid_work ) {
-				$unpublished = TRUE;
-				$reason = 'work marked for deletion or hidden';
-			}
+					$invalid_work = $cofk->db_select_one_value($statement);
+					if ($invalid_work) {
+						$unpublished = TRUE;
+						$reason = 'work marked for deletion or hidden';
+					}
+				}
 		}
 
 		$row = NULL;
-		if( true ) { // !$skip_row ) {
+		if( true ) {
 			$row = $result[ 0 ];
 
 			if( $table == 'cofk_union_relationship' ) {
 				$relationship_type = $left_table_name = $right_table_name = NULL;
 				extract( $row, EXTR_OVERWRITE );
 
-				$unpublished = is_unknown_reltype( $relationship_type,  # some types not set up in front end yet
-						$left_table_name,
-						$right_table_name );
+				if( !$unpublished ) {
+					$unpublished = is_unknown_reltype($relationship_type,  # some types not set up in front end yet
+							$left_table_name,
+							$right_table_name);
 
-				//if( $skip_row ) {
-					$reason = "Unknown combination: $left_table_name $relationship_type $right_table_name" . NEWLINE;
-				//}
+					if ($unpublished) {
+						$reason = "Unknown combination: $left_table_name $relationship_type $right_table_name" . NEWLINE;
+					}
+				}
 
-				if( true ) {//!$skip_row ) {
+				if( true ) {
 					$sides = array( 'left_table_name'  => 'left_id_value',
 							'right_table_name' => 'right_id_value' );
 
@@ -300,6 +304,9 @@ if( $table ) {
 
 				$firstcol = TRUE;
 				foreach( $row as $colname => $colvalue ) {
+					 if( omit_col( $table, $colname )) { # Some extra columns have been added to the database, so we must omit
+						 continue;                         # these until the front end ingest procedure has been updated to match
+					 }
 
 					if( ! $firstcol ) {
 						$header .= ',';
@@ -325,6 +332,9 @@ if( $table ) {
 
 			$firstcol = TRUE;
 			foreach( $row as $colname => $colvalue ) {
+				if( omit_col( $table, $colname )) { # Some extra columns have been added to the database, so we must omit
+					continue;                         # these until the front end ingest procedure has been updated to match
+				}
 
 				if( ! $firstcol ) {
 					$data .= ',';
@@ -535,15 +545,12 @@ if( $table ) {
 			$data .= CARRIAGE_RETURN . NEWLINE;
 		}
 
-		if( $reason ) {
-			// MATTT: This outputs way to much information...
-			#if( $reason != 'work marked for deletion or hidden' ) {
-			#	echo 'Skipping row ' . $next_id . ' from table ' . $table . ": $reason" . NEWLINE;
-			#}
-		}
-		else {
-			fwrite( $handle, $data );
-		}
+		// MATTT: This outputs way to much information...
+		#if( $reason && $reason != 'work marked for deletion or hidden' ) {
+		#	echo 'Skipping row ' . $next_id . ' from table ' . $table . ": $reason" . NEWLINE;
+		#}
+
+		fwrite( $handle, $data );
 
 		$statement = "select min( $id ) from $table where $id > '$next_id' ";
 		$statement .= " and $id <= '$last_id'";
