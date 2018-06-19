@@ -2,6 +2,7 @@
 core/database_access.php
 emlo-edit-php/interface/core/
 docker-postgres/database-dump/pg_dumpall.out.gz
+docker-exporter/exporter/config.py
 docker-compose.php.env
 
 nginx/ssl/ssl.crt
