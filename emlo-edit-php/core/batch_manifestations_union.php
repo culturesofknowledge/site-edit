@@ -6,6 +6,8 @@ define( 'CFG_SYSTEM_TITLE', 'Make Manifestation Batches: Union database' );
 define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' );
 
 define( 'CONSTANT_DATABASE_TYPE', 'live' );
+# define( 'CONSTANT_DATABASE_TYPE', 'test' );
+
 define( 'BATCH_SIZE', 5000 );
 
 require_once "common_components.php";

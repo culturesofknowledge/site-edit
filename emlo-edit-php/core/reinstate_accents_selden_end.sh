@@ -1,28 +1,9 @@
 #!  /bin/bash
 # /home/burgess/scripts/sccs/cofk/sh/s.reinstate_accents_selden_end.sh 1.5 2011/07/29 15:11:24
 
-clear
-echo ''
-echo ''
-if [ "$CSVSOURCE" = "" ]
-then
-  echo 'Environment variable CSVSOURCE containing the location of the CSV files must be set.'
-  exit
-fi
+SCRIPTDIR=/var/www/core/
+CSVSOURCE=/csv/
 
-answer=$1
-if [ "$answer" = "" ]
-then
-  echo -n "Remove numeric entities etc from Selden End CSV files in $CSVSOURCE? (y/n) "
-  answer=$(line)
-fi
-
-if [ "$answer" != "y" -a "$answer" != "Y" ]
-then
-  echo 'Cancelled.'
-  exit
-fi
- 
 for csvfile in cofk_union_comment.csv \
                cofk_union_institution.csv \
                cofk_union_location.csv \
@@ -32,9 +13,8 @@ for csvfile in cofk_union_comment.csv \
 do
   echo "Starting to process $csvfile"
   csvfile=$CSVSOURCE$csvfile
-  # ls -l $csvfile
-  export COFK_CSV_FILE=$csvfile
 
+  export COFK_CSV_FILE=$csvfile
   php -q ${SCRIPTDIR}reinstate_accents_union.php
 
   cd $CSVSOURCE

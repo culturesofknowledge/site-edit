@@ -7,18 +7,18 @@
  */
 
 if( CONSTANT_DATABASE_TYPE == 'live' ) {     # set by initial file called from Apache document root
-  define( 'CONSTANT_DATABASE_NAME', 'ouls' );
-  # define( 'CONSTANT_DATABASE_NAME', 'oulstestdata' );
-
-  define( 'DATABASE_HOST','postgres' );
+	define( 'CONSTANT_DATABASE_NAME', 'ouls' );
+	define( 'DATABASE_HOST','postgres' );
 }
-else
-  die( 'Invalid input detected in defines.php' );
-
+elseif( CONSTANT_DATABASE_TYPE == 'test' ) {     # set by initial file called from Apache document root
+	define( 'CONSTANT_DATABASE_NAME', 'oulstestdata' );
+	define( 'DATABASE_HOST','postgres' );
+}
+else {
+	die('Invalid input detected in defines.php');
+}
 
 define( 'CONSTANT_MINIMAL_USER',  'minimal' );
-
 define( 'SUPERVISOR_ROLE_CODE', 'super' );
 define( 'SUPERVISOR_ROLE_ID',   -1      );
 
-?>

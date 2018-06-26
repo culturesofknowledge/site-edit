@@ -16,11 +16,10 @@ error_reporting(E_ALL & ~E_STRICT & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
 ini_set("display_errors", 1);
 define( "DEBUGGING", TRUE );
 
-define( 'CONSTANT_DATABASE_TYPE', 'live' );
+define( 'CONSTANT_DATABASE_TYPE', 'test' );
 define( 'CONSTANT_SOURCEDIR', '/var/www/core/' );
 
 echo "Database connection is: <b>" . strtoupper(CONSTANT_DATABASE_TYPE) . "</b>";
 
 require_once "union.php";
 
-?>
