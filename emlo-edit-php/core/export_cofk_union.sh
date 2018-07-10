@@ -172,11 +172,20 @@ psql ${DATABASE} -h postgres -U cofkadmin -c "\\copy pro_textual_source to ${CSV
 
 echo 'Export to CSV files now complete.'
 
+#
+# Transfer new files to servers
+#
 
-# Transfer new files to front server
-echo 'Copying CSV files to front end server.'
-${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE}
+# Daily transfer
+echo 'Copying CSV files to daily server.'
+${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE} ${DOCKER__DAILY_PUBLISH_SERVER_ACCESS}
 
+DAY=`date +%A`
+if [ "$DAY" = "$DOCKER__WEEKLY_PUBLISH_DAY" ]
+then
+	echo 'Copying CSV files to weekly server.'
+	${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE} ${DOCKER__WEEKLY_PUBLISH_SERVER_ACCESS}
+fi
 
 ## -- I think we'll just link to images on the back-end server instead -- ${SCRIPTDIR}transfer_uploaded_images.sh
 
