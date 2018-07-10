@@ -32,18 +32,14 @@ Enable indexing of front
 ------------------------
 
 Create an ssh key for access to the front end servers (QA *or* PRD).
-
-Jump on to container:
-
-    docker-compose exec php bash
     
-Generate a key, accepting the defaults (i.e. /root/.ssh)
+Generate or move a key, save to the file volumes/ssh/id_rsa , if generating, accept the defaults
 
-    ssh-keygen  # accept defaults
+    ssh-keygen  # use to generate a new key
     
 Now copy the key to the remote server we need to update, you'll need to log in:
     
-    ssh-copy-id user@server # login to remote
+     ssh-copy-id -i id_rsa user@server # login to remote using id
 
 Enable transferring to Recon
 ---------------------------
@@ -74,5 +70,6 @@ Connect to container:
 Extract and index:
 
     gunzip /tmp/pg_dumpall.out.gz
+    # delete database first? psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U <USERNAME_HERE> -c "DROP DATABASE ouls;"
     psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U <USERNAME_HERE> < /tmp/pg_dumpall.out
     rm -f /tmp/pg_dumpall.out
