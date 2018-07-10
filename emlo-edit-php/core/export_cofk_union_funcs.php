@@ -1,6 +1,9 @@
 <?php
 
 function is_unknown_reltype( $relationship_type, $left_table_name, $right_table_name ) {
+
+	return FALSE; // We know everything.
+
 	$is_unknown = TRUE;
 
 	switch( $relationship_type ) {
@@ -133,94 +136,87 @@ function get_manifestation_exclusion_clause( $manifestation_id ) {
 
 function omit_col( $table_name, $colname ) {
 
-	$skip_col = FALSE;
-
-	//if( $colname == 'creation_timestamp' || $colname == 'creation_user' ) {
-	//	$skip_col = TRUE;
-	//}
-	//else
 	if( $table_name == 'cofk_union_relationship' ) {
 		switch( $colname ) {
-
 			//case 'relationship_valid_from':
 			//case 'relationship_valid_till':
-
+			case 'creation_timestamp':
+			case 'creation_user':
 			case 'change_timestamp':
 			case 'change_user':
-				$skip_col = TRUE;
-				break;
+				return TRUE;
 		}
+	}
+	elseif( $table_name == 'cofk_union_work' ) {
+		//switch( $colname ) {
+		//	case "sum'et":
+		//		return TRUE;
+		//}
+	}
+	elseif( $table_name == 'cofk_union_manifestation' ) {
+		//switch( $colname ) {
+			//case 'manifestation_creation_date2_year':
+			//case 'manifestation_creation_date2_month':
+			//case 'manifestation_creation_date2_day':
+			//case 'manifestation_creation_date_is_range':
+			//case 'manifestation_creation_date_as_marked':
+			//	return TRUE;
+		//}
 	}
 	elseif( $table_name == 'cofk_union_person' ) {
 		switch( $colname ) {
 			case 'editors_notes':
 			case 'other_details_summary':
 			case 'organisation_type':
-			case 'date_of_birth_calendar':
-			case 'date_of_birth_is_range':
-			case 'date_of_birth2_year':
-			case 'date_of_birth2_month':
-			case 'date_of_birth2_day':
-			case 'date_of_death_calendar':
-			case 'date_of_death_is_range':
-			case 'date_of_death2_year':
-			case 'date_of_death2_month':
-			case 'date_of_death2_day':
-			case 'flourished':
-			case 'flourished_calendar':
-			case 'flourished_is_range':
-			case 'flourished_year':
-			case 'flourished_month':
-			case 'flourished_day':
-			case 'flourished2_year':
-			case 'flourished2_month':
-			case 'flourished2_day':
-
-				$skip_col = TRUE;
-				break;
+			//case 'date_of_birth_calendar':
+			//case 'date_of_birth_is_range':
+			//case 'date_of_birth2_year':
+			//case 'date_of_birth2_month':
+			//case 'date_of_birth2_day':
+			//case 'date_of_death_calendar':
+			//case 'date_of_death_is_range':
+			//case 'date_of_death2_year':
+			//case 'date_of_death2_month':
+			//case 'date_of_death2_day':
+			//case 'flourished':
+			//case 'flourished_calendar':
+			//case 'flourished_is_range':
+			//case 'flourished_year':
+			//case 'flourished_month':
+			//case 'flourished_day':
+			//case 'flourished2_year':
+			//case 'flourished2_month':
+			//case 'flourished2_day':
+				return TRUE;
 		}
 	}
 	elseif( $table_name == 'cofk_union_location' ) {
 		switch( $colname ) {
 			case 'editors_notes':
-			case 'element_1_eg_room':
-			case 'element_2_eg_building':
-			case 'element_3_eg_parish':
-			case 'element_4_eg_city':
-			case 'element_5_eg_county':
-			case 'element_6_eg_country':
-			case 'element_7_eg_empire':
-				$skip_col = TRUE;
-				break;
-		}
-	}
-	elseif( $table_name == 'cofk_union_manifestation' ) {
-		switch( $colname ) {
-			case 'manifestation_creation_date2_year':
-			case 'manifestation_creation_date2_month':
-			case 'manifestation_creation_date2_day':
-			case 'manifestation_creation_date_is_range':
-			case 'manifestation_creation_date_as_marked':
-				$skip_col = TRUE;
-				break;
+			//case 'element_1_eg_room':
+			//case 'element_2_eg_building':
+			//case 'element_3_eg_parish':
+			//case 'element_4_eg_city':
+			//case 'element_5_eg_county':
+			//case 'element_6_eg_country':
+			//case 'element_7_eg_empire':
+				return TRUE;
 		}
 	}
 	elseif( $table_name == 'cofk_union_image' ) {
 		switch( $colname ) {
 			case 'can_be_displayed':
-			case 'licence_details':
-			case 'licence_url':
-				$skip_col = TRUE;
-				break;
+			//case 'licence_details':
+			//case 'licence_url':
+				return TRUE;
 		}
 	}
 	elseif( $table_name == 'cofk_union_institution' ) {
 		switch( $colname ) {
 			case 'editors_notes':
-				$skip_col = TRUE;
-				break;
+				return TRUE;
 		}
 	}
 
-	return $skip_col;
+	return FALSE;
 }
