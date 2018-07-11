@@ -1,23 +1,27 @@
 #! /bin/bash
-echo 'Copying CSV files to front end server.'
+usage="Usage: '$0 <csv-source-directory> <user@server>'"
 
 # Check for paramater $1
-if [ ! -v 1 ] || [ -z "$1" ]
+if [ -z "$1" ]
 then
 	echo "First parameter not set to csv source directory"
+	echo ${usage}
 	exit 1
 fi
 
 # Check for parameter $2
-if [ ! -v 2 ] || [ -z "$2" ]
+if [ -z "$2" ]
 then
 	echo "Second parameter not set to server access string, e.g. user@server"
+	echo ${usage}
 	exit 1
 fi
 
 
 csv_source=$1
 server_access=$2
+
+echo 'Copying CSV files at ${csv_source} to server ${server_access}'
 
 # New server data transfers
 folder_location=/data/emlo-docker-compose/data/
