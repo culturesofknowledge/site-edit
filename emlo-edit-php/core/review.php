@@ -1729,7 +1729,8 @@ class Review extends Project {
         return $this->is_integer( $this->parm_value );
 
       case 'accession_code':
-        return Work::validate_parm( $parm_name );
+        $temp_work = new Work($this->db_connection);
+        return $temp_work->validate_parm( $parm_name );
 
       default:
         return parent::validate_parm( $parm_name );
