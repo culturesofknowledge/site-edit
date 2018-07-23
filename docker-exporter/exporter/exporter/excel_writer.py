@@ -84,16 +84,18 @@ class ExcelWriter:
 				width = 0
 			else:	
 				if c in "ijlIJ(){}[]. " :
-					width += 0.7
-				elif c in "mwMWQ" :
-					width += 1.8
-				else :
+					width += 0.6
+				elif c in "mwMW" :
+					width += 1.6
+				elif c in "ABCDEFGHKLNOPQRSTUVXYZ" :
 					width += 1.2
+				else :
+					width += 1.1
 
 		if max_line_width > width :
 			width = max_line_width
 
-		return max(5 , width)
+		return max(5 , min(50, width) )
 
 if __name__ == "__main__":
 
