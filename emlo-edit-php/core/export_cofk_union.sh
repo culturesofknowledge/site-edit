@@ -178,13 +178,13 @@ echo 'Export to CSV files now complete.'
 
 # Daily transfer
 echo 'Copying CSV files to daily server.'
-${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE} ${DOCKER__DAILY_PUBLISH_SERVER_ACCESS} ${DOCKER__DAILY_PUBLISH_IDENTITY_FILE}
+${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE} ${DOCKER__DAILY_PUBLISH_SERVER_ACCESS} ${DOCKER__DAILY_PUBLISH_REMOTE_DIRECTORY} ${DOCKER__DAILY_PUBLISH_IDENTITY_FILE}
 
 DAY=`date +%A`
 if [ "$DAY" = "$DOCKER__WEEKLY_PUBLISH_DAY" ]
 then
 	echo 'Copying CSV files to weekly server.'
-	${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE} ${DOCKER__WEEKLY_PUBLISH_SERVER_ACCESS} ${DOCKER__WEEKLY_PUBLISH_IDENTITY_FILE}
+	${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE} ${DOCKER__WEEKLY_PUBLISH_SERVER_ACCESS} ${DOCKER__WEEKLY_PUBLISH_REMOTE_DIRECTORY} ${DOCKER__WEEKLY_PUBLISH_IDENTITY_FILE}
 fi
 
 ## -- I think we'll just link to images on the back-end server instead -- ${SCRIPTDIR}transfer_uploaded_images.sh

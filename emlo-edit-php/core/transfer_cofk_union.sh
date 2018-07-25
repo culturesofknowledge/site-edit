@@ -1,5 +1,5 @@
 #! /bin/bash
-usage="Usage: '$0 <csv-source-directory> <user@server> [identity-file-location]'"
+usage="Usage: '$0 <csv-source-directory> <user@server> <remote-directory> [identity-file-location]'"
 
 # Check for paramater $1
 if [ -z "$1" ]
@@ -17,15 +17,21 @@ then
 	exit 1
 fi
 
+# Check for parameter $2
+if [ -z "$3" ]
+then
+	echo "Third parameter not set to remote directory"
+	echo ${usage}
+	exit 1
+fi
 
 csv_source=$1
 server_access=$2
-identity_file=$3
+folder_location=$3
+identity_file=$4
 
-echo "Copying CSV files at ${csv_source} to server ${server_access}"
+echo "Copying CSV files at ${csv_source} to server ${server_access}:${folder_location}"
 
-# New server data transfers
-folder_location=/data/emlo-docker-compose/data/
 remote_location=${server_access}:${folder_location}
 
 for objects in manifestation comment image institution location person relationship resource work pro_activity pro_assertion pro_location pro_primary_person pro_relationship pro_role_in_activity pro_textual_source
