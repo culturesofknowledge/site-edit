@@ -21,38 +21,52 @@ Setup servers
 
 Assuming you have already git cloned this repo (i.e. the one this readme is in):
 
- - cp docker-compose.php.template.env to docker-compose.php.env and fill in the missing values.
- - cp docker-exporter/exporter/config.template.py to docker-exporter/exporter.config.py and fill in the missing values.
- - cp emlo-edit-php/interface/proform/lib/config.template.php emlo-edit-php/interface/proform/lib/config.php
+ - mkdir -p volumes/csv volumes/ssh
 
- - generate/obtain ssl key and cert file for nginx build (e.g. sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ssl/ssl.key -out ssl/ssl.crt )
+ - Create config files:
+   - cp docker-compose.php.template.env to docker-compose.php.env and fill in the missing values (See below if you need new identity keys)
+   - cp docker-exporter/exporter/config.template.py to docker-exporter/exporter/config.py and fill in the missing values.
+   - cp emlo-edit-php/interface/proform/lib/config.template.php emlo-edit-php/interface/proform/lib/config.php
+
+ - generate/obtain ssl key and cert file for nginx build (e.g. sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/ssl/ssl.key -out nginx/ssl/ssl.crt )
 
 
-Enable indexing of front
-------------------------
+Enable publishing of data via csv export
+----------------------------------------
 
-Create an ssh key for access to the front end servers (QA *or* PRD).
+An export runs daily. You can configure where it goes with the docker-compose.php.env ut if you need new keys do this:
     
-Generate or move a key, save to the file volumes/ssh/id_rsa , if generating, accept the defaults
+Generate or move a key, to the file volumes/ssh/id_rsa . If generating, accept the defaults (but you might want to change the filename)
 
     ssh-keygen  # use to generate a new key
     
 Now copy the key to the remote server we need to update, you'll need to log in:
     
-     ssh-copy-id -i id_rsa user@server # login to remote using id
+     ssh-copy-id -i <file-name> <user@server> # login to remote using id
 
-Enable transferring to Recon
----------------------------
-Repeat above but with the key which is allowed to hit the recon server
+Add a cronjob that runs daily:
 
-Enable exporter
+    docker-compose exec php bash -c '/var/www/core/export_cofk_union.sh' | tee export.log
+
+Enable simple data exporter
 ---------------
-Change owners of folders to www-data (You my need to run id www-data on php container to find the right uid and gid)
+Change owners of the data folder to www-data
 
-    chown 33:33 exporter/exports exporter/exporter_data
+    chown 33:33 docker-exporter/exporter/exports exporter/exporter_data
+
+Backup
+------
+
+Make a directory
+
+	mk /data/backups
+
+Add cronjob that runs daily
+
+	backup.sh
 
 
-Insert latest data (if necessary, don't overwrite new data!)
+Insert latest data (only if necessary, don't overwrite new data!)
 ------------------
 
 Get database data, e.g.:
@@ -67,9 +81,12 @@ Connect to container:
 
     docker-compose exec postgres bash
 
-Extract and index:
+Delete, Extract, and re-index:
 
+    psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U <USERNAME_HERE> -c "DROP DATABASE ouls;"
+    
     gunzip /tmp/pg_dumpall.out.gz
-    # delete database first? psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U <USERNAME_HERE> -c "DROP DATABASE ouls;"
+    
     psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U <USERNAME_HERE> < /tmp/pg_dumpall.out
+    
     rm -f /tmp/pg_dumpall.out
