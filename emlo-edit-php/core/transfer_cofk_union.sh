@@ -43,7 +43,7 @@ do
                 csv_local_file=${csv_source}/cofk_union_${objects}.csv
         fi
 
-        csv_remote_file=${remote_location}${objects}.csv
+        csv_remote_file=${remote_location}/${objects}.csv
         echo "Exporting to $csv_remote_file"
 
         if [ -z "$identity_file" ]
