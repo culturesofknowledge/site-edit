@@ -46,7 +46,7 @@ Now copy the key to the remote server we need to update, you'll need to log in:
 
 Add a cronjob that runs daily:
 
-    docker-compose exec php bash -c '/var/www/core/export_cofk_union.sh' | tee export.log
+    docker-compose exec php bash -c '/var/www/core/export_cofk_union.sh' > /data/emlo-editor/logs/export.log
 
 Enable simple data exporter
 ---------------
