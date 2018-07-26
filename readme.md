@@ -34,7 +34,7 @@ Assuming you have already git cloned this repo (i.e. the one this readme is in):
 Enable publishing of data via csv export
 ----------------------------------------
 
-An export runs daily. You can configure where it goes with the docker-compose.php.env ut if you need new keys do this:
+An export runs daily. You can configure where it goes with the docker-compose.php.env but if you need new keys do this:
     
 Generate or move a key, to the file volumes/ssh/id_rsa . If generating, accept the defaults (but you might want to change the filename)
 
@@ -47,6 +47,8 @@ Now copy the key to the remote server we need to update, you'll need to log in:
 Add a cronjob that runs daily:
 
     docker-compose exec php bash -c '/var/www/core/export_cofk_union.sh' | tee export.log
+
+Note: the first connection will ask you to authenticate the remote host so you may want to try a connection before continuing.  
 
 Enable simple data exporter
 ---------------
