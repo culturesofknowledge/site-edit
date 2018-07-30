@@ -3,7 +3,7 @@ postgres:
   restart: always
 
   ports:
-    - 35432:5432
+    - 32345:5432
 
   volumes:
     - ./volumes/postgres:/var/lib/postgresql/data
