@@ -46,7 +46,7 @@ Now copy the key to the remote server we need to update, you'll need to log in:
 
 Add a cronjob that runs daily:
 
-    docker-compose exec php bash -c '/var/www/core/export_cofk_union.sh' > /data/emlo-editor/logs/export.log
+    docker-compose --file /data/emlo-editor/docker-compose.yaml exec php bash -c '/var/www/core/export_cofk_union.sh' > /data/emlo-editor/logs/export.log
 
 Note: the first connection will ask you to authenticate the remote host so you may want to try a connection before continuing.  
 
@@ -85,10 +85,14 @@ Connect to container:
 
 Delete, Extract, and re-index:
 
+	# Drop database
     psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U <USERNAME_HERE> -c "DROP DATABASE ouls;"
     
+    # Unzip
     gunzip /tmp/pg_dumpall.out.gz
     
+    # import
     psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U <USERNAME_HERE> < /tmp/pg_dumpall.out
     
+    #cleanup
     rm -f /tmp/pg_dumpall.out
