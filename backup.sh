@@ -6,6 +6,6 @@ cd /data/emlo-editor
 DEST=/data/backups
 FILENAME=pg-dump_ouls.gz
 
-docker-compose exec postgres sh -c 'pg_dump -U postgres ouls' | gzip --best > $DEST/SFILENAME
+docker-compose exec postgres sh -c 'pg_dump -U postgres ouls' | gzip --best > ${DEST}/${FILENAME}
 
-backup_rotate_store $DEST $FILENAME
+backup_rotate_store ${DEST} ${FILENAME}
