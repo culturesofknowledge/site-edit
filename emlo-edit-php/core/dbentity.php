@@ -179,7 +179,7 @@ class DBEntity extends Application_Entity {
 
   function db_database_function_name( $core_function_name ) {
 
-    $function_name = 'dbf_' . $this->get_system_prefix() . '_';
+    $function_name = 'dbf_' . Application_Entity::get_system_prefix() . '_';
     $function_name .= $core_function_name;
     return $function_name;
   }
