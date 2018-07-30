@@ -962,7 +962,7 @@ class Location extends Project {
     echo '<section>';
     $this->latitude_field();
     $this->longitude_field();
-    echo '<p><span class="workfieldaligned">This website may be of help: <a href="https://www.latlong.net/" target="_blank" rel="nofollow">https://www.latlong.net/</a></span></p>';
+    //echo '<p><span class="workfieldaligned">This website may be of help: <a href="https://www.latlong.net/" target="_blank" rel="nofollow">https://www.latlong.net/</a></span></p>';
     echo '</section>';
 
     if( $this->app_get_class( $this ) != 'popup_location' ) {  # popup screen has its own 'Save' buttons
