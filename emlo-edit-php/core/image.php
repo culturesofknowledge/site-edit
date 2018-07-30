@@ -782,7 +782,6 @@ class Image extends Project {
     # Values are read from POST into arrays.
 	  $relevant_parms = $this->read_image_details_from_post();
 
-    echo var_dump($relevant_parms);
     $total_images = count( $this->image_id_array );
 
     #----------------------------------------------------
