@@ -61,7 +61,7 @@ else
         ssh_settings="-i ${identity_file}"
 fi
 # When all csv files are done update a flag
-ssh ${ssh_settings} ${server_access} 'echo 1 > '${folder_location}'need_index'
+ssh ${ssh_settings} ${server_access} 'echo 1 > '${folder_location}/'need_index'
 
 #---------------------------------------------------------------------------------------
 
