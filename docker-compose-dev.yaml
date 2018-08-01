@@ -1,5 +1,5 @@
 postgres:
-  image: postgres:9.6
+  build: ./docker-postgres
 
   ports:
     - 45432:5432

@@ -1,5 +1,5 @@
 postgres:
-  image: postgres
+  build: ./docker-postgres
   restart: always
 
   ports:

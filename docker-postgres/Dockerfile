@@ -8,21 +8,16 @@
 #
 
 # https://hub.docker.com/_/postgres/
-FROM postgres
+FROM postgres:10.4
 
 MAINTAINER matthew
 
-LABEL version="0.1.0"
+COPY postgres.conf /etc/postgresql/postgresql.conf
 
-COPY database-dump/pg_dumpall.out.gz /tmp/
-
-RUN mkdir -p /docker-entrypoint-initdb.d
-COPY emlo_database.sh /docker-entrypoint-initdb.d/
-RUN chmod +x /docker-entrypoint-initdb.d/emlo_database.sh
-
-# To enable loggin on postgres add these to posgres config file.
+# To enable loggin on postgres add these to postgres config file.
 # log_destination = 'csvlog'
 # log_directory = 'pg_log'
 # log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'
 # log_statement = 'all'
-#
+
+CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
