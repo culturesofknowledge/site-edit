@@ -3,6 +3,24 @@ backup_rotate_store () {
 	# $1 = Destination folder
 	# $2 = Name of file
 
+	usage="Usage: '$0 <destination_folder> <original_file_name>"
+
+	# Check for paramater $1
+	if [ -z "$1" ]
+	then
+		echo "First parameter not set to destionation folder"
+		echo ${usage}
+		exit 1
+	fi
+
+	# Check for parameter $2
+	if [ -z "$2" ]
+	then
+		echo "Second parameter not set to original file name"
+		echo ${usage}
+		exit 1
+	fi
+
 	# Keep last seven days.
 	# Keep one from each of the last four weeks. (7th,14th,21st,28th)
 	# Keep one from each of the past 12 months. (28th)
