@@ -1,55 +1,56 @@
 #@IgnoreInspection BashAddShebang
 backup_rotate_store () {
-	# $1 = Destination folder
-	# $2 = Name of file
 
-	usage="Usage: '$0 <destination_folder> <original_file_name>"
+	usage="Usage: 'backup_rotate_store <directory> <original_filename>'.
+The original file should be in <directory>. Pass in the current name of the file."
 
-	# Check for paramater $1
+	# Check for parameter $1
 	if [ -z "$1" ]
 	then
-		echo "First parameter not set to destionation folder"
+		echo "First parameter not set to a directory"
 		echo ${usage}
-		exit 1
+		return 1
 	fi
 
 	# Check for parameter $2
 	if [ -z "$2" ]
 	then
-		echo "Second parameter not set to original file name"
+		echo "Second parameter not set to original filename"
 		echo ${usage}
-		exit 1
+		return 1
 	fi
 
-	# Keep last seven days.
-	# Keep one from each of the last four weeks. (7th,14th,21st,28th)
-	# Keep one from each of the past 12 months. (28th)
+	# Keep one backup per day for last seven days.
+	# Keep one backup per week for the last four weeks and a few days. (on 1st,7th,14th,21st,28th)
+	# Keep one backup per month for the last 12 months. (on 28th)
+
+	local directory=$1
+	local original_filename=$2
 
 	local DAY=`date +%A`
 
-	mv $1/$2 $1/$DAY.$2
+	# Day backupds (Sunday, Monday, etc.)
+	mv ${directory}/${original_filename} ${directory}/${DAY}.${original_filename}
 
 	local DATE=`date +%d`
 	if (( $DATE == 1 || $DATE == 8 || $DATE == 15 || $DATE == 22 || $DATE == 28 )); then
 
 		local EXTENSION='th'
 		if (( $DATE == 1 )); then
-		         EXTENSION='st'
+			EXTENSION='st'
 		fi
 		if (( $DATE ==22 )); then
-		         EXTENSION='nd'
+			EXTENSION='nd'
 		fi
 
-		# Weekly backup (*4)
-		# rsync -t $1/$DAY.$2 $1/$DATE.$2
-		cp --archive $1/$DAY.$2 $1/$DATE$EXTENSION.$2
+		# Weeks backup (1st, 7th, etc.)
+		cp --archive ${directory}/${DAY}.${original_filename} ${directory}/${DATE}${EXTENSION}.${original_filename}
 
 		if (( $DATE == 28 )); then
 			local MONTH=`date +%B`
 
-			# Monthly backup (*12)
-			#rsync -t $1/$DAY.$2 $1/$MONTH.$2
-			cp --archive $1/$DAY.$2 $1/$MONTH.$2
+			# Months backup (January, February, etc.)
+			cp --archive ${directory}/${DAY}.${original_filename} ${directory}/${MONTH}.${original_filename}
 		fi
 
 	fi
