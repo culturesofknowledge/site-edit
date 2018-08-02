@@ -1,4 +1,10 @@
-#@IgnoreInspection BashAddShebang
+#!/bin/false
+# Rename a file and rotate the names so that older files get replaced.
+# - Keep one backup per day for last seven days. Labelled "Sunday", "Monday", etc.
+# - Keep one backup per week for the last four weeks and a few days. (on 1st,7th,14th,21st,28th)
+# - Keep one backup per month for the last 12 months, stored on the 28th of each month. Labelled "January", "February", etc.
+#
+# For instance, export a database to a file each day then pass it to this function.
 backup_rotate_store () {
 
 	usage="Usage: 'backup_rotate_store <directory> <original_filename>'.
@@ -19,10 +25,6 @@ The original file should be in <directory>. Pass in the current name of the file
 		echo ${usage}
 		return 1
 	fi
-
-	# Keep one backup per day for last seven days.
-	# Keep one backup per week for the last four weeks and a few days. (on 1st,7th,14th,21st,28th)
-	# Keep one backup per month for the last 12 months. (on 28th)
 
 	local directory=$1
 	local original_filename=$2
