@@ -4,6 +4,8 @@
 destination=/data/backups
 filename=my-backup.tar.gz
 
+cd /data/emlo-editor
+
 # First include the backup script
 backup_helper=backup-script/backup-helper.sh
 
