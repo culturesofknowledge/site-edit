@@ -18,9 +18,9 @@ now=$(date)
 
 echo "Backing up at ${now} to ${destination}/${filename} ..."
 
-#docker-compose exec postgres sh -c 'pg_dumpall -U postgres' | gzip --best > ${destination}/${filename}
+docker-compose exec postgres sh -c 'pg_dumpall -U postgres' | gzip --best > ${destination}/${filename}
 
-#backup_rotate_store ${destination} ${filename}
+backup_rotate_store ${destination} ${filename}
 
 now=$(date)
 echo "... ${now} backup complete."
