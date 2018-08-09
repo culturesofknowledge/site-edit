@@ -11,6 +11,8 @@ emlo-edit-php/interface/proformdev/lib/config.php
 nginx/ssl/ssl.crt
 nginx/ssl/ssl.key
 
+backup-script
+
 # Others
 */.directory
 /.idea/
