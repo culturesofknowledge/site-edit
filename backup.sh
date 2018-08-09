@@ -3,6 +3,7 @@
 # An example backup script using backup-helper. To be run daily.
 destination=/data/backups
 filename=pg-dumpall.gz
+filename_temp=working...${filename}
 
 cd /data/emlo-editor
 
@@ -17,10 +18,11 @@ fi
 . ${backup_helper}
 
 now=$(date)
-
 echo "Backing up at ${now} to ${destination}/${filename} ..."
 
-docker-compose exec -T postgres sh -c 'pg_dumpall -U postgres' | gzip --best > ${destination}/${filename}
+docker-compose exec -T postgres sh -c 'pg_dumpall -U postgres' | gzip --best > ${destination}/${filename_temp}
+
+mv ${destination}/${filename_temp} ${destination}/${filename}
 
 backup_rotate_store ${destination} ${filename}
 
