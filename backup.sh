@@ -5,7 +5,7 @@ destination=/data/backups
 filename=my-backup.tar.gz
 
 # First include the backup script
-backup_helper=./backup-helper.sh
+backup_helper=backup-script/backup-helper.sh
 
 if [ ! -f ${backup_helper} ]; then
     echo "The backup-helper.sh file is required. Not found at ${backup_helper}. Download it at https://bitbucket.org/akademy/backup-script"
@@ -18,9 +18,9 @@ now=$(date)
 
 echo "Backing up at ${now} to ${destination}/${filename} ..."
 
-docker-compose exec postgres sh -c 'pg_dumpall -U postgres' | gzip --best > ${destination}/${filename}
+#docker-compose exec postgres sh -c 'pg_dumpall -U postgres' | gzip --best > ${destination}/${filename}
 
-backup_rotate_store ${destination} ${filename}
+#backup_rotate_store ${destination} ${filename}
 
 now=$(date)
 echo "... ${now} backup complete."
