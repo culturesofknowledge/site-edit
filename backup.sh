@@ -20,7 +20,9 @@ fi
 now=$(date)
 echo "Backing up at ${now} to ${destination}/${filename} ..."
 
-docker-compose exec -T postgres sh -c 'pg_dumpall -U postgres' | gzip --best > ${destination}/${filename_temp}
+# Docker-compose should work, but there's an bug (see https://github.com/docker/compose/issues/3352)
+#docker-compose exec postgres pg_dumpall -U postgres | gzip --best > ${destination}/${filename_temp}
+docker exec emloeditor_postgres_1 pg_dumpall -U postgres | gzip --best > ${destination}/${filename_temp}
 
 mv ${destination}/${filename_temp} ${destination}/${filename}
 
