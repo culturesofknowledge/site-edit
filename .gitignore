@@ -3,7 +3,6 @@ core/database_access.php
 emlo-edit-php/interface/core/
 docker-postgres/database-dump/pg_dumpall.out.gz
 
-docker-exporter/exporter/config.py
 docker-compose.php.env
 emlo-edit-php/interface/proform/lib/config.php
 emlo-edit-php/interface/proformdev/lib/config.php
@@ -12,6 +11,11 @@ nginx/ssl/ssl.crt
 nginx/ssl/ssl.key
 
 backup-script
+
+# EMLO Auto Exporter
+docker-exporter/exporter/config.py
+docker-exporter/exporter/exporter_data/*.*.json
+docker-exporter/exporter/auto_*.*
 
 # Others
 */.directory
