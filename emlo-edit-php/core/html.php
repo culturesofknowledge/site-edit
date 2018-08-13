@@ -1000,11 +1000,11 @@ class HTML extends Application_Entity {
     echo NEWLINE;
   }
   #-----------------------------------------------------------------
-  function h1_start() {
+	static function h1_start() {
     echo '<h1>';
   }
   #-----------------------------------------------------------------
-  function h1_end() {
+	static function h1_end() {
     echo '</h1>';
   }
   #-----------------------------------------------------------------
@@ -1016,11 +1016,11 @@ class HTML extends Application_Entity {
     echo '</h2>';
   }
   #-----------------------------------------------------------------
-  function h3_start() {
+  static function h3_start() {
     echo '<h3>';
   }
   #-----------------------------------------------------------------
-  function h3_end() {
+	static function h3_end() {
     echo '</h3>';
   }
   #-----------------------------------------------------------------

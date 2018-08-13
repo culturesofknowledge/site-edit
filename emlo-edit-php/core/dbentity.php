@@ -2312,8 +2312,6 @@ class DBEntity extends Application_Entity {
 
     flush();
 
-    echo "Outputting " . count($rows); 
-
     if( ! is_array( $rows )) {
       echo 'No matches found.';
       return;
