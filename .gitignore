@@ -17,6 +17,14 @@ docker-exporter/exporter/config.py
 docker-exporter/exporter/exporter_data/*.*.json
 docker-exporter/exporter/auto_*.*
 
+# EMLO Tweaker
+docker-exporter/tweaker/config.py
+docker-exporter/tweaker/resources
+docker-exporter/tweaker/*.csv
+docker-exporter/tweaker/*.xlsx
+docker-exporter/tweaker/*.ods
+
+
 # Others
 */.directory
 /.idea/
