@@ -2,6 +2,11 @@ from __future__ import print_function
 from tweaker.tweaker import DatabaseTweaker
 from config import config
 
+# Create new columns
+# ALTER TABLE public.cofk_union_institution ADD address VARCHAR(1000) DEFAULT NULL NULL;
+# ALTER TABLE public.cofk_union_institution ADD latitude VARCHAR(20) DEFAULT NULL NULL;
+# ALTER TABLE public.cofk_union_institution ADD longitude VARCHAR(20) DEFAULT NULL NULL
+
 do_commit = ( raw_input("Commit changes to database (y/n): ") == "y" )
 if do_commit:
 	print( "COMMITTING changes to database." )
