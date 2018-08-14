@@ -1,7 +1,13 @@
 ### Project
 config.py
 .idea
+
+# Ignore any data files
 resources
+*.csv
+*.xlsx
+*.ods
+
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
