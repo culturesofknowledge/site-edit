@@ -4,7 +4,7 @@ EMLO Tweaker
 Make changes directly in the database.
 
 
-Use the tweaker code to make changing options easier. Some exmaples:
+Use the tweaker code to make changing options easier. Some examples:
 
 To connect to the tweaker
 ```python
