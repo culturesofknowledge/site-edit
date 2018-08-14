@@ -1,0 +1,31 @@
+Databank Python API
+===================
+
+v0.3.0 (2013-03-04)
+------
+
+  * Now requires requests module http://docs.python-requests.org
+  
+  * Will throw Request's exceptions HTTPError or ConnectionError if connection fails
+  * Will throw Request's exception SSLError if invalid certificate
+    * You can ignore the ceritificate by calling Databank.verifyCertificate( False )
+  * Will throw built in exception AutoRedirectException if a POST request is redirected to a GET
+  * All exceptions are subclasses of Request's RequestException
+
+  * Defaults to Basic Authentication (as before)
+  * Can use the different Requests authoristaion mechanisms, e.g. Digest or OAuth with Databank.auth(myauth)
+
+  * Can set a timeout, how long to wait before ANY reply comes back. Throws Request's Timeout exception
+  
+  * Databank.createDataset() now correctly handles label, embargoed and embargoed_until values.
+  * Databank.uploadFile() now correctly uploads files with unicode in
+     * Paramater "format" has been deprecated.
+  * Databank.getFile(), paramter "expect_type" has been deprecated.
+  
+  * Returned response now has "status_code" for the status code, "status" has been deprecated.
+  * Databank.good(response) and Databank.error() have been deprecated, use Databank.responseGood() and Databank.responseBad()
+     * Databank.error() incorrectly returned true if it was anywhere outside of the range 200-299
+     * Databank.responseBad() returns true if it is between "400-599"
+  
+  * Turn on debugging so you can see what requests is doing with databank.debug()
+  
