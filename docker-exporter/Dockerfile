@@ -13,6 +13,7 @@ RUN echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/reposito
 RUN pip install --no-cache-dir psycopg2 openpyxl
 
 COPY exporter /usr/src/app/
+COPY tweaker /usr/src/tweaker/
 
 # CMD ["python","-c","import time;time.sleep(10000)"]
 CMD [ "python", "/usr/src/app/export_web_auto.py" ]

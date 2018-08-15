@@ -39,10 +39,14 @@ exporter:
     - postgres
 
   volumes:
+
     -  ./docker-exporter/exporter/exports:/usr/src/app/exports
     -  ./docker-exporter/exporter/exporter_data:/usr/src/app/exporter_data
 
     -  ./docker-exporter/exporter:/usr/src/app
+
+    # Dev only
+    -  ./docker-exporter/tweaker:/usr/src/tweaker
 
 
 nginx:
