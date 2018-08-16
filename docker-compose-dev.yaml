@@ -55,6 +55,9 @@ nginx:
   links:
     - php
 
+  volumes:
+    -  ./static:/static
+
   ports:
     - 80:80
     - 443:443
