@@ -5,6 +5,10 @@
 # Author: Sushila Burgess
 #====================================================================================
 
+require_once __DIR__ . '/vendor/autoload.php';
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
 define( 'CSV_DIR_FOR_UPLOADS', '/srv/data/culturesofknowledge/csv/' );
 
 define( 'IDS_CREATED_IN_TOOL_START', 1000000 );
@@ -2784,6 +2788,14 @@ class Upload extends Project {
 
     function file_upload_excel_form_response() {
 
+		 $connection = new AMQPStreamConnection('rabbitmq', 5672, 'guest', 'guest');
+		 $channel = $connection->channel();
+		 $channel->queue_declare('hello', false, false, false, false);
+
+		 $msg = new AMQPMessage('Hello World!');
+		 $channel->basic_publish($msg, '', 'hello');
+
+		 echo " [x] Sent 'Hello World!'\n";
         $filecount = count( $_FILES );
         if( ! $filecount ) {
             echo 'No files were uploaded.';

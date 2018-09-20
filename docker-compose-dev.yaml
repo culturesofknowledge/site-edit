@@ -7,6 +7,13 @@ postgres:
   volumes:
     - ./volumes/postgres:/var/lib/postgresql/data
 
+rabbitmq:
+  image: rabbitmq:3-management-alpine
+
+  ports:
+    - 5672:5672
+    - 15672:15672
+
 
 php:
   build: ./emlo-edit-php
@@ -16,6 +23,7 @@ php:
 
   links:
     - postgres
+    - rabbitmq
 
   env_file:
     - docker-compose.php.env
