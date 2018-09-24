@@ -7,6 +7,9 @@
  *
  */
 
+require_once "Mail.php";
+require_once "Mail/mime.php";
+
 define( 'AEOLUS_VERSION', '2.2' );
 
 define( 'POPUP_WINDOW_HEIGHT', 800 );
@@ -1533,83 +1536,84 @@ class Application_Entity {
                                        $file_name = 'QueryResults.csv',
                                        $confirmation_msg = TRUE ) {
 
-    $email_from = $this->read_session_parm( 'user_email' );
+    if( ! $email_to ) {
+      $email_user = $this->read_session_parm( 'user_email' );
+      if( ! $email_user ) {
+		  $this->die_on_error( 'Cannot send email: no recipient address specified.');
+		}
+		$email_to = $email_user;
+	 }
 
-    if( ! $email_to ) $email_to = $email_from;
-    if( ! $email_to ) $this->die_on_error( 'Cannot send email: no recipient address specified.');
+	  if( ! $msg_subject ) {
+		  $msg_subject = CFG_SYSTEM_TITLE . ' query results';
+	  }
 
-    $email_to = str_replace( ';', ',', $email_to );
+    if( ! $msg_body ) {
+		 $msg_body = ' - Results are attached from your query on the ' . CFG_SYSTEM_TITLE . '.    '
+			 . CARRIAGE_RETURN . NEWLINE
+			 . ' - Selected page was: "' . $this->menu_item_name . '"".'
+			 . CARRIAGE_RETURN . NEWLINE
+			 . ' - Data is in attached CSV file ' . $file_name . '.';
+	 }
 
-    if( ! $email_from ) $email_from_descrip = CFG_SYSTEM_TITLE . ' <noreply@sers.ox.ac.uk>';
+	 $email_to = str_replace( ';', ',', $email_to );
+	 $from = CFG_SYSTEM_TITLE . ' <cok_bot@emlo-edit.bodleian.ox.ac.uk>' . NEWLINE;
 
-    if( ! $msg_body ) 
-      $msg_body = ' - Results are attached from your query on the ' . CFG_SYSTEM_TITLE . '.    '
-                . CARRIAGE_RETURN . NEWLINE
-                . ' - Menu option was: ' . $this->menu_item_name . '.    '
-                . CARRIAGE_RETURN . NEWLINE
-                . ' - Data is in attached CSV file ' . $file_name . '.'; 
+	  $mime = new Mail_mime();
 
-    $mime_boundary = '<<<---===XXX[' . md5(time()) . ']';
-    $headers = '';
-    if( $email_from ) $headers .= "From: $this->person_name <"  . $email_from . '>' . NEWLINE; 
-    elseif( $email_from_descrip ) $headers .= "From: $email_from_descrip" . NEWLINE; 
+	  $mime->setTXTBody($msg_body);
+	  $mime->addAttachment(
+		  $file_content,
+		  'application/octet-stream',
+		  $file_name,
+		  false );
 
-    $headers .= 'MIME-Version: 1.0' . NEWLINE;
-    $headers .= 'Content-Type: multipart/mixed;' . NEWLINE;
-    $headers .= ' boundary="' . $mime_boundary . '"';
+	  $message = $mime->get();
+	  $headers = $mime->headers( array (
+	     'From' => $from,
+        'Subject' => $msg_subject,
+      )
+     );
 
-    $message = '';
-    $message .= 'This is a multi-part message in MIME format.' . NEWLINE;
-    $message .= NEWLINE;
-    $message .= '--' . $mime_boundary . NEWLINE;
+	  $smtp = Mail::factory('smtp',
+		  array (
+		     'host' => "smtp.ox.ac.uk",
+			  'auth' => false
+        )
+     );
 
-    $message .= 'Content-Type: text/plain; charset="' . strtolower( $this->get_character_encoding()) . '"' . NEWLINE;
-    $message .= 'Content-Transfer-Encoding: 7bit' . NEWLINE;
-    $message .= NEWLINE;
-    $message .= $this->app_get_unicode_signature() . $msg_body . NEWLINE;
-    $message .= '--' . $mime_boundary . NEWLINE;
+	  $mail_return = $smtp->send( $email_to, $headers, $message );
 
-    $message .= 'Content-Type: application/octet-stream;' . NEWLINE;
-    $message .= ' name="' . $file_name . '"' . NEWLINE;
-    $message .= 'Content-Transfer-Encoding: base64' . NEWLINE;
-    $message .= 'Content-Disposition: attachment;' . NEWLINE;
-    $message .= ' filename="' . $file_name . '"' . NEWLINE;
-    $message .= NEWLINE;
-    $message .= chunk_split( base64_encode( $this->app_get_unicode_signature() . $file_content ));
-    $message .= NEWLINE;
-    $message .= '--' . $mime_boundary . '--' . NEWLINE;
-
-    if( ! $msg_subject ) $msg_subject = CFG_SYSTEM_TITLE . ' query results';
-
-    $success = mail( $email_to, $msg_subject, $message, $headers );
+     if( PEAR::isError($mail_return) ) { // this doesn't seem to return a boolean correctly...
+		 $success = FALSE;
+     }
+     else {
+       $success = TRUE;
+     }
 
     if( $confirmation_msg ) {
 
       if( $success ) {
         HTML::h3_start();
-        echo 'Query results were emailed to you as a CSV attachment.';
+        echo 'Query results were emailed to ' . $email_to . ' as a CSV attachment.';
         HTML::h3_end();
-        HTML::new_paragraph();
-        echo 'The file was sent to the following address:';
-        HTML::new_paragraph();
-        echo $email_to ;
+        echo '(If this email address is not correct, you change it <a href="dev_union.php?menu_item_id=141">here</a>)';
 
         HTML::new_paragraph();
-        HTML::italic_start();
-        echo '(You may now like to close the current tab/window and continue working in your original tab/window.)';
-        HTML::italic_end();
-
-        HTML::new_paragraph();
-        HTML::button( 'close_button', 'Close', $tabindex=1, 'onclick="self.close()"' );
+        HTML::button( 'close_button', 'Close this Tab', $tabindex=1, 'onclick="self.close()"' );
       }
 
       else {
-        echo 'Sorry, query results could not be sent to you (email error).';
+
+        echo 'Sorry, query results could not be sent to you (email error): ';
+        echo("'" . $mail_return->getMessage() . "'");
         HTML::new_paragraph();
         echo 'Query results are instead being displayed below, so you can copy and paste them into another file...';
         HTML::new_paragraph();
-        $file_content = str_replace( CARRIAGE_RETURN, LINEBREAK, $file_content );
+        //$file_content = str_replace( CARRIAGE_RETURN, LINEBREAK, $file_content );
+         echo '<textarea style="width:100%;height:500px">';
         echo $file_content;
+			echo '</textarea>';
       }
 
       HTML::new_paragraph();

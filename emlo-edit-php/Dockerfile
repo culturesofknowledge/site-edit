@@ -6,7 +6,7 @@ FROM bdlss/php-pgsql
 # FROM php-pgsql:7.1.5
 
 MAINTAINER matthew
-LABEL version="0.2.0"
+LABEL version="0.2.2"
 
 RUN apt-get update && apt-get install -y \
 	libpq-dev \
@@ -14,8 +14,18 @@ RUN apt-get update && apt-get install -y \
 	rsync \
 	ssh
 
-# Copy and run php packages to install
-RUN pear install DB-1.7.14 mdb2 MDB2_Driver_pgsql pear/mdb2#pgsql
+RUN chmod +x /usr/local/bin/docker-php-ext-*
+RUN docker-php-ext-install bcmath
+
+# php packages to install
+RUN pear install \
+	DB-1.7.14 \
+	mdb2 \
+	MDB2_Driver_pgsql \
+	pear/mdb2#pgsql \
+	Mail \
+	Net_SMTP \
+	Mail_Mime
 
 RUN mkdir /var/backups/redo-logs && \
 	chown www-data:www-data /var/backups/redo-logs

@@ -1,7 +1,9 @@
 #
 # NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
+# MAT: Actually it was copied from the PHP one and postgres was added in.
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
+# MAT: You can edit it if you must.
 #
 
 FROM debian:jessie

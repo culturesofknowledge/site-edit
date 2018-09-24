@@ -1359,7 +1359,7 @@ class Person extends Project {
   }
   #-----------------------------------------------------
 
-  function person_entry_fields( $new_record ) {
+  function person_entry_fields( $new_record = FALSE ) {
 
     if( ! $this->iperson_id ) $new_record = TRUE;
 
