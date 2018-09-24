@@ -9,7 +9,7 @@ if( Application_Entity::get_system_prefix() == IMPACT_SYS_PREFIX ) {
 }
 else {
 	define( 'IMAGE_URL_START', 'http://emlo-edit.bodleian.ox.ac.uk/culturesofknowledge/images/' );
-	define( 'IMAGE_DIR_FOR_UPLOADS', '/srv/data/culturesofknowledge/images/uploaded/' );
+	define( 'IMAGE_DIR_FOR_UPLOADS', '/srv/data/culturesofknowledge/images/uploaded/' ); // TODO: make this work
 }
 
 define( 'UPLOADED_IMAGE_WIDTH_PX', 2000 );
