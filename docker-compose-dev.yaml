@@ -35,6 +35,8 @@ php:
     - ./volumes/csv:/csv
     - ./volumes/ssh:/root/.ssh
 
+    - ./volumes/uploader:/uploader
+
     # Dev only
     - ./emlo-edit-php/interface:/var/www/html
     - ./emlo-edit-php/core:/var/www/core
@@ -64,8 +66,10 @@ uploader:
     - rabbitmq
 
   volumes:
+    - ./volumes/uploader:/uploader
+
     # Dev only
-    -  ./docker-exporter/uploader:/usr/src/uploader
+    -  ./docker-uploader/uploader:/usr/src/app
 
 nginx:
   build: ./nginx

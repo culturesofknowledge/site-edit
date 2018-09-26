@@ -28,3 +28,4 @@ docker-exporter/tweaker/*.ods
 # Others
 */.directory
 /.idea/
+volumes/*

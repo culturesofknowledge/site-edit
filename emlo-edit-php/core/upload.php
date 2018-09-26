@@ -2820,7 +2820,7 @@ class Upload extends Project {
         $filename = pathinfo( $one_file['name'], PATHINFO_FILENAME);
         $foldername = $filename . "-" . gmdate("ymd-His");
 
-        $path = "/tmp/" . $foldername;
+        $path = "/uploader/" . $foldername;
         if( !mkdir( $path ) ) {
             die( 'FAILED to create folder for upload - name ' . $foldername );
         }

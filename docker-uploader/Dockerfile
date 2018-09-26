@@ -10,9 +10,8 @@ RUN echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/reposito
         # apk add "libpq-dev"
         apk add build-base postgresql-dev
 
-RUN pip install --no-cache-dir psycopg2 openpyxl pika
+RUN pip install --no-cache-dir psycopg2 openpyxl pika xlrd
 
 COPY uploader /usr/src/app/
 
-# CMD ["python","-c","import time;time.sleep(10000)"]
-CMD [ "python", "/usr/src/app/uploader.py" ]
+CMD [ "python", "/usr/src/app/uploader-waiter.py" ]

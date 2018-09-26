@@ -1,30 +1,34 @@
-#!/usr/bin/env python
-import pika
-import logging
+from xls_to_csv import create_csvs
 
-LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -30s %(funcName) '
-			  '-35s %(lineno) -5d: %(message)s')
-LOGGER = logging.getLogger(__name__)
+class Uploader:
 
-logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
+	def __init__( self, logger ):
 
-credentials = pika.PlainCredentials('guest', 'guest')
-connection_parameters = pika.ConnectionParameters('rabbitmq', 5672, '/', credentials)
-
-connection = pika.BlockingConnection(connection_parameters)
-channel = connection.channel()
+		self.log = logger
 
 
-channel.queue_declare(queue='uploader')
+	def initiate(self, data):
 
-def callback(ch, method, properties, body):
+		self.log.info( "def:initiate")
 
-	LOGGER.info(" [x] Received %r" % body)
+		output = '/uploader/' + data['foldername']
 
-channel.basic_consume(callback,
-					  queue='uploader',
-					  no_ack=True)
+		create_csvs( data['filelocation'], output )
+
+if __name__ == "__main__":
+	import json
+	import logging
+
+	LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -30s %(funcName) -35s %(lineno) -5d: %(message)s')
+	LOGGER = logging.getLogger(__name__)
+	logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
+
+	body = '{"foldername":"test-180926-142259","email":"matthew.wilcoxson@oerc.ox.ac.uk","filelocation":"\\/uploader\\/test-180926-142259\\/test.xlsx"}'
+
+	data = json.loads( body )
+	upload = Uploader(LOGGER)
+
+	upload.initiate(data)
 
 
-LOGGER.info('Waiting for uploaded excel files')
-channel.start_consuming()
+
