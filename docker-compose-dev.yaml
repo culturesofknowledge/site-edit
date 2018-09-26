@@ -56,6 +56,16 @@ exporter:
     # Dev only
     -  ./docker-exporter/tweaker:/usr/src/tweaker
 
+uploader:
+  build: ./docker-uploader
+
+  links:
+    - postgres
+    - rabbitmq
+
+  volumes:
+    # Dev only
+    -  ./docker-exporter/uploader:/usr/src/uploader
 
 nginx:
   build: ./nginx

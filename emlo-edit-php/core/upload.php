@@ -2790,12 +2790,8 @@ class Upload extends Project {
 
 		 $connection = new AMQPStreamConnection('rabbitmq', 5672, 'guest', 'guest');
 		 $channel = $connection->channel();
-		 $channel->queue_declare('hello', false, false, false, false);
+		 $channel->queue_declare('uploader', false, false, false, false);
 
-		 $msg = new AMQPMessage('Hello World!');
-		 $channel->basic_publish($msg, '', 'hello');
-
-		 echo " [x] Sent 'Hello World!'\n";
         $filecount = count( $_FILES );
         if( ! $filecount ) {
             echo 'No files were uploaded.';
@@ -2821,38 +2817,49 @@ class Upload extends Project {
 
         if( $invalid ) die( "That doesn't seem to be a valid file." );
 
-	$filename = pathinfo( $one_file['name'], PATHINFO_FILENAME);
+        $filename = pathinfo( $one_file['name'], PATHINFO_FILENAME);
         $foldername = $filename . "-" . gmdate("ymd-His");
 
-        $path = "/home/cofkadmin/backend/emlo.dev/_data/xls/" . $foldername;
+        $path = "/tmp/" . $foldername;
         if( !mkdir( $path ) ) {
             die( 'FAILED to create folder for upload - name ' . $foldername );
         }
 
-        $moved = move_uploaded_file( $one_file['tmp_name'], $path . "/" . $filename . ".xlsx" );
-        if( $moved )
-            $this->echo_safely( 'Thanks for uploading ' . $one_file['name'] . " to the server." );
-        else
-            die( 'FAILED TO MOVE file to image directory. Can you change the name and try again?' );
+        $fileLocation = $path . "/" . $filename . ".xlsx";
+        $moved = move_uploaded_file( $one_file['tmp_name'], $fileLocation );
+        if( $moved ) {
+			$this->echo_safely('Thanks for uploading ' . $one_file['name'] . " to the server.");
+		}
+        else {
+			die('FAILED TO MOVE file to image directory. Can you change the name and try again?');
+		}
+
+		$data = new stdClass;
+		$data->foldername = $foldername;
+		$data->email = 'matthew.wilcoxson@oerc.ox.ac.uk';
+		$data->filelocation = $fileLocation;
+
+		$msg = new AMQPMessage(json_encode( $data ) );
+		$channel->basic_publish($msg, '', 'uploader');
 
         flush();
         HTML::new_paragraph();
-	$command = "cd /home/cofkadmin/backend/emlo.dev/bin/;./runIngest.sh \"" . $foldername . "\"";
-	
-	echo "<pre>";
-        system( $command, $result );
-	echo "</pre>";
+        //$command = "cd /home/cofkadmin/backend/emlo.dev/bin/;./runIngest.sh \"" . $foldername . "\"";
+
+        echo "<pre>";
+        //system( $command, $result );
+        echo "</pre>";
 
         HTML::new_paragraph();
 
-	echo "Error logs:";
-	echo "<pre>";
-	readfile("/home/cofkadmin/backend/emlo.dev/logs/impCSV.err");
+        echo "Error logs:";
+        echo "<pre>";
+        readfile("/home/cofkadmin/backend/emlo.dev/logs/impCSV.err");
         readfile("/home/cofkadmin/backend/emlo.dev/logs/transIngest.err");
         readfile("/home/cofkadmin/backend/emlo.dev/logs/import2Postgres.err");
-	echo "</pre>";
+        echo "</pre>";
 
-	HTML::new_paragraph();
+        HTML::new_paragraph();
         if( $result == 0 ) {
             echo "<b>Successfully uploaded</b>";
         }
