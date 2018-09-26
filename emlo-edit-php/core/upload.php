@@ -2790,7 +2790,9 @@ class Upload extends Project {
 
 		 $connection = new AMQPStreamConnection('rabbitmq', 5672, 'guest', 'guest');
 		 $channel = $connection->channel();
+
 		 $channel->queue_declare('uploader', false, false, false, false);
+         $channel->queue_declare('uploader-processed', false, false, false, false);
 
         $filecount = count( $_FILES );
         if( ! $filecount ) {
@@ -2842,30 +2844,33 @@ class Upload extends Project {
 		$msg = new AMQPMessage(json_encode( $data ) );
 		$channel->basic_publish($msg, '', 'uploader');
 
+		echo '<p>Processing...</p>';
+
         flush();
-        HTML::new_paragraph();
-        //$command = "cd /home/cofkadmin/backend/emlo.dev/bin/;./runIngest.sh \"" . $foldername . "\"";
 
-        echo "<pre>";
-        //system( $command, $result );
-        echo "</pre>";
+        /*
+        $waiting = TRUE;
 
-        HTML::new_paragraph();
+		$callback = function ($msg) {
+			echo ' [x] PHP Received ', $msg->body, "\n";
 
-        echo "Error logs:";
-        echo "<pre>";
-        readfile("/home/cofkadmin/backend/emlo.dev/logs/impCSV.err");
-        readfile("/home/cofkadmin/backend/emlo.dev/logs/transIngest.err");
-        readfile("/home/cofkadmin/backend/emlo.dev/logs/import2Postgres.err");
-        echo "</pre>";
+			$data = json_decode( $msg );
 
-        HTML::new_paragraph();
-        if( $result == 0 ) {
-            echo "<b>Successfully uploaded</b>";
-        }
-        else {
-            echo "<b>There was a problem uploading :( .</b>";
-        };
+			$output = shell_exec('php upload_import2Postgres.php' . $data->foldername);
+			echo "<pre>$output</pre>";
+
+			$waiting = FALSE;
+
+			$channel->close();
+			$connection->close();
+		};
+		$channel->basic_consume('uploader-processed', '', false, true, false, false, $callback);
+
+		while ($waiting && count($channel->callbacks)) {
+			$channel->wait();
+		}
+
+        */
     }
 
 }

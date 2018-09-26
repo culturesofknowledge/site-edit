@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 RUN echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
         apk update && \
         # apk add "libpq-dev"
-        apk add build-base postgresql-dev
+        apk add build-base postgresql-dev mongodb mongodb-tools
 
 RUN pip install --no-cache-dir psycopg2 openpyxl pika xlrd
 

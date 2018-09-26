@@ -17,23 +17,21 @@ connection = pika.BlockingConnection(connection_parameters)
 channel = connection.channel()
 
 channel.queue_declare(queue='uploader')
-
+channel.queue_declare(queue='uploader-processed')
 
 
 def callback(ch, method, properties, body):
 
 	LOGGER.info(" [x] Received %r" % body)
 
-	#data = json.loads( body )
+	data = json.loads( body )
 
-	#upload = Uploader( LOGGER )
-	#upload.initiate( data )
+	upload = Uploader( LOGGER )
+	upload.initiate( data )
 
+	channel.basic_publish(exchange='', routing_key='uploader-processed', body=body)
 
-
-
-
-
+	LOGGER.info("uploader done")
 
 
 channel.basic_consume(callback,

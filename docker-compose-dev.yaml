@@ -24,6 +24,7 @@ php:
   links:
     - postgres
     - rabbitmq
+    - uploadermongo
 
   env_file:
     - docker-compose.php.env
@@ -64,12 +65,16 @@ uploader:
   links:
     - postgres
     - rabbitmq
+    - uploadermongo
 
   volumes:
     - ./volumes/uploader:/uploader
 
     # Dev only
     -  ./docker-uploader/uploader:/usr/src/app
+
+uploadermongo:
+  image: mongo
 
 nginx:
   build: ./nginx
