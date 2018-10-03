@@ -69,24 +69,23 @@ csvfields = {
 		'resource_url'	,
 		'resource_details'
 	],
-    'places' : [
-	    'primary_name',
-	    'location_id',
-	    'editors_notes'
-
+	'places' : [
+		'location_name',
+		'location_id',
+		'editors_notes'
 	],
-    'people' : [
+	'people' : [
 		'primary_name',
-	    'iperson_id',
-	    'editors_notes'
-    ],
+		'iperson_id',
+		'editors_notes'
+	],
 
-    'repositories' : [
-	    'institution_name',
-	    'institution_id',
-	    'institution_city',
-	    'institution_country'
-    ],
+	'repositories' : [
+		'institution_name',
+		'institution_id',
+		'institution_city',
+		'institution_country'
+	],
 
 	'manifestation' : [
 		'manifestation_id',
@@ -111,8 +110,8 @@ def get_xslcell_text( worksheet, row, col ) : #type, value ) :
 	type = worksheet.cell_type(row, col )
 	value = worksheet.cell_value( row, col )
 
-	#Cell Types: 0=Empty, 1=Text, 2=Number, 3=Date, 4=Boolean, 5=Error, 6=Blank
-	if type == 0 or type == 1 or type == 6 : #empty
+	# Cell Types: 0=Empty, 1=Text, 2=Number, 3=Date, 4=Boolean, 5=Error, 6=Blank
+	if type == 0 or type == 1 or type == 6 : # empty
 		return value
 
 	if type == 3 :
@@ -131,7 +130,6 @@ def get_xslcell_text( worksheet, row, col ) : #type, value ) :
 			print( "Error: Unable to convert number at row" + str(row) + ":col" + str(col) + " Exiting.")
 
 		return str( value )
-
 
 	if type == 5 :
 		print( "Error: There is an Excel Cell Error in cell at row" + str(row) + ":col" + str(col) + ". Exiting")
