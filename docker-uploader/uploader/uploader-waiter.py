@@ -2,8 +2,13 @@
 import pika
 import logging
 import json
+import time
 
 from uploader import Uploader
+
+sleep_time = 20
+print( "Sleeping " + str(sleep_time) + " seconds to let rabbitmq start" )
+time.sleep(sleep_time)
 
 LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -30s %(funcName) -35s %(lineno) -5d: %(message)s')
 LOGGER = logging.getLogger(__name__)

@@ -75,6 +75,8 @@ uploader:
 
 uploadermongo:
   image: mongo
+  ports:
+    - 27019:27017
 
 nginx:
   build: ./nginx

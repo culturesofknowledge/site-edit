@@ -37,11 +37,15 @@ elseif( Application_Entity::string_contains_substring( $script_name, 'collect.ph
 
 elseif( Application_Entity::string_contains_substring( $script_name, 'impact.php' )) {
   define( 'PROJ_COLLECTION_CODE', '' );
+
   define( 'PROJ_SUB_COLLECTION', '' );
   define( 'PROJ_COLLECTION_WORK_CLASS', 'impt_work' );
 }
 
-else
-  die( 'Unknown catalogue.' . LINEBREAK );
+else {
 
-?>
+	define('PROJ_COLLECTION_CODE', 'union');
+	define('PROJ_SUB_COLLECTION', '');
+	define('PROJ_COLLECTION_WORK_CLASS', 'editable_work');
+	//die( 'Unknown catalogue.' . LINEBREAK );
+}

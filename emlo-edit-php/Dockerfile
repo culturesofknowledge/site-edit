@@ -17,6 +17,8 @@ RUN apt-get update && apt-get install -y \
 RUN chmod +x /usr/local/bin/docker-php-ext-*
 RUN docker-php-ext-install bcmath
 
+RUN pecl install mongodb
+
 # php packages to install
 RUN pear install \
 	DB-1.7.14 \
