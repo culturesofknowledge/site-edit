@@ -21,7 +21,8 @@ Setup servers
 
 Assuming you have already git cloned this repo (i.e. the one this readme is in):
 
- - mkdir -p volumes/csv volumes/ssh
+ - mkdir -p volumes/csv volumes/ssh volumes/uploader
+ - chmod a+w volumes/uploader
 
  - Create config files:
    - cp docker-compose.php.template.env to docker-compose.php.env and fill in the missing values (See below if you need new identity keys)
