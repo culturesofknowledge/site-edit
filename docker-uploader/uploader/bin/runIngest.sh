@@ -8,6 +8,8 @@ fi
 set -e
 # Any subsequent(*) commands which fail will cause the shell script to exit immediately
 
+mkdir -p ../logs
+
 # Load CSV into mongo and then Postgres collect area.
 sh impMongo.sh $1
 sh procIngest.sh $1
