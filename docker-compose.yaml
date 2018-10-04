@@ -21,6 +21,7 @@ php:
   links:
     - postgres
     - rabbitmq
+    - uploadermongo
 
   env_file:
     - docker-compose.php.env
@@ -32,6 +33,8 @@ php:
     - ./volumes/csv:/csv
     - ./volumes/ssh:/root/.ssh
 
+    - ./volumes/uploader:/uploader
+
 exporter:
   build: ./docker-exporter
   restart: always
@@ -42,6 +45,22 @@ exporter:
   volumes:
     -  ./docker-exporter/exporter/exports:/usr/src/app/exports
     -  ./docker-exporter/exporter/exporter_data:/usr/src/app/exporter_data
+
+uploader:
+  build: ./docker-uploader
+  restart: always
+
+  links:
+    - postgres
+    - rabbitmq
+    - uploadermongo
+
+  volumes:
+    - ./volumes/uploader:/uploader
+
+uploadermongo:
+  image: mongo
+  restart: always
 
 nginx:
   build: ./nginx
