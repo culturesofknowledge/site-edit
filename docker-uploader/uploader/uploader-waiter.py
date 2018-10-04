@@ -3,6 +3,7 @@ import pika
 import logging
 import json
 import time
+import sys
 
 from uploader import Uploader
 
@@ -31,17 +32,38 @@ def callback(ch, method, properties, body):
 
 	data = json.loads( body )
 
-	upload = Uploader( LOGGER )
-	upload.initiate( data )
+	error = None
+	output = None
 
-	channel.basic_publish(exchange='', routing_key='uploader-processed', body=body)
+	try :
 
-	LOGGER.info("uploader done")
+		upload = Uploader( LOGGER )
+		output = upload.initiate( data )
+
+	except Exception as ex:
+
+		error = ex.message
+
+	data = {
+		'foldername' : data['foldername']
+	}
+
+	if output is not None:
+		data['output'] = output
+
+	if error is not None:
+		data['error'] = error
+		LOGGER.info("uploader FAILED")
+	else:
+		LOGGER.info("uploader COMPLETED")
+
+	LOGGER.info(data)
+	data = json.dumps(data)
+
+	channel.basic_publish(exchange='', routing_key='uploader-processed', body=data)
 
 
-channel.basic_consume(callback,
-					  queue='uploader',
-					  no_ack=True)
+channel.basic_consume(callback, queue='uploader', no_ack=True)
 
 LOGGER.info('Waiting for uploaded excel files')
 channel.start_consuming()

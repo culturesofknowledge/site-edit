@@ -29,3 +29,4 @@ docker-exporter/tweaker/*.ods
 */.directory
 /.idea/
 volumes/*
+docker-uploader/uploader/logs

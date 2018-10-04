@@ -12,19 +12,23 @@ class Uploader:
 
 		self.log.info( "def:initiate")
 
-		output = '/uploader/' + data['foldername']
+		output_folder = '/uploader/' + data['foldername']
 
-		create_csvs( data['filelocation'], output )
+		create_csvs( data['filelocation'], output_folder )
 		self.log.info( "...Created csvs")
 
 		command = 'cd /usr/src/app/bin && ./runIngest.sh ' + data['foldername']
+		# command = ['cd', '/usr/src/app/bin', '&&', './runIngest.sh', data['foldername'] ]
 
-		process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
-		process.wait()
+		# process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+		# process.wait()
+		output = subprocess.check_output( command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True )
+
+		output = 'CSVs created. \n' + output
 
 		self.log.info( '...Ran shell process')
 
-
+		return output
 
 if __name__ == "__main__":
 	import json

@@ -2792,7 +2792,7 @@ class Upload extends Project {
 		 $channel = $connection->channel();
 
 		 $channel->queue_declare('uploader', false, false, false, false);
-         $channel->queue_declare('uploader-processed', false, false, false, false);
+
 
         $filecount = count( $_FILES );
         if( ! $filecount ) {
@@ -2838,39 +2838,22 @@ class Upload extends Project {
 
 		$data = new stdClass;
 		$data->foldername = $foldername;
-		$data->email = 'matthew.wilcoxson@oerc.ox.ac.uk';
 		$data->filelocation = $fileLocation;
 
 		$msg = new AMQPMessage(json_encode( $data ) );
 		$channel->basic_publish($msg, '', 'uploader');
 
-		echo '<p>Processing...</p>';
+		echo "<p>CokBot has processed your file. (If something is wrong you'll have to pass on the below output to your Sys-Admin)</p>";
+		echo "<p>Check it out <a href=\"/union.php?menu_item_id=131\">here</a>.</p>";
 
         flush();
 
-        /*
-        $waiting = TRUE;
+		$output = shell_exec( "php /var/www/core/upload_import2Postgres.php " . $data->foldername );//. ' &');
+		echo '<p><h3>Extended output</h3>';
+		echo '<textarea id="textarea_output" rows="9" cols="120">'.$output.'</textarea></p>';
+		echo '<script>var textarea = document.getElementById("textarea_output");textarea.scrollTop = textarea.scrollHeight;</script>';
 
-		$callback = function ($msg) {
-			echo ' [x] PHP Received ', $msg->body, "\n";
-
-			$data = json_decode( $msg );
-
-			$output = shell_exec('php upload_import2Postgres.php' . $data->foldername);
-			echo "<pre>$output</pre>";
-
-			$waiting = FALSE;
-
-			$channel->close();
-			$connection->close();
-		};
-		$channel->basic_consume('uploader-processed', '', false, true, false, false, $callback);
-
-		while ($waiting && count($channel->callbacks)) {
-			$channel->wait();
-		}
-
-        */
+		flush();
     }
 
 }
