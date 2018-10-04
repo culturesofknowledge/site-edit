@@ -9,7 +9,7 @@ get -r1.3 /home/burgess/scripts/sccs/cofk/php/s.union.php
  *
  */
 
-//header('Location: union.php');
+header('Location: union.php');
 
 error_reporting(E_ALL & ~E_STRICT & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
 //error_reporting(E_ALL & ~E_STRICT);
