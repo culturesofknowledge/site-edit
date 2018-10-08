@@ -135,7 +135,7 @@ while read first_id last_id
 do
   COFK_FIRST_ID_IN_TABLE=${first_id}
   COFK_LAST_ID_IN_TABLE=${last_id}
-  
+
   echo #"Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
   php -q ${SCRIPTDIR}export_cofk_union.php ${tab} ${COFK_WRITE_CSV_HEADER} ${COFK_FIRST_ID_IN_TABLE} ${COFK_LAST_ID_IN_TABLE} | tee export_${tab}.log
 
@@ -149,6 +149,45 @@ do
   COFK_WRITE_CSV_HEADER=0
 
 done < manifestation_batches.txt
+
+#---------------------------------------------------------------------------------------
+
+# Special handing for tables with character key columns
+tab=cofk_union_relationship_type
+echo "Starting $tab"
+tab_id=relationship_code
+
+sql_min="select min( $tab_id ) from $tab"
+sql_max="select max( $tab_id ) from $tab"
+
+psql ${DATABASE} -h postgres -U postgres -q  -t -c "${sql_min}" > min_id.txt
+psql ${DATABASE} -h postgres -U postgres -q  -t -c "${sql_max}" > max_id.txt
+
+first_id=$(cat min_id.txt)
+last_id=$(cat max_id.txt)
+
+echo "First ID in $tab is $first_id"
+echo "Last ID in $tab is $last_id"
+
+COFK_TABLE_TO_EXPORT=${tab}
+COFK_FIRST_ID_IN_TABLE=${first_id}
+COFK_LAST_ID_IN_TABLE=${last_id}
+COFK_WRITE_CSV_HEADER=1
+
+echo #"Processing $tab from ID $COFK_FIRST_ID_IN_TABLE to $COFK_LAST_ID_IN_TABLE"
+
+php -f ${SCRIPTDIR}export_cofk_union.php ${tab} ${COFK_WRITE_CSV_HEADER} ${COFK_FIRST_ID_IN_TABLE} ${COFK_LAST_ID_IN_TABLE} | tee export_${tab}.log
+
+result=$(tail export_$tab.log)
+success=$(echo $result|grep Finished)
+if [ "$success" = "" ]
+then
+  echo "Failed to complete $tab"
+  exit
+fi
+
+echo Done.
+
 
 #---------------------------------------------------------------------------------------
 echo ''

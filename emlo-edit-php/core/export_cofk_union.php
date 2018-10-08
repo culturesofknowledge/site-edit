@@ -2,6 +2,10 @@
 <?php
 # Subversion repository: https://damssupport.bodleian.ox.ac.uk/svn/cok/trunk/backend/php
 
+// error_reporting(E_ALL & ~E_STRICT & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
+// error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
+// ini_set("display_errors", 1);
+
 define( 'CFG_PREFIX', 'cofk' );
 define( 'CFG_SYSTEM_TITLE', 'Export Union database' );
 define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' );
@@ -62,6 +66,9 @@ if( $table ) {
 	$export_id = $id = str_replace( 'cofk_union_', '', $table ) . '_id';
 	if( $table == 'cofk_union_work' ||  $table == 'cofk_union_person' ) {
 		$id = 'i' . $id;
+	}
+	elseif( $table == 'cofk_union_relationship_type' ) {
+		$id = 'relationship_code';
 	}
 
 
