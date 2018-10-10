@@ -34,7 +34,7 @@ echo "Copying CSV files at ${csv_source} to server ${server_access}:${folder_loc
 
 remote_location=${server_access}:${folder_location}
 
-for objects in manifestation comment image institution location person relationship resource work pro_activity pro_assertion pro_location pro_primary_person pro_relationship pro_role_in_activity pro_textual_source
+for objects in manifestation comment image institution location person relationship relationship_type resource work pro_activity pro_assertion pro_location pro_primary_person pro_relationship pro_role_in_activity pro_textual_source
 do
         if test "${objects#*pro_}" != "$objects"
         then
