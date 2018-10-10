@@ -394,7 +394,7 @@ function processAddressee(myDoc) {
 		var id_emlo = String(myDoc.addressee_ids).split(";");
 		var name    = myDoc.addressee_names.split(";");
 
-		if (name.length != id_emlo.length ) {
+		if (name.length !== id_emlo.length ) {
 
 			if (name.length > id_emlo.length ) {
 				for (k = id_emlo.length; k<name.length;k++){ id_emlo[k] = ""; }
@@ -498,23 +498,23 @@ function processWorkLanguage(myDoc) {
         }
 	}
 	if (myDoc.hasgreek) {
-		langArray[i++] = myDoc.hasgreek.toLowerCase();
+		langArray[i++] = "ell"; // myDoc.hasgreek.toLowerCase();
 	}
 	if (myDoc.hasarabic) {
-		langArray[i++] = myDoc.hasarabic.toLowerCase();
+		langArray[i++] = "ara"; // myDoc.hasarabic.toLowerCase();
 	}
 	if (myDoc.hashebrew) {
-		langArray[i++] = myDoc.hashebrew.toLowerCase();
+		langArray[i++] = "heb"; // myDoc.hashebrew.toLowerCase();
 	}
 	if (myDoc.haslatin) {
-		langArray[i++] = myDoc.haslatin.toLowerCase();
+		langArray[i++] = "lat"; //myDoc.haslatin.toLowerCase();
 	}
 
 	myDoc.language_of_work = "";
 	print("\n  =processWorkLanguage==============================================");
 	print("\n" + myDoc.language_of_work +"==============================================");
 
-	for (var i=0; i<langArray.length; ++i) {
+	for ( i=0; i<langArray.length; ++i) {
 		print("\n langArray["+i+"] = " +langArray[i]);
 		var langCode = db['language-all'].findOne({"language_code" : langArray[i] });
 		printjson(langCode);
@@ -562,18 +562,19 @@ function processWorkResource(myDoc) {
 }
 
 function processWorkOther(myDoc) {
+
 	if( myDoc.source_of_data ){
 		myDoc.accession_code = myDoc.source_of_data;
 		print("\n  =source_of_data=================================================");
 		printjson(  myDoc.accession_code );
 	}
 	
-	if( myDoc.catalogue_name ){
-    if( myDoc.editors_notes ){
-      myDoc.editors_notes += " ";
-    }
-    //    myDoc.editors_notes += myDoc.catalogue_name;
-  }
+	if( myDoc.catalogue_name ) {
+	    if( myDoc.editors_notes ) {
+	      myDoc.editors_notes += " ";
+	    }
+	    //    myDoc.editors_notes += myDoc.catalogue_name;
+	}
   
   if( myDoc.ehost_id ){
     mOther.other_id= other_id++;
