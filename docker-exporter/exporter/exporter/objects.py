@@ -125,6 +125,7 @@ def get_work_csv_converter() :
 		{ "f" : u"Notes on people mentioned",       "d" : { "o" : "comment", "f" : "comment", "r" : "refers_to_people_mentioned_in_work"} },
 
 		{ "f" : u"Original Catalogue name",         "d" : { "o" : "work", "f" : "original_catalogue" } },
+		{ "f" : u"Source",                          "d" : { "o" : "work", "f" : "accession_code" } },
 
 		# Ignoring as would include other works (complicated work connections...)
 		#{ "f" : "Letter in reply to", "d" : { "o" : "work-rel", "f" : "iwork_id", "r" : "" } },
