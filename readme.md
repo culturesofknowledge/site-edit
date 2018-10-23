@@ -57,6 +57,16 @@ Change owners of the data folder to www-data
 
     chown 33:33 docker-exporter/exporter/exports exporter/exporter_data
 
+
+Start (restart) server
+-----------
+
+Run the start script in the main directory. This basically buils and runs the docker containers.
+
+ - Run ./start.sh
+
+
+
 Backup
 ------
 
