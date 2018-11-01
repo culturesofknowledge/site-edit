@@ -1960,6 +1960,7 @@ class Upload extends Project {
     echo LINEBREAK . $this->work_status_desc; 
     HTML::bold_end();
     if( $this->union_iwork_id ) echo ' (ID: ' . $this->union_iwork_id . ')';
+	 if( $this->iwork_id ) echo ' (Collect ID: ' . $this->iwork_id . ')';
     echo LINEBREAK;
 
     HTML::div_start( 'class="buttonrow"' );
