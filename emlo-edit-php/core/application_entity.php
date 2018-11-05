@@ -514,14 +514,14 @@ class Application_Entity {
   }
   #-----------------------------------------------------
 
-  function get_character_encoding() {
+  static function get_character_encoding() {
     return 'UTF-8';
   }
   #-----------------------------------------------------
 
   function set_character_encoding() {  # must be called before any HTML is output
 
-    header( 'Content-Type: text/html; charset=' . $this->get_character_encoding() );
+    header( 'Content-Type: text/html; charset=' . Application_Entity::get_character_encoding() );
   }
   #-----------------------------------------------------
 
@@ -576,7 +576,7 @@ class Application_Entity {
 
     else {
       if( $this->debug ) echo 'Read parameter=' . $parm_name . ' Array=' . $arrayname . LINEBREAK;
-      die( 'Invalid input' );
+      die( '1 Invalid input' );
     }
 
     $valid_parm = $this->validate_parm( $parm_name );
@@ -589,7 +589,7 @@ class Application_Entity {
         # ALWAYS die if we think there is malicious scripting in the input.
         #---------------------------------------------------------------------------------------
         if( ! $this->is_ok_free_text( $this->parm_value ) && ! $this->is_array_of_ok_free_text( $this->parm_value ))
-          die( 'Invalid input' );
+          die( '2 Invalid input' );
 
         $this->failed_validation = TRUE;
         if( ! $this->app_errmsgs ) $this->app_errmsgs = array();
@@ -603,7 +603,7 @@ class Application_Entity {
           $this->echo_safely( 'Value=' . $this->parm_value );
           echo LINEBREAK;
         }
-        die( 'Invalid input' );
+        die( '3 Invalid input' );
       }
     }
 
@@ -642,7 +642,7 @@ class Application_Entity {
 
     else {
       if( $this->debug ) echo 'Write parameter=' . $parm_name . ' Array=' . $arrayname . LINEBREAK;
-      die( 'Invalid input' );
+      die( '4 Invalid input' );
     }
   }
   #-----------------------------------------------------
@@ -678,7 +678,7 @@ class Application_Entity {
 
     else {
       if( $this->debug ) echo 'Unset parameter=' . $parm_name . ' Array=' . $arrayname . LINEBREAK;
-      die( 'Invalid input' );
+      die( '5 Invalid input' );
     }
   }
   #-----------------------------------------------------
@@ -2416,7 +2416,7 @@ class Application_Entity {
         $decimal = hexdec( $hex );
         if( $this->is_integer( $decimal, $allow_negative = FALSE, $allow_null = FALSE )) {
           $new_entity = $entity_start . $decimal . ';';
-          $char = mb_convert_encoding( $new_entity, $this->get_character_encoding(), 'HTML-ENTITIES');
+          $char = mb_convert_encoding( $new_entity, Application_Entity::get_character_encoding(), 'HTML-ENTITIES');
         }
         else {  # not a valid numeric entity: don't try to convert
           $char = $entity_start . $hex . ';';
@@ -2436,10 +2436,9 @@ class Application_Entity {
   function app_get_unicode_signature() {  # 'Unicode signature' a.k.a. 'Byte Order Mark' or 'BOM'
 
     $bom = '';
-    if( strtoupper( $this->get_character_encoding() ) == 'UTF-8' )
+    if( strtoupper( Application_Entity::get_character_encoding() ) == 'UTF-8' )
       $bom = chr(239) . chr(187) . chr(191);
     return $bom;
   }
   #-----------------------------------------------------
 }
-?>

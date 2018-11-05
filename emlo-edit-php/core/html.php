@@ -54,7 +54,7 @@ define( 'TEST_INDICATOR_COLOUR', '#ffffdf' );
 class HTML extends Application_Entity {
   #-----------------------------------------------------------------
 
-  function html_start() {
+	static function html_start() {
 
     //echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ';
     //echo NEWLINE;
@@ -65,13 +65,13 @@ class HTML extends Application_Entity {
     echo NEWLINE;
   }
   #-----------------------------------------------------------------
-  function html_end() {
+	static function html_end() {
     echo NEWLINE;
     echo '</html>';
     echo NEWLINE;
   }
   #-----------------------------------------------------------------
-  function html_head_start() {
+	static function html_head_start() {
 
     echo NEWLINE;
     echo '<head>';
@@ -94,7 +94,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function call_htmlentities( $value, $quote_conversion = NULL, $charset = NULL ) {
+	static function call_htmlentities( $value, $quote_conversion = NULL, $charset = NULL ) {
 
     if( ! $quote_conversion ) $quote_conversion = ENT_QUOTES;
     if( ! $charset ) $charset = Application_Entity::get_character_encoding();
@@ -103,7 +103,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function header_text_colour() {
+	static function header_text_colour() {
 
     if( PROJ_COLLECTION_CODE == DATA_COLLECTION_TOOL_SUBSYSTEM )
       return EMLO_BLUE_GREY;
@@ -111,13 +111,13 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function footer_text_colour() {
+	static function footer_text_colour() {
 
     return HTML::header_text_colour();
   }
   #-----------------------------------------------------------------
 
-  function header_background_colour() {
+	static function header_background_colour() {
 
     if( $_SERVER[ 'SERVER_NAME' ] == TEST_SERVER ) return TEST_INDICATOR_COLOUR;
 
@@ -131,13 +131,13 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function footer_background_colour() {
+	static function footer_background_colour() {
 
     return HTML::header_background_colour();
   }
   #-----------------------------------------------------------------
 
-  function write_stylesheet( $for_cms_deployment = FALSE, $banner_only = FALSE, $printable = FALSE ) {
+	static function write_stylesheet( $for_cms_deployment = FALSE, $banner_only = FALSE, $printable = FALSE ) {
 
 	// Mattt: I've moved these to css files...
      // Matt: I've turned it back on cause it does other stuff like printing...
@@ -895,7 +895,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function get_highlight1_colour( $for_cms_deployment = FALSE ) {
+	static function get_highlight1_colour( $for_cms_deployment = FALSE ) {
 
     if( Application_Entity::get_system_prefix() == 'impt' )
       return IMPACT_HIGHLIGHT1;
@@ -908,7 +908,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function get_highlight2_colour( $for_cms_deployment = FALSE ) {
+	static function get_highlight2_colour( $for_cms_deployment = FALSE ) {
 
     if( Application_Entity::get_system_prefix() == 'impt' )
       return IMPACT_HIGHLIGHT2;
@@ -921,7 +921,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function get_contrast1_colour( $for_cms_deployment = FALSE ) {
+	static function get_contrast1_colour( $for_cms_deployment = FALSE ) {
 
     if( PROJ_COLLECTION_CODE == DATA_COLLECTION_TOOL_SUBSYSTEM )
       return EMLO_DEEP_BLUE;
@@ -929,7 +929,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function get_contrast2_colour( $for_cms_deployment = FALSE ) {
+	static function get_contrast2_colour( $for_cms_deployment = FALSE ) {
 
     if( PROJ_COLLECTION_CODE == DATA_COLLECTION_TOOL_SUBSYSTEM )
       return EMLO_DEEP_BLUE;
@@ -937,7 +937,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function get_contrast3_colour( $for_cms_deployment = FALSE ) {
+	static function get_contrast3_colour( $for_cms_deployment = FALSE ) {
 
     if( PROJ_COLLECTION_CODE == DATA_COLLECTION_TOOL_SUBSYSTEM )
       return EMLO_MID_BLUE;
@@ -946,19 +946,19 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function get_oxford_blue( $for_cms_deployment = FALSE ) {
+	static function get_oxford_blue( $for_cms_deployment = FALSE ) {
     return OXFORD_BLUE;
   }
   #-----------------------------------------------------------------
 
-  function html_head_end() {
+	static function html_head_end() {
     echo NEWLINE;
     echo '</head>';
     echo NEWLINE;
   }
   #-----------------------------------------------------------------
 
-  function body_start( $focus_form = NULL, $focus_field = NULL, $required_anchor = NULL ) {
+	static function body_start( $focus_form = NULL, $focus_field = NULL, $required_anchor = NULL ) {
 
     echo NEWLINE;
     echo '<body ';
@@ -988,7 +988,7 @@ class HTML extends Application_Entity {
     HTML::div_start( 'class="innerbody"' );
   }
   #-----------------------------------------------------------------
-  function body_end() {
+	static function body_end() {
 
     echo NEWLINE;
     HTML::div_end( 'innerbody' );
@@ -1024,19 +1024,19 @@ class HTML extends Application_Entity {
     echo '</h3>';
   }
   #-----------------------------------------------------------------
-  function h4_start() {
+	static function h4_start() {
     echo '<h4>';
   }
   #-----------------------------------------------------------------
-  function h4_end() {
+	static function h4_end() {
     echo '</h4>';
   }
   #-----------------------------------------------------------------
-  function h5_start() {
+	static function h5_start() {
     echo '<h5>';
   }
   #-----------------------------------------------------------------
-  function h5_end() {
+	static function h5_end() {
     echo '</h5>';
   }
   #-----------------------------------------------------------------
@@ -1057,21 +1057,21 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function linebreak( $parms = NULL ) {
+  static function linebreak( $parms = NULL ) {
 
     echo '<br ',$parms, '/>';
   }
 
   #-----------------------------------------------------------------
 
-  function space() {
+  static function space() {
 
     echo SPACE;
   }
 
   #-----------------------------------------------------------------
 
-  function comment( $parms = NULL ) {
+	static function comment( $parms = NULL ) {
 
     echo '<!-- ';
     if( $parms ) echo $parms;
@@ -1209,7 +1209,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function return_link( $href, $displayed_text, $title = '', $target = '_self', $accesskey = '', $tabindex = 1,
+	static function return_link( $href, $displayed_text, $title = '', $target = '_self', $accesskey = '', $tabindex = 1,
                         $extra_parms = NULL ) {
 
     $linkval = '<a href="' . $href . '" ';
@@ -1230,7 +1230,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function link_start( $href, $title = '', $target = '_self', $accesskey = '', $tabindex = 1,
+	static function link_start( $href, $title = '', $target = '_self', $accesskey = '', $tabindex = 1,
                        $extra_parms = NULL ) {
 
     echo '<a href="' . $href;
@@ -1255,7 +1255,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function link_end() {
+	static function link_end() {
     echo '</a>';
   }
   #-----------------------------------------------------------------
@@ -1338,7 +1338,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function password_field( $fieldname, $label = '', $in_table = FALSE, $size = NULL, $tabindex=1 ) {
+	static function password_field( $fieldname, $label = '', $in_table = FALSE, $size = NULL, $tabindex=1 ) {
 
     echo NEWLINE;
     if( $in_table ) echo '<td>';
@@ -1364,7 +1364,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function checkbox( $fieldname, $label, $is_checked = NULL, $value_when_checked = 1, $in_table = FALSE,
+	static function checkbox( $fieldname, $label, $is_checked = NULL, $value_when_checked = 1, $in_table = FALSE,
                      $tabindex=1, $input_instance = NULL, $parms = NULL, $label_on_left = FALSE ) {
 
     $field_id = HTML::field_id_from_fieldname( $fieldname, $input_instance );
@@ -1402,7 +1402,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function checkbox_with_label_on_left( $fieldname, $label, $is_checked = NULL, $value_when_checked = 1, 
+	static function checkbox_with_label_on_left( $fieldname, $label, $is_checked = NULL, $value_when_checked = 1,
                                         $in_table = FALSE, $tabindex=1, $input_instance = NULL, $parms = NULL ) {
 
     HTML::checkbox( $fieldname, $label, $is_checked, $value_when_checked, 
@@ -1410,7 +1410,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function radio_button( $fieldname, $label, $value_when_checked, $current_value = 0, $tabindex=1, 
+	static function radio_button( $fieldname, $label, $value_when_checked, $current_value = 0, $tabindex=1,
                          $button_instance=0, $script=NULL ) {
 
     echo NEWLINE;
@@ -1439,7 +1439,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function printed_checkbox( $fieldname, $label, $is_checked = NULL, $value_when_checked = NULL, $in_table = FALSE,
+	static function printed_checkbox( $fieldname, $label, $is_checked = NULL, $value_when_checked = NULL, $in_table = FALSE,
                              $tabindex=1 ) {
     echo '[';
     if( $is_checked )
@@ -1490,7 +1490,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function dropdown_optgroup_start( $label = NULL ) {
+	static function dropdown_optgroup_start( $label = NULL ) {
     echo NEWLINE;
     echo '<optgroup label="';
     echo $label;
@@ -1499,7 +1499,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function dropdown_optgroup_end() {
+	static function dropdown_optgroup_end() {
 
     echo NEWLINE;
     echo '</optgroup>';
@@ -1515,7 +1515,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function textarea_start( $fieldname, $rows = 3, $cols = 50, $label=NULL, $textarea_parms=NULL, $label_parms=NULL, 
+	static function textarea_start( $fieldname, $rows = 3, $cols = 50, $label=NULL, $textarea_parms=NULL, $label_parms=NULL,
                            $input_instance = NULL ) {
 
     echo NEWLINE;
@@ -1539,7 +1539,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function textarea_end() {
+	static function textarea_end() {
 
     echo '</textarea>';
     echo NEWLINE;
@@ -1592,7 +1592,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function submit_and_cancel_button( $button_name = 'cancel_button', $value = 'Cancel', $tabindex = 1, 
+	static function submit_and_cancel_button( $button_name = 'cancel_button', $value = 'Cancel', $tabindex = 1,
                                      $other_parms = NULL ) {
 
     echo NEWLINE;
@@ -1617,7 +1617,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function cancel_button( $button_name = 'cancel_button', $value = 'Cancel', $tabindex = 1 ) {
+	static function cancel_button( $button_name = 'cancel_button', $value = 'Cancel', $tabindex = 1 ) {
 
     echo NEWLINE;
 
@@ -1630,7 +1630,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function button( $button_name = 'button', $value = 'Button', $tabindex = 1, $other_parms = NULL ) {
+	static function button( $button_name = 'button', $value = 'Button', $tabindex = 1, $other_parms = NULL ) {
 
     echo NEWLINE;
 
@@ -1645,7 +1645,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function file_upload_field( $fieldname, $label = '', $value = NULL, $size = NULL, $tabindex=1,
+	static function file_upload_field( $fieldname, $label = '', $value = NULL, $size = NULL, $tabindex=1,
                               $label_parms = NULL, $input_parms = NULL, $input_instance = 0 ) {
 
     $field_id = HTML::field_id_from_fieldname( $fieldname, $input_instance );
@@ -1672,7 +1672,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function multiple_file_upload_field( $fieldname, $label = '', $value = NULL, $size = NULL, 
+	static function multiple_file_upload_field( $fieldname, $label = '', $value = NULL, $size = NULL,
                                        $tabindex=1, $label_parms = NULL, $input_parms = NULL, 
                                        $input_instance = 0 ) {
 
@@ -1731,12 +1731,12 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function bullet_point() {
+	static function bullet_point() {
     echo ' &bull; ';
   }
   #-----------------------------------------------------------------
 
-  function return_bullet_point() {
+	static function return_bullet_point() {
     return ' &bull; ';
   }
   #-----------------------------------------------------------------
@@ -1751,7 +1751,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function table_caption( $caption = NULL, $attribs = NULL, $style = 'italic' ) {
+	static function table_caption( $caption = NULL, $attribs = NULL, $style = 'italic' ) {
     echo '<caption ', $attribs, '>';
 
     if( $style == 'italic' )
@@ -1780,7 +1780,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function new_tablerow( $parms = NULL ) {  # end current table row and start a new one
+	static function new_tablerow( $parms = NULL ) {  # end current table row and start a new one
 
     echo '</tr><tr ',$parms,'>';
   }
@@ -1837,19 +1837,19 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------------------
 
-  function page_top_anchor() {
+	static function page_top_anchor() {
 
     echo '<a name="', PAGE_TOP, '" ></a>';
   }
   #-----------------------------------------------------------------
 
-  function page_bottom_anchor() {
+	static function page_bottom_anchor() {
 
     echo '<a name="', PAGE_BOTTOM, '" ></a>';
   }
   #-----------------------------------------------------------------
 
-  function link_to_page_top( $tabindex = 1, $title = 'Top of Page', $accesskey = '' ) {
+	static function link_to_page_top( $tabindex = 1, $title = 'Top of Page', $accesskey = '' ) {
 
     echo NEWLINE;
     echo '<A href="#' . PAGE_TOP  . '" target="_self" ';
@@ -1863,7 +1863,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------
 
-  function link_to_page_bottom( $tabindex = 1, $title = 'Bottom of Page', $accesskey = '' ) {
+	static function link_to_page_bottom( $tabindex = 1, $title = 'Bottom of Page', $accesskey = '' ) {
 
     echo NEWLINE;
     echo '<A href="#' . PAGE_BOTTOM  . '" target="_self" ';
@@ -1877,7 +1877,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------
 
-    function jump_to_work( $tabindex = 1, $title = 'Jump to Work', $accesskey = '' ) {
+	static function jump_to_work( $tabindex = 1, $title = 'Jump to Work', $accesskey = '' ) {
 
         echo NEWLINE;
         echo '<input type="text" name="jump-to-work" id="jump-to-work" value="" placeholder="Work ID" style="border:1px solid #bbb;height:19px;"/><button onclick="jumpToWork()">Goto</button>';
@@ -1888,17 +1888,17 @@ class HTML extends Application_Entity {
     }
     #-----------------------------------------------------
 
-  function small_start() {
+	static function small_start() {
     echo '<small>';
   }
   #-----------------------------------------------------
 
-  function small_end() {
+	static function small_end() {
     echo '</small>';
   }
   #-----------------------------------------------------
 
-  function small( $the_text ) {
+	static function small( $the_text ) {
     echo '<small>';
     echo $the_text;
     echo '</small>';
@@ -1906,7 +1906,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------
 
-  function write_javascript_function( $script_body ) {
+	static function write_javascript_function( $script_body ) {
 
     echo NEWLINE;
     echo '<script type="text/javascript">';
@@ -1923,7 +1923,7 @@ class HTML extends Application_Entity {
     echo NEWLINE;
   }
   #-----------------------------------------------------
-  function fieldset_start( $legend, $fieldset_name = NULL, $parms = NULL, $legend_parms = NULL ) {
+	static function fieldset_start( $legend, $fieldset_name = NULL, $parms = NULL, $legend_parms = NULL ) {
 
     echo NEWLINE;
     echo '<fieldset ';
@@ -1944,7 +1944,7 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------
 
-  function fieldset_end( $desc ) {
+	static function fieldset_end( $desc ) {
     echo NEWLINE;
     echo '</fieldset>';
     if( $desc ) HTML::comment( 'End ' . $desc );
@@ -1952,4 +1952,3 @@ class HTML extends Application_Entity {
   }
   #-----------------------------------------------------
 }
-?>
