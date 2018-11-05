@@ -1,3 +1,15 @@
+-- Data for Name: cofk_users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.cofk_users (username, pw, surname, forename, failed_logins, login_time, prev_login, active, email) FROM stdin;
+cofka	1349c62091000149881949fbc5615e5c	Administrator	Admin	0	2018-05-30 12:19:30.723817	\N	1	nowhere@example.com
+\.
+
+create role cofka login;
+grant super_role_cofk to cofka;
+grant editor_role_cofk to cofka;
+grant viewer_role_cofk to cofka;
+
 -- Data for Name: cofk_collect_addressee_of_work; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -1191,14 +1203,6 @@ COPY public.cofk_user_saved_query_selection (selection_id, query_id, column_name
 
 SELECT pg_catalog.setval('public.cofk_user_saved_query_selection_id_seq', 1, false);
 
-
---
--- Data for Name: cofk_users; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.cofk_users (username, pw, surname, forename, failed_logins, login_time, prev_login, active, email) FROM stdin;
-cofka	1349c62091000149881949fbc5615e5c	Administrator	Admin	0	2018-05-30 12:19:30.723817	\N	1	nowhere@example.com
-\.
 
 
 --
