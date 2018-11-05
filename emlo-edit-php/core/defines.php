@@ -14,6 +14,10 @@ elseif( CONSTANT_DATABASE_TYPE == 'test' ) {     # set by initial file called fr
 	define( 'CONSTANT_DATABASE_NAME', 'oulstestdata' );
 	define( 'DATABASE_HOST','postgres' );
 }
+elseif( CONSTANT_DATABASE_TYPE == 'royalsociety' ) {     # set by initial file called from Apache document root
+	define( 'CONSTANT_DATABASE_NAME', 'royalsociety' );
+	define( 'DATABASE_HOST','postgres' );
+}
 else {
 	die('Invalid input detected in defines.php');
 }
