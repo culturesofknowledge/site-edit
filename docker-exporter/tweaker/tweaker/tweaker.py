@@ -141,6 +141,19 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()
 
+	def get_person_from_iperson_id( self, iperson_id ):
+
+		self.check_database_connection()
+
+		command = "SELECT * FROM cofk_union_person WHERE iperson_id=%s"
+		command = self.cursor.mogrify( command, (iperson_id,) )
+
+		if self.debug :
+			print( "* SELECT person:", command )
+
+		self.cursor.execute( command )
+		return self.cursor.fetchone()
+
 	def get_manifestation_from_manifestation_id( self, manifestation_id ):
 
 		self.check_database_connection()
