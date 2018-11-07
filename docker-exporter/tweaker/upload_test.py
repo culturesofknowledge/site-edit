@@ -16,6 +16,7 @@ uploader.set_debug(True)
 upload_name = "Mats Upload"
 person_existing_id = 22859
 location_existing_id = 2749
+institution_existing_id = 335
 
 # Start and create upload
 uploader.start_upload( upload_name, 1 )
@@ -35,10 +36,25 @@ location_id = uploader.create_location_new(
 	element_6_eg_country='United Kingdom',
 	element_4_eg_city="Oxford" )
 
+# create existing institution
+uploader.create_institution_existing(institution_existing_id)
+# create new institution
+institution_id = uploader.create_institution_new("Mats Institution",
+											institution_city='Oxford')
+
 # Create a work
 work_id = uploader.create_work( date_of_work_std_year='1656',
 	destination_id=location_existing_id,
 	origin_id=location_id )
+
+uploader.create_manifestation( work_id,
+	id_number_or_shelfmark='Sh3lf1',
+	manifestation_type='D',
+	repository_id=institution_existing_id)
+uploader.create_manifestation( work_id,
+	id_number_or_shelfmark='Sh3lf2',
+	manifestation_type='D',
+	repository_id=institution_id)
 
 # set author
 uploader.link_author( person_id, work_id )

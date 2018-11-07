@@ -3,6 +3,17 @@ from tweaker import DatabaseTweaker
 
 class DatabaseTweakerCollect(DatabaseTweaker):
 
+	"""
+		Add multiple entries into the uploader section
+
+		Order of create must be (so foreign keys work):
+			Locations
+			Works
+			Institution
+			Manifestation
+			People
+			(then links)
+	"""
 	def __init__( self, connection=None, debug=False ):
 
 		DatabaseTweaker.__init__( self, connection, debug )
@@ -12,12 +23,39 @@ class DatabaseTweakerCollect(DatabaseTweaker):
 
 		self.upload_id = None
 		self.upload_name = None
-		self.id_count_start = 2000000
+		self.id_count_start = 2000069
 		self.id_count = self.id_count_start
 
 	def next_id(self):
 		self.id_count += 1
 		return self.id_count
+
+
+	""" Template
+		def create_( self, ):
+	
+			command = "INSERT INTO cofk_collect_person" \
+				" (" \
+					"_id" \
+					",upload_id"\
+				")" \
+				" VALUES " \
+				" (%s,%s)"
+	
+			command = self.cursor.mogrify( command, (
+				self._id,
+				self.upload_id
+			) )
+	
+			self._print_command( "CREATE collect person", command )
+			self._audit_insert( "collect person" )
+	
+			self.cursor.execute( command )
+	
+			
+	"""
+
+
 
 	def start_upload(self, name, work_count ):
 
@@ -219,30 +257,6 @@ class DatabaseTweakerCollect(DatabaseTweaker):
 		self.cursor.execute( command )
 
 		return person_upload_id
-
-	""" Template
-		def create_?( self, ):
-	
-			command = "INSERT INTO cofk_collect_person" \
-				" (" \
-					"_id" \
-					",upload_id"\
-				")" \
-				" VALUES " \
-				" (%s,%s)"
-	
-			command = self.cursor.mogrify( command, (
-				self._id,
-				self.upload_id
-			) )
-	
-			self._print_command( "CREATE collect person", command )
-			self._audit_insert( "collect person" )
-	
-			self.cursor.execute( command )
-	
-			
-	"""
 
 	def create_work( self,
 		abstract=None,
@@ -547,6 +561,144 @@ class DatabaseTweakerCollect(DatabaseTweaker):
 
 		return location_upload_id
 
+	def create_institution_existing( self, institution_id):
+
+		institution = self.get_institution_from_institution_id( institution_id )
+
+		if not institution:
+			print( "Error. Don't lie to me, that person(" + str(institution_id) + ") does not exist!")
+
+		else :
+
+			command = "INSERT INTO cofk_collect_institution" \
+						" (_id,upload_id,upload_name" \
+							",institution_id" \
+							",union_institution_id" \
+							",institution_name" \
+							",institution_city" \
+							",institution_country" \
+						")" \
+						" VALUES " \
+						" (%s,%s,%s,%s,%s,%s,%s,%s)"
+
+			institution_city = ''
+			if 'institution_city' in institution :
+				institution_city = institution['institution_city']
+			institution_country = ''
+			if 'institution_country' in institution :
+				institution_country = institution['institution_country']
+
+			command = self.cursor.mogrify( command, (
+				self._id,
+				self.upload_id,
+				self.upload_name,
+				institution_id,
+				institution_id,
+				institution['institution_name'],
+				institution_city,
+				institution_country
+			) )
+
+			self._print_command( "CREATE collect institution", command )
+			self._audit_insert( "collect institution" )
+
+			self.cursor.execute( command )
+
+	def create_institution_new( self, institution_name,
+			institution_city='',
+			institution_city_synonyms=None,
+			institution_country='',
+			institution_country_synonyms=None,
+			institution_synonyms=None,
+			):
+
+		institution_upload_id = self.next_id()
+		union_institution_id = None
+
+		command = "INSERT INTO cofk_collect_institution" \
+				" (_id,upload_id,upload_name" \
+					",institution_city"\
+					",institution_city_synonyms"\
+					",institution_country"\
+					",institution_country_synonyms"\
+					",institution_id"\
+					",institution_name"\
+					",institution_synonyms"\
+					",union_institution_id"\
+				")" \
+				" VALUES " \
+				" (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+
+		command = self.cursor.mogrify( command, (
+			self._id,
+			self.upload_id,
+			self.upload_name,
+			institution_city,
+			institution_city_synonyms,
+			institution_country,
+			institution_country_synonyms,
+			institution_upload_id,
+			institution_name,
+			institution_synonyms,
+			union_institution_id
+		) )
+
+		self._print_command( "CREATE collect institution", command )
+		self._audit_insert( "collect institution" )
+
+		self.cursor.execute( command )
+
+		return institution_upload_id
+
+	def create_manifestation(self, iwork_id,
+			id_number_or_shelfmark='',
+			image_filenames=None,
+			manifestation_notes='',
+			manifestation_type='',
+			printed_edition_details='',
+			repository_id=None  ):
+
+		union_manifestation_id = None
+		manifestation_id = self.next_id()
+
+		command = "INSERT INTO cofk_collect_manifestation" \
+				" (" \
+					"_id" \
+					",id_number_or_shelfmark"\
+					",image_filenames"\
+					",iwork_id"\
+					",manifestation_id"\
+					",manifestation_notes"\
+					",manifestation_type"\
+					",printed_edition_details"\
+					",repository_id"\
+					",union_manifestation_id"\
+					",upload_name"\
+					",upload_id" \
+				")" \
+				" VALUES " \
+				" (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+
+		command = self.cursor.mogrify( command, (
+			self._id,
+			id_number_or_shelfmark,
+			image_filenames,
+			iwork_id,
+			manifestation_id,
+			manifestation_notes,
+			manifestation_type,
+			printed_edition_details,
+			repository_id,
+			union_manifestation_id,
+			self.upload_name,
+			self.upload_id,
+		) )
+
+		self._print_command( "CREATE collect manifestation", command )
+		self._audit_insert( "collect manifestation" )
+
+		self.cursor.execute( command )
+
 	def link_addressee( self,
 						iperson_id,
 						iwork_id,
@@ -588,16 +740,16 @@ class DatabaseTweakerCollect(DatabaseTweaker):
 		author_id = self.next_id()
 
 		command = "INSERT INTO cofk_collect_author_of_work" \
-				  " (" \
-				  "_id" \
-				  ",author_id" \
-				  ",iperson_id" \
-				  ",iwork_id" \
-				  ",notes_on_author" \
-				  ",upload_id" \
-				  ")" \
-				  " VALUES " \
-				  " (%s,%s,%s,%s,%s,%s)"
+				" (" \
+					"_id" \
+					",author_id" \
+					",iperson_id" \
+					",iwork_id" \
+					",notes_on_author" \
+					",upload_id" \
+				")" \
+				" VALUES " \
+				" (%s,%s,%s,%s,%s,%s)"
 
 		command = self.cursor.mogrify( command, (
 			self._id,
@@ -621,16 +773,16 @@ class DatabaseTweakerCollect(DatabaseTweaker):
 		destination_id = self.next_id()
 
 		command = "INSERT INTO cofk_collect_destination_of_work" \
-				  " (" \
-				  "_id" \
-				  ",destination_id" \
-				  ",location_id" \
-				  ",iwork_id" \
-				  ",notes_on_destination" \
-				  ",upload_id" \
-				  ")" \
-				  " VALUES " \
-				  " (%s,%s,%s,%s,%s,%s)"
+				" (" \
+					"_id" \
+					",destination_id" \
+					",location_id" \
+					",iwork_id" \
+					",notes_on_destination" \
+					",upload_id" \
+				")" \
+				" VALUES " \
+				" (%s,%s,%s,%s,%s,%s)"
 
 		command = self.cursor.mogrify( command, (
 			self._id,
@@ -655,16 +807,16 @@ class DatabaseTweakerCollect(DatabaseTweaker):
 		origin_id = self.next_id()
 
 		command = "INSERT INTO cofk_collect_origin_of_work" \
-				  " (" \
-				  "_id" \
-				  ",origin_id" \
-				  ",location_id" \
-				  ",iwork_id" \
-				  ",notes_on_origin" \
-				  ",upload_id" \
-				  ")" \
-				  " VALUES " \
-				  " (%s,%s,%s,%s,%s,%s)"
+				" (" \
+					"_id" \
+					",origin_id" \
+					",location_id" \
+					",iwork_id" \
+					",notes_on_origin" \
+					",upload_id" \
+				")" \
+				" VALUES " \
+				" (%s,%s,%s,%s,%s,%s)"
 
 		command = self.cursor.mogrify( command, (
 			self._id,
