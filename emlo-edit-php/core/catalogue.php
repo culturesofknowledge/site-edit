@@ -64,11 +64,6 @@ class Catalogue extends Lookup_Table {
                . " where catalogue_code > ''"
                . ' order by catalogue_name';
 
-    if( $this->debug ) {
-      echo "RG get_lookup_list() <br>";
-      var_dump($statement);
-      echo "<br>";
-    }
 
     $lookup_list = $this->db_select_into_array( $statement );
 

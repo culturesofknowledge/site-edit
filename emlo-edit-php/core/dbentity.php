@@ -2689,12 +2689,16 @@ class DBEntity extends Application_Entity {
 	*/
 
 	$rowcount = count( $rows );
+
+	echo 'rowcount: ' . $rowcount;
+	return;
+
 	$output_id = uniqid( rand(), TRUE );
 
 	$output_folder = '/var/www/exporter/exporter_data/';
 	$output_file = $output_folder . $output_id . ".json";	
 
-	$fh = fopen($output_file, 'w') or die("ERROR: Can't open file to trigger export in " . $output_folder );; 
+	$fh = fopen($output_file, 'w') or die("ERROR: Can't open file to trigger export in " . $output_folder );
 
 	fwrite( $fh, '{');
 	fwrite( $fh, '"email" : "' . $this->read_session_parm( 'user_email' ) . '",' );
@@ -2717,9 +2721,9 @@ class DBEntity extends Application_Entity {
 		Launch the export command 
 	*/
 
-	$command = 'ls';//'cd /home/cofkadmin/git/emlo-exporter;/usr/bin/python /home/cofkadmin/git/emlo-exporter/export_web_auto.py ' . $output_file . " > /dev/null &";
-	$output = exec($command);
-	echo $output;
+	//$command = 'ls';//'cd /home/cofkadmin/git/emlo-exporter;/usr/bin/python /home/cofkadmin/git/emlo-exporter/export_web_auto.py ' . $output_file . " > /dev/null &";
+	//$output = exec($command);
+	//echo $output;
 
 	return;
 

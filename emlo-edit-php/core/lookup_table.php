@@ -55,16 +55,6 @@ class lookup_table extends DBEntity {
     if( ! $this->code_size     ) $this->code_size     = 6;
     if( ! $this->desc_size     ) $this->desc_size     = 70;
 
-    if( $this->debug ) {
-      echo "RG 01 lookup_table <br>";
-      echo 'lookup_table_name "' . $lookup_table_name . '"' . LINEBREAK ;
-      echo 'id_column_name    "' . $id_column_name . '"'    . LINEBREAK ;
-      echo 'desc_column_name  "' . $desc_column_name . '"'  . LINEBREAK ;
-      echo 'code_column_name  "' . $code_column_name . '"'  . LINEBREAK ;
-      echo 'auto_generated_id "' . $auto_generated_id . '"' . LINEBREAK ;
-      echo 'fixed_codes       "' . $fixed_codes . '"'       . LINEBREAK ;
-      echo 'publ_column_name  "' . $publ_column_name . '"'  . LINEBREAK ;
-    }
     /**/
   }
   #-----------------------------------------------------
@@ -125,10 +115,6 @@ class lookup_table extends DBEntity {
     if( ! $order_by ) $order_by = "$this->desc_column_name";
 
     $statement .= " order by $order_by";
-    if( $this->debug ) {
-      echo "RG get_lookup_list( <br>";
-      var_dump($statement);
-    }
 
     $lookup_list = $this->db_select_into_array( $statement );
 
@@ -256,7 +242,7 @@ class lookup_table extends DBEntity {
     HTML::div_start( 'id="new_lookup_record"' );
     HTML::bold_start();
     echo 'Enter new records here:';
-    if( $this->debug ) echo "RG edit_lookup_table1() 91<br>";
+
     HTML::bold_end();
     HTML::new_paragraph();
 
@@ -314,7 +300,7 @@ class lookup_table extends DBEntity {
     #-----------------
     # Existing records
     #-----------------
-    if( $this->debug ) echo "RG edit_lookup_table1() 93<br>";
+
     HTML::div_start( 'id="existing_lookup_record"' );
     HTML::new_paragraph();
 
@@ -330,7 +316,7 @@ class lookup_table extends DBEntity {
 
     foreach( $existing_lookup as $row ) {
       extract( $row, EXTR_OVERWRITE ); # copy into simple variables
-      if( $this->debug ) echo "RG edit_lookup_table1() 95<br>";
+
       if( $this->debug ) var_dump($row);
 
       $id_column_name = $this->id_column_name;
@@ -401,7 +387,7 @@ class lookup_table extends DBEntity {
       HTML::tabledata('Publish'); # empty cell
 
       $is_checked = ($publ_value == 1 ) ? TRUE  : FALSE ;
-      echo "RG edit_lookup_table1() publ_value == $publ_value <br>";
+
 
       HTML::tabledata_start();
       #HTML::italic_start();
@@ -497,37 +483,31 @@ class lookup_table extends DBEntity {
   #----------------------------------------------------- 
 
   function write_extra_fields1_new() { # override this in the child method if required
-    if( $this->debug ) echo "RG write_extra_fields1_new()<br>";
     return NULL;
   }
   #----------------------------------------------------- 
 
   function write_extra_fields2_new() { # override this in the child method if required
-    if( $this->debug ) echo "RG write_extra_fields2_new()<br>";
     return NULL;
   }
   #----------------------------------------------------- 
 
   function write_extra_fields1_existing( $id_value = NULL ) { # override this in the child method if required
-//echo "RG write_extra_fields1_existing( $id_value = NULL )<br>";
     return NULL;
   }
   #----------------------------------------------------- 
 
   function write_extra_fields2_existing( $id_value = NULL ) { # override this in the child method if required
-//echo "RG write_extra_fields2_existing( $id_value = NULL )<br>";
     return NULL;
   }
   #----------------------------------------------------- 
 
   function get_extra_insert_cols() { # override if required
-    if( $this->debug ) echo "RG get_extra_insert_cols()<br>";
     return NULL;
   }
   #----------------------------------------------------- 
 
   function get_extra_insert_vals() { # override if required
-    if( $this->debug ) echo "RG get_extra_insert_vals()<br>";
     return NULL;
   }
   #----------------------------------------------------- 
@@ -538,7 +518,6 @@ class lookup_table extends DBEntity {
   #----------------------------------------------------- 
 
   function edit_lookup_table2() {
-    if( $this->debug ) echo "RG edit_lookup_table2()<br>";
 
     if( $this->parm_found_in_post( 'check_deletion_button' )) {
       $this->check_lookup_deletion();
@@ -564,11 +543,9 @@ class lookup_table extends DBEntity {
 
     $id_val   = $this->read_post_parm( $this->id_column_name );
     $desc_val = $this->read_post_parm( $this->desc_column_name );
-    if( $this->debug ) echo "RG edit_lookup_table2() 99b <br> ".$this->publ_column_name;
 
     $publ_val = ( $_POST[ $this->publ_column_name ] == 1) ? 1 : 0 ;
     //$publ_val = $this->read_post_parm( $this->publ_column_name );
-    if( $this->debug ) echo "RG edit_lookup_table2() 99c.  $publ_val<br> ";
     if( $this->table_contains_code ) $code_val = $this->read_post_parm( $this->code_column_name );
 
     $code_val = $this->escape( trim( strtoupper( $code_val )));
@@ -616,7 +593,6 @@ class lookup_table extends DBEntity {
       $statement = $statement . $this->get_extra_insert_vals();
       $statement = $statement . "'" . $desc_val . "')";
     }
-    if( $this->debug ) echo "RG edit_lookup_table2() executing<br>$statement<br> ";
     $this->db_run_query( $statement );
 
     HTML::italic_start();
@@ -867,7 +843,6 @@ class lookup_table extends DBEntity {
 
   function validate_parm( $parm_name ) {  # overrides parent method
 
-    if( $this->debug ) echo "RG validate_parm( $parm_name ) lookup_table<br> ";
 
     switch( $parm_name ) {
 

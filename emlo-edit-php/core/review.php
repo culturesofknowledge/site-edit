@@ -287,7 +287,6 @@ class Review extends Project {
     $this->process_work_dates( $work_id );
 
     echo 'Saved core details of work...' . LINEBREAK;
-    //echo 'RG reached here 0...' . LINEBREAK;    
 
     #----------------------------------------------------------------------
     # Now add relationships and any other complicated bits and bobs.
@@ -406,7 +405,7 @@ class Review extends Project {
                . " and iwork_id = $openoffice_iwork_id";
     $manifs = $this->db_select_into_array( $statement );
     $num_manifs = count( $manifs );
-    echo "RG reached here 3a...$num_manifs" . LINEBREAK;    
+
 	print_r($manifs);
     if( $num_manifs > 0 ) {
       foreach( $manifs as $manif ) {
@@ -741,10 +740,8 @@ class Review extends Project {
   #-----------------------------------------------------
   function save_one_manifestation( $imanifestation_id, $work_id, $union_iwork_id ) {
 
-    //echo "RG reached here man0a ...$imanifestation_id" . LINEBREAK;    
     if( ! $imanifestation_id ) die( 'Invalid input.manifestation ' );
 
-    //echo 'RG reached here man1...' . LINEBREAK;    
     $statement = 'select * from ' . $this->proj_collect_manifestation_tablename()
                . " where upload_id = $this->upload_id and manifestation_id = $imanifestation_id";
     $result = $this->db_select_into_array( $statement );

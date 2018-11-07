@@ -1833,8 +1833,6 @@ class Upload extends Project {
   #-----------------------------------------------------
   function display_works_uploaded() {
 
-    if( $this->debug ) echo "RG display_works_uploaded()<br>";
-
     HTML::anchor( 'works_section' );
     HTML::h4_start();
     echo 'Works';
@@ -1842,10 +1840,8 @@ class Upload extends Project {
 
     $cstatement = 'select count(*) from ' . $this->proj_collect_work_tablename()
                . " where upload_id = $this->upload_id";
-    if( $this->debug ) echo "RG display_works_uploaded($cstatement )<br>";
 
     $num_works = $this->db_select_one_value( $cstatement );
-    if( $this->debug ) echo "RG display_works_uploaded(num_works = $num_works)<br>";
 
     if( $num_works == 0 ) {
       echo 'No details of new works were uploaded in this contribution.' . LINEBREAK;
@@ -1866,10 +1862,8 @@ class Upload extends Project {
       $statement = 'select * from ' . $this->proj_collect_work_tablename()
                 . " where upload_id = $this->upload_id order by iwork_id"
                 . " LIMIT $LIMIT OFFSET $current_work ";
-      if( $this->debug ) echo "RG display_works_uploaded($statement )<br>";
 
       $works = $this->db_select_into_array( $statement );
-      if( $this->debug ) echo "RG display_works_uploaded(after select)<br>";
 
       foreach( $works as $row ) {
         extract( $row, EXTR_OVERWRITE );
@@ -2164,8 +2158,6 @@ class Upload extends Project {
                . " and x.upload_id = $this->upload_id"
                . ' order by primary_name';
    
-	  // MATTT
-		// echo "<!-- " . $statement . " -->";	
 
     $people = $this->db_select_into_array( $statement );
     $num_people = count( $people );
@@ -2185,17 +2177,14 @@ class Upload extends Project {
 
     if( $num_people > 1 ) HTML::ulist_start();
     foreach( $people as $person ) {
-			// MATTT
-      //echo "<!-- ";
-      //var_dump( $person );
-      //echo " --> ";
+
       if( $num_people > 1 ) HTML::listitem_start();
       extract( $person, EXTR_OVERWRITE );
 
       $this->echo_safely( $primary_name );
       if( $iperson_id >= IDS_CREATED_IN_TOOL_START ) {
         HTML::italic_start();
-        echo " (new record)";
+        echo "  <span style=\"color:#222\">[new record]</span>";
         HTML::italic_end();
       }
       echo LINEBREAK;
@@ -2249,6 +2238,11 @@ class Upload extends Project {
           $location_name = $this->db_select_one_value( $statement );
         }
         $this->echo_safely( $location_name );
+			if( $this->origin_id >= IDS_CREATED_IN_TOOL_START ) {
+				HTML::italic_start();
+				echo " <span style=\"color:#222\">[new record]</span>";
+				HTML::italic_end();
+			}
         echo LINEBREAK;
       }
 
@@ -2285,6 +2279,11 @@ class Upload extends Project {
           $location_name = $this->db_select_one_value( $statement );
         }
         $this->echo_safely( $location_name );
+			if( $this->destination_id >= IDS_CREATED_IN_TOOL_START ) {
+				HTML::italic_start();
+				echo ' <span style="color:#555">[new record]</span>';
+				HTML::italic_end();
+			}
         echo LINEBREAK;
       }
 
