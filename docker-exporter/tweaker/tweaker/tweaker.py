@@ -2,6 +2,7 @@
 from __future__ import print_function
 import sys
 import csv
+from datetime import datetime
 
 import psycopg2
 import psycopg2.extras
@@ -31,7 +32,7 @@ class DatabaseTweaker:
 			self.connect_to_postres(connection)  # e.g. "dbname='<HERE>' user='<HERE>' host='<HERE>' password='<HERE>'"
 
 		self._reset_audit()
-		self.user = "CokBot"
+		self.user = "cofkbot"
 
 	def _reset_audit(self):
 		self.audit = {
@@ -407,19 +408,25 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()[0]
 
-	def create_manifestation(self, manifestation_id, manifestation_type, printed_edition_details ):
+	def create_manifestation(self,
+			manifestation_id,
+			manifestation_type,
+			printed_edition_details=None,
+			id_number_or_shelfmark=None
+		):
 
 		self.check_database_connection()
 
 		command = "INSERT INTO cofk_union_manifestation" \
-					" (manifestation_id,manifestation_type,printed_edition_details,creation_user,change_user)" \
+					" (manifestation_id,manifestation_type,id_number_or_shelfmark,printed_edition_details,creation_user,change_user)" \
 					" VALUES " \
-					" ( %s,%s,%s,%s,%s)" \
+					" ( %s,%s,%s,%s,%s,%s)" \
 					" returning manifestation_id"
 
 		command = self.cursor.mogrify( command, (
 			manifestation_id,
 			manifestation_type,
+			id_number_or_shelfmark,
 			printed_edition_details,
 			self.user,
 			self.user ) )
@@ -448,6 +455,250 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()[0]
 
+	# Created / author / authored
+	def create_relationship_created(self, person_id, work_id ):
+		self.create_relationship('cofk_union_person', person_id, 'created', 'cofk_union_work', work_id )
+
+	# addressed / sent
+	def create_relationship_addressed_to(self, work_id, person_id ):
+		self.create_relationship( 'cofk_union_work', work_id, 'was_addressed_to', 'cofk_union_person', person_id )
+
+	def create_relationship_mentions(self, work_id, person_id ):
+		self.create_relationship( 'cofk_union_work', work_id, 'mentions', 'cofk_union_person', person_id )
+
+	# sent to / destination
+	def create_relationship_was_sent_to(self, work_id, location_id ):
+		self.create_relationship( 'cofk_union_work', work_id, 'was_sent_to', 'cofk_union_location', location_id )
+
+	# sent from / origin
+	def create_relationship_was_sent_from(self, work_id, location_id ):
+		self.create_relationship( 'cofk_union_work', work_id, 'was_sent_from', 'cofk_union_location', location_id )
+
+	def create_relationship_mentions_place(self, work_id, location_id ):
+		self.create_relationship( 'cofk_union_work', work_id, 'mentions_place', 'cofk_union_location', location_id )
+
+
+	def create_relationship_work_resource(self, work_id, resource_id ):
+		self.create_relationship( 'cofk_union_work', work_id, 'is_related_to', 'cofk_union_resource', resource_id )
+
+
+	def create_relationship_note_on_work_route(self, comment_id, work_id ):
+		self.create_relationship( 'cofk_union_comment', comment_id, 'route', 'cofk_union_work', work_id )
+
+	def create_relationship_note_on_work_date(self, comment_id, work_id ):
+		self.create_relationship( 'cofk_union_comment', comment_id, 'refers_to_date', 'cofk_union_work', work_id )
+
+	def create_relationship_note_on_work_author(self, comment_id, work_id ):
+		self.create_relationship( 'cofk_union_comment', comment_id, 'refers_to_author', 'cofk_union_work', work_id )
+
+	def create_relationship_note_on_work_origin(self, comment_id, work_id ):
+		self.create_relationship( 'cofk_union_comment', comment_id, 'refers_to_origin', 'cofk_union_work', work_id )
+
+	def create_relationship_note_on_work_destination(self, comment_id, work_id ):
+		self.create_relationship( 'cofk_union_comment', comment_id, 'refers_to_destination', 'cofk_union_work', work_id )
+
+	def create_relationship_note_on_work_generally(self, comment_id, work_id ):
+		self.create_relationship( 'cofk_union_comment', comment_id, 'refers_to', 'cofk_union_work', work_id )
+
+	def create_relationship_note_on_work_people_mentioned(self, comment_id, work_id ):
+		self.create_relationship( 'cofk_union_comment', comment_id, 'refers_to_people_mentioned_in_work', 'cofk_union_work', work_id )
+
+	def create_relationship_note_on_work_addressee(self, comment_id, work_id ):
+		self.create_relationship( 'cofk_union_comment', comment_id, 'refers_to_addressee', 'cofk_union_work', work_id )
+
+
+	def create_relationship_work_reply_to(self, work_reply_id, work_id ):
+		self.create_relationship( 'cofk_union_work', work_reply_id, 'is_reply_to', 'cofk_union_work', work_id )
+
+	def create_relationship_note_manifestation(self, comment_id, manifestation_id ):
+		self.create_relationship( 'cofk_union_comment', comment_id, 'refers_to', 'cofk_union_manifestation', manifestation_id )
+
+	def create_relationship_manifestation_in_repository(self, manifestation_id, repository_id ):
+		self.create_relationship( 'cofk_union_manifestation', manifestation_id, 'stored_in', 'cofk_union_institution', repository_id )
+
+	def create_relationship_manifestation_of_work(self, manifestation_id, work_id ):
+		self.create_relationship( 'cofk_union_manifestation', manifestation_id, 'is_manifestation_of', 'cofk_union_work', work_id )
+
+
+	def create_work(self, work_id_end,
+			abstract=None,
+			accession_code=None,
+			addressees_as_marked=None,
+			addressees_inferred=0,
+			addressees_uncertain=0,
+			authors_as_marked=None,
+			authors_inferred=0,
+			authors_uncertain=0,
+			date_of_work2_std_day=None,
+			date_of_work2_std_month=None,
+			date_of_work2_std_year=None,
+			date_of_work_approx=0,
+			date_of_work_as_marked=None,
+			date_of_work_inferred=0,
+			date_of_work_std_day=None,
+			date_of_work_std_is_range=0,
+			date_of_work_std_month=None,
+			date_of_work_std_year=None,
+			date_of_work_uncertain=0,
+			description=None,
+			destination_as_marked=None,
+			destination_inferred=0,
+			destination_uncertain=0,
+			edit_status='',
+			editors_notes=None,
+			explicit=None,
+			incipit=None,
+			keywords=None,
+			language_of_work=None,
+			origin_as_marked=None,
+			origin_inferred=0,
+			origin_uncertain=0,
+			original_calendar=None,
+			original_catalogue=None,
+			ps=None,
+			relevant_to_cofk='Y',
+			work_is_translation=0,
+			work_to_be_deleted=0
+	):
+		change_user = self.user
+		creation_user = self.user
+
+		work_id_base = "work_" + datetime.strftime( datetime.now(), "%Y%m%d%H%M%S%f" ) + "_" # e.g work_20181108182143954875_
+		work_id = work_id_base + work_id_end
+
+		addressees_as_marked = self.get_int_value(addressees_as_marked, 0)
+		addressees_inferred = self.get_int_value(addressees_inferred, 0)
+		addressees_uncertain = self.get_int_value(addressees_uncertain, 0)
+
+		authors_inferred = self.get_int_value(authors_inferred, 0)
+		authors_uncertain = self.get_int_value(authors_uncertain, 0)
+
+		date_of_work2_std_day = self.get_int_value(date_of_work2_std_day)
+		date_of_work2_std_month = self.get_int_value(date_of_work2_std_month)
+		date_of_work2_std_year = self.get_int_value(date_of_work2_std_year)
+
+		date_of_work_std_day = self.get_int_value(date_of_work_std_day)
+		date_of_work_std_month = self.get_int_value(date_of_work_std_month)
+		date_of_work_std_year = self.get_int_value(date_of_work_std_year)
+
+		date_of_work_approx = self.get_int_value(date_of_work_approx, 0)
+		date_of_work_inferred = self.get_int_value(date_of_work_inferred, 0)
+		date_of_work_std_is_range = self.get_int_value(date_of_work_std_is_range, 0)
+		date_of_work_uncertain = self.get_int_value(date_of_work_uncertain, 0)
+
+		destination_inferred = self.get_int_value(destination_inferred, 0)
+		destination_uncertain = self.get_int_value(destination_uncertain, 0)
+
+		origin_inferred = self.get_int_value(origin_inferred, 0)
+		origin_uncertain = self.get_int_value(origin_uncertain, 0)
+
+		work_is_translation = self.get_int_value(work_is_translation, 0)
+		work_to_be_deleted = self.get_int_value(work_to_be_deleted, 0)
+
+		date_of_work_std = self.get_date_string(date_of_work_std_year, date_of_work_std_month, date_of_work_std_day ),
+		date_of_work_std_gregorian = date_of_work_std,
+
+		command = "INSERT INTO cofk_union_work" \
+				" (" \
+					"abstract"\
+					",accession_code"\
+					",addressees_as_marked"\
+					",addressees_inferred"\
+					",addressees_uncertain"\
+					",authors_as_marked"\
+					",authors_inferred"\
+					",authors_uncertain"\
+					",change_user"\
+					",creation_user"\
+					",date_of_work2_std_day"\
+					",date_of_work2_std_month"\
+					",date_of_work2_std_year"\
+					",date_of_work_approx"\
+					",date_of_work_as_marked"\
+					",date_of_work_inferred"\
+					",date_of_work_std"\
+					",date_of_work_std_day"\
+					",date_of_work_std_gregorian"\
+					",date_of_work_std_is_range"\
+					",date_of_work_std_month"\
+					",date_of_work_std_year"\
+					",date_of_work_uncertain"\
+					",description"\
+					",destination_as_marked"\
+					",destination_inferred"\
+					",destination_uncertain"\
+					",edit_status"\
+					",editors_notes"\
+					",explicit"\
+					",incipit"\
+					",keywords"\
+					",language_of_work"\
+					",origin_as_marked"\
+					",origin_inferred"\
+					",origin_uncertain"\
+					",original_calendar"\
+					",original_catalogue"\
+					",ps"\
+					",relevant_to_cofk"\
+					",work_id"\
+					",work_is_translation"\
+					",work_to_be_deleted"\
+				")" \
+				" VALUES " \
+				" (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+
+		command = self.cursor.mogrify( command, (
+			abstract,
+			accession_code,
+			addressees_as_marked,
+			addressees_inferred,
+			addressees_uncertain,
+			authors_as_marked,
+			authors_inferred,
+			authors_uncertain,
+			change_user,
+			creation_user,
+			date_of_work2_std_day,
+			date_of_work2_std_month,
+			date_of_work2_std_year,
+			date_of_work_approx,
+			date_of_work_as_marked,
+			date_of_work_inferred,
+			date_of_work_std,
+			date_of_work_std_day,
+			date_of_work_std_gregorian,
+			date_of_work_std_is_range,
+			date_of_work_std_month,
+			date_of_work_std_year,
+			date_of_work_uncertain,
+			description,
+			destination_as_marked,
+			destination_inferred,
+			destination_uncertain,
+			edit_status,
+			editors_notes,
+			explicit,
+			incipit,
+			keywords,
+			language_of_work,
+			origin_as_marked,
+			origin_inferred,
+			origin_uncertain,
+			original_calendar,
+			original_catalogue,
+			ps,
+			relevant_to_cofk,
+			work_id,
+			work_is_translation,
+			work_to_be_deleted
+		) )
+
+		self._print_command( "CREATE work", command )
+		self._audit_insert( "work" )
+
+		self.cursor.execute( command )
+
+		return work_id
 
 	def create_person_or_organisation(
 			self,
@@ -687,18 +938,48 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()[0]
 
+	def get_languages_from_code(self, code ):
+		### print( tweaker.get_languages_from_code( "lat;fra;eng" ) )
+		### English, French, Latin
+		###
+		codes = code.split(";")
+		where = []
+		for code in codes :
+			where.append( "code_639_3='" + code + "'")
 
-	def get_int_value( self, value, default=None ):
+		command = "SELECT language_name from  iso_639_language_codes" \
+				" where " + " OR ".join( where )
+
+		self.cursor.execute( command )
+
+		languages = []
+		for lang in self.cursor:
+			languages.append( lang['language_name'] )
+
+		return ", ".join(languages)
+
+
+	@staticmethod
+	def get_int_value(value, default=None):
 		if value is not None and value != '' :
 			return int(value)
 
 		return default
 
-	def get_date_string( self, year=None, month=None, day=None ) :
+	@staticmethod
+	def get_date_string(year=None, month=None, day=None) :
 
-		year = year or 9999
-		month = month or 12
-		day = day or 31
+		# Switch to numbers
+		year = int(year) if year is not None else 9999
+		month = int(month) if month is not None else 12
+
+		if day is None :
+			if month in [1, 3, 5, 7, 8, 10, 12] :
+				day = 31
+			elif month == 2 :
+				day = 28  # should we look for leap years?
+			else :
+				day = 30
 
 		year = str(year)
 
