@@ -357,7 +357,7 @@ class Work extends Project {
           case 'places_from_searchable':
           case 'places_to_searchable':
           case 'manifestations_searchable':
-          case 'drawer':
+          #case 'drawer':
           case 'related_works_searchable':
           case 'related_works_for_display':
           case 'comments_on_work_searchable':
@@ -639,9 +639,9 @@ class Work extends Project {
           $search_help_class = 'document_type';
           break;
 
-        case 'drawer':
-          $search_help_class = 'drawer';
-          break;
+        #case 'drawer':
+        #  $search_help_class = 'drawer';
+        #  break;
 
         case 'accession_code':
           $search_help_text = 'Typically contains the name of the researcher who contributed the data.';
@@ -2478,7 +2478,7 @@ class Work extends Project {
         return $this->is_dd_mm_yyyy( $this->parm_value, $allow_blank = TRUE, $allow_pre_1950 = TRUE );
 
       case 'drawer':
-        return $this->is_alphanumeric_or_blank( str_replace( str_replace( '-', '_', $this->parm_value ), ' ', '' ), 
+        return $this->is_alphanumeric_or_blank( str_replace( str_replace( '-', '_', $this->parm_value ), ' ', '' ),
                                                 $allow_underscores = TRUE, $allow_all_whitespace = TRUE );
 
       case 'person_works_view_type':
