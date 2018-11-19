@@ -267,6 +267,8 @@ def main() :
 			tweaker.create_relationship_note_manifestation( comment_id, manifestation_id )
 
 
+		countdown -= 1
+
 	print()
 
 	tweaker.print_audit()
