@@ -28,4 +28,3 @@ require_once "$include_file";
 $cofk = new Application_Entity;
 $cofk->startup();
 
-?>

@@ -2579,8 +2579,66 @@ class Upload extends Project {
     if( $verbose ) echo 'You can export details of the works in this contribution to a spreadsheet: ';
     HTML::submit_button( 'csv_button', 'Export' );
     HTML::form_end();
+
+	  HTML::form_start( $class_name = 'upload', $method_name = 'export_upload_to_csv_webform',
+		  $form_name = '', $form_target = '_blank' );
+
+	  HTML::hidden_field( 'upload_id', $upload_id );
+	  if( $verbose ) echo 'You can export details of the works in this contribution to a spreadsheet that matches the webform: ';
+	  HTML::submit_button( 'csv_button', 'Export match Webform' );
+	  HTML::form_end();
   }
   #-----------------------------------------------------
+
+	function export_upload_to_csv_webform() {
+
+		$upload_id = $this->read_post_parm( 'upload_id' );
+		if( ! $upload_id ) die( 'Invalid input.' );
+
+		$statement = 'select * from ' . $this->proj_collect_upload_tablename()
+			. " where upload_id = $upload_id";
+		echo $statement;
+		$this->db_select_into_properties( $statement );
+
+		$statement = 'select status_desc from ' . $this->proj_collect_status_tablename()
+			. " where status_id = $this->upload_status";
+
+		echo $statement;
+		$status_desc = $this->db_select_one_value( $statement );
+
+		$statement = 'select * from ' . $this->proj_collect_work_tablename()
+			. " where upload_id = $this->upload_id";
+		echo $statement;
+		$contribution = $this->db_select_into_array( $statement );
+
+		$email = $this->read_session_parm( 'user_email' );
+		$msg_subject = 'Details of contribution ID ' . $upload_id;
+
+		$msg_body = 'Details are attached of contribution ID ' . $upload_id . ', made via the offline data collection tool.';
+		$msg_body .= CARRIAGE_RETURN . NEWLINE;
+
+		$msg_body .= "Contributed by: $this->upload_description ($this->uploader_email)" . '.';
+		$msg_body .= CARRIAGE_RETURN . NEWLINE;
+
+		$msg_body .= "Status of contribution: $status_desc" . '.';
+		$msg_body .= CARRIAGE_RETURN . NEWLINE;
+
+		$msg_body .= 'Number of works uploaded: ' . $this->total_works . '. ';
+		$msg_body .= ' Number accepted: ' . $this->works_accepted . '. ';
+		$msg_body .= ' Number rejected: ' . $this->works_rejected . '. ';
+		$msg_body .= CARRIAGE_RETURN . NEWLINE;
+
+		$contributed_work_obj = new Contributed_Work( $this->db_connection ); # so we get the correct column headings
+
+		$success = $contributed_work_obj->db_produce_csv_output( $contribution,
+			$msg_recipient = $email,
+			$msg_body,
+			$msg_subject,
+			$filename_root = 'upload' . $upload_id,
+			$suppress_confirmation = FALSE );
+	}
+	#-----------------------------------------------------
+
   function export_upload_to_csv() {
 
     $upload_id = $this->read_post_parm( 'upload_id' );
