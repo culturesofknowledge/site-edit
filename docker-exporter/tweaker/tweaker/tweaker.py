@@ -566,7 +566,6 @@ class DatabaseTweaker:
 		work_id_base = "work_" + datetime.strftime( datetime.now(), "%Y%m%d%H%M%S%f" ) + "_" # e.g work_20181108182143954875_
 		work_id = work_id_base + work_id_end
 
-		addressees_as_marked = self.get_int_value(addressees_as_marked, 0)
 		addressees_inferred = self.get_int_value(addressees_inferred, 0)
 		addressees_uncertain = self.get_int_value(addressees_uncertain, 0)
 
