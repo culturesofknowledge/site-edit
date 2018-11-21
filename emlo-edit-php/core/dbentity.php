@@ -2595,13 +2595,15 @@ class DBEntity extends Application_Entity {
     flush();
 
 	echo "<h1>Exportering...</h1>";
-	echo "<p>Hi, your friendly cok bot is producing your export as we speak. It'll email you as soon as it's finished!\n\n\n</p>";
-	echo "<p>It should work up to around 10'000 works (which will take around 30 minutes). It might work on even more (but not 50'000...)\n\n:)</p>";
+	echo '<img src="https://robohash.org/' . count( $rows ) .'.png" width="100">';
 
     if( ! is_array( $rows )) {
       echo 'No matches found.';
       return;
     }
+
+	echo "<p>Hi, your friendly cofk bot is producing your export as we speak. It'll email you as soon as it's finished!\n\n\n</p>";
+	echo "<p>It should work up to around 10'000 works (which will take around 30 minutes). It might work on even more (but not 50'000...)\n\n:)</p>";
 
     $this->db_set_max_csv_rows_for_public_user();  # this can be overridden by child class
 
@@ -2688,16 +2690,13 @@ class DBEntity extends Application_Entity {
 		Produce a JSON file output to pass info too. 
 	*/
 
-	$rowcount = count( $rows );
 
-	echo 'Current selection has ' . $rowcount . " rows";
+	echo 'Your current selection has ' . $rowcount . " rows";
 
 	$output_id = uniqid( rand(), TRUE );
 
 	$output_folder = '/var/www/exporter/exporter_data/';
-	$output_file = $output_folder . $output_id . ".json";	
-
-	echo $output_file;
+	$output_file = $output_folder . $output_id . ".json";
 
 	$fh = fopen($output_file, 'w') or die("ERROR: Can't open file to trigger export in " . $output_folder );
 
