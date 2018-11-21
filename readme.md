@@ -53,9 +53,9 @@ Note: the first connection will ask you to authenticate the remote host so you m
 
 Enable simple data exporter
 ---------------
-Change owners of the data folder to www-data
+Change owners of the data folder to www-data (that is the www-data inside the container, usually the id is 33)
 
-    chown 33:33 docker-exporter/exporter/exports exporter/exporter_data
+    chown 33:33 docker-exporter/exporter/exports docker-exporter/exporter/exporter_data
 
 
 Start (restart) server
@@ -86,7 +86,7 @@ Get database data, e.g.:
 
     pg_dumpall --username=<USERNAME_HERE> | gzip > pg_dumpall.out.gz
 
-Copy to container, e.g.:
+Copy to container, e.g. (containername is likely "emloeditor_postgres_1"):
 
     docker cp pg_dumpall.out.gz <containername>:/tmp/
 
