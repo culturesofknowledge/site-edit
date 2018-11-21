@@ -2689,8 +2689,7 @@ class DBEntity extends Application_Entity {
 	/*
 		Produce a JSON file output to pass info too. 
 	*/
-
-
+	$rowcount = count( $rows );
 	echo 'Your current selection has ' . $rowcount . " rows";
 
 	$output_id = uniqid( rand(), TRUE );
