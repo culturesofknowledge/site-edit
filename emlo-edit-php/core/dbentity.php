@@ -2690,13 +2690,14 @@ class DBEntity extends Application_Entity {
 
 	$rowcount = count( $rows );
 
-	echo 'rowcount: ' . $rowcount;
-	return;
+	echo 'Current selection has ' . $rowcount . " rows";
 
 	$output_id = uniqid( rand(), TRUE );
 
 	$output_folder = '/var/www/exporter/exporter_data/';
 	$output_file = $output_folder . $output_id . ".json";	
+
+	echo $output_file;
 
 	$fh = fopen($output_file, 'w') or die("ERROR: Can't open file to trigger export in " . $output_folder );
 
@@ -2717,17 +2718,16 @@ class DBEntity extends Application_Entity {
 
 	fclose( $fh );
 
-	/*
-		Launch the export command 
-	*/
-
+	///*
+	//	Launch the export command
+	//*/
 	//$command = 'ls';//'cd /home/cofkadmin/git/emlo-exporter;/usr/bin/python /home/cofkadmin/git/emlo-exporter/export_web_auto.py ' . $output_file . " > /dev/null &";
 	//$output = exec($command);
 	//echo $output;
 
 	return;
 
-
+	/*
     $is_large_file = FALSE;
     $rowcount = count( $rows );
     if( $rowcount > MAX_ROWS_IN_CSV_FILE ) $is_large_file = TRUE;
@@ -2912,6 +2912,7 @@ class DBEntity extends Application_Entity {
       flush();
     }
     HTML::new_paragraph();
+    */
   }
   #-----------------------------------------------------
 
