@@ -10,6 +10,7 @@ postgres:
 
 rabbitmq:
   image: rabbitmq:3-alpine
+  restart: always
 
 php:
   build: ./emlo-edit-php
