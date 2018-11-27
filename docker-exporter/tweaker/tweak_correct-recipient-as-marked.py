@@ -4,7 +4,6 @@ from config import config
 import sys
 
 csv_file = "resources/royal-society/RSEL-emlo-ids.csv"
-csv_file = "resources/royal-society/RSEL-emlo-ids-small.csv"
 debugging = True
 
 def main() :
