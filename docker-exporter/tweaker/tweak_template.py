@@ -23,7 +23,10 @@ def main() :
 	tweaker = DatabaseTweaker.tweaker_from_connection( config["dbname"], config["host"], config["port"], config["user"], config["password"] )
 	tweaker.set_debug( debugging )
 
-	commit = do_commit()
+	if debugging:
+		commit = False
+	else :
+		commit = do_commit()
 
 	csv_rows = tweaker.get_csv_data( csv_file )
 
