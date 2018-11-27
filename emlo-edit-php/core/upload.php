@@ -2580,13 +2580,14 @@ class Upload extends Project {
     HTML::submit_button( 'csv_button', 'Export' );
     HTML::form_end();
 
-	  HTML::form_start( $class_name = 'upload', $method_name = 'export_upload_to_csv_webform',
+	 /* HTML::form_start( $class_name = 'upload', $method_name = 'export_upload_to_csv_webform',
 		  $form_name = '', $form_target = '_blank' );
 
 	  HTML::hidden_field( 'upload_id', $upload_id );
 	  if( $verbose ) echo 'You can export details of the works in this contribution to a spreadsheet that matches the webform: ';
 	  HTML::submit_button( 'csv_button', 'Export match Webform' );
 	  HTML::form_end();
+	 */
   }
   #-----------------------------------------------------
 
