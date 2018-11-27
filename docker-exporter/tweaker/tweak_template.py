@@ -3,8 +3,20 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 import sys
 
+# Setup
 csv_file = "<A CSV FILE>"
+id_name = 'emloid'
+skip_first_row = False
 debugging = True
+
+
+def row_process( tweaker, row ) :
+
+	work = tweaker.get_work_from_iwork_id( row[id_name] )
+
+	<CODE_HERE>
+
+
 
 def main() :
 
@@ -21,22 +33,16 @@ def main() :
 		csv_rows = csv_rows[:restrict]
 
 	count = countdown = len(csv_rows)
-
-	skip_first_row = False
 	for csv_row in csv_rows:
 
-		if skip_first_row:
-			skip_first_row = False
+		if countdown == count and skip_first_row:
 			continue
 
-		print( str(countdown) + " of " + str(count), ":", csv_row["emloid"] )
+		print( str(countdown) + " of " + str(count), ":", csv_row[id_name] )
 
-		work = tweaker.get_work_from_iwork_id( csv_row["emloid"] )
-
-		<do something>
+		row_process( tweaker, csv_row )
 
 		countdown -= 1
-
 
 	print()
 
