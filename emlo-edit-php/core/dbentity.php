@@ -2595,13 +2595,15 @@ class DBEntity extends Application_Entity {
     flush();
 
 	echo "<h1>Exportering...</h1>";
-	echo "<p>Hi, your friendly cok bot is producing your export as we speak. It'll email you as soon as it's finished!\n\n\n</p>";
-	echo "<p>It should work up to around 10'000 works (which will take around 30 minutes). It might work on even more (but not 50'000...)\n\n:)</p>";
+	echo '<img src="https://robohash.org/' . count( $rows ) .'.png" width="100">';
 
     if( ! is_array( $rows )) {
       echo 'No matches found.';
       return;
     }
+
+	echo "<p>Hi, your friendly cofk bot is producing your export as we speak. It'll email you as soon as it's finished!\n\n\n</p>";
+	echo "<p>It should work up to around 10'000 works (which will take around 30 minutes). It might work on even more (but not 50'000...)\n\n:)</p>";
 
     $this->db_set_max_csv_rows_for_public_user();  # this can be overridden by child class
 
@@ -2687,16 +2689,13 @@ class DBEntity extends Application_Entity {
 	/*
 		Produce a JSON file output to pass info too. 
 	*/
-
 	$rowcount = count( $rows );
-
-	echo 'rowcount: ' . $rowcount;
-	return;
+	echo 'Your current selection has ' . $rowcount . " rows";
 
 	$output_id = uniqid( rand(), TRUE );
 
 	$output_folder = '/var/www/exporter/exporter_data/';
-	$output_file = $output_folder . $output_id . ".json";	
+	$output_file = $output_folder . $output_id . ".json";
 
 	$fh = fopen($output_file, 'w') or die("ERROR: Can't open file to trigger export in " . $output_folder );
 
@@ -2717,17 +2716,16 @@ class DBEntity extends Application_Entity {
 
 	fclose( $fh );
 
-	/*
-		Launch the export command 
-	*/
-
+	///*
+	//	Launch the export command
+	//*/
 	//$command = 'ls';//'cd /home/cofkadmin/git/emlo-exporter;/usr/bin/python /home/cofkadmin/git/emlo-exporter/export_web_auto.py ' . $output_file . " > /dev/null &";
 	//$output = exec($command);
 	//echo $output;
 
 	return;
 
-
+	/*
     $is_large_file = FALSE;
     $rowcount = count( $rows );
     if( $rowcount > MAX_ROWS_IN_CSV_FILE ) $is_large_file = TRUE;
@@ -2912,6 +2910,7 @@ class DBEntity extends Application_Entity {
       flush();
     }
     HTML::new_paragraph();
+    */
   }
   #-----------------------------------------------------
 
