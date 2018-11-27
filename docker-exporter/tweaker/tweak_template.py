@@ -24,6 +24,7 @@ def main() :
 	tweaker.set_debug( debugging )
 
 	if debugging:
+		print( "Debug ON so no commit" )
 		commit = False
 	else :
 		commit = do_commit()
