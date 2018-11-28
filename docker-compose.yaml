@@ -10,6 +10,7 @@ postgres:
 
 rabbitmq:
   image: rabbitmq:3-alpine
+  restart: always
 
 php:
   build: ./emlo-edit-php
@@ -45,6 +46,9 @@ exporter:
   volumes:
     -  ./docker-exporter/exporter/exports:/usr/src/app/exports
     -  ./docker-exporter/exporter/exporter_data:/usr/src/app/exporter_data
+
+    - ./docker-exporter/tweaker/resources:/usr/src/tweaker/resources
+
 
 uploader:
   build: ./docker-uploader
