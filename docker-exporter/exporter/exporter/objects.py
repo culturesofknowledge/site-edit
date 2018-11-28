@@ -264,6 +264,7 @@ def get_location_csv_converter() :
 		{ "f" : "Primary place name (city, town, village)", "d" : { "o" : "location", "f" : "element_4_eg_city" } },
 		{ "f" : "County, State, or Province", "d" : { "o" : "location", "f" : "element_5_eg_county" } },
 		{ "f" : "Country", "d" : { "o" : "location", "f" : "element_6_eg_country" } },
+		{ "f" : "Empire", "d" : { "o" : "location", "f" : "element_7_eg_empire" } },
 		{ "f" : "Place name synonyms", "d" : { "o" : "location", "f" : "location_synonyms" } },
 		{ "f" : "Coordinates: Latitude", "d" : { "o" : "location", "f" : "latitude" } },
 		{ "f" : "Coordinates: Longitude", "d" : { "o" : "location", "f" : "longitude" } },
