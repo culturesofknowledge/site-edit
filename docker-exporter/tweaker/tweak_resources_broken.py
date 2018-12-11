@@ -9,7 +9,7 @@ id_name = 'id'
 skip_first_row = False
 
 debugging = False
-restrict = 50
+restrict = 500
 
 errors = [
 	#'https://databank.ora.ox.ac.uk/',
@@ -51,6 +51,9 @@ def row_process( tweaker, row ) :
 					new_url += '?previous=cofk2-http'
 
 				if new_url :
+					tweaker.update_resource( resource['resource_id'], {
+						'resource_url' : new_url
+					})
 					pass  # print( "New: " + new_url + " (Old: " + old_url + " )" )
 				else :
 					print ("NOT CHANGED: " + old_url )
