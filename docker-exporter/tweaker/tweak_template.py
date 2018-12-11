@@ -1,20 +1,21 @@
 from __future__ import print_function
 from tweaker.tweaker import DatabaseTweaker
 from config import config
-import sys
 
 # Setup
 csv_file = "<A CSV FILE>"
 id_name = 'emloid'
 skip_first_row = False
+
 debugging = True
+restrict = 5
 
 
 def row_process( tweaker, row ) :
 
 	work = tweaker.get_work_from_iwork_id( row[id_name] )
 
-	<CODE_HERE>
+	#### <CODE_HERE> ####
 
 
 
@@ -31,8 +32,7 @@ def main() :
 
 	csv_rows = tweaker.get_csv_data( csv_file )
 
-	if debugging:
-		restrict = 5
+	if debugging and restrict:
 		print( "Restricting rows to just", restrict)
 		csv_rows = csv_rows[:restrict]
 
@@ -55,6 +55,7 @@ def main() :
 
 	print( "Fini" )
 
+
 def do_commit() :
 
 	commit = ( raw_input("Commit changes to database (y/n): ") == "y")
@@ -64,6 +65,7 @@ def do_commit() :
 		print( "NOT committing changes to database." )
 
 	return commit
+
 
 if __name__ == '__main__':
 
