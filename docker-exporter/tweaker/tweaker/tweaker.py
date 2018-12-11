@@ -103,6 +103,20 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()
 
+
+	def get_image_from_image_id( self, image_id ):
+
+		self.check_database_connection()
+
+		command = "SELECT * FROM cofk_union_image WHERE image_id=%s"
+		command = self.cursor.mogrify( command, (image_id,) )
+
+		if self.debug :
+			print( "* SELECT image:", command )
+
+		self.cursor.execute( command )
+		return self.cursor.fetchone()
+
 	def get_comment_from_comment_id( self, comment_id ):
 
 		self.check_database_connection()
