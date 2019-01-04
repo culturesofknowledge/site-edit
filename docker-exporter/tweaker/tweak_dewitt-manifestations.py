@@ -3,20 +3,23 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 
 # Setup
-csv_file = "<A CSV FILE>"
-id_name = 'emloid'
+csv_file = "resources/DeWitt_bibliog_details_toCORRECT_2019.1.3a (1).csv"
+id_name = 'Manifestation [Letter] ID'
 skip_first_row = False
 
-debugging = True
-restrict = 5  # use 0 to turn off.
+debugging = False
+restrict = 0
 
 
 def row_process( tweaker, row ) :
 
-	work = tweaker.get_work_from_iwork_id( row[id_name] )
+	manifestation = tweaker.get_manifestation_from_manifestation_id( row[id_name] )
 
-	#### <CODE_HERE> ####
+	if manifestation :
 
+		tweaker.update_manifestation( row[id_name], {
+			"printed_edition_details" : row['Printed copy details']
+		} )
 
 
 def main() :
