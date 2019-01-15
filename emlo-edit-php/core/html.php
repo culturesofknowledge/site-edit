@@ -84,9 +84,6 @@ class HTML extends Application_Entity {
     echo NEWLINE;
 
     $page_title = trim( CFG_SYSTEM_TITLE );
-    if( CONSTANT_DATABASE_NAME != 'ouls' )
-      $page_title = $page_title . ': Test/Training DB';
-
     echo "<title>$page_title</title>" . NEWLINE;
 
     if( PROJ_FAVICON > '' )

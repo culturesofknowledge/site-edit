@@ -12,7 +12,7 @@ get -r1.3 /home/burgess/scripts/sccs/cofk/php/s.union.php
 defined( "DEBUGGING" ) or define( "DEBUGGING", FALSE );
 
 define( 'CFG_PREFIX', 'cofk' );
-define( 'CFG_SYSTEM_TITLE', 'Royal Society Editing Interface' );
+define( 'CFG_SYSTEM_TITLE', 'Royal Society' );
 //define( 'CFG_SYSTEM_TITLE', 'Union Catalogue Editing Interface' );
 
 define( 'CULTURES_OF_KNOWLEDGE_MAIN_SITE', 'http://www.history.ox.ac.uk/cofk/' );
