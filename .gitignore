@@ -16,13 +16,14 @@ backup-script
 emlo-edit-php-helper/exporter/config.py
 emlo-edit-php-helper/exporter/exporter_data/*.*.json
 emlo-edit-php-helper/exporter/auto_*.*
+emlo-edit-php-helper/exporter/exports
 
 # EMLO Tweaker
 emlo-edit-php-helper/tweaker/config.py
 emlo-edit-php-helper/tweaker/resources
-emlo-edit-php-helper/tweaker/*.csv
-emlo-edit-php-helper/tweaker/*.xlsx
-emlo-edit-php-helper/tweaker/*.ods
+emlo-edit-php-helper/tweaker/**/*.csv
+emlo-edit-php-helper/tweaker/**/*.xlsx
+emlo-edit-php-helper/tweaker/**/*.ods
 
 
 # Others
@@ -30,3 +31,4 @@ emlo-edit-php-helper/tweaker/*.ods
 /.idea/
 volumes/*
 docker-uploader/uploader/logs
+docker-uploader/uploader/*.pyc
