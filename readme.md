@@ -26,7 +26,7 @@ Assuming you have already git cloned this repo (i.e. the one this readme is in):
 
  - Create config files:
    - cp docker-compose.php.template.env to docker-compose.php.env and fill in the missing values (See below if you need new identity keys)
-   - cp docker-exporter/exporter/config.template.py to docker-exporter/exporter/config.py and fill in the missing values.
+   - cp emlo-edit-php-helper/exporter/config.template.py to emlo-edit-php-helper/exporter/config.py and fill in the missing values.
    - cp emlo-edit-php/interface/proform/lib/config.template.php emlo-edit-php/interface/proform/lib/config.php
 
  - generate/obtain ssl key and cert file for nginx build (e.g. sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/ssl/ssl.key -out nginx/ssl/ssl.crt )
@@ -55,7 +55,7 @@ Enable simple data exporter
 ---------------
 Change owners of the data folder to www-data (that is the www-data inside the container, usually the id is 33)
 
-    chown 33:33 docker-exporter/exporter/exports docker-exporter/exporter/exporter_data
+    chown 33:33 emlo-edit-php-helper/exporter/exports emlo-edit-php-helper/exporter/exporter_data
 
 
 Start (restart) server

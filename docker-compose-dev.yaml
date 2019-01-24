@@ -30,8 +30,8 @@ php:
     - docker-compose.php.env
 
   volumes:
-    -  ./docker-exporter/exporter/exports:/var/www/html/exports
-    -  ./docker-exporter/exporter/exporter_data:/var/www/exporter/exporter_data
+    -  ./emlo-edit-php-helper/exporter/exports:/var/www/html/exports
+    -  ./emlo-edit-php-helper/exporter/exporter_data:/var/www/exporter/exporter_data
 
     - ./volumes/csv:/csv
     - ./volumes/ssh:/root/.ssh
@@ -44,21 +44,21 @@ php:
 
 
 exporter:
-  build: ./docker-exporter
+  build: ./emlo-edit-php-helper
 
   links:
     - postgres
 
   volumes:
 
-    -  ./docker-exporter/exporter/exports:/usr/src/app/exports
-    -  ./docker-exporter/exporter/exporter_data:/usr/src/app/exporter_data
+    -  ./emlo-edit-php-helper/exporter/exports:/usr/src/app/exports
+    -  ./emlo-edit-php-helper/exporter/exporter_data:/usr/src/app/exporter_data
 
-    # overruled by dev section - ./docker-exporter/tweaker/resources:/usr/src/tweaker/resources
+    # overruled by dev section - ./emlo-edit-php-helper/tweaker/resources:/usr/src/tweaker/resources
 
     # Dev only
-    -  ./docker-exporter/exporter:/usr/src/app
-    -  ./docker-exporter/tweaker:/usr/src/tweaker
+    -  ./emlo-edit-php-helper/exporter:/usr/src/app
+    -  ./emlo-edit-php-helper/tweaker:/usr/src/tweaker
 
 uploader:
   build: ./docker-uploader

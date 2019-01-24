@@ -5,10 +5,10 @@ from config import config
 # Setup
 csv_file = "<A CSV FILE>"
 id_name = 'emloid'
-skip_first_row = False
+skip_first_data_row = False
 
 debugging = True
-restrict = 5  # use 0 to turn off.
+restrict = 5  # use 0 to restrict none.
 
 
 def row_process( tweaker, row ) :
@@ -39,7 +39,7 @@ def main() :
 	count = countdown = len(csv_rows)
 	for csv_row in csv_rows:
 
-		if countdown == count and skip_first_row:
+		if countdown == count and skip_first_data_row:
 			continue
 
 		print( str(countdown) + " of " + str(count), ":", csv_row[id_name] )
