@@ -41,10 +41,14 @@ class Exporter:
 
 		self.reports = []
 		self.csvs = []
-		self.limit_ouput = 10
+		self.limit_output = 10
 
+	def clear(self):
+		self.reports = []
+		self.csvs = []
 
 	def export_places(self, place_ids, output_folder_name, excel_output=None):
+		self.clear()
 
 		output_folder = "exports/" + output_folder_name
 		if not os.path.exists( output_folder ):
@@ -81,6 +85,7 @@ class Exporter:
 		ew.convert( settings )
 
 	def export_people(self, person_ids, output_folder_name, excel_output=None ):
+		self.clear()
 
 		output_folder = "exports/" + output_folder_name
 		if not os.path.exists( output_folder ):
@@ -117,7 +122,7 @@ class Exporter:
 		ew.convert( settings )
 
 
-	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None, excel_output=None ):
+	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None, excel_output=None, export_folder="exports/" ):
 		"""
 			Create csv files associated with the workids (This can use a lot of memory... given a lot of works)
 
@@ -128,10 +133,9 @@ class Exporter:
 			:param parts_comments: Whether we should export comments with csvs (list of names)
 			:return: noght.
 		"""
+		self.clear()
 
 		start = datetime.datetime.now()
-
-		self.reports = []
 
 		if not self._empty( work_ids ) :
 
@@ -146,7 +150,7 @@ class Exporter:
 
 			self.relationship_ids = []
 
-			output_folder = "exports/" + output_folder_name
+			output_folder = export_folder + output_folder_name
 			if not os.path.exists( output_folder ):
 				os.makedirs( output_folder )
 
@@ -809,8 +813,8 @@ class Exporter:
 			print( name, "(", str(length), "):" )
 			for i, obj in enumerate(objs) :
 				print( " ", name[0] + str(i), ": ", obj)
-				if i == self.limit_ouput :
-					print( " ", str( length - self.limit_ouput ) + " more..." )
+				if i == self.limit_output :
+					print( " ", str( length - self.limit_output) + " more...")
 					break
 
 	def _pretty_print_relations( self, name, rels ):
@@ -819,8 +823,8 @@ class Exporter:
 			print( name, "relations(", str(length), "):" )
 			for i, obj in enumerate(rels) :
 				print( " ", name[0] + "r" + str(i), " : ", obj + "(" + str(len( rels[obj] )) + ")", rels[obj])
-				if i == self.limit_ouput :
-					print( " ", str( length - self.limit_ouput ) + " more..." )
+				if i == self.limit_output :
+					print( " ", str( length - self.limit_output) + " more...")
 					break
 
 	def _print_report(self, duration):

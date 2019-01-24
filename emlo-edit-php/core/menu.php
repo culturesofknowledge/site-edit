@@ -622,10 +622,7 @@ class Menu extends Project {
     $this->$logo_function( $logo_class );
 
     HTML::h1_start();
-    if( CONSTANT_DATABASE_NAME == 'ouls' )
-      echo CFG_SYSTEM_TITLE;
-    else
-      echo trim( CFG_SYSTEM_TITLE ) . ': Test/Training DB';
+    echo trim( CFG_SYSTEM_TITLE );
     HTML::h1_end();
 
     if( ! $suppress_breadcrumbs ) {

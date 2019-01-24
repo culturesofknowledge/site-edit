@@ -14,6 +14,11 @@ MAINTAINER matthew
 
 COPY postgres.conf /etc/postgresql/postgresql.conf
 
+COPY cofk-empty.postgres.schema.sql /tools/
+COPY cofk-initial.postgres.schema.data.sql /tools/
+COPY cofk-testdata.postgres.schema.data.sql /tools/
+COPY README.md /tools/
+
 # To enable loggin on postgres add these to postgres config file.
 # log_destination = 'csvlog'
 # log_directory = 'pg_log'

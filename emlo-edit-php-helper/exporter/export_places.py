@@ -104,6 +104,10 @@ for row in csv_data:
 	country = countryh = name_clean( row["Country"] )
 	empire = empireh = name_clean( row["Empire"] )
 
+	if "$RSEL" in town :
+		print( "skipping!" )
+		continue
+
 	if room:
 		roomh = empire + ", " + country + ", " + county + ", " + town + ", " + parish + ", " + building + ", " + room
 	if building:
