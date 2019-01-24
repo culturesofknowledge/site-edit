@@ -25,6 +25,12 @@ def row_process( tweaker, row ) :
 
 	if resource :
 		for error in errors :
+			# find work (A) the resource is related to
+			# find work (B) the resource url relates to
+			# check if there's a match relation between (A) and (B)
+			#   if there is we don't need this resource
+			#   else create one and then remove the resource
+
 			if resource['resource_url'].startswith( error ) :
 				old_url = resource['resource_url']
 				new_url = None
