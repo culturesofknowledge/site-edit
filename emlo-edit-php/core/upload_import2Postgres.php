@@ -28,14 +28,14 @@ $channel->queue_declare('uploader-processed', false, false, false, false);
 $callback = function ($msg) {
 
 	$data = json_decode( $msg->body );
-	print_r( $data );
+	// print_r( $data );
 
 	if( !$data->error ) {
 		ingest($data->foldername);
 	}
 	else {
-		print( "* Failed to process before PHP code *\n" );
-		print( "Error: " . $data->error );
+		print( "Something *Failed*\n" );
+		print( "Error(s):\n" . $data->error );
 	}
 
 	exit();
