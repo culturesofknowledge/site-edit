@@ -3,20 +3,23 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 
 # Setup
-csv_file = "<A CSV FILE>"
-id_name = "<ID COLUMN NAME>"
-skip_first_data_row = False
+csv_file = "resources/Locke_1_printedcopy_tidy_REPLACE_2019.1.26.csv"
+id_name = 'Manifestation [Letter] ID'
 
-debugging = True
-restrict = 5  # use 0 to restrict none.
+skip_first_row = False
+debugging = False
+restrict = 0
 
 
 def row_process( tweaker, row ) :
 
-	work = tweaker.get_work_from_iwork_id( row[id_name] )
+	manifestation = tweaker.get_manifestation_from_manifestation_id( row[id_name] )
 
-	#### <CODE_HERE> ####
+	if manifestation :
 
+		tweaker.update_manifestation( row[id_name], {
+			"printed_edition_details" : row['Printed copy details to replace']
+		} )
 
 
 def main() :
@@ -39,7 +42,7 @@ def main() :
 	count = countdown = len(csv_rows)
 	for csv_row in csv_rows:
 
-		if countdown == count and skip_first_data_row:
+		if countdown == count and skip_first_row:
 			continue
 
 		print( str(countdown) + " of " + str(count), ":", csv_row[id_name] )
