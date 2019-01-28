@@ -3,7 +3,7 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 
 # Setup
-csv_file = "resources/dewitt/DeWitt_NA_URLsUPLOAD_MW_2019.1.21.csv"
+csv_file = "resources/DeWitt_NA_URLsUPLOAD_MW_2019.1.21.csv"
 id_name = 'Work (Letter) ID'
 
 skip_first_data_row = False
