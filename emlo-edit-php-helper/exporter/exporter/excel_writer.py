@@ -7,25 +7,27 @@ from openpyxl.styles import Font
 
 class ExcelWriter:
 
-	def convert(self, settings ):
+	def convert(self, settings, skip_styles=False ):
 		"""
 		Add a list of CSVs to a new Excel file
-		:param settings: {
-			sheets : [
+		:param settings= {
+			'sheets' : [
 				{
-					filelocation: <string csv filename>,
-					sheetname: <string sheet name>,
-					has_titles: <bool default:true>,  # Use bold if there are titles.
+					'filelocation': '<string csv filename>',
+					'sheetname': '<string sheet name>',
+					'has_titles': '<bool default:true>',  # Use bold if there are titles.
 				}
-			]
-			outputname : <output xlsx name
+			],
+			'outputname' : '<output xlsx name>'
 		}
 		:return: None
 		"""
 
 		wb = Workbook()
-		col_title_font = Font( size=11, italic=True )
-		col_font = Font( size=11 )
+
+		if not skip_styles :
+			col_title_font = Font( size=11, italic=True )
+			col_font = Font( size=11 )
 
 		first = True
 		for sheet in settings["sheets"]:
@@ -46,13 +48,14 @@ class ExcelWriter:
 					col_count = 1
 					for cell in csv_row :
 
-						c = ws.cell(row=row_count, column=col_count)
 
-						if row_count == 1 and sheet.get( "has_titles", True ) :
-							# Set bold if titles
-							c.font = col_title_font
-						else :
-							c.font = col_font
+						c = ws.cell(row=row_count, column=col_count)
+						if not skip_styles :
+							if row_count == 1 and sheet.get( "has_titles", True ) :
+								# Set bold if titles
+								c.font = col_title_font
+							else :
+								c.font = col_font
 
 						c.value = cell
 
@@ -60,15 +63,16 @@ class ExcelWriter:
 
 					row_count += 1
 
-			# Adjust widths of columns
-			dims = {}
-			for row in ws.rows:
-				for cell in row:
-					if cell.value:
-						dims[cell.column] = max((dims.get(cell.column, 0), self.calculate_width(cell.value)))
-			
-			for col, value in dims.items():
-				ws.column_dimensions[col].width = value
+			if not skip_styles :
+				# Adjust widths of columns
+				dims = {}
+				for row in ws.rows:
+					for cell in row:
+						if cell.value:
+							dims[cell.column] = max((dims.get(cell.column, 0), self.calculate_width(cell.value)))
+
+				for col, value in dims.items():
+					ws.column_dimensions[col].width = value
 
 			wb.save(settings["outputname"])
 
