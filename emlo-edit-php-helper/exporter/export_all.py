@@ -18,7 +18,7 @@ work_ids = e.select_all( command )
 work_ids = [id['work_id'] for id in work_ids]
 
 work_count = len( work_ids )
-work_count = 30000
+#work_count = 30000
 batch = 5000
 start = 0
 
@@ -33,7 +33,7 @@ parts = [
 
 folders = []
 for num in range( 0, work_count, batch ) :
-	print( "Batching " + str(num) + ":" + str(num + batch) )
+	print( "Batching " + str(num) + ":" + str(num + batch) + ", togo:" + str(work_count-(num + batch)) )
 
 	e = Exporter( postgres_connection, False, False )
 	folder_name = "all_" + str(num/batch)
