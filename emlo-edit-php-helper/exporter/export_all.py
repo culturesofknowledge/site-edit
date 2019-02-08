@@ -103,6 +103,7 @@ settings = {
 	'outputname' : combined_folder + '/combined.xls'
 }
 
-print "Combining to Excel..."
-ew = excel_writer.ExcelWriter()
-ew.convert(settings, skip_styles=True)
+# This is far to slow, and uses WAY to much memory... (It's easier and faster to just insert the csv files manually...
+#print "Combining to Excel..."
+#ew = excel_writer.ExcelWriter()
+#ew.convert(settings, skip_styles=True)
