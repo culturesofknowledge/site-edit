@@ -122,7 +122,7 @@ class Exporter:
 		ew.convert( settings )
 
 
-	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None, excel_output=None, export_folder="exports/", create_excel=False ):
+	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None, excel_output=None, export_folder="exports/", create_excel=True ):
 		"""
 			Create csv files associated with the workids (This can use a lot of memory... given a lot of works)
 
