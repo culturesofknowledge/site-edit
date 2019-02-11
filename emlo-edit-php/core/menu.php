@@ -599,7 +599,9 @@ class Menu extends Project {
   #-----------------------------------------------------
 
   function page_head( $override_title = NULL, $suppress_breadcrumbs = FALSE, $suppress_colours = FALSE ) {
-
+    if( ! $suppress_breadcrumbs ) {
+      HTML::menu();
+	 }
     if( $this->called_as_popup ) $suppress_breadcrumbs = TRUE;
 
     if( $suppress_colours ) {
@@ -641,9 +643,9 @@ class Menu extends Project {
         HTML::jump_to_work( $tabindex=2 );
     }
 	  echo LINEBREAK;
-    echo '<hr style="height:13px;color:white;background-color:white;">';
+    echo '<hr style="height:4px;color:white;background-color:white;">';
 
-    HTML::h2_start( "margin:13px 10px 0px 19px");
+    HTML::h2_start( "margin:13px 10px 0px 40px");
     if( $override_title )
       echo $override_title;
     else
