@@ -3,11 +3,11 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 
 # Setup
-csv_file = "resources/Locke_1_printedcopy_tidy_REPLACE_2019.1.26.csv"
+csv_file = "resources/Locke_1_printedcopy_tidy_REPLACE_2019.2.8.csv"
 id_name = 'Manifestation [Letter] ID'
 
 skip_first_row = False
-debugging = False
+debugging = True
 restrict = 0
 
 
@@ -18,7 +18,7 @@ def row_process( tweaker, row ) :
 	if manifestation :
 
 		tweaker.update_manifestation( row[id_name], {
-			"printed_edition_details" : row['Printed copy details to replace']
+			"printed_edition_details" : row['Printed copy details']
 		} )
 
 
