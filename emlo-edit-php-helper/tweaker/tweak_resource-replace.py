@@ -7,7 +7,7 @@ csv_file = "resources/URLS_Agustin_replace_MW_2019.2.25a.csv"
 id_name = "EMLO Letter ID Number"
 skip_first_data_row = False
 
-debugging = True
+debugging = False
 restrict = 5  # use 0 to restrict none.
 
 
@@ -21,7 +21,7 @@ def row_process( tweaker, row ) :
 
 		if len( relationships ) == 1:
 			rel = relationships[0]
-			resource = tweaker.get_resource_from_resource_id( rel['relationship_id'] )
+			resource = tweaker.get_resource_from_resource_id( rel['id_value'] )
 
 			if resource :
 				tweaker.update_resource( resource['resource_id'], {
