@@ -227,10 +227,10 @@ if [ "$DAY" = "$DOCKER__WEEKLY_PUBLISH_DAY" ]
 then
 	need_index=1
 else
-	if [ -f ./FORCE_INDEX ]
+	if [ -f $SCRIPTDIR../exporter/FORCE_INDEX ]
 	then
 		need_index=1
-		rm ./FORCE_INDEX
+		rm $SCRIPTDIR../exporter/FORCE_INDEX
 	fi
 fi
 

@@ -635,14 +635,50 @@ class User extends DBEntity {
   }
   #-----------------------------------------------------
 
+   function set_export_needed() {
+    $force_file_pos = "../exporter/FORCE_INDEX";
+
+    if( file_exists($force_file_pos) ) {
+      print("<p>It's already set to export today!</p>");
+    }
+    else {
+		 $force_file = fopen($force_file_pos, "w");
+		 $text = "File used in export_cofk_union.sh to initiate indexed update on front";
+		 fwrite($force_file, $text);
+		 fclose($force_file);
+
+		 print( "<p>Thanks!</p>");
+	 }
+	 $day = date("w");
+    if( $day == "0" || $day == "6" ) {
+      print("<p>Should you be working at the weekend?</p>");
+    }
+	print("<p>The frontend will be refreshed by tomorrow morning.</p>");
+    print('<p><a href="?menu_item_id=117">Back</a></p>');
+   }
+
+	function export_needed_section() {
+    print( "<h2>Export</h2>");
+      print("<p>Click to start an export this evening</p>");
+
+		HTML::form_start( 'user', 'set_export_needed' );
+		HTML::submit_button( 'export_button', 'Set export' );
+		HTML::form_end();
+	}
+
   function browse_users() {
 
     $this->die_if_not_supervisor();
 
+	  $this->export_needed_section();
+
+
+	  print( "<h2>Users</h2>");
     $statement = 'select * from ' . $this->db_users_and_roles_viewname();
     $existing_users = $this->db_select_into_array( $statement );
     $last_user = '0';  # a dummy value which won't exist in the database
     $all_roles = '';
+
 
     HTML::table_start( ' class="widelyspacepadded" ' );
     HTML::tablerow_start();
@@ -698,6 +734,7 @@ class User extends DBEntity {
 
           $all_roles = '';
         }
+
 
         $last_user = $row[ 'username' ];
         extract( $row );
