@@ -421,7 +421,7 @@ class Menu extends Project {
     $option_depth = 0;
     foreach( $this->breadcrumb_trail as $option ) {
       $option_depth++;
-      if( $option_depth > 1 ) HTML::bullet_point();
+      if( $option_depth > 1 ) echo '&nbsp;&nbsp;▸&nbsp;';
 
       if( ! $option ) { # main menu
         $href = $_SERVER['PHP_SELF'] . '?menu_item_id=';
@@ -629,23 +629,16 @@ class Menu extends Project {
 
     if( ! $suppress_breadcrumbs ) {
       $breadcrumb_trail_printed = $this->breadcrumbs();
-      if( $breadcrumb_trail_printed ) HTML::bullet_point();
 
-        HTML::link_to_page_bottom( $tabindex=1, $title='Bottom of Page' );
+        echo '<small style="margin-left:20px">';
+        HTML::link_to_page_bottom( $tabindex=1, $title='Bottom of page' );
+		 echo '</small>';
 
-      HTML::bullet_point();
-      $href = $_SERVER['PHP_SELF'] . '?logout=1';
-      HTML::link_start( $href, 'Log out of ' . CFG_SYSTEM_TITLE );
-      echo 'Logout';
-      HTML::link_end();
-
-        HTML::bullet_point();
         HTML::jump_to_work( $tabindex=2 );
     }
 	  echo LINEBREAK;
-    echo '<hr style="height:4px;color:white;background-color:white;">';
 
-    HTML::h2_start( "margin:13px 10px 0px 40px");
+    HTML::h2_start( "margin:13px 10px 0px 40px;border-top: 1px solid #aaa;margin-right: 56px;padding-top: 10px;");
     if( $override_title )
       echo $override_title;
     else
@@ -671,9 +664,8 @@ class Menu extends Project {
     if( $this->called_as_popup ) $suppress_breadcrumbs = TRUE;
 
     HTML::linebreak();
-    HTML::horizontal_rule();
 
-    HTML::new_paragraph();
+	  echo '<br/><br/>';
 
     if( ! $suppress_breadcrumbs ) $this->footerlinks();
 
@@ -688,16 +680,11 @@ class Menu extends Project {
     HTML::new_paragraph();
 
     $breadcrumb_trail_printed = $this->breadcrumbs();
-    if( $breadcrumb_trail_printed ) HTML::bullet_point();
 
-    HTML::link_to_page_top(  $tabindex=1, $title='Top of Page' );
+	  echo '<small style="margin-left:20px">';
+	  HTML::link_to_page_top(  $tabindex=1, $title='Top of Page' );
+	  echo '</small>';
     HTML::page_bottom_anchor();
-
-    HTML::bullet_point();
-    $href = $_SERVER['PHP_SELF'] . '?logout=1';
-    HTML::link_start( $href, 'Log out of ' . CFG_SYSTEM_TITLE );
-    echo 'Logout';
-    HTML::link_end();
 
     HTML::new_paragraph();
 

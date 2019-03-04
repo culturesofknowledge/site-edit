@@ -306,6 +306,7 @@ class HTML extends Application_Entity {
       echo '   color: ' .  HTML::header_text_colour() . ';'           . NEWLINE;
       echo '   margin-left: 15px; '                                    . NEWLINE;
       echo '   font-variant-caps: petite-caps;';
+		echo ' 	padding-top: 10px;';
       echo ' }'                                                       . NEWLINE;
 
       echo ' .banner a:link, .banner a:visited  {'                    . NEWLINE; 
@@ -374,6 +375,7 @@ class HTML extends Application_Entity {
       echo ' .footerlinks {'                                                                   . NEWLINE; 
       echo '   color: '  .  HTML::footer_text_colour() . ';'                                   . NEWLINE;
       echo '   background-color: ' . HTML::footer_background_colour() . ';'                    . NEWLINE;
+      echo '   border-top: solid 2px #434871';
       echo ' }'                                                                                . NEWLINE;
 
       echo ' .footerlinks a:link, .footerlinks a:visited  {'          . NEWLINE; 
@@ -1987,7 +1989,7 @@ class HTML extends Application_Entity {
 	static function jump_to_work( $tabindex = 1, $title = 'Jump to Work', $accesskey = '' ) {
 
         echo NEWLINE;
-        echo '<input type="text" name="jump-to-work" id="jump-to-work" value="" placeholder="Work ID" style="border:1px solid #bbb;height:19px;"/><button onclick="jumpToWork()">Goto</button>';
+        echo '<input type="text" name="jump-to-work" id="jump-to-work" value="" placeholder="Work ID" style="border:1px solid #bbb;height:19px;width:73px;margin-left: 25px"/><button onclick="jumpToWork()">Goto</button>';
         echo '<script>function jumpToWork() {
 	            var workid = document.getElementById("jump-to-work").value.replace(/\D/g,\'\');
                 window.location = document.location.pathname + "?iwork_id=" + workid;
