@@ -638,11 +638,18 @@ class Menu extends Project {
     }
 	  echo LINEBREAK;
 
-    HTML::h2_start( "margin:13px 10px 0px 40px;border-top: 1px solid #aaa;margin-right: 56px;padding-top: 10px;");
-    if( $override_title )
-      echo $override_title;
-    else
-      echo $this->menu_item_name;
+    $title = $this->menu_item_name;
+    if( $override_title ) {
+		 $title = $override_title;
+	 }
+
+    HTML::h2_start( "
+      margin:13px 10px 0px 40px;
+      border-top: 1px solid #aaa;
+      margin-right: 56px;
+      padding-top: 10px;");
+    echo $title;
+    echo '<script>document.title = "UCEI: ' . $title . '";</script>';
     HTML::h2_end();
 
     echo LINEBREAK;
