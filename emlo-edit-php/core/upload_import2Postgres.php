@@ -63,10 +63,12 @@ function ingest( $Ingestname )
 
 	$db_connection = new DBQuery ('postgres');
 	$cofk = new Project($db_connection);
-//print_r($cofk);
-//exit;
+
+	echo $cofk->get_datetime_now_in_words( $include_seconds = TRUE );
+	echo NEWLINE;
+
 	$cofk->db_run_query('BEGIN TRANSACTION');
-#----------------------------------------------------------------------------------
+
 	$upload_id = NULL;
 
 	if (!$upload_id) {
@@ -105,9 +107,6 @@ function ingest( $Ingestname )
 	$uploads = $mongo_cursor->toArray()[0];
 	$uploads = object_to_array($uploads);
 
-	print( "Uploads: ");
-	print_r( $uploads );
-
 	#-----------------------------------
 	# Record that the upload has started
 	#-----------------------------------
@@ -115,6 +114,8 @@ function ingest( $Ingestname )
 	$uploads['upload_description'] = $Ingestname . " " . date("j M Y G:i");    // Sat Mar 10 17:16:18 MST 2001
 	// Convert timestamp
 	$uploads['upload_timestamp'] = date('Y-m-d H:i:s', $uploads['upload_timestamp']['milliseconds']/1000);
+
+	print( "Upload: ");
 	print_r($uploads);
 
 	pg_insert(
@@ -149,15 +150,17 @@ function ingest( $Ingestname )
 	);
 
 	foreach ($files as $file_number) {
+
 		$postgres_table = $both_tables[$file_number]['postgres'];
 		$openoffice_table = $both_tables[$file_number]['openoffice'];
-		print "[ " . $file_number
-			. "] openoffice[" . $openoffice_table
-			. "] postgres[" . $postgres_table
-			. "]\n";
-//$mongoname = $Ingestname."_".$openoffice_table;
+		$id_field = null;
+		if( $both_tables[$file_number]['id'] ) {
+			$id_field = $both_tables[$file_number]['id'];
+		}
+
 		$mongoname = "collect_" . $openoffice_table;
-		read_one_uploaded_file($mongoname, $openoffice_table, $postgres_table);
+		read_one_uploaded_file($mongoname, $openoffice_table, $postgres_table, $id_field);
+		echo "\n\n";
 	}
 
 # get the total number of works loaded
@@ -222,58 +225,38 @@ function ingest( $Ingestname )
 // mixed pg_select ( resource $connection , string $table_name , array $assoc_array [, int $options = PGSQL_DML_EXEC ] )
 // mixed pg_update ( resource $connection , string $table_name , array $data , array $condition [, int $options = PGSQL_DML_EXEC ] )
 #-----------------------------------------------------
-function read_one_uploaded_file( $mongo_table, $openoffice_table, $postgres_table ) {
+function read_one_uploaded_file( $mongo_table, $openoffice_table, $postgres_table, $id_field ) {
 	global $cofk;
 	global $database;
 	global $upload_id;
 	global $db_connection;
 	global $uploadImpvalue;
 
-	echo NEWLINE;
-	echo $cofk->get_datetime_now_in_words( $include_seconds = TRUE );
-	echo NEWLINE;
-
 	$table_desc = str_replace( '_', ' ', $openoffice_table );
-	echo "Reading '" . $table_desc . "' file..." . LINEBREAK;
 
+	echo "Reading '" . $table_desc . "' file..." . NEWLINE;
 	echo NEWLINE;
 	flush();
 
-	$mdb_structure = new MongoDB_Document_Structure();
-	$cols = $mdb_structure->$openoffice_table();  # get a list of the columns in the MongoDB document
-	echo "-cols --- $mongo_table -[$uploadImpvalue]--------------------------------------------------\n";
-	print_r($cols);
-
-
-	//$mongo_doc = $database->selectCollection($mongo_table);
-	//$mongo_cursor = $mongo_doc->find(array('upload_id'=>$uploadImpvalue),array('_id' => 0) );  // -> limit(100);
-
-	$filter = [
-		'upload_id'=>$uploadImpvalue
-	];
-	$options = [
-		'projection' => ['_id' => 0],
-	];
+	$filter = [ 'upload_id'=>$uploadImpvalue ];
+	$options = [ 'projection' => ['_id' => 0] ];
 
 	$query = new MongoDB\Driver\Query($filter, $options);
 	$mongo_cursor = $database->executeQuery( 'emlo-edit.' . $mongo_table, $query);
 
-	//echo "Number of items found = " . $mongo_cursor->count();
+	//echo "Number found: " . $mongo_cursor->count();
 
 	$it = new \IteratorIterator($mongo_cursor);
 	$it->rewind(); // Very important
 
 	while( $mongo_row = $it->current() ) {
 
-		//$mongo_row = $mongo_cursor->getNext();
-		print_r($mongo_row);
 		$mongo_row = object_to_array( $mongo_row );
-		print_r($mongo_row);
 
 		$mongo_row['upload_id'] = $upload_id ;
 
-	//		$cofk->db_run_query( $statement );
 		if (!empty($mongo_row['union_iperson_id'])) {
+			// Check people exist
 
 			$select_cols = 'foaf_name,person_id';
 			$where_col = 'iperson_id';
@@ -305,15 +288,13 @@ function read_one_uploaded_file( $mongo_table, $openoffice_table, $postgres_tabl
 			$results = $cofk->db_select_into_array( $check );
 			if( $results ) {
 				$mongo_row['union_institution_id'] = $institution_id;
-				echo 'Found existing institution with id=' . $institution_id;
+				echo 'Found existing institution with id=' . $institution_id . "\n";
 			}
 			else {
-				echo 'New institution: ' . $mongo_row['institution_name'];
+				echo 'New institution: ' . $mongo_row['institution_name'] . "\n";
 			}
 		}
 
-		echo "-mongo_row -- $postgres_table ---------------------------------------------\n";
-		print_r($mongo_row);
 		$res = pg_insert (
 			$db_connection->connection->connection,
 			$postgres_table ,
@@ -321,9 +302,20 @@ function read_one_uploaded_file( $mongo_table, $openoffice_table, $postgres_tabl
 			PGSQL_DML_EXEC  );
 
 		if ($res) {
-				echo "POST data is successfully logged\n";
+			if( $id_field ) {
+				echo "Successfully inserted " . $openoffice_table . " id( " . $mongo_row[$id_field] . " ) into $postgres_table\n";
+			}
+			else {
+				echo "Successfully inserted into $postgres_table\n";
+			}
 		} else {
-				echo "User must have sent wrong inputs\n";
+				echo "\nErrored trying to insert", print_r($mongo_row, True ), "into " . $postgres_table . "\n";
+
+				$mdb_structure = new MongoDB_Document_Structure(); # get a list of the columns in the MongoDB document
+				echo "Expected format : " . print_r($mdb_structure->$openoffice_table(),True);
+
+				echo pg_last_error( $db_connection->connection->connection );
+				echo "\nError detected in inputs\n";
 				exit(1);
 		}
 
@@ -336,19 +328,29 @@ function get_file_to_tables_lookup() {
 $file_to_tables_lookup = array(
 
 		CSV_FILE_PERSON               => array( 'openoffice' => 'person',
-				'postgres'   => 'cofk_collect_person'),
+				'postgres'   => 'cofk_collect_person',
+				'id' => 'iperson_id'
+		),
 
 		CSV_FILE_LOCATION             => array( 'openoffice' => 'location',
-				'postgres'   => 'cofk_collect_location'),
+				'postgres'   => 'cofk_collect_location',
+			'id' => 'location_id'
+		),
 
 		CSV_FILE_INSTITUTION          => array( 'openoffice' => 'institution',
-				'postgres'   => 'cofk_collect_institution'),
+				'postgres'   => 'cofk_collect_institution',
+			'id' => 'institution_id'
+		),
 
 		CSV_FILE_WORK                 => array( 'openoffice' => 'work',
-				'postgres'   => 'cofk_collect_work'),
+				'postgres'   => 'cofk_collect_work',
+			'id' => 'iwork_id'
+		),
 
 		CSV_FILE_MANIFESTATION        => array( 'openoffice' => 'manifestation',
-				'postgres'   => 'cofk_collect_manifestation'),
+				'postgres'   => 'cofk_collect_manifestation',
+			'id' => 'manifestation_id'
+		),
 
 		CSV_FILE_ADDRESSEE            => array( 'openoffice' => 'addressee',
 				'postgres'   => 'cofk_collect_addressee_of_work'),
