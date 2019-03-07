@@ -147,8 +147,7 @@ function ingest( $Ingestname )
 //		,CSV_FILE_INSTITUTION_RESOURCE
 //	, CSV_FILE_IMAGE_OF_MANIF
 	);
-	print_r($both_tables);
-	print_r($files);
+
 	foreach ($files as $file_number) {
 		$postgres_table = $both_tables[$file_number]['postgres'];
 		$openoffice_table = $both_tables[$file_number]['openoffice'];
@@ -230,14 +229,14 @@ function read_one_uploaded_file( $mongo_table, $openoffice_table, $postgres_tabl
 	global $db_connection;
 	global $uploadImpvalue;
 
-	echo LINEBREAK;
+	echo NEWLINE;
 	echo $cofk->get_datetime_now_in_words( $include_seconds = TRUE );
-	echo LINEBREAK;
+	echo NEWLINE;
 
 	$table_desc = str_replace( '_', ' ', $openoffice_table );
 	echo "Reading '" . $table_desc . "' file..." . LINEBREAK;
 
-	echo LINEBREAK;
+	echo NEWLINE;
 	flush();
 
 	$mdb_structure = new MongoDB_Document_Structure();
@@ -282,7 +281,6 @@ function read_one_uploaded_file( $mongo_table, $openoffice_table, $postgres_tabl
 			$value = $mongo_row['union_iperson_id'];
 			$check = "select $select_cols from $from_table where $where_col = $value";
 
-			echo "db_select_one_value( $check )\n";
 			//$mongo_row['person_id'] = $cofk->db_select_one_value( $check );
 			$results = $cofk->db_select_into_array( $check );
 
@@ -293,6 +291,24 @@ function read_one_uploaded_file( $mongo_table, $openoffice_table, $postgres_tabl
 					$mongo_row['union_iperson_id'] = NULL;
 				else
 					$mongo_row['primary_name'] = $result['foaf_name'];
+			}
+		}
+
+		if( $mongo_row['institution_id'] ) {
+			// Lets check if this institution already exists.
+
+			$institution_id = $mongo_row['institution_id'];
+			$from_table = $cofk->proj_institution_tablename();
+
+			$check = "select institution_id from $from_table where institution_id = $institution_id";
+
+			$results = $cofk->db_select_into_array( $check );
+			if( $results ) {
+				$mongo_row['union_institution_id'] = $institution_id;
+				echo 'Found existing institution with id=' . $institution_id;
+			}
+			else {
+				echo 'New institution: ' . $mongo_row['institution_name'];
 			}
 		}
 
