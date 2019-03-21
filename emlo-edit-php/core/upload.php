@@ -6,6 +6,9 @@
 #====================================================================================
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/excel/simplexlsx-master/src/SimpleXLSX.php';
+require_once __DIR__ . '/excel/simplexls-master/src/SimpleXLS.php';
+
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -2883,7 +2886,7 @@ class Upload extends Project {
 
         $path = "/uploader/" . $foldername;
         if( !mkdir( $path ) ) {
-            die( 'FAILED to create folder for upload - name ' . $foldername );
+            die( 'FAILED to create folder for upload - name ' . $path );
         }
 
         $fileLocation = $path . "/" . $filename . ".xlsx";
@@ -2892,7 +2895,7 @@ class Upload extends Project {
 			$this->echo_safely('Thanks for uploading ' . $one_file['name'] . " to the server.");
 		}
         else {
-			die('FAILED TO MOVE file to image directory. Can you change the name and try again?');
+			die('FAILED TO MOVE file to uploader directory. Can you change the name and try again?');
 		}
 
 		$data = new stdClass;
@@ -2915,6 +2918,144 @@ class Upload extends Project {
 		flush();
     }
 
+	#-----------------------------------------------------
+
+	function file_upload_excel_batch_form() {
+
+		HTML::h3_start();
+		echo 'Excel upload for Batch Process';
+		HTML::h3_end();
+
+		HTML::new_paragraph();
+		echo "For uploading Excel documents containing TBA.";
+
+		HTML::form_start( $class_name = 'upload',
+			$method_name = 'file_upload_excel_batch_view',
+			$form_name = NULL,  # use default
+			$form_target = '_self',
+			$onsubmit_validation = FALSE,
+			$form_destination = NULL,
+			$form_method='POST',
+			$parms = 'enctype="multipart/form-data"' );
+
+		HTML::file_upload_field( $fieldname = 'file_to_process',
+			$label = "Upload file",
+			$value = NULL,
+			$size = CSV_UPLOAD_FIELD_SIZE );
+		HTML::new_paragraph();
+
+		echo '<p>Please only upload one excel file at a time. The webpage may appear to freeze while the processing takes place.</p>';
+
+		HTML::submit_button( 'upload_button', 'Upload' );
+		HTML::form_end();
+	}
+
+	#----------------------------------------------------------------------------------
+
+	function file_upload_excel_batch_view() {
+
+		$filecount = count( $_FILES );
+		if( ! $filecount ) {
+			echo 'No files were uploaded.';
+			return;
+		}
+		elseif( $filecount > 1 ) {
+			echo LINEBREAK;
+			echo 'You have tried to upload ' .  $filecount . ' files at once. Please just upload one file at a time.';
+			return;
+		}
+
+		$one_file = $_FILES[ 'file_to_process' ];
+
+		$invalid = FALSE;
+		if( ! $this->is_ok_free_text( $one_file['name'] ))     $invalid = TRUE;
+		if( ! $this->is_ok_free_text( $one_file['tmp_name'] )) $invalid = TRUE;
+		if( ! $this->is_ok_free_text( $one_file['type'] ))     $invalid = TRUE;
+		if( ! $this->is_integer( $one_file['error'] ))         $invalid = TRUE;
+		if( ! $this->is_integer( $one_file['size'] ))          $invalid = TRUE;
+
+		if( ! is_uploaded_file( $one_file['tmp_name'] ))       $invalid = TRUE;
+
+		if( $invalid ) die( "That doesn't seem to be a valid file." );
+
+		$filename = pathinfo( $one_file['name'], PATHINFO_FILENAME);
+		$foldername = $filename . "-" . gmdate("ymd-His");
+
+		$path = "/tweaker/" . $foldername;
+		if( !mkdir( $path ) ) {
+			die( 'FAILED to create folder for batch - name ' . $path );
+		}
+
+		$fileLocation = $path . "/" . $filename . ".xlsx";
+		$moved = move_uploaded_file( $one_file['tmp_name'], $fileLocation );
+		if( $moved ) {
+			$this->echo_safely('Thanks for uploading ' . $one_file['name'] . " to the server.");
+
+			$this->analyse_batch_excel_file( $fileLocation );
+		}
+		else {
+			die('FAILED TO MOVE file to batch directory. Can you change the name and try again?');
+		}
+	}
+
+	function analyse_batch_excel_file( $filename ) {
+
+		$xlsx = SimpleXLSX::parse( $filename );
+		if ( !$xlsx ) {
+			$error = SimpleXLSX::parseError();
+
+			$xlsx = SimpleXLS::parse( $filename );
+
+			if( !$xlsx ) {
+				$error .= " | " . SimpleXLS::parseError();
+			}
+		}
+
+		if ( $xlsx ) {
+
+			$allowed_sheetnames = array (
+				'work',
+				'person',
+				'location',
+				'manifestation',
+				'institution',
+				'resource'
+			);
+
+			if( $xlsx->sheetsCount() !== 1 ) {
+				echo '<p>The batch process file should only contain one sheet</p>';
+				return;
+			}
+
+			$sheetNumber = 0;
+			if( !in_array( $xlsx->sheetName($sheetNumber), $allowed_sheetnames ) ) {
+				echo '<p>The file contains an invalid sheetname, "' . $xlsx->sheetName($sheetNumber) . '". It must be one of: </p>';
+				echo '<ul>';
+				for($i = 0, $z=count($allowed_sheetnames); $i < $z; $i++) {
+					echo '<li>' . $allowed_sheetnames[$i] . '</li>';
+				}
+				echo '</ul>';
+				return;
+			}
+
+			if( $xlsx->dimension($sheetNumber)[1] <= 1 ) {
+				echo '<p>Sorry, I was unable to load any rows from that file. If there are data rows then you should try resaving the file in a pre 2013 Excel format and then reuploading.</p>';
+				return;
+			}
+
+			echo '<h2>Found ' . $xlsx->sheetName($sheetNumber) . '</h2>';
+			echo '<table border=1>';
+			foreach ($xlsx->rows($sheetNumber) as $r) {
+				echo '<tr>';
+				for ($i = 0, $z=$xlsx->dimension($sheetNumber)[0]; $i < $z; $i++) {
+					echo '<td>' . (!empty($r[$i]) ? $r[$i] : '&nbsp;') . '</td>';
+				}
+				echo '</tr>';
+			}
+			echo '</table>';
+			echo '</td><td valign="top">';
+		}
+	}
 }
 
 
