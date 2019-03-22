@@ -2989,7 +2989,7 @@ class Upload extends Project {
 		$fileLocation = $path . "/" . $filename . ".xlsx";
 		$moved = move_uploaded_file( $one_file['tmp_name'], $fileLocation );
 		if( $moved ) {
-			$this->echo_safely('Thanks for uploading ' . $one_file['name'] . " to the server.");
+			$this->echo_safely('Thanks for uploading ' . $one_file['name'] );
 
 			$this->analyse_batch_excel_file( $fileLocation );
 		}
@@ -3000,18 +3000,18 @@ class Upload extends Project {
 
 	function analyse_batch_excel_file( $filename ) {
 
-		$xlsx = SimpleXLSX::parse( $filename );
-		if ( !$xlsx ) {
+		$xl = SimpleXLSX::parse( $filename );
+		if ( !$xl ) {
 			$error = SimpleXLSX::parseError();
 
-			$xlsx = SimpleXLS::parse( $filename );
+			$xl = SimpleXLS::parse( $filename );
 
-			if( !$xlsx ) {
+			if( !$xl ) {
 				$error .= " | " . SimpleXLS::parseError();
 			}
 		}
 
-		if ( $xlsx ) {
+		if ( $xl ) {
 
 			$allowed_sheetnames = array (
 				'work',
@@ -3022,14 +3022,164 @@ class Upload extends Project {
 				'resource'
 			);
 
-			if( $xlsx->sheetsCount() !== 1 ) {
+			$allowed_work_columns = array(
+				"EMLO Letter ID Number",
+				"Year date",
+				"Month date",
+				"Day date",
+				"Standard gregorian date",
+				"Date is range (0=No; 1=Yes)",
+				"Year 2nd date (range)",
+				"Month 2nd date (range)",
+				"Day 2nd date (range)",
+				"Calendar of date provided to EMLO (G=Gregorian; JJ=Julian, year start 1 January; JM=Julian, year start March, U=Unknown)",
+				"Date as marked on letter",
+				"Date uncertain (0=No; 1=Yes)",
+				"Date approximate (0=No; 1=Yes)",
+				"Date inferred (0=No; 1=Yes)",
+				"Notes on date",
+				"Author",
+				"Author EMLO ID",
+				"Author as marked in body/text of letter",
+				"Author inferred (0=No; 1=Yes)",
+				"Author uncertain (0=No; 1=Yes)",
+				"Notes on Author in relation to letter",
+				"Recipient",
+				"Recipient EMLO ID",
+				"Recipient as marked in body/text of letter",
+				"Recipient inferred (0=No; 1=Yes)",
+				"Recipient uncertain (0=No; 1=Yes)",
+				"Notes on Recipient in relation to letter",
+				"Origin name",
+				"Origin EMLO ID",
+				"Origin as marked in body/text of letter",
+				"Origin inferred (0=No; 1=Yes)",
+				"Origin uncertain (0=No; 1=Yes)",
+				"Notes on Origin in relation to letter",
+				"Destination name",
+				"Destination EMLO ID",
+				"Destination as marked in body/text of letter",
+				"Destination inferred (0=No; 1=Yes)",
+				"Destination uncertain (0=No; 1=Yes)",
+				"Notes on Destination in relation to letter",
+				"Abstract",
+				"Keywords",
+				"Language(s)",
+				"Incipit",
+				"Explicit",
+				"People mentioned",
+				"EMLO IDs of people mentioned",
+				"Notes on people mentioned",
+				"Original Catalogue name",
+				"Source",
+				"Matching letter(s) in alternative EMLO catalogue(s) (self reference also)",
+				"Match id number",
+				"Related Resource IDs [er = number for link to EMLO letter]",
+				"General notes for public display",
+				"Editors' working notes",
+				"UUID",
+				"EMLO URL",
+			);
+
+			$allowed_person_columns = array(
+				"EMLO Person ID",
+				"Person primary name in EMLO",
+				"Synonyms",
+				"Roles/Titles",
+				"Gender",
+				"Is Organization (Y=yes;black=no)",
+				"Birth year",
+				"Death year",
+				"Fl. year 1",
+				"Fl. year 2",
+				"Fl. year is range (0=No; 1=Yes)",
+				"General notes on person",
+				"Editors' working notes",
+				"Related Resource IDs",
+				"UUID",
+				"EMLO URL"
+			);
+
+			$allowed_location_columns = array(
+				"Place ID",
+				"Place name",
+				"Room",
+				"Building",
+				"Street or parish",
+				"Primary place name (city, town, village)",
+				"County, State, or Province",
+				"Country",
+				"Empire",
+				"Place name synonyms",
+				"Coordinates: Latitude",
+				"Coordinates: Longitude",
+				"Related Resource IDs",
+				"General notes on place",
+				"Editors' working notes",
+				"UUID",
+				"EMLO URL",
+			);
+
+			$allowed_manifestation_columns = array(
+				"Work (Letter) ID",
+				"Manifestation [Letter] ID",
+				"Manifestation type",
+				"Repository name",
+				"Repository ID",
+				"Shelfmark and pagination",
+				"Printed copy details",
+				"Notes on manifestation",
+				"UUID",
+			);
+
+			$allowed_institution_columns = array(
+				"Repository ID",
+				"Repository Name",
+				"Repository City",
+				"Repository Country",
+				"Related Resource IDs",
+				"UUID",
+				"EMLO URL",
+			);
+
+			$allowed_resource_columns = array(
+				"Resource ID",
+				"Resource Name",
+				"Resource Details",
+				"Resource URL",
+				"UUID",
+			);
+
+			$allowed_id_titles = array (
+				$allowed_work_columns[0],
+				$allowed_person_columns[0],
+				$allowed_location_columns[0],
+				$allowed_manifestation_columns[1], // the second one...
+				$allowed_institution_columns[0],
+				$allowed_resource_columns[0],
+			);
+
+
+			$allowed_columns = array(
+				'work' => $allowed_work_columns,
+				'person' => $allowed_person_columns,
+				'location' => $allowed_location_columns,
+				'manifestation' => $allowed_manifestation_columns,
+				'institution' => $allowed_institution_columns,
+				'resource' => $allowed_resource_columns
+			);
+
+			if( $xl->sheetsCount() !== 1 ) {
 				echo '<p>The batch process file should only contain one sheet</p>';
 				return;
 			}
 
 			$sheetNumber = 0;
-			if( !in_array( $xlsx->sheetName($sheetNumber), $allowed_sheetnames ) ) {
-				echo '<p>The file contains an invalid sheetname, "' . $xlsx->sheetName($sheetNumber) . '". It must be one of: </p>';
+			$sheetCommandColumn = 'Command';
+
+			$sheetName = $xl->sheetName($sheetNumber);
+			if( !in_array( $sheetName, $allowed_sheetnames ) ) {
+				echo '<p>The file contains an invalid sheetname, "' . $xl->sheetName($sheetNumber) . '". It must be one of: </p>';
 				echo '<ul>';
 				for($i = 0, $z=count($allowed_sheetnames); $i < $z; $i++) {
 					echo '<li>' . $allowed_sheetnames[$i] . '</li>';
@@ -3038,22 +3188,122 @@ class Upload extends Project {
 				return;
 			}
 
-			if( $xlsx->dimension($sheetNumber)[1] <= 1 ) {
+			$dim = $xl->dimension($sheetNumber);
+			$cols = $dim[0];
+			$rows = $dim[1];
+
+			if( $rows <= 1 ) {
 				echo '<p>Sorry, I was unable to load any rows from that file. If there are data rows then you should try resaving the file in a pre 2013 Excel format and then reuploading.</p>';
 				return;
 			}
 
-			echo '<h2>Found ' . $xlsx->sheetName($sheetNumber) . '</h2>';
+			// check columns
+			//
+			if( $cols <= 2 ) {
+				echo '<p>You don\'t have enough columns. You need at least an ID and a command column.</p>';
+				return;
+			}
+
+			$titleRow = $xl->rows($sheetNumber)[0];
+			$titleError = False;
+			$columns = array();
+			for ($i = 0, $z=$cols; $i < $z; $i++) {
+				$cellText = $titleRow[$i];
+
+				if( $i === 0 ) {
+					if( !in_array( $cellText, $allowed_id_titles ) ) {
+						$titleError = true;
+						echo '<p>The first column must be an ID row but it\'s called "' . $cellText . '". It must be one of: </p>';
+						echo '<ul>';
+						for ($i = 0, $z = count($allowed_id_titles); $i < $z; $i++) {
+							echo '<li>' . $allowed_id_titles[$i] . '</li>';
+						}
+						echo '</ul>';
+					}
+				}
+
+				elseif( $i === 1 ) {
+
+					if( $cellText !== $sheetCommandColumn ) {
+						$titleError = true;
+						echo '<p>The second column must be set to ' . $sheetCommandColumn . '. Each row should have the same value of either "CREATE", "UPDATE" or "DELETE"</p>';
+					}
+				}
+
+				else {
+					if( $cellText !== '' && !in_array( $cellText, $allowed_columns[$sheetName] ) ) {
+						$titleError = true;
+						echo '<p>Unexpected column found: ' . $cellText .' </p>';
+						echo '<p>It should be one of (from export file): </p>';
+						echo '<ul>';
+						for($i = 0, $z=count($allowed_columns[$sheetName]); $i < $z; $i++) {
+							echo '<li>' . $allowed_columns[$sheetName][$i] . '</li>';
+						}
+						echo '</ul>';
+						echo '';
+					}
+					else {
+						array_push($columns, $cellText );
+					}
+				}
+			}
+
+			if( $titleError ) {
+				return;
+			}
+
+			// Check command is just the one thing.
+			$command = null;
+			for ($i = 1, $z=$rows; $i < $z; $i++) {
+				if( !$command ) {
+					$command = $xl->rows($sheetNumber)[$i][1];
+				}
+
+				if( $command == '' || $command != $xl->rows($sheetNumber)[$i][1] ) {
+					echo '<p>You can only do one type of command per file. Detected a problem at row ' . $i . '. Please ensure the cells in the command column are all the same and either set to CREATE, UPDATE or DELETE.</p>';
+					return;
+				}
+			}
+
+			if( $command == "DELETE" && sizeof($columns) != 0 ) {
+				echo '<p>No additional columns allowed for DELETE command. Only ID and Command.</p>';
+				return;
+			}
+
+			echo '<h2>' . $command . " " . $xl->sheetName($sheetNumber) .  '</h2>';
+			echo '<p>You are about to ' . $command . ' ' . ($rows-1) . ' ' . $sheetName . 's with ' . sizeof($columns) . ' changes each. Do you wish to continue?</p>' ;
+
+			echo '<ul>';
+			for ($r = 1, $z=$rows; $r < $z; $r++) {
+				$row = $xl->rows($sheetNumber)[$r];
+
+				echo '<li>';
+				echo $sheetName . ':' . $row[0] . ' will ' . $command;
+				if( $command != 'DELETE') {
+					echo ' with ';
+					for ($i = 2, $zz = $cols; $i < $zz; $i++) {
+						echo $columns[$i-2];
+						if ( empty($row[$i] ) ) {
+							echo ' EMPTIED';
+						}
+						else {
+							echo ' set to ' . $row[$i] . ', ';
+						}
+					}
+				}
+				echo '</li>';
+			}
+			echo '</ul>';
+
 			echo '<table border=1>';
-			foreach ($xlsx->rows($sheetNumber) as $r) {
+			foreach ($xl->rows($sheetNumber) as $r) {
 				echo '<tr>';
-				for ($i = 0, $z=$xlsx->dimension($sheetNumber)[0]; $i < $z; $i++) {
-					echo '<td>' . (!empty($r[$i]) ? $r[$i] : '&nbsp;') . '</td>';
+				for ($i = 0, $z=$cols; $i < $z; $i++) {
+					echo '<td>' . (!empty($r[$i]) ? $r[$i] : 'EMPTIED') . '</td>';
 				}
 				echo '</tr>';
 			}
 			echo '</table>';
-			echo '</td><td valign="top">';
 		}
 	}
 }
