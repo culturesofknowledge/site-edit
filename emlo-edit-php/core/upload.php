@@ -3080,7 +3080,6 @@ class Upload extends Project {
 				"UUID",
 				"EMLO URL",
 			);
-
 			$allowed_person_columns = array(
 				"EMLO Person ID",
 				"Person primary name in EMLO",
@@ -3099,7 +3098,6 @@ class Upload extends Project {
 				"UUID",
 				"EMLO URL"
 			);
-
 			$allowed_location_columns = array(
 				"Place ID",
 				"Place name",
@@ -3119,7 +3117,6 @@ class Upload extends Project {
 				"UUID",
 				"EMLO URL",
 			);
-
 			$allowed_manifestation_columns = array(
 				"Work (Letter) ID",
 				"Manifestation [Letter] ID",
@@ -3131,7 +3128,6 @@ class Upload extends Project {
 				"Notes on manifestation",
 				"UUID",
 			);
-
 			$allowed_institution_columns = array(
 				"Repository ID",
 				"Repository Name",
@@ -3141,7 +3137,6 @@ class Upload extends Project {
 				"UUID",
 				"EMLO URL",
 			);
-
 			$allowed_resource_columns = array(
 				"Resource ID",
 				"Resource Name",
@@ -3150,24 +3145,220 @@ class Upload extends Project {
 				"UUID",
 			);
 
-			$allowed_id_titles = array (
-				$allowed_work_columns[0],
-				$allowed_person_columns[0],
-				$allowed_location_columns[0],
-				$allowed_manifestation_columns[1], // the second one...
-				$allowed_institution_columns[0],
-				$allowed_resource_columns[0],
-			);
 
 
-			$allowed_columns = array(
-				'work' => $allowed_work_columns,
-				'person' => $allowed_person_columns,
-				'location' => $allowed_location_columns,
-				'manifestation' => $allowed_manifestation_columns,
-				'institution' => $allowed_institution_columns,
-				'resource' => $allowed_resource_columns
+			// From objects.py in exporter code.
+			$work_exporter = array(
+				array(  "f" => "EMLO Letter ID Number",       "d" => array(  "o" => "work", "f" => "iwork_id" ) ),
+
+				array(  "f" => "Year date",                   "d" => array(  "o" => "work", "f" => "date_of_work_std_year") ),
+				array(  "f" => "Month date",                  "d" => array(  "o" => "work", "f" => "date_of_work_std_month") ),
+				array(  "f" => "Day date",                    "d" => array(  "o" => "work", "f" => "date_of_work_std_day") ),
+				array(  "f" => "Standard gregorian date",     "d" => array(  "o" => "work", "f" => "date_of_work_std_gregorian") ),
+				array(  "f" => "Date is range (0=No; 1=Yes)", "d" => array(  "o" => "work", "f" => "date_of_work_std_is_range") ),
+				array(  "f" => "Year 2nd date (range)",       "d" => array(  "o" => "work", "f" => "date_of_work2_std_year") ),
+				array(  "f" => "Month 2nd date (range)",      "d" => array(  "o" => "work", "f" => "date_of_work2_std_month") ),
+				array(  "f" => "Day 2nd date (range)",        "d" => array(  "o" => "work", "f" => "date_of_work2_std_day") ),
+				array(  "f" => "Calendar of date provided " .
+					"to EMLO (G=Gregorian; " .
+					"JJ=Julian, year start 1 " .
+					"January; JM=Julian, year " .
+					"start March, U=Unknown)",         "d" => array(  "o" => "work", "f" => "original_calendar") ),
+				array(  "f" => "Date as marked on letter",        "d" => array(  "o" => "work", "f" => "date_of_work_as_marked") ),
+				array(  "f" => "Date uncertain (0=No; 1=Yes)",    "d" => array(  "o" => "work", "f" => "date_of_work_uncertain") ),
+				array(  "f" => "Date approximate (0=No; 1=Yes)",  "d" => array(  "o" => "work", "f" => "date_of_work_approx") ),
+				array(  "f" => "Date inferred (0=No; 1=Yes)",     "d" => array(  "o" => "work", "f" => "date_of_work_inferred") ),
+				array(  "f" => "Notes on date",                   "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to_date") ),
+
+				array(  "f" => "Author",                          "d" =>  array(  "o" => "person", "f" => "foaf_name", "r" => "created" ) ),
+				array(  "f" => "Author EMLO ID",                  "d" => array(  "o" => "person", "f" => "iperson_id", "r" => "created" ) ),
+				array(  "f" => "Author as marked in body/text " .
+					"of letter",                       "d" => array(  "o" => "work", "f" => "authors_as_marked") ),
+				array(  "f" => "Author inferred (0=No; 1=Yes)",   "d" => array(  "o" => "work", "f" => "authors_inferred") ),
+				array(  "f" => "Author uncertain (0=No; 1=Yes)",  "d" => array(  "o" => "work", "f" => "authors_uncertain") ),
+				array(  "f" => "Notes on Author in relation "  .
+					"to letter",                       "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to_author") ),
+				array(  "f" => "Recipient",                       "d" => array(  "o" => "person", "f" => "foaf_name", "r" => "was_addressed_to" ) ),
+				array(  "f" => "Recipient EMLO ID",               "d" => array(  "o" => "person", "f" => "iperson_id", "r" => "was_addressed_to" ) ),
+				array(  "f" => "Recipient as marked in body/text " .
+					"of letter",                       "d" => array(  "o" => "work", "f" => "addressees_as_marked") ),
+				array(  "f" => "Recipient inferred " .
+					"(0=No; 1=Yes)",                   "d" => array(  "o" => "work", "f" => "addressees_inferred") ),
+				array(  "f" => "Recipient uncertain " .
+						"(0=No; 1=Yes)",                   "d" => array(  "o" => "work", "f" => "addressees_uncertain") ),
+				array(  "f" => "Notes on Recipient in " .
+						"relation to letter",              "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to_addressee") ),
+
+				array(  "f" => "Origin name",                     "d" => array(  "o" => "location", "f" => "location_name", "r" => "was_sent_from" ) ),
+				array(  "f" => "Origin EMLO ID",                  "d" => array(  "o" => "location", "f" => "location_id", "r" => "was_sent_from" ) ),
+				array(  "f" => "Origin as marked in body/text " .
+					"of letter",                       "d" => array(  "o" => "work", "f" => "origin_as_marked") ),
+				array(  "f" => "Origin inferred (0=No; 1=Yes)",   "d" => array(  "o" => "work", "f" => "origin_inferred") ),
+				array(  "f" => "Origin uncertain (0=No; 1=Yes)",  "d" => array(  "o" => "work", "f" => "origin_uncertain") ),
+				array(  "f" => "Notes on Origin in relation " .
+					"to letter",                       "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to_origin") ),
+				array(  "f" => "Destination name",                "d" => array(  "o" => "location", "f" => "location_name", "r" => "was_sent_to" ) ),
+				array(  "f" => "Destination EMLO ID",             "d" => array(  "o" => "location", "f" => "location_id", "r" => "was_sent_to" ) ),
+				array(  "f" => "Destination as marked in " .
+					"body/text of letter",             "d" => array(  "o" => "work", "f" => "destination_as_marked") ),
+				array(  "f" => "Destination inferred " .
+					"(0=No; 1=Yes)",                   "d" => array(  "o" => "work", "f" => "destination_inferred") ),
+				array(  "f" => "Destination uncertain " .
+					"(0=No; 1=Yes)",                   "d" => array(  "o" => "work", "f" => "destination_uncertain") ),
+				array(  "f" => "Notes on Destination in " .
+					"relation to letter",              "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to_destination") ),
+
+				array(  "f" => "Abstract",                        "d" => array(  "o" => "work", "f" => "abstract") ),
+				array(  "f" => "Keywords",                        "d" => array(  "o" => "work", "f" => "keywords") ),
+				array(  "f" => "Language(s)",                     "d" => array(  "o" => "work", "f" => "language_of_work") ),
+				array(  "f" => "Incipit",                         "d" => array(  "o" => "work", "f" => "incipit") ),
+				array(  "f" => "Explicit",                        "d" => array(  "o" => "work", "f" => "explicit") ),
+
+				array(  "f" => "People mentioned",                "d" => array(  "o" => "person", "f" => "foaf_name", "r" => "mentions" ) ),
+				array(  "f" => "EMLO IDs of people mentioned",    "d" => array(  "o" => "person", "f" => "iperson_id", "r" => "mentions" ) ),
+				array(  "f" => "Notes on people mentioned",       "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to_people_mentioned_in_work") ),
+
+				array(  "f" => "Original Catalogue name",         "d" => array(  "o" => "work", "f" => "original_catalogue" ) ),
+				array(  "f" => "Source",                          "d" => array(  "o" => "work", "f" => "accession_code" ) ),
+
+				# Ignoring as would include other works (complicated work connections...)
+				#array(  "f" => "Letter in reply to", "d" => array(  "o" => "work-rel", "f" => "iwork_id", "r" => "" ) ),
+				#array(  "f" => "Letter answered by", "d" => array(  "o" => "work-rel", "f" => "iwork_id", "r" => "is_reply_to" ) ),
+
+				array(  "f" => "Matching letter(s) in alternative EMLO catalogue(s) (self reference also)", "d" => array(  "o" => "work-rel", "f" => "iwork_id", "r" => "matches" ) ),
+				array(  "f" => "Match id number", "d" => array( ) ),
+
+				# This will be a separate table... some how...
+				# array(  "f" => "Related Resource descriptor", "d" => array(  "o" => "work", "f" => "") ),
+				# array(  "f" => "Related Resource URL", "d" => array(  "o" => "work", "f" => "") ),
+
+				array(  "f" => "Related Resource IDs " .
+					"array( er = number for link " .
+					"to EMLO letter)",                 "d" => array(  "o" => "resource", "f" => "resource_id", "r" => "is_related_to") ),
+				array(  "f" => "General notes for public " .
+					"display",                         "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to") ),
+				array(  "f" => "Editors' working notes",          "d" => array(  "o" => "work", "f" => "editors_notes") ),
+				array(  "f" => "UUID",                            "d" => array(  "o" => "work", "f" => "uuid" ) ),
+				array(  "f" => "EMLO URL",                        "d" => array( ) ),
 			);
+			$person_exporter = array(
+				array(  "f" => "EMLO Person ID", "d" => array(  "o" => "person", "f" => "iperson_id" ) ),
+				array(  "f" => "Person primary name in EMLO", "d" => array(  "o" => "person", "f" => "foaf_name" ) ),
+				array(  "f" => "Synonyms", "d" => array(  "o" => "person", "f" => "skos_altlabel" ) ),
+				# array(  "f" => "Synonyms Other", "d" => array(  "o" => "person", "f" => "skos_hiddenlabel" ) ),
+				array(  "f" => "Roles/Titles", "d" => array(  "o" => "person", "f" => "person_aliases" ) ),
+				array(  "f" => "Gender", "d" => array(  "o" => "person", "f" => "gender" ) ),
+				array(  "f" => "Is Organization (Y=yes;black=no)", "d" => array(  "o" => "person", "f" => "is_organisation" ) ),
+				array(  "f" => "Birth year", "d" => array(  "o" => "person", "f" => "date_of_birth_year" ) ),
+				array(  "f" => "Death year", "d" => array(  "o" => "person", "f" => "date_of_death_year" ) ),
+				array(  "f" => "Fl. year 1", "d" => array(  "o" => "person", "f" => "flourished_year" ) ),
+				array(  "f" => "Fl. year 2", "d" => array(  "o" => "person", "f" => "flourished2_year" ) ),
+				array(  "f" => "Fl. year is range (0=No; 1=Yes)", "d" => array(  "o" => "person", "f" => "flourished_is_range" ) ),
+				array(  "f" => "General notes on person", "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to") ),
+				array(  "f" => "Editors' working notes", "d" => array(  "o" => "person", "f" => "editors_notes" ) ),
+				#array(  "f" => "Related Resource Name(s)", "d" => array(  "o" => "person", "f" => "" ) ),
+				#array(  "f" => "Related Resource URL(s)", "d" => array(  "o" => "person", "f" => "" ) ),
+				array(  "f" => "Related Resource IDs", "d" => array(  "o" => "resource", "f" => "resource_id", "r" => "is_related_to") ),
+				array(  "f" => "UUID", "d" => array(  "o" => "person", "f" => "uuid" ) ),
+				array(  "f" => "EMLO URL",                        "d" => array( ) ),
+			);
+			$location_exporter = array(
+				array(  "f" => "Place ID", "d" => array(  "o" => "location", "f" => "location_id" ) ),
+				array(  "f" => "Place name", "d" => array(  "o" => "location", "f" => "location_name" ) ),
+				array(  "f" => "Room", "d" => array(  "o" => "location", "f" => "element_1_eg_room" ) ),
+				array(  "f" => "Building", "d" => array(  "o" => "location", "f" => "element_2_eg_building" ) ),
+				array(  "f" => "Street or parish", "d" => array(  "o" => "location", "f" => "element_3_eg_parish" ) ),
+				array(  "f" => "Primary place name (city, town, village)", "d" => array(  "o" => "location", "f" => "element_4_eg_city" ) ),
+				array(  "f" => "County, State, or Province", "d" => array(  "o" => "location", "f" => "element_5_eg_county" ) ),
+				array(  "f" => "Country", "d" => array(  "o" => "location", "f" => "element_6_eg_country" ) ),
+				array(  "f" => "Empire", "d" => array(  "o" => "location", "f" => "element_7_eg_empire" ) ),
+				array(  "f" => "Place name synonyms", "d" => array(  "o" => "location", "f" => "location_synonyms" ) ),
+				array(  "f" => "Coordinates=> Latitude", "d" => array(  "o" => "location", "f" => "latitude" ) ),
+				array(  "f" => "Coordinates=> Longitude", "d" => array(  "o" => "location", "f" => "longitude" ) ),
+				#array(  "f" => "Related resource name", "d" => array(  "o" => "location", "f" => "" ) ),
+				#array(  "f" => "Related resource URL", "d" => array(  "o" => "location", "f" => "" ) ),
+				array(  "f" => "Related Resource IDs", "d" => array(  "o" => "resource", "f" => "resource_id", "r" => "is_related_to") ),
+				array(  "f" => "General notes on place", "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to" ) ),
+				array(  "f" => "Editors' working notes", "d" => array(  "o" => "location", "f" => "editors_notes" ) ),
+				array(  "f" => "UUID", "d" => array(  "o" => "location", "f" => "uuid" ) ),
+				array(  "f" => "EMLO URL",                        "d" => array( ) ),
+
+			);
+			$manifestation_exporter = array(
+				array(  "f" => "Work (Letter) ID", "d" => array(  "o" => "work", "f" => "iwork_id", "r" => "is_manifestation_of" ) ),
+				array(  "f" => "Manifestation array( Letter) ID", "d" => array(  "o" => "manifestation", "f" => "manifestation_id" ) ),
+				array(  "f" => "Manifestation type", "d" => array(  "o" => "manifestation", "f" => "manifestation_type" ) ),
+				array(  "f" => "Repository name", "d" => array(  "o" => "institution", "f" => "institution_name", "r" => "stored_in" ) ),
+				array(  "f" => "Repository ID", "d" => array(  "o" => "institution", "f" => "institution_id", "r" => "stored_in" ) ),
+				array(  "f" => "Shelfmark and pagination", "d" => array(  "o" => "manifestation", "f" => "id_number_or_shelfmark" ) ),
+				array(  "f" => "Printed copy details", "d" => array(  "o" => "manifestation", "f" => "printed_edition_details" ) ),
+				array(  "f" => "Notes on manifestation", "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to" ) ),
+				array(  "f" => "UUID", "d" => array(  "o" => "manifestation", "f" => "uuid" ) ),
+			);
+			$institute_exporter = array(
+				#array(  "f" => "Manifestation ID",   "d" => array(  "o" => "institution", "f" => "" ) ),
+				#array(  "f" => "Work array( Letter) ID",   "d" => array(  "o" => "institution", "f" => "" ) ),
+				array(  "f" => "Repository ID",        "d" => array(  "o" => "institution", "f" => "institution_id" ) ),
+				array(  "f" => "Repository Name",      "d" => array(  "o" => "institution", "f" => "institution_name" ) ),
+				array(  "f" => "Repository City",      "d" => array(  "o" => "institution", "f" => "institution_city" ) ),
+				array(  "f" => "Repository Country",   "d" => array(  "o" => "institution", "f" => "institution_country" ) ),
+				array(  "f" => "Related Resource IDs", "d" => array(  "o" => "resource",    "f" => "resource_id", "r" => "is_related_to") ),
+				array(  "f" => "UUID",                 "d" => array(  "o" => "institution", "f" => "uuid" ) ),
+				array(  "f" => "EMLO URL",                        "d" => array( ) ),
+			);
+			$resource_exporter = array(
+				array(  "f" => "Resource ID", "d" => array(  "o" => "resource", "f" => "resource_id" ) ),
+				array(  "f" => "Resource Name", "d" => array(  "o" => "resource", "f" => "resource_name" ) ),
+				array(  "f" => "Resource Details", "d" => array(  "o" => "resource", "f" => "resource_details" ) ),
+				array(  "f" => "Resource URL", "d" => array(  "o" => "resource", "f" => "resource_url" ) ),
+				array(  "f" => "UUID", "d" => array(  "o" => "resource", "f" => "uuid" ) ),
+			);
+
+			$settings = array(
+				'work' => 		array(
+					'id_title' => 'iwork_id',
+					'exporter' => $work_exporter,
+					'columns' => $this->get_columns_from_export( $work_exporter ),
+					'table' => $this->proj_work_tablename()
+				),
+				'person' => 	array(
+					'id_title' => 'iperson_id',
+					'exporter' => $person_exporter,
+					'columns' => $this->get_columns_from_export( $person_exporter ),
+					'table' => $this->proj_person_tablename()
+				),
+				'location' => 	array(
+					'id_title' => 'location_id',
+					'exporter' => $location_exporter,
+					'columns' => $this->get_columns_from_export( $location_exporter ),
+					'table' => $this->proj_location_tablename()
+				),
+				'manifestation' => array(
+					'id_title' => 'manifestation_id',
+					'exporter' => $manifestation_exporter,
+					'columns' => $this->get_columns_from_export( $manifestation_exporter ),
+					'table' => $this->proj_manifestation_tablename()
+				),
+				'institution' => array(
+					'id_title' => 'institution_id',
+					'exporter' => $institute_exporter,
+					'columns' => $this->get_columns_from_export( $institute_exporter ),
+					'table' => $this->proj_institution_tablename()
+				),
+				'resource' => array(
+					'id_title' => 'resource_id',
+					'exporter' => $resource_exporter,
+					'columns' => $this->get_columns_from_export( $resource_exporter ),
+					'table' => $this->proj_resource_tablename()
+				)
+			);
+
+			$settings['work']['id_export_title'] = $settings['work']['columns'][0];
+			$settings['person']['id_export_title'] = $settings['person']['columns'][0];
+			$settings['location']['id_export_title'] = $settings['location']['columns'][0];
+			$settings['manifestation']['id_export_title'] = $settings['manifestation']['columns'][1];// the second column, to match the export file...
+			$settings['institution']['id_export_title'] = $settings['institution']['columns'][0];
+			$settings['resource']['id_export_title'] = $settings['work']['resource'][0];
 
 			if( $xl->sheetsCount() !== 1 ) {
 				echo '<p>The batch process file should only contain one sheet</p>';
@@ -3188,9 +3379,13 @@ class Upload extends Project {
 				return;
 			}
 
+			$sets = $settings[$sheetName];
+
 			$dim = $xl->dimension($sheetNumber);
 			$cols = $dim[0];
 			$rows = $dim[1];
+
+			echo ' Rows:' . $rows . ' Cols:' . $cols;
 
 			if( $rows <= 1 ) {
 				echo '<p>Sorry, I was unable to load any rows from that file. If there are data rows then you should try resaving the file in a pre 2013 Excel format and then reuploading.</p>';
@@ -3199,30 +3394,28 @@ class Upload extends Project {
 
 			// check columns
 			//
-			if( $cols <= 2 ) {
+			if( $cols < 2 ) {
 				echo '<p>You don\'t have enough columns. You need at least an ID and a command column.</p>';
 				return;
 			}
 
 			$titleRow = $xl->rows($sheetNumber)[0];
 			$titleError = False;
-			$columns = array();
+			$data_columns = array();
 			for ($i = 0, $z=$cols; $i < $z; $i++) {
 				$cellText = $titleRow[$i];
 
-				if( $i === 0 ) {
-					if( !in_array( $cellText, $allowed_id_titles ) ) {
+				if( $i == 0 ) {
+					if( $cellText != $sets['id_export_title'] ) {
 						$titleError = true;
-						echo '<p>The first column must be an ID row but it\'s called "' . $cellText . '". It must be one of: </p>';
-						echo '<ul>';
-						for ($i = 0, $z = count($allowed_id_titles); $i < $z; $i++) {
-							echo '<li>' . $allowed_id_titles[$i] . '</li>';
-						}
-						echo '</ul>';
+						echo '<p>';
+						echo 'The first column must be an ID row but it\'s called "' . $cellText . '".';
+						echo 'It should be: "' . $sets['id_export_title'] . '"';
+						echo '</p>';
 					}
 				}
 
-				elseif( $i === 1 ) {
+				elseif( $i == 1 ) {
 
 					if( $cellText !== $sheetCommandColumn ) {
 						$titleError = true;
@@ -3231,19 +3424,19 @@ class Upload extends Project {
 				}
 
 				else {
-					if( $cellText !== '' && !in_array( $cellText, $allowed_columns[$sheetName] ) ) {
+					if( $cellText != '' && !in_array( $cellText, $sets['columns'] ) ) {
 						$titleError = true;
 						echo '<p>Unexpected column found: ' . $cellText .' </p>';
 						echo '<p>It should be one of (from export file): </p>';
 						echo '<ul>';
-						for($i = 0, $z=count($allowed_columns[$sheetName]); $i < $z; $i++) {
-							echo '<li>' . $allowed_columns[$sheetName][$i] . '</li>';
+						for($i = 0, $z=count($sets['columns']); $i < $z; $i++) {
+							echo '<li>' . $sets['columns'] . '</li>';
 						}
 						echo '</ul>';
 						echo '';
 					}
 					else {
-						array_push($columns, $cellText );
+						array_push($data_columns, $cellText );
 					}
 				}
 			}
@@ -3265,46 +3458,121 @@ class Upload extends Project {
 				}
 			}
 
-			if( $command == "DELETE" && sizeof($columns) != 0 ) {
-				echo '<p>No additional columns allowed for DELETE command. Only ID and Command.</p>';
+			if( $command == "DELETE" && count($data_columns) != 0 ) {
+				echo '<p>No additional columns allowed for DELETE command. Only ID and Command.';
+				echo ' Column count is '. count($data_columns) . ' (I may be picking up empty columns)</p>';
+				for( $i = 0, $z = count($data_columns); $i <$z; $i++ ) {
+					echo '/' . $data_columns[$i] . '\\';
+				}
 				return;
 			}
 
-			echo '<h2>' . $command . " " . $xl->sheetName($sheetNumber) .  '</h2>';
-			echo '<p>You are about to ' . $command . ' ' . ($rows-1) . ' ' . $sheetName . 's with ' . sizeof($columns) . ' changes each. Do you wish to continue?</p>' ;
+			$currents = null;
+			if( $command == "UPDATE" ) {
 
-			echo '<ul>';
-			for ($r = 1, $z=$rows; $r < $z; $r++) {
-				$row = $xl->rows($sheetNumber)[$r];
+				$ids = array();
+				for ($i = 1, $z = $rows; $i < $z; $i++) {
+					array_push($ids, $xl->rows($sheetNumber)[$i][0]);
+				}
 
-				echo '<li>';
-				echo $sheetName . ':' . $row[0] . ' will ' . $command;
-				if( $command != 'DELETE') {
-					echo ' with ';
-					for ($i = 2, $zz = $cols; $i < $zz; $i++) {
-						echo $columns[$i-2];
-						if ( empty($row[$i] ) ) {
-							echo ' EMPTIED';
-						}
-						else {
-							echo ' set to ' . $row[$i] . ', ';
-						}
+				$field_names = array( $sets['id_title'] );
+				for( $i = 0, $z = count($data_columns); $i <$z; $i++ ) {
+					array_push( $field_names, $this->get_field_name_from_export( $data_columns[$i], $sets['exporter'] ) );
+				}
+
+				$statement = 'select ' . implode( ',', $field_names ) . ' from ' . $sets['table']
+						. ' where ' . $sets['id_title'] . " in ('" . implode("','", $ids) . "')";
+
+				echo $statement;
+				$currents = $this->db_select_into_array($statement);
+				foreach ($currents as $row) {
+					echo 'found ';
+					foreach( $field_names as $field  ) {
+						echo $field . ':' . $row[$field];
 					}
 				}
-				echo '</li>';
 			}
-			echo '</ul>';
 
-			echo '<table border=1>';
-			foreach ($xl->rows($sheetNumber) as $r) {
-				echo '<tr>';
-				for ($i = 0, $z=$cols; $i < $z; $i++) {
-					echo '<td>' . (!empty($r[$i]) ? $r[$i] : 'EMPTIED') . '</td>';
+			echo '<h2>' . $command . " " . $xl->sheetName($sheetNumber) .  '</h2>';
+
+			echo '<p>You are about to ' . $command . ' ' . ($rows-1) . ' ' . $sheetName . 's';
+			if( $command == "UPDATE") {
+				echo ' with ' . sizeof($data_columns) . ' changes each ';
+			}
+    		echo '. Details in table below.</p>';
+			echo '<p>Do you wish to continue? <button>Do it, Bot!</button></p>' ;
+
+			echo '<div class="queryresults"><table border=1>';
+
+				echo '<thead><tr>';
+				echo '<th>'. $sets['id_export_title'] . '</th>';
+				echo '<th>Command</th>';
+				for( $i = 0, $z = count($data_columns); $i <$z; $i++ ) {
+					echo '<th colspan="2">'. $data_columns[$i] . '</th>';
 				}
 				echo '</tr>';
-			}
-			echo '</table>';
+
+				if( $command == "UPDATE") {
+					echo '<tr><th/><th/>';
+					for ($i = 0, $z = count($data_columns); $i < $z; $i++) {
+						echo '<th>from</th><th>to</th>';
+					}
+					echo '</tr></thead>';
+				}
+
+				for( $r = 1, $z=$rows; $r < $z; $r++) {
+					$row = $xl->rows($sheetNumber)[$r];
+					$id = $row[0];
+
+					if( $command == "UPDATE") {
+						$current = $this->get_current_from_id($id, $sets['id_title'], $currents);
+					}
+
+					echo '<tr>';
+					echo "<td>$id</td>";
+					echo "<td>$command</td>";
+
+					for( $i = 0, $zz = count($data_columns); $i <$zz; $i++ ) {
+						if( $command == "UPDATE") {
+							echo '<td>' . $current[$this->get_field_name_from_export($data_columns[$i], $sets['exporter'])] . '</td>';
+						}
+						echo '<td>' . $row[$i+2] . '</td>';
+
+					}
+					echo '</tr>';
+				}
+
+
+			echo '</table></div>';
 		}
+	}
+
+	function get_field_name_from_export( $col, $exporter ) {
+		for($i = 0, $z = count($exporter); $i < $z; $i++ ) {
+			if( $exporter[$i]['f'] == $col ) {
+				return $exporter[$i]['d']['f'];
+			}
+		}
+		return null;
+	}
+
+	function get_columns_from_export( $exporter ) {
+  		$cols = array();
+
+  		for($i = 0, $z = count($exporter); $i < $z; $i++ ) {
+  			array_push( $cols, $exporter[$i]['f'] );
+		}
+
+		return $cols;
+	}
+
+	function get_current_from_id($id, $id_name, $currents) {
+		for($i = 0, $z = count($currents); $i < $z; $i++ ) {
+			if( $currents[$i][$id_name] == $id ) {
+				return $currents[$i];
+			}
+		}
+		return null;
 	}
 }
 
