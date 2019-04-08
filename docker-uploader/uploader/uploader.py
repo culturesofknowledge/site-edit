@@ -10,25 +10,32 @@ class Uploader:
 
 	def initiate(self, data):
 
+		error = None
+		output = None
+
 		self.log.info( "def:initiate")
 
 		output_folder = '/uploader/' + data['foldername']
 
-		create_csvs( data['filelocation'], output_folder )
-		self.log.info( "...Created csvs")
+		errors = create_csvs( data['filelocation'], output_folder )
 
-		command = 'cd /usr/src/app/bin && ./runIngest.sh ' + data['foldername']
-		# command = ['cd', '/usr/src/app/bin', '&&', './runIngest.sh', data['foldername'] ]
+		if len(errors) == 0 :
 
-		# process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
-		# process.wait()
-		output = subprocess.check_output( command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True )
+			self.log.info( "...Created csvs")
 
-		output = 'CSVs created. \n' + output
+			command = 'cd /usr/src/app/bin && ./runIngest.sh ' + data['foldername']
+			# command = ['cd', '/usr/src/app/bin', '&&', './runIngest.sh', data['foldername'] ]
 
-		self.log.info( '...Ran shell process')
+			# process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+			# process.wait()
+			output = subprocess.check_output( command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True )
 
-		return output
+			output = 'Data processed. \n' + output
+			self.log.info( '...Ran shell process')
+		else :
+			error = "\n".join( errors )
+
+		return output, error
 
 if __name__ == "__main__":
 	import json

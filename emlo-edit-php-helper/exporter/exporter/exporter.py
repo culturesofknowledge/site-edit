@@ -122,7 +122,7 @@ class Exporter:
 		ew.convert( settings )
 
 
-	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None, excel_output=None, export_folder="exports/" ):
+	def export( self, work_ids, output_folder_name, parts_csvs=None, parts_resources=None, parts_comments=None, excel_output=None, export_folder="exports/", create_excel=True ):
 		"""
 			Create csv files associated with the workids (This can use a lot of memory... given a lot of works)
 
@@ -364,20 +364,20 @@ class Exporter:
 
 				self._create_resource_csv(resources, output_folder )
 
+			if create_excel :
 
-			# Create Excel file of CSV files
+				# Create Excel file of CSV files
+				ew = excel_writer.ExcelWriter()
 
-			ew = excel_writer.ExcelWriter()
-			settings = {
-				"sheets" : self.csvs,
-				"outputname" : output_folder + "/" + output_folder_name + ".xlsx"
-			}
+				settings = {
+					"sheets" : self.csvs,
+					"outputname" : output_folder + "/" + output_folder_name + ".xlsx"
+				}
 
-			if excel_output :
-				settings["outputname"] = excel_output
+				if excel_output :
+					settings["outputname"] = excel_output
 
-			ew.convert( settings )
-
+				ew.convert( settings )
 
 			self.reports.append( "Excel file created at " + output_folder + "/" + output_folder_name + ".xlsx" )
 

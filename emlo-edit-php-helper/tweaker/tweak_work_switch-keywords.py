@@ -3,24 +3,24 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 
 # Setup
-csv_file = "resources/DeWitt_NA_URLsUPLOAD_MW_2019.1.21.csv"
-id_name = 'Work (Letter) ID'
-
+csv_file = "resources/Quack_Bampfield_KEYWORDS_change_2019.2.22.csv"
+id_name = "EMLO Letter ID Number"
 skip_first_data_row = False
 
-debugging = True
+debugging = False
 restrict = 0  # use 0 to restrict none.
 
 
 def row_process( tweaker, row ) :
 
-	work = tweaker.get_work_from_iwork_id(row[id_name])
+	work = tweaker.get_work_from_iwork_id( row[id_name] )
 
-	if work :
+	if work:
 
-		resource_id = tweaker.create_resource( row["Related Resource Descriptor"], row["Concatinated link"] )
-
-		tweaker.create_relationship_work_resource( work['work_id'], resource_id )
+		if work['keywords'] == row["Old Keywords"] :
+			tweaker.update_work( work['work_id'], {
+				'keywords' : row["New Keywords"]
+			} )
 
 
 def main() :

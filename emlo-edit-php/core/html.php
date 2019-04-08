@@ -158,7 +158,7 @@ class HTML extends Application_Entity {
     #---------
     if( ! $for_cms_deployment ) {
 
-		echo 'html {background-color:#dfe4e8;margin:0;}';
+		echo 'html {background-color:#5c7ea7;margin:0;}';
 
       echo ' body {'                                                     . NEWLINE;
       echo "   font-family: georgia, 'times new roman', times, serif; "  . NEWLINE;
@@ -175,7 +175,7 @@ class HTML extends Application_Entity {
 
       if( ! $printable ) {
         echo ' body {'                                                       . NEWLINE;
-	  echo 'margin: 20px;';
+	  echo 'margin: 6px;';
 	  //echo 'max-width: 1200px;';
        // echo '   margin-left: 10px;'                                         . NEWLINE;
         //echo '   margin-right: 10px;'                                        . NEWLINE;
@@ -185,8 +185,7 @@ class HTML extends Application_Entity {
       if( ! $printable ) {
         echo ' div.innerbody {' . NEWLINE;
         echo '   margin-left: 10px;'                                    . NEWLINE;
-        echo '   margin-right: 10px;'                                   . NEWLINE;
-        echo '   margin-top: 10px;'                                      . NEWLINE;
+        echo '   margin-right: 10px;'                                      . NEWLINE;
         echo '   margin-bottom: 10px;'                                  . NEWLINE;
 		  echo 'padding-top:10px;';
         echo ' }'                                                       . NEWLINE;
@@ -290,7 +289,7 @@ class HTML extends Application_Entity {
 
       echo ' .banner {'                                                                        . NEWLINE; 
       echo '   color: ' . HTML::header_text_colour() . ';'                                     . NEWLINE;
-      echo '   background-color: ' .  HTML::header_background_colour() . ';'                   . NEWLINE;
+      echo '   background-color: #d3d3de;'                   . NEWLINE;
       echo ' }'                                                                                . NEWLINE;
 
       echo ' .banner h1  {'                                           . NEWLINE; 
@@ -306,6 +305,8 @@ class HTML extends Application_Entity {
       echo ' .banner h2 {'                                            . NEWLINE; 
       echo '   color: ' .  HTML::header_text_colour() . ';'           . NEWLINE;
       echo '   margin-left: 15px; '                                    . NEWLINE;
+      echo '   font-variant-caps: petite-caps;';
+		echo ' 	padding-top: 10px;';
       echo ' }'                                                       . NEWLINE;
 
       echo ' .banner a:link, .banner a:visited  {'                    . NEWLINE; 
@@ -336,7 +337,7 @@ class HTML extends Application_Entity {
       echo ' }'                                                                            . NEWLINE;
 
       echo ' img.bannerlogo {'                                                             . NEWLINE;
-      echo '   border-color: ' .  HTML::header_background_colour() . ';'                   . NEWLINE;
+      echo '   border-color: #d3d3de;'                   . NEWLINE;
       echo ' }'                                                                            . NEWLINE;
 
       echo ' img.printbannerlogo {'                                                        . NEWLINE;
@@ -374,6 +375,7 @@ class HTML extends Application_Entity {
       echo ' .footerlinks {'                                                                   . NEWLINE; 
       echo '   color: '  .  HTML::footer_text_colour() . ';'                                   . NEWLINE;
       echo '   background-color: ' . HTML::footer_background_colour() . ';'                    . NEWLINE;
+      echo '   border-top: solid 2px #434871';
       echo ' }'                                                                                . NEWLINE;
 
       echo ' .footerlinks a:link, .footerlinks a:visited  {'          . NEWLINE; 
@@ -984,6 +986,116 @@ class HTML extends Application_Entity {
 
     HTML::div_start( 'class="innerbody"' );
   }
+
+	static function menu() {
+		echo '<style>
+				#menu {
+					background-color: #22294e;
+					width: 100%;
+					height: 2px;
+					position: sticky;
+               top: 0;
+				}
+				#menu ul {
+				  list-style-type: none;
+				  margin: 0;
+				  padding: 0;
+				  overflow: hidden;
+				  background-color: #22294e;
+				  float: right;
+				}
+				
+				#menu li {
+				  float: left;
+				}
+				
+				#menu li a, .dropbtn {
+				  display: inline-block;
+				  color: white;
+				  text-align: center;
+				  padding: 4px 16px;
+				  text-decoration: none;
+				}
+				
+				#menu li a:hover, .dropdown:hover .dropbtn {
+				  background-color: #a7bfd6;
+				  color:black;
+				}
+				
+				#menu li.dropdown {
+				  display: inline-block;
+				}
+				
+				#menu .dropdown-content {
+				  display: none;
+				  position: absolute;
+				  background-color: #f9f9f9;
+				  min-width: 160px;
+				  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+				  z-index: 1;
+				}
+				
+				#menu .dropdown-content a {
+				  color: black;
+				  padding: 12px 16px;
+				  text-decoration: none;
+				  display: block;
+				  text-align: left;
+				}
+				
+				#menu .dropdown-content a:hover {background-color: #f1f1f1}
+				
+				#menu .dropdown:hover .dropdown-content {
+				  display: block;
+				}</style>';
+		echo '<div id="menu">
+				<ul>
+				  <li class="dropdown">
+					 <a href="javascript:void(0)" class="dropbtn">Works</a>
+					 <div class="dropdown-content">
+						<a href="union.php?menu_item_id=70">Search (compact)</a>
+						<a href="union.php?menu_item_id=72">Search (expanded)</a>
+						<a href="union.php?menu_item_id=16">Add new</a>
+					 </div>
+				  </li>
+				  <li class="dropdown">
+					 <a href="javascript:void(0)" class="dropbtn">People</a>
+					 <div class="dropdown-content">
+						<a href="?menu_item_id=23">Search/edit/merge</a>
+						<a href="?menu_item_id=24">Search</a>
+						<a href="?menu_item_id=25">Add new</a>
+					 </div>
+				  </li>
+				  <li class="dropdown">
+					 <a href="javascript:void(0)" class="dropbtn">Places</a>
+					 <div class="dropdown-content">
+						<a href="?menu_item_id=37">Search/edit/merge</a>
+						<a href="?menu_item_id=38">Search</a>
+						<a href="?menu_item_id=39">Add new</a>
+					 </div>
+				  </li>
+				  <li class="dropdown">
+				  	 <a href="javascript:void(0)" class="dropbtn">Repositories</a>
+					 <div class="dropdown-content">
+						<a href="?menu_item_id=74">Search/edit/merge</a>
+						<a href="?menu_item_id=75">Search</a>
+						<a href="?menu_item_id=76">Add new</a>
+					 </div>
+				  </li>
+				  <li class="dropdown">
+				  	 <a href="javascript:void(0)" class="dropbtn">Uploads</a>
+					 <div class="dropdown-content">
+						<a href="?menu_item_id=131">Display</a>
+						<a href="?menu_item_id=129">Search</a>
+						<a href="?menu_item_id=178">New</a>
+					 </div>
+				  </li>
+				  <li><a href="?menu_item_id=83">Audit</a></li>
+				  <li><a href="?logout=1">Logout</a></li>
+				</ul>
+			</div>';
+	}
+
   #-----------------------------------------------------------------
 	static function body_end() {
 
@@ -1877,7 +1989,7 @@ class HTML extends Application_Entity {
 	static function jump_to_work( $tabindex = 1, $title = 'Jump to Work', $accesskey = '' ) {
 
         echo NEWLINE;
-        echo '<input type="text" name="jump-to-work" id="jump-to-work" value="" placeholder="Work ID" style="border:1px solid #bbb;height:19px;"/><button onclick="jumpToWork()">Goto</button>';
+        echo '<input type="text" name="jump-to-work" id="jump-to-work" value="" placeholder="Work ID" style="border:1px solid #bbb;height:19px;width:73px;margin-left: 25px"/><button onclick="jumpToWork()">Goto</button>';
         echo '<script>function jumpToWork() {
 	            var workid = document.getElementById("jump-to-work").value.replace(/\D/g,\'\');
                 window.location = document.location.pathname + "?iwork_id=" + workid;

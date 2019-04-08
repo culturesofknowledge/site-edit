@@ -3,20 +3,51 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 
 # Setup
-csv_file = "<A CSV FILE>"
-id_name = "<ID COLUMN NAME>"
+csv_file = "resources/TEST_Newton_cat_2019.3.26_empty.csv"
+id_name = "EMLO Letter ID Number"
 skip_first_data_row = False
 
-debugging = True
+debugging = False
 restrict = 5  # use 0 to restrict none.
 
 
 def row_process( tweaker, row ) :
 
-	work = tweaker.get_work_from_iwork_id( row[id_name] )
+	work = man = res = None
 
-	#### <CODE_HERE> ####
+	# delete the objects, and delete relations associated with them.
 
+	if row[id_name]:
+		work = tweaker.get_work_from_iwork_id( row[id_name] )
+	if row['Manifestation [Letter] ID']:
+		man = tweaker.get_manifestation_from_manifestation_id( row['Manifestation [Letter] ID'])
+	if row['Resource ID']:
+		res = tweaker.get_resource_from_resource_id( row['Resource ID'] )
+
+
+	if work:
+
+		rels = tweaker.get_relationships( work["work_id"], "cofk_union_work" )
+		for rel in rels :
+			tweaker.delete_relationship_via_relationship_id( rel["relationship_id"] )
+
+		tweaker.delete_work_via_iwork_id( row[id_name] )
+
+	if man:
+
+		rels = tweaker.get_relationships( man["manifestation_id"], "cofk_union_manifestation" )
+		for rel in rels :
+			tweaker.delete_relationship_via_relationship_id( rel["relationship_id"] )
+
+		tweaker.delete_manifestation_via_manifestation_id( row["Manifestation [Letter] ID"] )
+
+	if res:
+
+		rels = tweaker.get_relationships( str(res["resource_id"]), "cofk_union_resource" )
+		for rel in rels :
+			tweaker.delete_relationship_via_relationship_id( rel["relationship_id"] )
+
+		tweaker.delete_resource_via_resource_id( row['Resource ID'] )
 
 
 def main() :

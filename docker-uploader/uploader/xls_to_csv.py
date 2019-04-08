@@ -103,19 +103,21 @@ csvfields = {
 	]
 }
 
+debug = True
 
-
-def get_xslcell_text( worksheet, row, col ) : #type, value ) :
+def get_xslcell_text( worksheet, row, col, name ) : #type, value ) :
 
 	type = worksheet.cell_type(row, col )
 	value = worksheet.cell_value( row, col )
 
+	error = None
+
 	# Cell Types: 0=Empty, 1=Text, 2=Number, 3=Date, 4=Boolean, 5=Error, 6=Blank
 	if type == 0 or type == 1 or type == 6 : # empty
-		return value
+		return value, error
 
 	if type == 3 :
-		return value
+		return value, error
 
 	if type == 2 :
 
@@ -124,21 +126,25 @@ def get_xslcell_text( worksheet, row, col ) : #type, value ) :
 
 			if num_str[-1] == "0" and num_str[-2] == "." :
 				# assume is int
-				return str( int( value ) )
+				return str( int( value ) ), None
 
 		except ValueError :
-			print( "Error: Unable to convert number at row" + str(row) + ":col" + str(col) + " Exiting.")
+			error = "Error: Unable to convert number at row" + str(row) + ":col" + str(col) + " in worksheet " + name
 
-		return str( value )
+		return str( value ), error
 
 	if type == 5 :
-		print( "Error: There is an Excel Cell Error in cell at row" + str(row) + ":col" + str(col) + ". Exiting")
-		sys.exit()
+		error = "Error: There is an Excel Cell Error in cell at row" + str(row) + ":col" + str(col) + " in worksheet " + name
+
+		return None, error
 
 
 def create_csvs( filename, output_folder, dont_skip_row_2=False ) :
 
-	# print( "Opening workbook " + filename )
+	if debug:
+		print( "Opening workbook " + filename )
+
+	errors = []
 	workbook = xlrd.open_workbook( filename )
 	print()
 
@@ -149,7 +155,8 @@ def create_csvs( filename, output_folder, dont_skip_row_2=False ) :
 
 		worksheet = None
 
-		# print( "Opening sheet: " + sheet )
+		if debug:
+			print( "Opening sheet: " + sheet )
 
 		possible_sheet_names = [sheet,sheet.capitalize()]
 		for name in xslsheets_names[sheet] :
@@ -198,7 +205,14 @@ def create_csvs( filename, output_folder, dont_skip_row_2=False ) :
 				for col in xrange( len(csvfields[sheet]) ): #worksheet.ncols ):
 
 					try:
-						csvrow.append( get_xslcell_text( worksheet, row, col ) )
+						value, error = get_xslcell_text( worksheet, row, col, name )
+
+						if error:
+							csvrow.append( error )
+							errors.append( error )
+						else:
+							csvrow.append( value )
+
 					except IndexError:
 						# If a column is missing from excel just add blank value (Sometimes there's editors notes, and sometimes there isn't...)
 						csvrow.append("")
@@ -206,14 +220,16 @@ def create_csvs( filename, output_folder, dont_skip_row_2=False ) :
 				writer.writerow( csvrow )
 
 			print ("Extracted " + str(worksheet.nrows-row_start) + " rows from worksheet " + sheet )
-		# print ("Saving " + sheet + " to " + csvfilename )
+
+		if debug:
+			print ("Saving " + sheet + " to " + csvfilename )
 
 		csvfile.close()
 
 
 		print()
 
-
+	return errors
 
 if __name__ == "__main__":
 
@@ -272,4 +288,9 @@ if __name__ == "__main__":
 		sys.exit(1)
 
 
-	create_csvs( filename, output_folder, args.dont_skip_row_2 )
+	errors = create_csvs( filename, output_folder, args.dont_skip_row_2 )
+
+	if len(errors) != 0 :
+		print("Errors detected:")
+		print("\n".join(errors))
+

@@ -182,16 +182,15 @@ class DatabaseTweaker:
 		self.cursor.execute( command )
 		return self.cursor.fetchone()
 
-
 	def get_relationships(self, id_from, table_from=None, table_to=None ):
 		"""
-			Get relationships for the object "id_from".
+		Use "table_from" and "table_to" to limit the results.
 
-			Use "table_from" and "table_to" to limit the results.#
-
-			Use the returned "table_name" and "id_value" which represent the thing that is connected to the given id (id_from).
+		:param id_from: Get relationships for this object
+		:param table_from: limit to these type of tables on left (e.g. "cofk_union_work")
+		:param table_to: limit to these type of tables on right (e.g. "cofk_union_work")
+		:return: Use the returned "table_name" and "id_value" which represent the thing that is connected to the given id (id_from).
 		"""
-
 		self.check_database_connection()
 
 		command = "SELECT * FROM cofk_union_relationship"
@@ -363,6 +362,30 @@ class DatabaseTweaker:
 
 		self._print_command( "DELETE comment", command )
 		self._audit_delete("comment")
+
+		self.cursor.execute( command )
+
+	def delete_manifestation_via_manifestation_id( self, manifestation_id ):
+
+		self.check_database_connection()
+
+		command = "DELETE FROM cofk_union_manifestation WHERE manifestation_id=%s"
+		command = self.cursor.mogrify( command, (manifestation_id,) )
+
+		self._print_command( "DELETE manifestation", command )
+		self._audit_delete("manifestation")
+
+		self.cursor.execute( command )
+
+	def delete_work_via_iwork_id( self, iwork_id ):
+
+		self.check_database_connection()
+
+		command = "DELETE FROM cofk_union_work WHERE iwork_id=%s"
+		command = self.cursor.mogrify( command, (iwork_id,) )
+
+		self._print_command( "DELETE work", command )
+		self._audit_delete("work")
 
 		self.cursor.execute( command )
 

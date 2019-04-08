@@ -35,6 +35,7 @@ php:
     - ./volumes/ssh:/root/.ssh
 
     - ./volumes/uploader:/uploader
+    - ./volumes/tweaker:/tweaker
 
 exporter:
   build: ./emlo-edit-php-helper
@@ -49,6 +50,7 @@ exporter:
 
     - ./emlo-edit-php-helper/tweaker/resources:/usr/src/tweaker/resources
 
+    - ./volumes/tweaker:/usr/src/tweaker/tweaker_data
 
 uploader:
   build: ./docker-uploader

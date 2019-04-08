@@ -217,14 +217,26 @@ echo 'Export to CSV files now complete.'
 
 # Daily transfer
 echo 'Copying CSV files to daily server.'
-${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE} ${DOCKER__DAILY_PUBLISH_SERVER_ACCESS} ${DOCKER__DAILY_PUBLISH_REMOTE_DIRECTORY} ${DOCKER__DAILY_PUBLISH_IDENTITY_FILE}
+${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE} ${DOCKER__DAILY_PUBLISH_SERVER_ACCESS} ${DOCKER__DAILY_PUBLISH_REMOTE_DIRECTORY} ${DOCKER__DAILY_PUBLISH_IDENTITY_FILE} 1
 
+# I'm doing this on a daily basis now, using a flag to set if a new update is requested.
+# TODO: Rename / remove DOCKER__WEEKLY_PUBLISH_DAY
+need_index=0
 DAY=`date +%A`
 if [ "$DAY" = "$DOCKER__WEEKLY_PUBLISH_DAY" ]
 then
-	echo 'Copying CSV files to weekly server.'
-	${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE} ${DOCKER__WEEKLY_PUBLISH_SERVER_ACCESS} ${DOCKER__WEEKLY_PUBLISH_REMOTE_DIRECTORY} ${DOCKER__WEEKLY_PUBLISH_IDENTITY_FILE}
+	need_index=1
+else
+	if [ -f $SCRIPTDIR../exporter/FORCE_INDEX ]
+	then
+		need_index=1
+		rm $SCRIPTDIR../exporter/FORCE_INDEX
+	fi
 fi
+
+echo 'Copying CSV files to weekly server.'
+${SCRIPTDIR}/transfer_cofk_union.sh ${CSVSOURCE} ${DOCKER__WEEKLY_PUBLISH_SERVER_ACCESS} ${DOCKER__WEEKLY_PUBLISH_REMOTE_DIRECTORY} ${DOCKER__WEEKLY_PUBLISH_IDENTITY_FILE} ${need_index}
+
 
 ## -- I think we'll just link to images on the back-end server instead -- ${SCRIPTDIR}transfer_uploaded_images.sh
 

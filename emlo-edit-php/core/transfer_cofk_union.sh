@@ -1,7 +1,7 @@
 #! /bin/bash
-usage="Usage: '$0 <csv-source-directory> <user@server> <remote-directory> [identity-file-location]'"
+usage="Usage: '$0 <csv-source-directory> <user@server> <remote-directory> [identity-file-location] [force_index]'"
 
-# Check for paramater $1
+# Check for parameter $1
 if [ -z "$1" ]
 then
 	echo "First parameter not set to csv source directory"
@@ -17,7 +17,7 @@ then
 	exit 1
 fi
 
-# Check for parameter $2
+# Check for parameter $3
 if [ -z "$3" ]
 then
 	echo "Third parameter not set to remote directory"
@@ -29,6 +29,7 @@ csv_source=$1
 server_access=$2
 folder_location=$3
 identity_file=$4
+force_index=$5
 
 echo "Copying CSV files at ${csv_source} to server ${server_access}:${folder_location}"
 
@@ -60,8 +61,8 @@ then
 else
         ssh_settings="-i ${identity_file}"
 fi
-# When all csv files are done update a flag
-ssh ${ssh_settings} ${server_access} 'echo 1 > '${folder_location}/'need_index'
+# When all csv files are copied, update a flag
+ssh ${ssh_settings} ${server_access} 'echo '${force_index}' > '${folder_location}/'need_index'
 
 #---------------------------------------------------------------------------------------
 

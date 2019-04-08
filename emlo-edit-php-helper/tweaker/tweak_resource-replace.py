@@ -3,24 +3,36 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 
 # Setup
-csv_file = "resources/DeWitt_NA_URLsUPLOAD_MW_2019.1.21.csv"
-id_name = 'Work (Letter) ID'
-
+csv_file = "resources/URLS_Agustin_replace_MW_2019.2.25a.csv"
+id_name = "EMLO Letter ID Number"
 skip_first_data_row = False
 
-debugging = True
-restrict = 0  # use 0 to restrict none.
+debugging = False
+restrict = 5  # use 0 to restrict none.
 
 
 def row_process( tweaker, row ) :
 
-	work = tweaker.get_work_from_iwork_id(row[id_name])
+	work = tweaker.get_work_from_iwork_id( row[id_name] )
 
-	if work :
+	if work:
 
-		resource_id = tweaker.create_resource( row["Related Resource Descriptor"], row["Concatinated link"] )
+		relationships = tweaker.get_relationships( work['work_id'], table_from="cofk_union_work", table_to="cofk_union_resource" )
 
-		tweaker.create_relationship_work_resource( work['work_id'], resource_id )
+		if len( relationships ) == 1:
+			rel = relationships[0]
+			resource = tweaker.get_resource_from_resource_id( rel['id_value'] )
+
+			if resource :
+				tweaker.update_resource( resource['resource_id'], {
+					'resource_name' : row['URL descriptor'],
+					'resource_url' : row['URL']
+				})
+		elif len( relationships) == 0:
+			print( "ERROR: No resource found" )
+			# TODO? Perhaps we should create one...?
+		else :
+			print( "ERROR: Too many resources," + str(len(relationships)) + ", don't know which to replace.")
 
 
 def main() :

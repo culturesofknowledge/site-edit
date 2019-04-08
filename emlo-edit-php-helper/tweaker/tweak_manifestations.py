@@ -3,24 +3,23 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 
 # Setup
-csv_file = "resources/DeWitt_NA_URLsUPLOAD_MW_2019.1.21.csv"
-id_name = 'Work (Letter) ID'
+csv_file = "resources/Locke_1_printedcopy_tidy_REPLACE_2019.2.8.csv"
+id_name = 'Manifestation [Letter] ID'
 
-skip_first_data_row = False
-
+skip_first_row = False
 debugging = True
-restrict = 0  # use 0 to restrict none.
+restrict = 0
 
 
 def row_process( tweaker, row ) :
 
-	work = tweaker.get_work_from_iwork_id(row[id_name])
+	manifestation = tweaker.get_manifestation_from_manifestation_id( row[id_name] )
 
-	if work :
+	if manifestation :
 
-		resource_id = tweaker.create_resource( row["Related Resource Descriptor"], row["Concatinated link"] )
-
-		tweaker.create_relationship_work_resource( work['work_id'], resource_id )
+		tweaker.update_manifestation( row[id_name], {
+			"printed_edition_details" : row['Printed copy details']
+		} )
 
 
 def main() :
@@ -43,7 +42,7 @@ def main() :
 	count = countdown = len(csv_rows)
 	for csv_row in csv_rows:
 
-		if countdown == count and skip_first_data_row:
+		if countdown == count and skip_first_row:
 			continue
 
 		print( str(countdown) + " of " + str(count), ":", csv_row[id_name] )

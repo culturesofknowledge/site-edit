@@ -5,7 +5,7 @@ from config import config
 # import sys
 
 # Setup
-csv_file = "resources/images/select_image_id_from_cofk_union_image_wh.csv"
+csv_file = "resources/SELECT_t___FROM_public_cofk_union_image_.csv"
 id_name = 'image_id'
 skip_first_row = False
 
@@ -24,25 +24,28 @@ def row_process( tweaker, row ) :
 	image = tweaker.get_image_from_image_id( row[id_name] )
 
 	if image :
+
+		update = {}
+
 		for error in errors :
-			if image['image_filename'].startswith( error ) :
-				old_url = image['image_filename']
-				new_url = ''
 
-				if old_url.startswith( "http://cofk2.bodleian.ox.ac.uk/" ) :
-					new_url = old_url.replace( 'http://cofk2.bodleian.ox.ac.uk/', 'https://emlo-edit.bodleian.ox.ac.uk/' )
-					new_url += '?previous=cofk2-http'
+			if 'thumbnail' in image and image['thumbnail'] and image['thumbnail'].startswith( error ) :
+				old_thumbnail_url = image['thumbnail']
+				update['thumbnail'] = old_thumbnail_url.replace( error, 'https://emlo-edit.bodleian.ox.ac.uk/' )
 
-				if new_url is not '' :
-					# print( "New: " + new_url + " (Old: " + old_url + " )" )
+				# print( "New: " + update['thumbnail'] + " old: " + old_thumbnail_url)
 
-					tweaker.update_image( image['image_id'], {
-						'image_filename' : new_url
-					} )
+			if 'licence_url' in image and image['licence_url'] and image['licence_url'].startswith( error ) :
+				old_licence_url = image['licence_url']
+				update['licence_url'] = old_licence_url.replace( error, 'https://emlo-edit.bodleian.ox.ac.uk/' )
 
-					pass
-				else :
-					print ("NOT CHANGED: " + old_url )
+				# print( "New: " + update['licence_url'] + " old: " + old_licence_url)
+
+		if update :
+			tweaker.update_image( image['image_id'], update )
+
+		#else :
+		#	print ("NOT CHANGED" )
 
 
 def main() :
@@ -68,7 +71,8 @@ def main() :
 		if countdown == count and skip_first_row:
 			continue
 
-		print( str(countdown) + " of " + str(count), ":", csv_row[id_name] )
+		if countdown % 100 == 0:
+			print( str(countdown) + " of " + str(count) )
 
 		row_process( tweaker, csv_row )
 

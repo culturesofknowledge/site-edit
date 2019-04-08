@@ -7,7 +7,7 @@ import sys
 
 from uploader import Uploader
 
-sleep_time = 20
+sleep_time = 10
 print( "Sleeping " + str(sleep_time) + " seconds to let rabbitmq start" )
 time.sleep(sleep_time)
 
@@ -38,7 +38,7 @@ def callback(ch, method, properties, body):
 	try :
 
 		upload = Uploader( LOGGER )
-		output = upload.initiate( data )
+		output, error = upload.initiate( data )
 
 	except Exception as ex:
 
