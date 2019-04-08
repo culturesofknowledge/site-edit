@@ -3,7 +3,7 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 
 # Setup
-csv_file = "resources/Locke_1_printedcopy_tidy_REPLACE_2019.2.8.csv"
+csv_file = "resources/MWM_printmanif_tidy_toMW_2019.4.5.csv"
 id_name = 'Manifestation [Letter] ID'
 
 skip_first_row = False
