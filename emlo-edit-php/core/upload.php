@@ -46,7 +46,9 @@ class Upload extends Project {
 
   #----------------------------------------------------------------------------------
 
-  function Upload( &$db_connection ) {
+	public $upload_id;
+
+	function Upload(&$db_connection ) {
 
     #-----------------------------------------------------
     # Check we have got a valid connection to the database
@@ -2901,6 +2903,7 @@ class Upload extends Project {
 		$data = new stdClass;
 		$data->foldername = $foldername;
 		$data->filelocation = $fileLocation;
+		$data->uploader_type = "upload";
 
 		$msg = new AMQPMessage(json_encode( $data ) );
 		$channel->basic_publish($msg, '', 'uploader');
@@ -2938,6 +2941,9 @@ class Upload extends Project {
 			$form_method='POST',
 			$parms = 'enctype="multipart/form-data"' );
 
+		HTML::hidden_field( 'file_name', '' );
+		HTML::hidden_field( 'reviewed', '' );
+
 		HTML::file_upload_field( $fieldname = 'file_to_process',
 			$label = "Upload file",
 			$value = NULL,
@@ -2954,47 +2960,67 @@ class Upload extends Project {
 
 	function file_upload_excel_batch_view() {
 
-		$filecount = count( $_FILES );
-		if( ! $filecount ) {
-			echo 'No files were uploaded.';
-			return;
-		}
-		elseif( $filecount > 1 ) {
-			echo LINEBREAK;
-			echo 'You have tried to upload ' .  $filecount . ' files at once. Please just upload one file at a time.';
-			return;
-		}
+		$batch_file_name = $_POST['file_name'];
+		$reviewed = $_POST['reviewed'];
 
-		$one_file = $_FILES[ 'file_to_process' ];
+		if( $reviewed != 'yes' || $file_name == '' ) {
 
-		$invalid = FALSE;
-		if( ! $this->is_ok_free_text( $one_file['name'] ))     $invalid = TRUE;
-		if( ! $this->is_ok_free_text( $one_file['tmp_name'] )) $invalid = TRUE;
-		if( ! $this->is_ok_free_text( $one_file['type'] ))     $invalid = TRUE;
-		if( ! $this->is_integer( $one_file['error'] ))         $invalid = TRUE;
-		if( ! $this->is_integer( $one_file['size'] ))          $invalid = TRUE;
+			$filecount = count($_FILES);
+			if (!$filecount) {
+				echo 'No files were uploaded.';
+				return;
+			} elseif ($filecount > 1) {
+				echo LINEBREAK;
+				echo 'You have tried to upload ' . $filecount . ' files at once. Please just upload one file at a time.';
+				return;
+			}
 
-		if( ! is_uploaded_file( $one_file['tmp_name'] ))       $invalid = TRUE;
+			$one_file = $_FILES['file_to_process'];
 
-		if( $invalid ) die( "That doesn't seem to be a valid file." );
+			$invalid = FALSE;
+			if (!$this->is_ok_free_text($one_file['name'])) $invalid = TRUE;
+			if (!$this->is_ok_free_text($one_file['tmp_name'])) $invalid = TRUE;
+			if (!$this->is_ok_free_text($one_file['type'])) $invalid = TRUE;
+			if (!$this->is_integer($one_file['error'])) $invalid = TRUE;
+			if (!$this->is_integer($one_file['size'])) $invalid = TRUE;
 
-		$filename = pathinfo( $one_file['name'], PATHINFO_FILENAME);
-		$foldername = $filename . "-" . gmdate("ymd-His");
+			if (!is_uploaded_file($one_file['tmp_name'])) $invalid = TRUE;
 
-		$path = "/tweaker/" . $foldername;
-		if( !mkdir( $path ) ) {
-			die( 'FAILED to create folder for batch - name ' . $path );
-		}
+			if ($invalid) die("That doesn't seem to be a valid file.");
 
-		$fileLocation = $path . "/" . $filename . ".xlsx";
-		$moved = move_uploaded_file( $one_file['tmp_name'], $fileLocation );
-		if( $moved ) {
-			$this->echo_safely('Thanks for uploading ' . $one_file['name'] );
+			$filename = pathinfo($one_file['name'], PATHINFO_FILENAME);
+			$foldername = $filename . "-" . gmdate("ymd-His");
 
-			$this->analyse_batch_excel_file( $fileLocation );
+			$path = "/tweaker/" . $foldername;
+			if (!mkdir($path)) {
+				die('FAILED to create folder for batch - name ' . $path);
+			}
+
+			$fileLocation = $path . "/" . $filename . ".xlsx";
+			$moved = move_uploaded_file($one_file['tmp_name'], $fileLocation);
+			if ($moved) {
+				echo '<p>Thanks for uploading the file "<b>';
+				$this->echo_safely($one_file['name']);
+				echo '</b>" for batch processing.</p>';
+
+				$this->analyse_batch_excel_file($fileLocation);
+			} else {
+				die('Error: FAILED TO MOVE file to batch directory. (You could try changing the name and trying again...)');
+			}
 		}
 		else {
-			die('FAILED TO MOVE file to batch directory. Can you change the name and try again?');
+			// echo "I guess it's reviewed now...";
+			$connection = new AMQPStreamConnection('rabbitmq', 5672, 'guest', 'guest');
+			$channel = $connection->channel();
+
+			$channel->queue_declare('uploader', false, false, false, false);
+
+			$data = new stdClass;
+			$data->filelocation = $batch_file_name;
+			$data->uploader_type = "batch";
+
+			$msg = new AMQPMessage( json_encode( $data ) );
+			$channel->basic_publish($msg, '', 'uploader');
 		}
 	}
 
@@ -3233,8 +3259,8 @@ class Upload extends Project {
 				# array(  "f" => "Related Resource URL", "d" => array(  "o" => "work", "f" => "") ),
 
 				array(  "f" => "Related Resource IDs " .
-					"array( er = number for link " .
-					"to EMLO letter)",                 "d" => array(  "o" => "resource", "f" => "resource_id", "r" => "is_related_to") ),
+					"[er = number for link " .
+					"to EMLO letter]",                 "d" => array(  "o" => "resource", "f" => "resource_id", "r" => "is_related_to") ),
 				array(  "f" => "General notes for public " .
 					"display",                         "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to") ),
 				array(  "f" => "Editors' working notes",          "d" => array(  "o" => "work", "f" => "editors_notes") ),
@@ -3281,7 +3307,7 @@ class Upload extends Project {
 				array(  "f" => "General notes on place", "d" => array(  "o" => "comment", "f" => "comment", "r" => "refers_to" ) ),
 				array(  "f" => "Editors' working notes", "d" => array(  "o" => "location", "f" => "editors_notes" ) ),
 				array(  "f" => "UUID", "d" => array(  "o" => "location", "f" => "uuid" ) ),
-				array(  "f" => "EMLO URL",                        "d" => array( ) ),
+				array(  "f" => "EMLO URL", "d" => array( ) ),
 
 			);
 			$manifestation_exporter = array(
@@ -3361,7 +3387,7 @@ class Upload extends Project {
 			$settings['resource']['id_export_title'] = $settings['work']['resource'][0];
 
 			if( $xl->sheetsCount() !== 1 ) {
-				echo '<p>The batch process file should only contain one sheet</p>';
+				echo '<p>Error: The batch process file should only contain one sheet.</p>';
 				return;
 			}
 
@@ -3370,7 +3396,7 @@ class Upload extends Project {
 
 			$sheetName = $xl->sheetName($sheetNumber);
 			if( !in_array( $sheetName, $allowed_sheetnames ) ) {
-				echo '<p>The file contains an invalid sheetname, "' . $xl->sheetName($sheetNumber) . '". It must be one of: </p>';
+				echo '<p>Error: The file contains an invalid sheetname, "' . $xl->sheetName($sheetNumber) . '". It must be one of: </p>';
 				echo '<ul>';
 				for($i = 0, $z=count($allowed_sheetnames); $i < $z; $i++) {
 					echo '<li>' . $allowed_sheetnames[$i] . '</li>';
@@ -3385,17 +3411,17 @@ class Upload extends Project {
 			$cols = $dim[0];
 			$rows = $dim[1];
 
-			echo ' Rows:' . $rows . ' Cols:' . $cols;
+			echo '<p>Sheet name <b>' . $sheetName . '</b> found with ' . $rows . ' rows and ' . $cols . '  cols.</p>';
 
 			if( $rows <= 1 ) {
-				echo '<p>Sorry, I was unable to load any rows from that file. If there are data rows then you should try resaving the file in a pre 2013 Excel format and then reuploading.</p>';
+				echo '<p>Error: I was unable to load any rows from that file. If there are data rows then you should try resaving the file in a pre 2013 Excel format and then reuploading.</p>';
 				return;
 			}
 
 			// check columns
 			//
 			if( $cols < 2 ) {
-				echo '<p>You don\'t have enough columns. You need at least an ID and a command column.</p>';
+				echo '<p>Error: You don\'t have enough columns. You need at least an ID and a command column.</p>';
 				return;
 			}
 
@@ -3408,7 +3434,7 @@ class Upload extends Project {
 				if( $i == 0 ) {
 					if( $cellText != $sets['id_export_title'] ) {
 						$titleError = true;
-						echo '<p>';
+						echo '<p>Error:';
 						echo 'The first column must be an ID row but it\'s called "' . $cellText . '".';
 						echo 'It should be: "' . $sets['id_export_title'] . '"';
 						echo '</p>';
@@ -3419,18 +3445,18 @@ class Upload extends Project {
 
 					if( $cellText !== $sheetCommandColumn ) {
 						$titleError = true;
-						echo '<p>The second column must be set to ' . $sheetCommandColumn . '. Each row should have the same value of either "CREATE", "UPDATE" or "DELETE"</p>';
+						echo '<p>Error: The second column must be called "' . $sheetCommandColumn . '".</p>';
 					}
 				}
 
 				else {
 					if( $cellText != '' && !in_array( $cellText, $sets['columns'] ) ) {
 						$titleError = true;
-						echo '<p>Unexpected column found: ' . $cellText .' </p>';
-						echo '<p>It should be one of (from export file): </p>';
+						echo '<p>Error: Unexpected column found: ' . $cellText;
+						echo ' It should be one of these (those in an export file): </p>';
 						echo '<ul>';
 						for($i = 0, $z=count($sets['columns']); $i < $z; $i++) {
-							echo '<li>' . $sets['columns'] . '</li>';
+							echo '<li>' . $sets['columns'][$i] . '</li>';
 						}
 						echo '</ul>';
 						echo '';
@@ -3458,6 +3484,11 @@ class Upload extends Project {
 				}
 			}
 
+			if( $command == "CREATE" || $command == "DELETE" ) {
+				echo "<p>Sorry, I haven't written the CREATE or DELETE bits yet :(</p>";
+				return;
+			}
+
 			if( $command == "DELETE" && count($data_columns) != 0 ) {
 				echo '<p>No additional columns allowed for DELETE command. Only ID and Command.';
 				echo ' Column count is '. count($data_columns) . ' (I may be picking up empty columns)</p>';
@@ -3469,6 +3500,27 @@ class Upload extends Project {
 
 			$currents = null;
 			if( $command == "UPDATE" ) {
+
+				// We can't yet handle all columns from the export :( so lets report an error if you they are added.
+				$others_field_names = array();
+				for( $i = 0, $z = count($data_columns); $i <$z; $i++ ) {
+					$object = $this->get_data_object_from_export( $data_columns[$i], $sets['exporter'] );
+					if( $object != $sheetName ) {
+						array_push($others_field_names, $data_columns[$i] ); // . ' (' . $object . ' link)' );  // $this->get_field_name_from_export( $data_columns[$i], $sets['exporter'] )
+					};
+				}
+
+				if( count($others_field_names) ) {
+					echo "<p>Error: Sorry but we can't handle these columns yet:</p>";
+					echo '<ul>';
+					for($i = 0, $z=count($others_field_names); $i < $z; $i++) {
+						echo '<li>' . $others_field_names[$i] . '</li>';
+					}
+					echo '</ul>';
+					echo '';
+
+					return;
+				}
 
 				$ids = array();
 				for ($i = 1, $z = $rows; $i < $z; $i++) {
@@ -3483,14 +3535,14 @@ class Upload extends Project {
 				$statement = 'select ' . implode( ',', $field_names ) . ' from ' . $sets['table']
 						. ' where ' . $sets['id_title'] . " in ('" . implode("','", $ids) . "')";
 
-				echo $statement;
+				//echo $statement;
 				$currents = $this->db_select_into_array($statement);
-				foreach ($currents as $row) {
-					echo 'found ';
-					foreach( $field_names as $field  ) {
-						echo $field . ':' . $row[$field];
-					}
-				}
+				//foreach ($currents as $row) {
+				//	echo 'found ';
+				//	foreach( $field_names as $field  ) {
+				//		echo $field . ':' . $row[$field];
+				//	}
+				//}
 			}
 
 			echo '<h2>' . $command . " " . $xl->sheetName($sheetNumber) .  '</h2>';
@@ -3500,8 +3552,24 @@ class Upload extends Project {
 				echo ' with ' . sizeof($data_columns) . ' changes each ';
 			}
     		echo '. Details in table below.</p>';
-			echo '<p>Do you wish to continue? <button>Do it, Bot!</button></p>' ;
+			echo '<p>Do you wish to continue? <button></button></p>' ;
 
+			HTML::form_start( $class_name = 'upload',
+				$method_name = 'file_upload_excel_batch_view',
+				$form_name = NULL,  # use default
+				$form_target = '_self',
+				$onsubmit_validation = FALSE,
+				$form_destination = NULL,
+				$form_method='POST',
+				$parms = 'enctype="multipart/form-data"' );
+
+			HTML::hidden_field( file_name, $filename );
+			HTML::hidden_field( reviewed, "yes" );
+
+			HTML::submit_button( 'batch_button', "Let's do it!" );
+			HTML::form_end();
+
+			echo '<style>th{min-width:55px}th.change,td.change{background-color:#ffefef;font-weight:bold}</style>';
 			echo '<div class="queryresults"><table border=1>';
 
 				echo '<thead><tr>';
@@ -3515,7 +3583,7 @@ class Upload extends Project {
 				if( $command == "UPDATE") {
 					echo '<tr><th/><th/>';
 					for ($i = 0, $z = count($data_columns); $i < $z; $i++) {
-						echo '<th>from</th><th>to</th>';
+						echo '<th>Was</th><th class="change">Will be</th>';
 					}
 					echo '</tr></thead>';
 				}
@@ -3536,7 +3604,7 @@ class Upload extends Project {
 						if( $command == "UPDATE") {
 							echo '<td>' . $current[$this->get_field_name_from_export($data_columns[$i], $sets['exporter'])] . '</td>';
 						}
-						echo '<td>' . $row[$i+2] . '</td>';
+						echo '<td class="change">' . $row[$i+2] . '</td>';
 
 					}
 					echo '</tr>';
@@ -3545,6 +3613,15 @@ class Upload extends Project {
 
 			echo '</table></div>';
 		}
+	}
+
+	function get_data_object_from_export( $col, $exporter ) {
+		for($i = 0, $z = count($exporter); $i < $z; $i++ ) {
+			if( $exporter[$i]['f'] == $col ) {
+				return $exporter[$i]['d']['o'];
+			}
+		}
+		return null;
 	}
 
 	function get_field_name_from_export( $col, $exporter ) {
