@@ -1,5 +1,9 @@
 from tweaker import DatabaseTweaker
 
+# Upload to "review section"
+
+# This is a work in progress. This functionailty was initially requested but then cancelled.
+# It does a lot though...
 
 class DatabaseTweakerCollect(DatabaseTweaker):
 
