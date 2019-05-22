@@ -57,7 +57,13 @@ def callback(ch, method, properties, body):
 	if output :
 		LOGGER.info( "Done: " + output )
 
-	sendMail( email, output, error )
+	try :
+		sendMail( email, output, error )
+	except:
+		if error :
+			LOGGER.info( "Unable to send email. And there was another error: " + error )
+		else :
+			LOGGER.info( "Unable to send email. But no other error occured. " + output)
 
 
 def sendMail( email, output, error ) :
