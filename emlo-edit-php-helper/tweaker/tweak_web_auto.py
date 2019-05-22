@@ -13,7 +13,7 @@ from email.mime.text import MIMEText
 
 from config import config
 
-sleep_time = 1
+sleep_time = 10
 print( "Sleeping " + str(sleep_time) + " seconds to let rabbitmq start" )
 time.sleep(sleep_time)
 

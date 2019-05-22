@@ -45,14 +45,28 @@ def process_file( file_pos ):  # file_pos e.g.  "/some/where/23443554.3345.json"
 	work_ids = e.select_all( command )
 	work_ids = [id['work_id'] for id in work_ids]
 
-	e.export( work_ids, output_folder_name, excel_output=output_pos )
+	error = None
+	try :
+		e.export( work_ids, output_folder_name, excel_output=output_pos )
 
-	msg = MIMEText(
-		"Hi, your export is now complete. " +
-		"You can download it here: " +
-		"http://emlo-edit.bodleian.ox.ac.uk/exports/" +
-		output_folder_name + "/" + output_filename
-	)
+	except Exception as ex:
+		error = "Error: " + str(ex)
+
+	if error:
+		msg = MIMEText(
+			"Hi, I'm sorry but there was an error exporting your data. " +
+			"Someone will have to investigate it." +
+			error
+		)
+		print "Export Error: ", error
+	else :
+		msg = MIMEText(
+			"Hi, your export is now complete. " +
+			"You can download it here: " +
+			"http://emlo-edit.bodleian.ox.ac.uk/exports/" +
+			output_folder_name + "/" + output_filename
+		)
+		print "Exported successfully"
 
 	msg["Subject"] = "Your export"
 	email_from = "cok_bot@emlo-edit.bodleian.ox.ac.uk"
@@ -84,7 +98,7 @@ while 1:
 
 		for file_position in added :
 			if file_position.endswith( ".json") :
-				# print "processing " + file_position
+				print "Processing " + file_position
 				process_file( path_to_watch + "/" + file_position )
 				time.sleep(10)
 

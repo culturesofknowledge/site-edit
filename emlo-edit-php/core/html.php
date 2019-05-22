@@ -2070,6 +2070,27 @@ class HTML extends Application_Entity {
 		if( $author == '' ) {
 			$author = "Unknown";
 		}
-		echo '<blockquote><q>' . $quote->text . '</q><footer>— ' . $author . '</footer></blockquote>';
+		echo '<blockquote><q>' . $quote->text . '</q><footer>— ' . $author . ' told me that.</footer></blockquote>';
+	}
+
+	static function echo_bot( $number ) {
+		if( !$number ) {
+			$number = 41;
+		}
+		echo '<img src="https://robohash.org/' . count($number) . '.png?set=set3" width="100" height="100">';
+	}
+
+	static function echo_bot_quote( $number ) {
+		echo '<div>';
+
+			echo '<div style="float:left">';
+			HTML::echo_bot($number);
+			echo '</div>';
+
+			echo '<div><br/>';
+			HTML::echo_quote();
+			echo '</div>';
+
+		echo '</div>';
 	}
 }
