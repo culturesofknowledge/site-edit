@@ -3025,7 +3025,7 @@ class Upload extends Project {
 
 			echo "Processing is taking place. I'll email you when I'm done. Thanks for waiting. Don't work too hard.";
 
-			HTML::echo_quote();
+			HTML::echo_bot_quote();
 		}
 	}
 

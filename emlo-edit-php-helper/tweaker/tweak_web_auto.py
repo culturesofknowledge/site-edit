@@ -57,7 +57,7 @@ def callback(ch, method, properties, body):
 	if output :
 		LOGGER.info( "Done: " + output )
 
-	#sendMail( email, output, error )
+	sendMail( email, output, error )
 
 
 def sendMail( email, output, error ) :
