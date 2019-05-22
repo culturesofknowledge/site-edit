@@ -30,16 +30,20 @@ php:
     - docker-compose.php.env
 
   volumes:
+    # File links between this and exporter
     -  ./emlo-edit-php-helper/exporter/exports:/var/www/html/exports
     -  ./emlo-edit-php-helper/exporter/exporter_data:/var/www/exporter/exporter_data
 
     - ./volumes/csv:/csv
     - ./volumes/ssh:/root/.ssh
 
+    # File links between this and uploader
     - ./volumes/uploader:/uploader
+
+    # File links between this and exporter (tweaker)
     - ./volumes/tweaker:/tweaker
 
-    # Dev only
+    # To make development easier
     - ./emlo-edit-php/interface:/var/www/html
     - ./emlo-edit-php/core:/var/www/core
 
@@ -49,17 +53,19 @@ exporter:
 
   links:
     - postgres
+    - rabbitmq
 
   volumes:
-
+    # File links between this and php
     -  ./emlo-edit-php-helper/exporter/exports:/usr/src/app/exports
     -  ./emlo-edit-php-helper/exporter/exporter_data:/usr/src/app/exporter_data
 
-    -  ./volumes/tweaker:/usr/src/tweaker/tweaker_data
+    # File links between this and php
+    -  ./volumes/tweaker:/tweaker_data
 
     # overruled by dev section - ./emlo-edit-php-helper/tweaker/resources:/usr/src/tweaker/resources
 
-    # Dev only
+    # To make development easier
     -  ./emlo-edit-php-helper/exporter:/usr/src/app
     -  ./emlo-edit-php-helper/tweaker:/usr/src/tweaker
 
@@ -72,9 +78,10 @@ uploader:
     - uploadermongo
 
   volumes:
+    # File links between this and exporter
     - ./volumes/uploader:/uploader
 
-    # Dev only
+    # To make development easier
     -  ./docker-uploader/uploader:/usr/src/app
 
 uploadermongo:

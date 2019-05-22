@@ -10,10 +10,11 @@ RUN echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/reposito
         # apk add "libpq-dev"
         apk add build-base postgresql-dev
 
-RUN pip install --no-cache-dir psycopg2 openpyxl
+RUN pip install --no-cache-dir psycopg2 openpyxl pika xlrd
 
 COPY exporter /usr/src/app/
 COPY tweaker /usr/src/tweaker/
+COPY launcher.sh /
 
 # CMD ["python","-c","import time;time.sleep(10000)"]
-CMD [ "python", "/usr/src/app/export_web_auto.py" ]
+CMD [ "/launcher.sh" ]

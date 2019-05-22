@@ -2963,7 +2963,7 @@ class Upload extends Project {
 		$batch_file_name = $_POST['file_name'];
 		$reviewed = $_POST['reviewed'];
 
-		if( $reviewed != 'yes' || $file_name == '' ) {
+		if( $reviewed != 'yes' || $batch_file_name == '' ) {
 
 			$filecount = count($_FILES);
 			if (!$filecount) {
@@ -3013,14 +3013,19 @@ class Upload extends Project {
 			$connection = new AMQPStreamConnection('rabbitmq', 5672, 'guest', 'guest');
 			$channel = $connection->channel();
 
-			$channel->queue_declare('uploader', false, false, false, false);
+			$channel->queue_declare('tweaker', false, false, false, false);
 
 			$data = new stdClass;
 			$data->filelocation = $batch_file_name;
-			$data->uploader_type = "batch";
+			$data->type = "batch";
+			$data->email = $this->read_session_parm( 'user_email' );
 
 			$msg = new AMQPMessage( json_encode( $data ) );
-			$channel->basic_publish($msg, '', 'uploader');
+			$channel->basic_publish($msg, '', 'tweaker');
+
+			echo "Processing is taking place. I'll email you when I'm done. Thanks for waiting. Don't work too hard.";
+
+			HTML::echo_quote();
 		}
 	}
 
@@ -3552,7 +3557,7 @@ class Upload extends Project {
 				echo ' with ' . sizeof($data_columns) . ' changes each ';
 			}
     		echo '. Details in table below.</p>';
-			echo '<p>Do you wish to continue? <button></button></p>' ;
+
 
 			HTML::form_start( $class_name = 'upload',
 				$method_name = 'file_upload_excel_batch_view',
@@ -3566,7 +3571,10 @@ class Upload extends Project {
 			HTML::hidden_field( file_name, $filename );
 			HTML::hidden_field( reviewed, "yes" );
 
+			echo '<p>Do you wish to continue?' ;
 			HTML::submit_button( 'batch_button', "Let's do it!" );
+			echo '</p>';
+
 			HTML::form_end();
 
 			echo '<style>th{min-width:55px}th.change,td.change{background-color:#ffefef;font-weight:bold}</style>';

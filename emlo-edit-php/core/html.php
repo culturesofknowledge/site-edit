@@ -2060,4 +2060,16 @@ class HTML extends Application_Entity {
     echo NEWLINE;
   }
   #-----------------------------------------------------
+
+	static function echo_quote() {
+		// https://github.com/rakibtg/PHP-random-quotes-generator
+		$quotes = json_decode( file_get_contents( __DIR__ . '/quotes.json' ), false );
+		$quote = $quotes[mt_rand( 0, count( $quotes ) )];
+
+		$author = $quote->author;
+		if( $author == '' ) {
+			$author = "Unknown";
+		}
+		echo '<blockquote><q>' . $quote->text . '</q><footer>— ' . $author . '</footer></blockquote>';
+	}
 }

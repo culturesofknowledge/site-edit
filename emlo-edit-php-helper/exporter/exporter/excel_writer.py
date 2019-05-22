@@ -2,6 +2,7 @@ import csv
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
+from openpyxl.compat import basestring
 
 import codecs
 # from io import open
@@ -92,7 +93,8 @@ class ExcelWriter:
 							dims[cell.column] = max((dims.get(cell.column, 0), self.calculate_width(cell.value)))
 
 				for col, value in dims.items():
-					ws.column_dimensions[col].width = value
+					print( value )
+					ws.column_dimensions[col].width = "" + str(value)
 
 			wb.save(settings["outputname"])
 
