@@ -16,8 +16,8 @@ php:
   build: ./emlo-edit-php
   restart: always
 
-  ports:
-    - 8080:80
+  #ports:
+  #  - 8080:80
 
   links:
     - postgres
@@ -43,6 +43,7 @@ exporter:
 
   links:
     - postgres
+    - rabbitmq
 
   volumes:
     -  ./emlo-edit-php-helper/exporter/exports:/usr/src/app/exports
@@ -50,7 +51,7 @@ exporter:
 
     - ./emlo-edit-php-helper/tweaker/resources:/usr/src/tweaker/resources
 
-    - ./volumes/tweaker:/usr/src/tweaker/tweaker_data
+    - ./volumes/tweaker:/tweaker_data
 
 uploader:
   build: ./docker-uploader
@@ -81,4 +82,4 @@ nginx:
   ports:
     - 80:80
     - 443:443
-    - 3000:3000
+    # - 3000:3000
