@@ -342,12 +342,15 @@ def get_institution_fields() :
 		"institution_city_synonyms",
 		"institution_country",
 		"institution_country_synonyms",
-		#"creation_timestamp",
+		"creation_timestamp",
 		#"creation_user",
-		#"change_timestamp",
+		"change_timestamp",
 		#"change_user",
 		"editors_notes",
-		"uuid"
+		"uuid",
+		"address",
+		"latitude",
+		"longitude"
 	]
 
 def get_institution_csv_converter() :
@@ -358,9 +361,14 @@ def get_institution_csv_converter() :
 		{ "f" : "Repository Name",      "d" : { "o" : "institution", "f" : "institution_name" } },
 		{ "f" : "Repository City",      "d" : { "o" : "institution", "f" : "institution_city" } },
 		{ "f" : "Repository Country",   "d" : { "o" : "institution", "f" : "institution_country" } },
+		{ "f" : "Repository Full Address",   "d" : { "o" : "institution", "f" : "address" } },
+		{ "f" : "Repository Latitude",   "d" : { "o" : "institution", "f" : "latitude" } },
+		{ "f" : "Repository Longitude",   "d" : { "o" : "institution", "f" : "longitude" } },
 		{ "f" : "Related Resource IDs", "d" : { "o" : "resource",    "f" : "resource_id", "r" : "is_related_to"} },
 		{ "f" : "UUID",                 "d" : { "o" : "institution", "f" : "uuid" } },
-		{ "f" : u"EMLO URL",                        "d" : {} },
+		{ "f" : u"EMLO URL",              "d" : {} },
+		{ "f" : "Create date in database",    "d" : { "o" : "institution", "f" : "creation_timestamp" } },
+		{ "f" : "Last update in database", "d" : { "o" : "institution", "f" : "change_timestamp" } },
 	]
 
 def get_comment_fields() :
