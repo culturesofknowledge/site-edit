@@ -2,6 +2,8 @@
 from __future__ import print_function
 import sys
 import csv
+import json
+import os.path
 from datetime import datetime
 
 import psycopg2
@@ -33,6 +35,8 @@ class DatabaseTweaker:
 
 		self._reset_audit()
 		self.user = "cofkbot"
+
+		self.schema = None
 
 	def _reset_audit(self):
 		self.audit = {
@@ -1128,6 +1132,42 @@ class DatabaseTweaker:
 	def database_ok(self):
 		return self.connection and self.cursor
 
+
+	def load_schema(self):
+
+		schema_location = os.path.join(os.path.dirname(__file__), 'schema.json')
+
+		with open( schema_location ) as f:
+
+			self.schema = json.load(f)
+
+	def convert_field_type(self, object_type, field_name, value ):
+
+		if value is None:
+			return None
+
+		if self.schema is None:
+			self.load_schema()
+
+		# types: string number flag timestamp uuid
+		field_type = self.schema["fields"][object_type][field_name]
+
+		if field_type == "string" or field_type == 'uuid':
+			return str( value )
+
+		elif field_type == "number" :
+			return self.get_int_value( value )
+
+		elif field_type == "flag" :
+			if value == "1" or value == "Y" or "value" == "y" or value is True or value == 1:
+				return 1
+			if value == "0" or value == "N" or value == "y" or value is False or value == 0 :
+				return 0
+
+		elif field_type == "timestamp" or field_type == "date":
+			return value  # hopefully the database can sort this...
+
+		return value  # Or None, or raise exception?
 
 	def print_audit(self, going_to_commit=True):
 		print( "Audit:" )

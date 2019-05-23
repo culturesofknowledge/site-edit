@@ -2595,7 +2595,6 @@ class DBEntity extends Application_Entity {
     flush();
 
 	echo "<h1>Exportering...</h1>";
-	echo '<img src="https://robohash.org/' . count( $rows ) .'.png" width="100">';
 
     if( ! is_array( $rows )) {
       echo 'No matches found.';
@@ -2691,6 +2690,9 @@ class DBEntity extends Application_Entity {
 	*/
 	$rowcount = count( $rows );
 	echo 'Your current selection has ' . $rowcount . " rows";
+
+	  echo '<br/><br/>';
+	  HTML::echo_bot_quote( $rows );
 
 	$output_id = uniqid( rand(), TRUE );
 

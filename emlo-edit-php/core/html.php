@@ -1088,6 +1088,7 @@ class HTML extends Application_Entity {
 						<a href="?menu_item_id=131">Display</a>
 						<a href="?menu_item_id=129">Search</a>
 						<a href="?menu_item_id=178">New</a>
+						<a href="?menu_item_id=181">Batch</a>
 					 </div>
 				  </li>
 				  <li><a href="?menu_item_id=83">Audit</a></li>
@@ -2060,4 +2061,34 @@ class HTML extends Application_Entity {
     echo NEWLINE;
   }
   #-----------------------------------------------------
+
+	static function echo_quote() {
+		// https://github.com/rakibtg/PHP-random-quotes-generator
+		$quotes = json_decode( file_get_contents( __DIR__ . '/quotes.json' ), false );
+		$quote = $quotes[mt_rand( 0, count( $quotes ) )];
+
+		$author = $quote->author;
+		if( $author == '' ) {
+			$author = "Unknown";
+		}
+		echo '<blockquote><q>' . $quote->text . '</q><footer>— ' . $author . ' told me that.</footer></blockquote>';
+	}
+
+	static function echo_bot( $number=41 ) {
+		echo '<img src="https://robohash.org/' . count($number) . '.png?set=set3" width="100" height="100">';
+	}
+
+	static function echo_bot_quote( $number=41 ) {
+		echo '<div>';
+
+			echo '<div style="float:left">';
+			HTML::echo_bot($number);
+			echo '</div>';
+
+			echo '<div><br/>';
+			HTML::echo_quote();
+			echo '</div>';
+
+		echo '</div>';
+	}
 }

@@ -2,6 +2,7 @@ import csv
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
+from openpyxl.compat import basestring
 
 import codecs
 # from io import open
@@ -91,8 +92,9 @@ class ExcelWriter:
 						if cell.value:
 							dims[cell.column] = max((dims.get(cell.column, 0), self.calculate_width(cell.value)))
 
-				for col, value in dims.items():
-					ws.column_dimensions[col].width = value
+				#for col, value in dims.items():
+				#	print( value )
+				#	ws.column_dimensions[col].width = "" + str(value)  # TODO: work out why this is broken...
 
 			wb.save(settings["outputname"])
 
@@ -119,7 +121,7 @@ class ExcelWriter:
 		if max_line_width > width :
 			width = max_line_width
 
-		return max(5 , min(50, width) )
+		return max(5 , min(50, int( round(width) )) )
 
 if __name__ == "__main__":
 
