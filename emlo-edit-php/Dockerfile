@@ -8,6 +8,10 @@ FROM bdlss/php-pgsql
 MAINTAINER matthew
 LABEL version="0.2.2"
 
+# JPNP: Fix for error fetching jessie pkg lists
+#       see https://superuser.com/questions/1423486/
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+
 RUN apt-get update && apt-get install -y \
 	libpq-dev \
 	postgresql-client \
