@@ -107,3 +107,7 @@ Delete, Extract, and re-index:
     
     #cleanup
     rm -f /tmp/pg_dumpall.out
+    
+## Acknowledgements
+
+EMLO has received funding from the Andrew W. Mellon Foundation, the UK Arts and Humanities Research Council, and the Unibersity of Oxford's John Fell Fund.
