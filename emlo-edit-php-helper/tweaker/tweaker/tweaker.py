@@ -1153,7 +1153,10 @@ class DatabaseTweaker:
 		field_type = self.schema["fields"][object_type][field_name]
 
 		if field_type == "string" or field_type == 'uuid':
-			return str( value )
+			if isinstance( value, unicode):
+				return value
+			else:
+				return str( value )
 
 		elif field_type == "number" :
 			return self.get_int_value( value )
