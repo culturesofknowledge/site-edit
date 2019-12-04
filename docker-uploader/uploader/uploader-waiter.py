@@ -63,7 +63,7 @@ def callback(ch, method, properties, body):
 	channel.basic_publish(exchange='', routing_key='uploader-processed', body=data)
 
 
-channel.basic_consume(callback, queue='uploader', no_ack=True)
+channel.basic_consume(on_message_callback=callback, queue='uploader', auto_ack=False)
 
 LOGGER.info('Waiting for uploaded excel files')
 channel.start_consuming()
