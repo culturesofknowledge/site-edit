@@ -3,8 +3,8 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 
 # Setup
-csv_file = "resources/Sirleto_Links_add_2019.10.2_TEST_JP.csv"
-id_name = 'EMLO Letter ID Number'
+csv_file = "resources/Sirleto_Links_add_2019.11.7.csv"
+id_name = 'Work (Letter) ID'
 
 skip_first_data_row = False
 
@@ -18,7 +18,7 @@ def row_process( tweaker, row ) :
 
 	if work :
 
-		resource_id = tweaker.create_resource( row["Related Resource Descriptor"], row["Related Resource URL"] )
+		resource_id = tweaker.create_resource( row["Resource Name"], row["Resource URL"] )
 
 		tweaker.create_relationship_work_resource( work['work_id'], resource_id )
 
