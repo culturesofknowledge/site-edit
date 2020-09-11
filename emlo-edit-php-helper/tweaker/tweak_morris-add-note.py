@@ -3,9 +3,9 @@ from tweaker.tweaker import DatabaseTweaker
 from config import config
 
 # Setup
-#csv_file = "resources/DeWitt_NA_URLsUPLOAD_MW_2019.1.21.csv"
-csv_file = "resources/RelRes_Desc_NewADD_PrivateMissivesFrench_2020.8.25.csv"
-id_name = 'Work (Letter) ID'
+csv_file = "resources/Morris_Batch2_BulkUPLOAD_2020.7.13-UPLOAD-withIDs.csv"
+id_name = 'ID'
+COL_GEN_NOTE="GENERAL NOTES ON PERSON"
 
 skip_first_data_row = False
 
@@ -15,13 +15,15 @@ restrict = 0  # use 0 to restrict none.
 
 def row_process( tweaker, row ) :
 
-	work = tweaker.get_work_from_iwork_id(row[id_name])
+	pers = tweaker.get_person_from_iperson_id(row[id_name])
+        print(pers[0])
+	if pers :
 
-	if work :
+                if row[COL_GEN_NOTE]:
 
-		resource_id = tweaker.create_resource( row["Related Resource descriptor"], row["Related Resource (new to add, and NOT a replacement)"] )
+        		note_id = tweaker.create_comment(row[COL_GEN_NOTE] )
 
-		tweaker.create_relationship_work_resource( work['work_id'], resource_id )
+		        tweaker.create_relationship_note_on_person( str(note_id), pers[0] )
 
 
 def main() :

@@ -547,6 +547,8 @@ class DatabaseTweaker:
 	def create_relationship_note_on_work_addressee(self, comment_id, work_id ):
 		self.create_relationship( 'cofk_union_comment', comment_id, 'refers_to_addressee', 'cofk_union_work', work_id )
 
+	def create_relationship_note_on_person(self, comment_id, person_id ):
+		self.create_relationship( 'cofk_union_comment', comment_id, 'refers_to', 'cofk_union_person', person_id )
 
 	def create_relationship_work_reply_to(self, work_reply_id, work_id ):
 		self.create_relationship( 'cofk_union_work', work_reply_id, 'is_reply_to', 'cofk_union_work', work_id )
