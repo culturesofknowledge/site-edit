@@ -862,7 +862,7 @@ class Location extends Project {
  
     $href .= '&opening_method=' . $this->menu_method_name;
 
-    HTML::link_start( $href, $title, $target = '_blank' );
+    HTML::link_start( $href, $title, $target = '_blank', '', 1, 'rel="opener"' );
     echo 'Edit';
     HTML::link_end();
   }
