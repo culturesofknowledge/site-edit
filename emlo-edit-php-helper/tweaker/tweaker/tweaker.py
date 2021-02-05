@@ -522,6 +522,8 @@ class DatabaseTweaker:
 	def create_relationship_work_resource(self, work_id, resource_id ):
 		self.create_relationship( 'cofk_union_work', work_id, 'is_related_to', 'cofk_union_resource', resource_id )
 
+	def create_relationship_person_resource(self, person_id, resource_id ):
+		self.create_relationship( 'cofk_union_person', person_id, 'is_related_to', 'cofk_union_resource', resource_id )
 
 	def create_relationship_note_on_work_route(self, comment_id, work_id ):
 		self.create_relationship( 'cofk_union_comment', comment_id, 'route', 'cofk_union_work', work_id )
