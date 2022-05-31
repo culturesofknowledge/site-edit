@@ -17,7 +17,7 @@ LOGGER = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
 
 credentials = pika.PlainCredentials('guest', 'guest')
-connection_parameters = pika.ConnectionParameters('rabbitmq', 5672, '/', credentials)
+connection_parameters = pika.ConnectionParameters('rabbitmq', 5672, '/', credentials, heartbeat=600)
 
 connection = pika.BlockingConnection(connection_parameters)
 channel = connection.channel()

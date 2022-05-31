@@ -10,7 +10,7 @@ RUN echo "@extra http://nl.alpinelinux.org/alpine/v3.6/main" >> /etc/apk/reposit
         # apk add "libpq-dev"
         apk add build-base postgresql-dev
 
-RUN pip install --no-cache-dir psycopg2 openpyxl pika xlrd
+RUN pip install --no-cache-dir psycopg2 openpyxl pika xlrd enum34
 
 COPY exporter /usr/src/app/
 COPY tweaker /usr/src/tweaker/
