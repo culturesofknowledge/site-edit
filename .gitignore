@@ -32,3 +32,4 @@ emlo-edit-php-helper/tweaker/**/*.ods
 volumes/*
 docker-uploader/uploader/logs
 docker-uploader/uploader/*.pyc
+emlo-edit-php-helper/**/*.pyc
